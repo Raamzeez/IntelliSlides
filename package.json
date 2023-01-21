@@ -1,0 +1,11 @@
+{
+  "name": "gpt3-presentations",
+  "version": "1.0.0",
+  "description": "A presentation maker that uses gpt3 to create slides with rich information",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mohammed Raamiz Abbasi",
+  "license": "ISC"
+}
