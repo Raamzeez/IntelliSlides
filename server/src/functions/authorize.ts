@@ -1,9 +1,9 @@
 import process from "process";
 import path from "path";
+import { authenticate } from "@google-cloud/local-auth";
+import { google } from "googleapis";
 
 const fs = require("fs").promises;
-const { authenticate } = require("@google-cloud/local-auth");
-const { google } = require("googleapis");
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
@@ -55,11 +55,11 @@ async function saveCredentials(client) {
  *
  */
 async function authorize() {
-  let client = await loadSavedCredentialsIfExist();
-  if (client) {
-    return client;
+  let prevClient = await loadSavedCredentialsIfExist();
+  if (prevClient) {
+    return prevClient;
   }
-  client = await authenticate({
+  let client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
   });

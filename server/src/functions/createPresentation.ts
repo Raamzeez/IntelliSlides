@@ -2,17 +2,9 @@
  * Creates a Google Slide presentation.
  * @param {string} title The presentation title.
  */
-
-async function createPresentation(title) {
-  const { GoogleAuth } = require("google-auth-library");
+async function createPresentation(title, auth) {
+  // const { GoogleAuth } = require("google-auth-library");
   const { google } = require("googleapis");
-
-  const auth = new GoogleAuth({
-    scopes: [
-      "https://www.googleapis.com/auth/presentations",
-      "https://www.googleapis.com/auth/drive",
-    ],
-  });
 
   const service = google.slides({ version: "v1", auth });
   try {
