@@ -1,11 +1,11 @@
-import authorize from "./functions/authorize";
+import authorize from "./hooks/authorize";
 import createPresentation from "./functions/createPresentation";
 import getTopics from "./functions/getTopics";
 import iParameters from "./models/parameters";
 
 const parameters: iParameters = {
   title: "WW2",
-  heading: "Major Events of WW2",
+  heading: "WW2",
   subtitle: "By: Mohammed Raamiz Abbasi",
   slideCount: 6,
 };
@@ -25,4 +25,6 @@ const parameters: iParameters = {
 //   })
 //   .catch(console.error);
 
-getTopics(parameters.heading, parameters.slideCount);
+getTopics(parameters.heading, parameters.slideCount).then((titles) => {
+  console.log(titles);
+});

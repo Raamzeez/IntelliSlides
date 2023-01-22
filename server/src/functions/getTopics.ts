@@ -9,12 +9,14 @@ const openai = new OpenAIApi(configuration);
 
 const getTopics = async (heading: string, slideCount: number) => {
   try {
-    const question = `Give me ${slideCount} bullet points regarding ${heading}`;
+    const question = `Suggest ${slideCount} book chapter titles regarding major events of ${heading}`;
     const completion = await openai.createCompletion({
-      model: "text-davinci-002",
+      model: "text-davinci-003",
       prompt: question,
+      max_tokens: 300,
     });
-    console.log(completion.data.choices[0].text);
+    const response = completion.data.choices[0].text;
+    return topics(response);
   } catch (err) {
     console.error(err.response.data);
   }
