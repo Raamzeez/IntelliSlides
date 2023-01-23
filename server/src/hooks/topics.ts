@@ -1,10 +1,12 @@
-const topics = (response: string): string[] => {
-  const titles = [];
-  const rawTitlesArray = response.split("\n");
-  rawTitlesArray.forEach((title) => {
+const parseList = (response: string): string[] => {
+  const items = [];
+  const rawItemsArray = response.split("\n");
+  rawItemsArray.forEach((title) => {
     if (title.length > 0) {
-      titles.push(title.split(". ")[1]);
+      items.push(title.split(". ")[1]);
     }
   });
-  return titles;
+  return items;
 };
+
+export default parseList;

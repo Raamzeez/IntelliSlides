@@ -18,9 +18,6 @@ async function createPresentation(
     const presentation = await service.presentations.create({
       title: parameters.title,
     });
-    console.log(
-      `Created presentation with ID: ${presentation.data.presentationId}`
-    );
     return presentation;
   } catch (err) {
     // TODO (developer) - Handle exception
