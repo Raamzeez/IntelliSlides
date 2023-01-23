@@ -14,8 +14,8 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const parameters: iParameters = {
-  title: "WW2 School Presentation",
-  heading: "The History of WW2",
+  title: "Declaration of Independence School Presentation",
+  heading: "The Declaration of Independence",
   subtitle: "By: Mohammed Raamiz Abbasi",
   slideCount: 6,
 };
@@ -39,9 +39,6 @@ const parameters: iParameters = {
     console.log("Gathered Data For Slides: \n");
     console.log(slideInfo);
     const presentation = await createPresentation(parameters, client);
-    console.log(
-      `Created presentation with ID: ${presentation.data.presentationId}`
-    );
   } catch (err) {
     console.error(err);
   }

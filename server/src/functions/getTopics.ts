@@ -7,7 +7,7 @@ const getTopics = async (
   slideCount: number
 ) => {
   try {
-    const question = `Suggest ${slideCount} book chapter titles regarding major events of ${heading}`;
+    const question = `Suggest ${slideCount} chronological book chapter titles regarding ${heading}`;
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: question,
