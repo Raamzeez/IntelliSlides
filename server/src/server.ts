@@ -7,7 +7,7 @@ dotenv.config();
 import { Configuration, OpenAIApi } from "openai";
 import getDetails from "./functions/getDetails";
 import iSlideInfo from "./models/slideInfo";
-import dummyFacts from "./dummyFacts";
+import dummyFacts from "./data/dummyFacts";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -15,10 +15,12 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const parameters: iParameters = {
-  title: "Israel vs Palestine",
-  heading: "The Israel and Palestine Conflict",
+  title: "Pakistan's Independence",
+  heading: "Pakistan's Independence",
   subtitle: "By: Mohammed Raamiz Abbasi",
   slideCount: 6,
+  images: true,
+  sources: true,
 };
 
 (async () => {
@@ -42,8 +44,10 @@ const parameters: iParameters = {
     const presentation = await createPresentation(
       parameters,
       client,
-      slidesInfo
-      // dummyFacts
+      slidesInfo,
+      // dummyFacts,
+      process.env.GOOGLE_SEARCH_KEY,
+      process.env.CX
     );
   } catch (err) {
     console.error(err);

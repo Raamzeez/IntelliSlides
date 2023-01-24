@@ -1,4 +1,4 @@
-import iSlideInfo from "./models/slideInfo";
+import iSlideInfo from "../models/slideInfo";
 
 const dummyFacts: iSlideInfo[] = [
   {

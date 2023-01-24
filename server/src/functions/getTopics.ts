@@ -1,5 +1,6 @@
 import { OpenAIApi } from "openai";
 import parseList from "../hooks/topics";
+import getTopicPrompts from "./topicPrompts";
 
 const getTopics = async (
   openai: OpenAIApi,
@@ -7,7 +8,7 @@ const getTopics = async (
   slideCount: number
 ) => {
   try {
-    const question = `Suggest ${slideCount} chronological book chapter titles regarding ${heading}`;
+    const question = getTopicPrompts(slideCount, heading, 1);
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: question,

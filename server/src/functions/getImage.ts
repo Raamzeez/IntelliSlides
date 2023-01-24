@@ -1,7 +1,11 @@
 import axios from "axios";
 import iSearchResult from "../models/searchResult";
 
-const getImage = async (search: string, key: string, cx: string) => {
+const getImage = async (
+  search: string,
+  key: string,
+  cx: string
+): Promise<iSearchResult> => {
   try {
     const response = await axios.get(
       "https://www.googleapis.com/customsearch/v1",
@@ -16,7 +20,7 @@ const getImage = async (search: string, key: string, cx: string) => {
       }
     );
     const data: iSearchResult = response.data;
-    return data.items[0].link;
+    return data;
   } catch (err) {
     console.error(err);
   }
