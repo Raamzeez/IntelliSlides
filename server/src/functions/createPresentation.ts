@@ -14,20 +14,48 @@ async function createPresentation(
 ) {
   // const { GoogleAuth } = require("google-auth-library");
   const service = google.slides({ version: "v1", auth });
-  const slides = [];
-  for (let i = 0; i < parameters.slideCount; i++) {
-    slides.push({ pageType: "SLIDE" });
-  }
   try {
     const presentation = await service.presentations.create({
       requestBody: {
         title: parameters.title,
-        slides,
       },
     });
     console.log(
       `Created presentation with ID: ${presentation.data.presentationId}`
     );
+    const titleSlide = presentation.data.slides[0];
+    const titleID = titleSlide.pageElements[0].objectId;
+    const subtitleID = titleSlide.pageElements[1].objectId;
+    const requests = [];
+    for (let i = 0; i < parameters.slideCount + 1; i++) {
+      requests.push({
+        createSlide: {
+          slideLayoutReference: {
+            predefinedLayout:
+              i < parameters.slideCount ? "TITLE_AND_BODY" : "TITLE",
+          },
+        },
+      });
+    }
+    requests.push({
+      insertText: {
+        objectId: titleID,
+        text: parameters.title,
+      },
+    });
+    requests.push({
+      insertText: {
+        objectId: subtitleID,
+        text: parameters.subtitle,
+      },
+    });
+    const res = await service.presentations.batchUpdate({
+      presentationId: presentation.data.presentationId,
+      requestBody: {
+        requests,
+      },
+    });
+    console.log("Added slides to presentation!");
     return presentation;
   } catch (err) {
     // TODO (developer) - Handle exception

@@ -24,20 +24,20 @@ const parameters: iParameters = {
   try {
     const client = await authorize();
     console.log("Successful client authentication");
-    const titles = await getTopics(
-      openai,
-      parameters.heading,
-      parameters.slideCount
-    );
-    console.log("Fetching info about " + parameters.heading + "...");
-    const slideInfo: iSlideInfo[] = [];
-    for (let i = 0; i < titles.length; i++) {
-      const title = titles[i];
-      const facts = await getDetails(openai, title, 5);
-      slideInfo.push({ title, facts });
-    }
-    console.log("Gathered Data For Slides: \n");
-    console.log(slideInfo);
+    // const titles = await getTopics(
+    //   openai,
+    //   parameters.heading,
+    //   parameters.slideCount
+    // );
+    // console.log("Fetching info about " + parameters.heading + "...");
+    // const slideInfo: iSlideInfo[] = [];
+    // for (let i = 0; i < titles.length; i++) {
+    //   const title = titles[i];
+    //   const facts = await getDetails(openai, title, 5);
+    //   slideInfo.push({ title, facts });
+    // }
+    // console.log("Gathered Data For Slides: \n");
+    // console.log(slideInfo);
     const presentation = await createPresentation(parameters, client);
   } catch (err) {
     console.error(err);
