@@ -43,6 +43,7 @@ const parameters: iParameters = {
       parameters,
       client,
       slidesInfo
+      // dummyFacts
     );
   } catch (err) {
     console.error(err);
