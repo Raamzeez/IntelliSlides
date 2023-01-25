@@ -41,7 +41,6 @@
     background: linear-gradient(121deg, rgb(3, 202, 139) 0%, rgba(0, 199, 101, 1) 100%);
 }
 
-
 .pointer {
   cursor: pointer;
 }
@@ -114,6 +113,7 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
 
 @keyframes App-logo-spin {
   from {

@@ -1,15 +1,19 @@
-import React, { FC } from "react";
+import React, { ChangeEvent, FC } from "react";
 
 interface iProps {
   label: string;
+  value: string;
+  onChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: FC<iProps> = ({ label }) => {
+const TextInput: FC<iProps> = ({ label, value, onChangeHandler }) => {
   return (
     <div style={{ margin: 20 }}>
       <p style={{ fontSize: 18 }}>{label}</p>
       <input
         type="text"
+        value={value}
+        onChange={onChangeHandler}
         className="shadow"
         style={{
           height: "4vh",
@@ -18,10 +22,11 @@ const Input: FC<iProps> = ({ label }) => {
           border: "none",
           backgroundColor: "rgb(64, 65, 78)",
           color: "white",
+          paddingLeft: 10,
         }}
       ></input>
     </div>
   );
 };
 
-export default Input;
+export default TextInput;
