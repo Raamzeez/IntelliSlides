@@ -4,6 +4,7 @@ import iParameters from "../models/parameters";
 import { google } from "googleapis";
 import iSlideInfo from "../models/slideInfo";
 import getImage from "./getImage";
+import getPrompts from "../hooks/prompts";
 
 /**
  * Creates a Google Slide presentation.
@@ -89,11 +90,45 @@ async function createPresentation(
       });
       if (parameters.images) {
         console.log(`Finding Image for ${slidesInfo[i].title}...`);
-        const imageResponse = await getImage(slidesInfo[i].title, key, cx);
+        const imageResponse = await getImage(
+          getPrompts(
+            "image",
+            parameters.slideCount,
+            slidesInfo[i].title,
+            0,
+            parameters.heading
+          ),
+          key,
+          cx
+        );
+        console.log(imageResponse);
         const imageURL = imageResponse.items[0].link;
         const imageSource = imageResponse.items[0].image.contextLink;
         imageSources.push(imageSource);
         console.log(`Found image with url of ${imageURL} from ${imageSource}!`);
+        const emu4M = {
+          magnitude: 4000000,
+          unit: "EMU",
+        };
+        requests.push({
+          createImage: {
+            url: imageURL,
+            elementProperties: {
+              pageObjectId: slideObjectId,
+              size: {
+                height: emu4M,
+                width: emu4M,
+              },
+              transform: {
+                scaleX: 1,
+                scaleY: 1,
+                translateX: 100000,
+                translateY: 100000,
+                unit: "EMU",
+              },
+            },
+          },
+        });
       }
       let body = "";
       slidesInfo[i].facts.forEach((fact) => {
