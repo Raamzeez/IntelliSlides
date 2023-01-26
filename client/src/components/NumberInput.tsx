@@ -13,13 +13,12 @@ const NumberInput: FC<iProps> = ({ onChangeHandler }) => {
         className="numberInput shadow"
         onChange={onChangeHandler}
         style={{
-          height: 25,
-          width: 50,
+          height: 30,
+          width: 60,
           border: "none",
           backgroundColor: "rgb(64, 65, 78)",
           color: "white",
-          padding: 5,
-          marginTop: 12,
+          fontSize: 15,
         }}
         min={1}
         max={99}

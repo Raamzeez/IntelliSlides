@@ -19,7 +19,7 @@ const Button: FC<iProps> = ({ onClickHandler }) => {
       }}
       onClick={onClickHandler}
     >
-      <p style={{ fontSize: 17 }}>Submit</p>
+      <p style={{ fontSize: 17, marginTop: 13 }}>Submit</p>
     </div>
   );
 };

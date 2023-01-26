@@ -23,6 +23,7 @@ const TextInput: FC<iProps> = ({ label, value, onChangeHandler }) => {
           backgroundColor: "rgb(64, 65, 78)",
           color: "white",
           paddingLeft: 10,
+          fontSize: 15,
         }}
       ></input>
     </div>

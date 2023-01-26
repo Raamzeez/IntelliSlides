@@ -13,7 +13,7 @@ const Checkmark: FC<iProps> = ({ label, value, onChangeHandler }) => {
         <input type="checkbox" checked={value} onChange={onChangeHandler} />
         <span className="checkmark"></span>
       </label>
-      <p style={{ fontSize: 14 }}>{label}</p>
+      <p style={{ fontSize: 14, marginTop: 13, marginLeft: 10 }}>{label}</p>
     </div>
   );
 };
