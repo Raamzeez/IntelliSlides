@@ -11,7 +11,7 @@ const Success: FC<iProps> = ({ onClickHandler }) => {
       <div style={{ marginTop: 100 }}>
         <i
           style={{ fontSize: 130, color: "#00d173" }}
-          className="fa-solid fa-circle-check"
+          className="animate__animated animate__fadeInDown fa-solid fa-circle-check"
         />
         <h1 style={{ marginTop: 15 }}>Success</h1>
         <h5 style={{ marginTop: 30 }}>
@@ -27,7 +27,10 @@ const Success: FC<iProps> = ({ onClickHandler }) => {
             }}
             className="shadow"
           ></Card> */}
-        <div style={{ marginLeft: 120, marginTop: 100 }}>
+        <div
+          className="animate__animated animate__fadeIn"
+          style={{ marginLeft: 120, marginTop: 100 }}
+        >
           <Button type="primary" value="Home" onClickHandler={onClickHandler} />
         </div>
       </div>

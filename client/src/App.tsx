@@ -71,6 +71,13 @@ const App: FC = () => {
     });
   };
 
+  const disable = () => {
+    if (state.topic.length >= 2 && state.slideCount >= 1) {
+      return false;
+    }
+    return true;
+  };
+
   // console.log(state);
 
   return (
@@ -102,6 +109,8 @@ const App: FC = () => {
               onChangeHandler={(e) =>
                 setState({ ...state, topic: e.target.value })
               }
+              required={true}
+              minLength={2}
             />
             <TextInput
               label="Title"
@@ -120,9 +129,11 @@ const App: FC = () => {
           </div>
           <div style={{ marginBottom: 25 }}>
             <NumberInput
+              value={state.slideCount}
               onChangeHandler={(e) =>
                 setState({ ...state, slideCount: parseInt(e.target.value) })
               }
+              required={true}
             />
           </div>
           <div>
@@ -146,6 +157,7 @@ const App: FC = () => {
               type="success"
               value={"Submit"}
               onClickHandler={onSubmitHandler}
+              disabled={disable()}
             />
           </div>
         </>

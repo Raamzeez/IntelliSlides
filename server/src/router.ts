@@ -51,7 +51,9 @@ router.post("/createPresentation", async (req, res) => {
       process.env.GOOGLE_SEARCH_KEY,
       process.env.CX
     );
+    // setTimeout(() => {
     return res.status(200).send("OK");
+    // }, 5000);
   } catch (err) {
     console.error(err);
     return res.status(400).send("FAIL");

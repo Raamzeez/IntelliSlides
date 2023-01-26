@@ -1,17 +1,18 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 
 interface iProps {
   onClickHandler: () => void;
   type: "success" | "danger" | "primary";
   value: string;
+  disabled?: boolean;
 }
 
-const Button: FC<iProps> = ({ onClickHandler, type, value }) => {
+const Button: FC<iProps> = ({ onClickHandler, type, value, disabled }) => {
   return (
     <div
       className={`${
         type === "success" ? "submit" : type === "danger" ? "cancel" : "primary"
-      } pointer`}
+      } ${disabled ? "" : "pointer"}`}
       style={{
         height: 45,
         width: 120,
@@ -20,8 +21,9 @@ const Button: FC<iProps> = ({ onClickHandler, type, value }) => {
         alignItems: "center",
         marginTop: "50%",
         borderRadius: 10,
+        opacity: disabled ? 0.35 : 1,
       }}
-      onClick={onClickHandler}
+      onClick={disabled ? () => null : onClickHandler}
     >
       <p style={{ fontSize: 17, marginTop: 13 }}>{value}</p>
     </div>

@@ -10,7 +10,7 @@ const Error: FC<iProps> = ({ onClickHandler }) => {
     <div style={{ marginTop: 100 }}>
       <i
         style={{ fontSize: 130, color: "#eb2149" }}
-        className="fa-solid fa-circle-xmark"
+        className="animate__animated animate__fadeInDown fa-solid fa-circle-xmark"
       />
       <h1 style={{ marginTop: 15 }}>Error</h1>
       <h5 style={{ marginTop: 30 }}>
@@ -26,7 +26,10 @@ const Error: FC<iProps> = ({ onClickHandler }) => {
             }}
             className="shadow"
           ></Card> */}
-      <div style={{ marginLeft: 175, marginTop: 100 }}>
+      <div
+        className="animate__animated animate__fadeIn"
+        style={{ marginLeft: 175, marginTop: 100 }}
+      >
         <Button type="primary" value="Home" onClickHandler={onClickHandler} />
       </div>
     </div>
