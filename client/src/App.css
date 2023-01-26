@@ -41,6 +41,14 @@
     background: linear-gradient(121deg, rgb(3, 202, 139) 0%, rgba(0, 199, 101, 1) 100%);
 }
 
+.cancel {
+  background: linear-gradient(121deg, rgb(202, 3, 3) 0%, rgb(199, 0, 66) 100%);
+}
+
+.primary {
+  background: linear-gradient(121deg, #1da2e5 0%, rgb(27, 188, 185) 100%);
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -69,7 +77,6 @@
 /* Create a custom checkbox */
 .checkmark {
   position: absolute;
-  top: ;
   left: 0;
   height: 25px;
   width: 25px;

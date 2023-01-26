@@ -2,12 +2,16 @@ import React, { FC } from "react";
 
 interface iProps {
   onClickHandler: () => void;
+  type: "success" | "danger" | "primary";
+  value: string;
 }
 
-const Button: FC<iProps> = ({ onClickHandler }) => {
+const Button: FC<iProps> = ({ onClickHandler, type, value }) => {
   return (
     <div
-      className="submit pointer"
+      className={`${
+        type === "success" ? "submit" : type === "danger" ? "cancel" : "primary"
+      } pointer`}
       style={{
         height: 45,
         width: 120,
@@ -19,7 +23,7 @@ const Button: FC<iProps> = ({ onClickHandler }) => {
       }}
       onClick={onClickHandler}
     >
-      <p style={{ fontSize: 17, marginTop: 13 }}>Submit</p>
+      <p style={{ fontSize: 17, marginTop: 13 }}>{value}</p>
     </div>
   );
 };
