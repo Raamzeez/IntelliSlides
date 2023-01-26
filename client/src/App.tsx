@@ -4,6 +4,7 @@ import TextInput from "./components/TextInput";
 import Checkmark from "./components/Checkmark";
 import Button from "./components/Button";
 import NumberInput from "./components/NumberInput";
+import api from "./api";
 
 interface iState {
   topic: string;
@@ -23,6 +24,14 @@ const App: FC = () => {
     images: false,
     sources: false,
   });
+
+  const onSubmitHandler = async () => {
+    // const response = await api.post("/createPresentation", state);
+    // console.log(response);
+    api
+      .post("/createPresentation", state)
+      .then((response) => console.log(response));
+  };
 
   return (
     <div className="App">
@@ -75,7 +84,7 @@ const App: FC = () => {
           />
         </div>
         <div>
-          <Button />
+          <Button onClickHandler={onSubmitHandler} />
         </div>
       </header>
     </div>

@@ -1,6 +1,6 @@
 interface iParameters {
   title: string;
-  heading: string;
+  topic: string;
   subtitle: string;
   slideCount: number;
   images?: boolean;

@@ -96,7 +96,7 @@ async function createPresentation(
             parameters.slideCount,
             slidesInfo[i].title,
             0,
-            parameters.heading
+            parameters.topic
           ),
           key,
           cx

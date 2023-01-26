@@ -1,6 +1,10 @@
 import React, { FC } from "react";
 
-const Button: FC = () => {
+interface iProps {
+  onClickHandler: () => void;
+}
+
+const Button: FC<iProps> = ({ onClickHandler }) => {
   return (
     <div
       className="submit pointer"
@@ -13,6 +17,7 @@ const Button: FC = () => {
         marginTop: "50%",
         borderRadius: 10,
       }}
+      onClick={onClickHandler}
     >
       <p style={{ fontSize: 17 }}>Submit</p>
     </div>

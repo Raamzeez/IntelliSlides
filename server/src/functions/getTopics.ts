@@ -4,11 +4,11 @@ import getPrompts from "../hooks/prompts";
 
 const getTopics = async (
   openai: OpenAIApi,
-  heading: string,
+  topic: string,
   slideCount: number
 ) => {
   try {
-    const question = getPrompts("topic", slideCount, heading, 1);
+    const question = getPrompts("topic", slideCount, topic, 1);
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: question,
