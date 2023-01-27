@@ -14,7 +14,7 @@ app.use(helmet());
 app.use(morgan("combined"));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "1mb" }));
 
 app.use("/api", router);
 

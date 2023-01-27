@@ -2,10 +2,11 @@ import React, { FC } from "react";
 import Button from "./Button";
 
 interface iProps {
+  title: string;
   onClickHandler: () => void;
 }
 
-const Success: FC<iProps> = ({ onClickHandler }) => {
+const Success: FC<iProps> = ({ title, onClickHandler }) => {
   return (
     <>
       <div style={{ marginTop: 100 }}>
@@ -15,7 +16,7 @@ const Success: FC<iProps> = ({ onClickHandler }) => {
         />
         <h1 style={{ marginTop: 15 }}>Success</h1>
         <h5 style={{ marginTop: 30 }}>
-          Your Presentation Titled "" Was Created!
+          Your Presentation "{title}" Was Created!
         </h5>
         {/* <Card
             style={{
@@ -29,7 +30,7 @@ const Success: FC<iProps> = ({ onClickHandler }) => {
           ></Card> */}
         <div
           className="animate__animated animate__fadeIn"
-          style={{ marginLeft: 120, marginTop: 100 }}
+          style={{ marginLeft: "31.3%", marginTop: 100 }}
         >
           <Button type="primary" value="Home" onClickHandler={onClickHandler} />
         </div>

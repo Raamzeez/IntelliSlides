@@ -13,6 +13,8 @@ import Success from "./components/Success";
 import Loading from "./components/Loading";
 import iError from "./models/error";
 import Error from "./components/Error";
+import Warning from "./components/Warning";
+// import Limitations from "./components/Limitations";
 
 interface iState {
   topic: string;
@@ -23,8 +25,11 @@ interface iState {
   sources: boolean;
   submit: boolean;
   loading: boolean;
+  warning: string;
   error: iError | null;
 }
+
+const controller = new AbortController();
 
 const App: FC = () => {
   const [state, setState] = useState<iState>({
@@ -36,12 +41,43 @@ const App: FC = () => {
     sources: false,
     submit: false,
     loading: false,
+    warning: "",
     error: null,
   });
 
+  const errorToast = (message: string) => {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   const onSubmitHandler = async () => {
+    if (disable()) {
+      return errorToast("Please fill out all required fields!");
+    }
+    if (!state.title || !state.subtitle) {
+      let message = "";
+      if (!state.subtitle && !state.title) {
+        message = "Your presentation will have no title and no subtitle";
+      } else if (!state.title) {
+        message = "Your presentation will have no title";
+      } else {
+        message = "Your presentation will have no subtitle";
+      }
+      return setState({ ...state, warning: message });
+    }
     setState({ ...state, submit: true, loading: true });
-    const response = await api.post("/createPresentation", state);
+    const response = await api.post("/createPresentation", state, {
+      signal: controller.signal,
+    });
+    console.log(response.data);
     setState({
       ...state,
       submit: true,
@@ -59,16 +95,7 @@ const App: FC = () => {
 
   const onCancelHandler = () => {
     setState({ ...state, submit: false });
-    toast.error("Presentation generation was cancelled!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
+    errorToast("Presentation generation was cancelled!");
   };
 
   const disable = () => {
@@ -99,7 +126,15 @@ const App: FC = () => {
         theme="dark"
         style={{ fontSize: 13 }}
       />
+      {state.warning && (
+        <Warning
+          onClickHandler={onSubmitHandler}
+          onCloseHandler={() => setState({ ...state, warning: "" })}
+          message={state.warning}
+        />
+      )}
       <h2 style={{ position: "absolute", top: 20 }}>GPT3 Presentations</h2>
+      {/* <Limitations /> */}
       {!state.submit && (
         <>
           <div style={{ marginBottom: 25 }}>
@@ -163,10 +198,15 @@ const App: FC = () => {
         </>
       )}
       {state.submit && state.loading && (
-        <Loading onClickHandler={onCancelHandler} />
+        <Loading
+          topic={state.topic}
+          title={state.title}
+          onClickHandler={onCancelHandler}
+        />
       )}
       {state.submit && !state.loading && !state.error && (
         <Success
+          title={state.title}
           onClickHandler={() =>
             setState({ ...state, loading: false, submit: false })
           }

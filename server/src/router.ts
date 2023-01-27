@@ -16,7 +16,7 @@ const openai = new OpenAIApi(configuration);
 const router = express.Router();
 
 router.post("/createPresentation", async (req, res) => {
-  console.log(req.body);
+  console.log("req.body", JSON.stringify(req.body, null, 2));
   const { topic, title, subtitle, slideCount, images, sources } = req.body;
   const parameters: iParameters = {
     topic,
@@ -27,8 +27,9 @@ router.post("/createPresentation", async (req, res) => {
     sources,
   };
   try {
+    res.write("Authenticating...");
     const client = await authorize();
-    console.log("Successful client authentication");
+    res.write(`Fetching info about ${parameters.topic}...`);
     const titles = await getTopics(
       openai,
       parameters.topic,
@@ -43,6 +44,7 @@ router.post("/createPresentation", async (req, res) => {
     }
     console.log("Gathered Data For Slides: \n");
     console.log(slidesInfo);
+    res.write("Creating presentation...");
     const presentation = await createPresentation(
       parameters,
       client,
@@ -51,12 +53,12 @@ router.post("/createPresentation", async (req, res) => {
       process.env.GOOGLE_SEARCH_KEY,
       process.env.CX
     );
-    // setTimeout(() => {
-    return res.status(200).send("OK");
-    // }, 5000);
+    res.status(200).write("OK");
+    return res.end();
   } catch (err) {
     console.error(err);
-    return res.status(400).send("FAIL");
+    res.status(400).write("FAIL");
+    return res.end();
   }
 });
 
