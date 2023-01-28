@@ -15,15 +15,15 @@ const Limitations: FC = () => {
               height: "55vh",
               width: "25vw",
               backgroundColor: "rgb(64, 65, 78)",
-              transition: "all 1s ease",
+              transition: "all 0.8s ease",
             }
           : {
               position: "absolute",
               left: 0,
-              width: "2vw",
+              width: 30,
               height: "10vh",
               backgroundColor: "rgb(64, 65, 78)",
-              transition: "all 1.15s ease",
+              transition: "all 0.8s ease",
             }
       }
       className={`shadow ${hide ? "pointer" : ""}`}

@@ -30,7 +30,7 @@ const TextInput: FC<iProps> = ({
         type="text"
         value={value}
         onChange={onChangeHandler}
-        className={clicked ? "input" : ""}
+        className={clicked ? "input" : "shadow"}
         style={{
           height: "4vh",
           width: "27vw",

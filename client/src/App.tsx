@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import "./App.css";
+import "./style/App.css";
 import TextInput from "./components/TextInput";
 import Checkmark from "./components/Checkmark";
 import Button from "./components/Button";
@@ -135,10 +135,10 @@ const App: FC = () => {
         />
       )}
       <h2 style={{ position: "absolute", top: 20 }}>GPT3 Presentations</h2>
-      <Limitations />
-      <AdvancedSettings onClickHandler={() => null} />
       {!state.submit && (
         <>
+          <Limitations />
+          <AdvancedSettings onClickHandler={() => null} />
           <div style={{ marginBottom: 25 }}>
             <TextInput
               label="Topic"
