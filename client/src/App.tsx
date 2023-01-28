@@ -14,7 +14,8 @@ import Loading from "./components/Loading";
 import iError from "./models/error";
 import Error from "./components/Error";
 import Warning from "./components/Warning";
-// import Limitations from "./components/Limitations";
+import Limitations from "./components/Limitations";
+import AdvancedSettings from "./components/AdvancedSettings";
 
 interface iState {
   topic: string;
@@ -134,7 +135,8 @@ const App: FC = () => {
         />
       )}
       <h2 style={{ position: "absolute", top: 20 }}>GPT3 Presentations</h2>
-      {/* <Limitations /> */}
+      <Limitations />
+      <AdvancedSettings onClickHandler={() => null} />
       {!state.submit && (
         <>
           <div style={{ marginBottom: 25 }}>
@@ -164,6 +166,7 @@ const App: FC = () => {
           </div>
           <div style={{ marginBottom: 25 }}>
             <NumberInput
+              label="Slide Count: "
               value={state.slideCount}
               onChangeHandler={(e) =>
                 setState({ ...state, slideCount: parseInt(e.target.value) })

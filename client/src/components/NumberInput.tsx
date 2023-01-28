@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC, useState } from "react";
 
 interface iProps {
+  label: string;
   value: number;
   onChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
@@ -11,6 +12,7 @@ interface iProps {
 }
 
 const NumberInput: FC<iProps> = ({
+  label,
   value,
   onChangeHandler,
   disabled,
@@ -23,7 +25,7 @@ const NumberInput: FC<iProps> = ({
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
-      <p style={{ fontSize: 18, marginRight: 15 }}>Slide Count: </p>
+      <p style={{ fontSize: 18, marginRight: 15 }}>{label}</p>
       <input
         type="number"
         className={clicked ? "input" : ""}
