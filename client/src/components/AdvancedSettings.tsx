@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import { Card, Dropdown, DropdownButton } from "react-bootstrap";
+import NumberInput from "./NumberInput";
 // import NumberInput from "./NumberInput";
 
 interface iProps {
@@ -83,6 +84,13 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
             <Dropdown.Item>Marina</Dropdown.Item>
             <Dropdown.Item>Gameday</Dropdown.Item>
           </DropdownButton>
+          <p style={{ fontSize: 15, marginTop: 30 }}>Timeout (seconds): </p>
+          <NumberInput
+            // label="Timeout: "
+            value={300}
+            onChangeHandler={(e) => null}
+            required={true}
+          />
         </div>
       ) : (
         <>

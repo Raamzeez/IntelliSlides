@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FC, useState } from "react";
 
 interface iProps {
-  label: string;
   value: number;
   onChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+  label?: string;
   disabled?: boolean;
   maxLength?: number;
   minLength?: number;
@@ -24,8 +24,15 @@ const NumberInput: FC<iProps> = ({
   const [clicked, setClicked] = useState(false);
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      <p style={{ fontSize: 18, marginRight: 15 }}>{label}</p>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <p style={{ fontSize: 18, marginRight: 12, marginTop: 12 }}>{label}</p>
       <input
         type="number"
         className={clicked ? "input" : ""}

@@ -7,7 +7,11 @@ import NumberInput from "./components/NumberInput";
 import api from "./api";
 import { Container } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
+import "./bootstrap.min.quartz.css";
+// import "./bootstrap.min.luxen.css";
+// import "./bootstrap.min.cerulean.css";
+// import "./bootstrap.min.cosmo.css";
 import "react-toastify/dist/ReactToastify.css";
 import Success from "./components/Success";
 import Loading from "./components/Loading";
@@ -134,7 +138,9 @@ const App: FC = () => {
           message={state.warning}
         />
       )}
-      <h2 style={{ position: "absolute", top: 20 }}>GPT3 Presentations</h2>
+      <h2 style={{ color: "white", position: "absolute", top: 20 }}>
+        GPT3 Presentations
+      </h2>
       {!state.submit && (
         <>
           <Limitations />

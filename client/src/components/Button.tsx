@@ -1,18 +1,27 @@
-import React, { FC } from "react";
+import React, { CSSProperties, FC } from "react";
 
 interface iProps {
   onClickHandler: () => void;
   type: "success" | "danger" | "primary";
   value: string;
   disabled?: boolean;
+  className?: string;
+  style?: CSSProperties;
 }
 
-const Button: FC<iProps> = ({ onClickHandler, type, value, disabled }) => {
+const Button: FC<iProps> = ({
+  onClickHandler,
+  type,
+  value,
+  disabled,
+  className,
+  style,
+}) => {
   return (
     <div
       className={`${
         type === "success" ? "submit" : type === "danger" ? "cancel" : "primary"
-      } ${disabled ? "" : "pointer"}`}
+      } ${disabled ? "" : "pointer"} ${className}`}
       style={{
         height: 45,
         width: 120,
@@ -22,6 +31,7 @@ const Button: FC<iProps> = ({ onClickHandler, type, value, disabled }) => {
         marginTop: "50%",
         borderRadius: 10,
         opacity: disabled ? 0.35 : 1,
+        ...style,
       }}
       onClick={disabled ? () => null : onClickHandler}
     >

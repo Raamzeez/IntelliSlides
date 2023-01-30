@@ -11,20 +11,26 @@ interface iProps {
 
 const Loading: FC<iProps> = ({ topic, title, onClickHandler }) => {
   return (
-    <div style={{ marginTop: 100 }}>
-      <div style={{ marginLeft: "10%" }}>
-        <PacmanLoader
-          color={"yellow"}
-          loading={true}
-          size={52}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>
-      <h4 style={{ marginTop: "30%" }}>
+    <>
+      <PacmanLoader
+        color={"yellow"}
+        loading={true}
+        size={52}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      <h4 style={{ position: "relative", top: 100 }}>
         Researching {topic} And Creating "{title}"
       </h4>
-      <p style={{ color: "grey", fontSize: 20, fontStyle: "italic" }}>
+      <p
+        style={{
+          color: "grey",
+          fontSize: 20,
+          fontStyle: "italic",
+          position: "relative",
+          top: 100,
+        }}
+      >
         This may several minutes...
       </p>
       {/* <ProgressBar now={45} style={{ width: 230, marginTop: 35 }} /> */}
@@ -35,7 +41,7 @@ const Loading: FC<iProps> = ({ topic, title, onClickHandler }) => {
           onClickHandler={onClickHandler}
         />
       </div> */}
-    </div>
+    </>
   );
 };
 

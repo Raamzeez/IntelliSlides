@@ -28,12 +28,13 @@ const Success: FC<iProps> = ({ title, onClickHandler }) => {
             }}
             className="shadow"
           ></Card> */}
-        <div
+        <Button
+          type="primary"
+          value="Home"
+          onClickHandler={onClickHandler}
           className="animate__animated animate__fadeIn"
-          style={{ marginLeft: "31.3%", marginTop: 100 }}
-        >
-          <Button type="primary" value="Home" onClickHandler={onClickHandler} />
-        </div>
+          style={{ position: "relative", left: 95 }}
+        />
       </div>
     </>
   );
