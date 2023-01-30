@@ -7,12 +7,6 @@ import NumberInput from "./components/NumberInput";
 import api from "./api";
 import { Container } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
-// import "bootstrap/dist/css/bootstrap.min.css";
-import "./bootstrap.min.quartz.css";
-// import "./bootstrap.min.luxen.css";
-// import "./bootstrap.min.cerulean.css";
-// import "./bootstrap.min.cosmo.css";
-import "react-toastify/dist/ReactToastify.css";
 import Success from "./components/Success";
 import Loading from "./components/Loading";
 import iError from "./models/error";
@@ -20,6 +14,13 @@ import Error from "./components/Error";
 import Warning from "./components/Warning";
 import Limitations from "./components/Limitations";
 import AdvancedSettings from "./components/AdvancedSettings";
+
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "./style//bootstrap.min.luxen.css";
+// import "./style/bootstrap.min.cerulean.css";
+// import "./style/bootstrap.min.cosmo.css";
+import "./style/bootstrap.min.quartz.css";
+import "react-toastify/dist/ReactToastify.css";
 
 interface iState {
   topic: string;
@@ -178,6 +179,8 @@ const App: FC = () => {
                 setState({ ...state, slideCount: parseInt(e.target.value) })
               }
               required={true}
+              min={1}
+              max={25}
             />
           </div>
           <div>
@@ -202,6 +205,7 @@ const App: FC = () => {
               value={"Submit"}
               onClickHandler={onSubmitHandler}
               disabled={disable()}
+              style={{ marginTop: "50%" }}
             />
           </div>
         </>

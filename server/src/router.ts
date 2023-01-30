@@ -29,9 +29,9 @@ router.post("/createPresentation", async (req, res) => {
   };
   errorChecks(parameters, res);
   try {
-    res.write("Authenticating...");
+    // res.write("Authenticating...");
     const client = await authorize();
-    res.write(`Fetching info about ${parameters.topic}...`);
+    // res.write(`Fetching info about ${parameters.topic}...`);
     const titles = await getTopics(
       openai,
       parameters.topic,
@@ -46,21 +46,22 @@ router.post("/createPresentation", async (req, res) => {
     }
     console.log("Gathered Data For Slides: \n");
     console.log(slidesInfo);
-    res.write("Creating presentation...");
+    // res.write("Creating presentation...");
     const presentation = await createPresentation(
       parameters,
       client,
-      slidesInfo,
-      // dummyFacts,
+      // slidesInfo,
+      dummyFacts,
       process.env.GOOGLE_SEARCH_KEY,
       process.env.CX
     );
-    res.status(200).write("OK");
-    return res.end();
+    // res.status(200).write("OK");
+    return res.status(200).send("OK");
   } catch (err) {
     console.error(err);
-    res.status(400).write("FAIL");
-    return res.end();
+    // res.status(400).write("FAIL");
+    // return res.end();
+    return res.status(400).send("FAIL");
   }
 });
 

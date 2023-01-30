@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from "react";
+import React, { CSSProperties, FC, useState } from "react";
 
 interface iProps {
   onClickHandler: () => void;
@@ -7,6 +7,7 @@ interface iProps {
   disabled?: boolean;
   className?: string;
   style?: CSSProperties;
+  hoverStyle?: CSSProperties;
 }
 
 const Button: FC<iProps> = ({
@@ -16,24 +17,28 @@ const Button: FC<iProps> = ({
   disabled,
   className,
   style,
+  hoverStyle,
 }) => {
+  const [hover, setHover] = useState(false);
+
   return (
     <div
       className={`${
         type === "success" ? "submit" : type === "danger" ? "cancel" : "primary"
-      } ${disabled ? "" : "pointer"} ${className}`}
+      } ${disabled ? "" : "pointer"} ${className} ${hover ? "shadow" : ""}`}
       style={{
         height: 45,
         width: 120,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "50%",
         borderRadius: 10,
         opacity: disabled ? 0.35 : 1,
         ...style,
       }}
       onClick={disabled ? () => null : onClickHandler}
+      onMouseOver={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
       <p style={{ fontSize: 17, marginTop: 13 }}>{value}</p>
     </div>

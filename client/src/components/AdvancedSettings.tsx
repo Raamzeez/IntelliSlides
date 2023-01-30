@@ -7,8 +7,20 @@ interface iProps {
   onClickHandler: () => void;
 }
 
+interface iState {
+  textModel: string;
+  theme: string;
+  timeout: number;
+}
+
 const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
   const [hide, setHide] = useState(true);
+
+  const [state, setState] = useState<iState>({
+    textModel: "text-davinci-003",
+    theme: "Simple Light",
+    timeout: 300,
+  });
 
   return (
     <Card
@@ -20,7 +32,8 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
               height: "55vh",
               width: "25vw",
               // backgroundColor: "rgb(64, 65, 78)",
-              backgroundColor: "#2d394f",
+              backgroundColor: "slateblue",
+              // backgroundColor: "#2d394f",
               transition: "all 0.8s ease",
             }
           : {
@@ -28,7 +41,8 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
               right: 0,
               width: 30,
               height: "10vh",
-              backgroundColor: "#2d394f",
+              // backgroundColor: "#2d394f",
+              backgroundColor: "slateblue",
               transition: "all 0.8s ease",
             }
       }
@@ -87,9 +101,13 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
           <p style={{ fontSize: 15, marginTop: 30 }}>Timeout (seconds): </p>
           <NumberInput
             // label="Timeout: "
-            value={300}
-            onChangeHandler={(e) => null}
+            value={state.timeout}
+            onChangeHandler={(e) =>
+              setState({ ...state, timeout: parseInt(e.target.value) })
+            }
             required={true}
+            min={60}
+            max={600}
           />
         </div>
       ) : (

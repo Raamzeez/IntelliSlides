@@ -5,6 +5,8 @@ interface iProps {
   onChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
   disabled?: boolean;
+  min?: number;
+  max?: number;
   maxLength?: number;
   minLength?: number;
   pattern?: string;
@@ -16,6 +18,8 @@ const NumberInput: FC<iProps> = ({
   value,
   onChangeHandler,
   disabled,
+  min,
+  max,
   maxLength,
   minLength,
   pattern,
@@ -47,8 +51,8 @@ const NumberInput: FC<iProps> = ({
           fontSize: 15,
           paddingLeft: 10,
         }}
-        min={1}
-        max={25}
+        min={min}
+        max={max}
         disabled={disabled}
         maxLength={maxLength}
         minLength={minLength}
