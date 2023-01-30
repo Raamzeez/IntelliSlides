@@ -37,7 +37,7 @@ const App: FC = () => {
     topic: "",
     title: "",
     subtitle: "",
-    slideCount: 1,
+    slideCount: 5,
     images: false,
     sources: false,
     submit: false,

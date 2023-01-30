@@ -7,7 +7,7 @@ interface iProps {
 }
 
 const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
-  const [hide, setHide] = useState(false);
+  const [hide, setHide] = useState(true);
 
   return (
     <Card

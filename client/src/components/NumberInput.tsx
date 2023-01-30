@@ -41,7 +41,7 @@ const NumberInput: FC<iProps> = ({
           paddingLeft: 10,
         }}
         min={1}
-        max={99}
+        max={25}
         disabled={disabled}
         maxLength={maxLength}
         minLength={minLength}

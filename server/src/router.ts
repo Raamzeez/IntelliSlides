@@ -7,6 +7,7 @@ import iParameters from "./models/parameters";
 import { Configuration, OpenAIApi } from "openai";
 import iSlideInfo from "./models/slideInfo";
 import getDetails from "./functions/getDetails";
+import errorChecks from "./hooks/errorChecks";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -26,6 +27,7 @@ router.post("/createPresentation", async (req, res) => {
     images,
     sources,
   };
+  errorChecks(parameters, res);
   try {
     res.write("Authenticating...");
     const client = await authorize();
