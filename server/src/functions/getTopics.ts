@@ -5,12 +5,17 @@ import getPrompts from "../hooks/prompts";
 const getTopics = async (
   openai: OpenAIApi,
   topic: string,
-  slideCount: number
+  slideCount: number,
+  model:
+    | "text-davinci-003"
+    | "text-curie-001"
+    | "text-babbage-001"
+    | "text-ada-001"
 ) => {
   try {
     const question = getPrompts("topic", slideCount, topic, 1);
     const completion = await openai.createCompletion({
-      model: "text-davinci-003",
+      model,
       prompt: question,
       max_tokens: 300,
     });

@@ -29,6 +29,11 @@ interface iState {
   slideCount: number;
   images: boolean;
   sources: boolean;
+  model:
+    | "text-davinci-003"
+    | "text-curie-001"
+    | "text-babbage-001"
+    | "text-ada-001";
   submit: boolean;
   loading: boolean;
   warning: string;
@@ -45,6 +50,7 @@ const App: FC = () => {
     slideCount: 5,
     images: false,
     sources: false,
+    model: "text-davinci-003",
     submit: false,
     loading: false,
     warning: "",

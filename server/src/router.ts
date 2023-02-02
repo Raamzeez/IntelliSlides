@@ -18,7 +18,8 @@ const router = express.Router();
 
 router.post("/createPresentation", async (req, res) => {
   console.log("req.body", JSON.stringify(req.body, null, 2));
-  const { topic, title, subtitle, slideCount, images, sources } = req.body;
+  const { topic, title, subtitle, slideCount, images, sources, model } =
+    req.body;
   const parameters: iParameters = {
     topic,
     title,
@@ -26,6 +27,7 @@ router.post("/createPresentation", async (req, res) => {
     slideCount,
     images,
     sources,
+    model,
   };
   errorChecks(parameters, res);
   try {
@@ -35,7 +37,8 @@ router.post("/createPresentation", async (req, res) => {
     const titles = await getTopics(
       openai,
       parameters.topic,
-      parameters.slideCount
+      parameters.slideCount,
+      model
     );
     console.log("Fetching info about " + parameters.topic + "...");
     const slidesInfo: iSlideInfo[] = [];
@@ -50,8 +53,8 @@ router.post("/createPresentation", async (req, res) => {
     const presentation = await createPresentation(
       parameters,
       client,
-      // slidesInfo,
-      dummyFacts,
+      slidesInfo,
+      // dummyFacts,
       process.env.GOOGLE_SEARCH_KEY,
       process.env.CX
     );

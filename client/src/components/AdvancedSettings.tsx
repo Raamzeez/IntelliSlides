@@ -1,5 +1,7 @@
 import React, { FC, useState } from "react";
 import { Card, Dropdown, DropdownButton } from "react-bootstrap";
+import Model from "../types/model";
+import Theme from "../types/theme";
 import NumberInput from "./NumberInput";
 // import NumberInput from "./NumberInput";
 
@@ -8,8 +10,8 @@ interface iProps {
 }
 
 interface iState {
-  textModel: string;
-  theme: string;
+  model: Model;
+  theme: Theme;
   timeout: number;
 }
 
@@ -17,7 +19,7 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
   const [hide, setHide] = useState(true);
 
   const [state, setState] = useState<iState>({
-    textModel: "text-davinci-003",
+    model: "text-davinci-003",
     theme: "Simple Light",
     timeout: 300,
   });
@@ -32,7 +34,7 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
               height: "55vh",
               width: "25vw",
               // backgroundColor: "rgb(64, 65, 78)",
-              backgroundColor: "slateblue",
+              backgroundColor: "darkblue",
               // backgroundColor: "#2d394f",
               transition: "all 0.8s ease",
             }
@@ -42,7 +44,7 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
               width: 30,
               height: "10vh",
               // backgroundColor: "#2d394f",
-              backgroundColor: "slateblue",
+              backgroundColor: "darkblue",
               transition: "all 0.8s ease",
             }
       }
@@ -66,37 +68,59 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
             }}
           />
           <p style={{ fontSize: 15, marginTop: 30 }}>Text Model: </p>
-          <DropdownButton key={"secondary"} title="text-davinci-003" id={"1"}>
-            <Dropdown.Item active>text-davinci-003</Dropdown.Item>
-            <Dropdown.Item>text-curie-001</Dropdown.Item>
-            <Dropdown.Item>text-babbage-001</Dropdown.Item>
-            <Dropdown.Item>text-ada-001</Dropdown.Item>
+          <DropdownButton
+            key={"secondary"}
+            title={state.model}
+            id={"1"}
+            onSelect={(value) => setState({ ...state, model: value as Model })}
+          >
+            <Dropdown.Item eventKey={"text-davinci-003"}>
+              text-davinci-003
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={"text-curie-001"}>
+              text-curie-001
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={"text-babbage-001"}>
+              text-babbage-001
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={"text-ada-001"}>
+              text-ada-001
+            </Dropdown.Item>
           </DropdownButton>
           <p style={{ fontSize: 15, marginTop: 30 }}>Theme: </p>
-          <DropdownButton key={"primary"} title="Simple Light" id={"1"}>
-            <Dropdown.Item active>Simple Light</Dropdown.Item>
-            <Dropdown.Item>Simple Dark</Dropdown.Item>
-            <Dropdown.Item>Streamline</Dropdown.Item>
-            <Dropdown.Item>Focus</Dropdown.Item>
-            <Dropdown.Item>Shift</Dropdown.Item>
-            <Dropdown.Item>Momentum</Dropdown.Item>
-            <Dropdown.Item>Paradigm</Dropdown.Item>
-            <Dropdown.Item>Material</Dropdown.Item>
-            <Dropdown.Item>Swiss</Dropdown.Item>
-            <Dropdown.Item>Beach Day</Dropdown.Item>
-            <Dropdown.Item>Slate</Dropdown.Item>
-            <Dropdown.Item>Coral</Dropdown.Item>
-            <Dropdown.Item>Spearmint</Dropdown.Item>
-            <Dropdown.Item>Plum</Dropdown.Item>
-            <Dropdown.Item>Paperback</Dropdown.Item>
-            <Dropdown.Item>Modern Writer</Dropdown.Item>
-            <Dropdown.Item>Geometric</Dropdown.Item>
-            <Dropdown.Item>Pop</Dropdown.Item>
-            <Dropdown.Item>Luxe</Dropdown.Item>
-            <Dropdown.Item>Blue & Gold</Dropdown.Item>
-            <Dropdown.Item>Tropic</Dropdown.Item>
-            <Dropdown.Item>Marina</Dropdown.Item>
-            <Dropdown.Item>Gameday</Dropdown.Item>
+          <DropdownButton
+            key={"primary"}
+            title={state.theme}
+            id={"2"}
+            onSelect={(value) => setState({ ...state, theme: value as Theme })}
+          >
+            <Dropdown.Item eventKey={"Simple Light"}>
+              Simple Light
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={"Simple Dark"}>Simple Dark</Dropdown.Item>
+            <Dropdown.Item eventKey={"Streamline"}>Streamline</Dropdown.Item>
+            <Dropdown.Item eventKey={"Focus"}>Focus</Dropdown.Item>
+            <Dropdown.Item eventKey={"Shift"}>Shift</Dropdown.Item>
+            <Dropdown.Item eventKey={"Momentum"}>Momentum</Dropdown.Item>
+            <Dropdown.Item eventKey={"Paradigm"}>Paradigm</Dropdown.Item>
+            <Dropdown.Item eventKey={"Material"}>Material</Dropdown.Item>
+            <Dropdown.Item eventKey={"Swiss"}>Swiss</Dropdown.Item>
+            <Dropdown.Item eventKey={"Beach Day"}>Beach Day</Dropdown.Item>
+            <Dropdown.Item eventKey={"Slate"}>Slate</Dropdown.Item>
+            <Dropdown.Item eventKey={"Coral"}>Coral</Dropdown.Item>
+            <Dropdown.Item eventKey={"Spearmint"}>Spearmint</Dropdown.Item>
+            <Dropdown.Item eventKey={"Plum"}>Plum</Dropdown.Item>
+            <Dropdown.Item eventKey={"Paperback"}>Paperback</Dropdown.Item>
+            <Dropdown.Item eventKey={"Modern Writer"}>
+              Modern Writer
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={"Geometric"}>Geometric</Dropdown.Item>
+            <Dropdown.Item eventKey={"Pop"}>Pop</Dropdown.Item>
+            <Dropdown.Item eventKey={"Luxe"}>Luxe</Dropdown.Item>
+            <Dropdown.Item eventKey={"Blue & Gold"}>Blue & Gold</Dropdown.Item>
+            <Dropdown.Item eventKey={"Tropic"}>Tropic</Dropdown.Item>
+            <Dropdown.Item eventKey={"Marina"}>Marina</Dropdown.Item>
+            <Dropdown.Item eventKey={"Gameday"}>Gameday</Dropdown.Item>
           </DropdownButton>
           <p style={{ fontSize: 15, marginTop: 30 }}>Timeout (seconds): </p>
           <NumberInput
