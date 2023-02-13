@@ -30,17 +30,18 @@ router.post("/createPresentation", async (req, res) => {
     model,
   };
   errorChecks(parameters, res);
+  parameters.images = false; //For early version
+  parameters.sources = false; //For early version
   try {
-    // res.write("Authenticating...");
+    console.log("Authenticating...");
     const client = await authorize();
-    // res.write(`Fetching info about ${parameters.topic}...`);
+    console.log(`Fetching info about ${parameters.topic}...`);
     const titles = await getTopics(
       openai,
       parameters.topic,
       parameters.slideCount,
       model
     );
-    console.log("Fetching info about " + parameters.topic + "...");
     const slidesInfo: iSlideInfo[] = [];
     for (let i = 0; i < titles.length; i++) {
       const title = titles[i];
@@ -49,7 +50,7 @@ router.post("/createPresentation", async (req, res) => {
     }
     console.log("Gathered Data For Slides: \n");
     console.log(slidesInfo);
-    // res.write("Creating presentation...");
+    console.log("Creating presentation...");
     const presentation = await createPresentation(
       parameters,
       client,

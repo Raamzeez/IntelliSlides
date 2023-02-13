@@ -41,6 +41,7 @@ async function createPresentation(
       });
     }
     if (parameters.sources) {
+      console.log("Adding sources slide");
       requests.push({
         createSlide: {
           slideLayoutReference: {
@@ -70,7 +71,7 @@ async function createPresentation(
       },
     });
     console.log("Added title slide and populated with correct info!");
-    console.log(JSON.stringify(titleSlideResponse, null, 3));
+    // console.log(JSON.stringify(titleSlideResponse, null, 3));
     requests.length = 0;
     const imageSources: string[] = [];
     for (let i = 0; i < slidesInfo.length; i++) {
@@ -102,33 +103,39 @@ async function createPresentation(
           cx
         );
         console.log(imageResponse);
-        const imageURL = imageResponse.items[0].link;
-        const imageSource = imageResponse.items[0].image.contextLink;
-        imageSources.push(imageSource);
-        console.log(`Found image with url of ${imageURL} from ${imageSource}!`);
-        const emu4M = {
-          magnitude: 4000000,
-          unit: "EMU",
-        };
-        requests.push({
-          createImage: {
-            url: imageURL,
-            elementProperties: {
-              pageObjectId: slideObjectId,
-              size: {
-                height: emu4M,
-                width: emu4M,
+        if (imageResponse.items) {
+          const imageURL = imageResponse.items[0].link;
+          const imageSource = imageResponse.items[0].image.contextLink;
+          imageSources.push(imageSource);
+          console.log(
+            `Found image with url of ${imageURL} from ${imageSource}!`
+          );
+          const emu4M = {
+            magnitude: 4000000,
+            unit: "EMU",
+          };
+          if (imageURL && imageSource) {
+            requests.push({
+              createImage: {
+                url: imageURL,
+                elementProperties: {
+                  pageObjectId: slideObjectId,
+                  size: {
+                    height: emu4M,
+                    width: emu4M,
+                  },
+                  transform: {
+                    scaleX: 1,
+                    scaleY: 1,
+                    translateX: 100000,
+                    translateY: 100000,
+                    unit: "EMU",
+                  },
+                },
               },
-              transform: {
-                scaleX: 1,
-                scaleY: 1,
-                translateX: 100000,
-                translateY: 100000,
-                unit: "EMU",
-              },
-            },
-          },
-        });
+            });
+          }
+        }
       }
       let body = "";
       slidesInfo[i].facts.forEach((fact) => {
@@ -142,6 +149,17 @@ async function createPresentation(
       });
     }
     if (parameters.sources) {
+      console.log("Populating with source info");
+      // console.log(JSON.stringify(titleSlideResponse, null, 3));
+      console.log("titleSlideResponse.data", titleSlideResponse.data);
+      console.log(
+        "titleSlidesResponse.data.replies",
+        titleSlideResponse.data.replies
+      );
+      console.log(
+        "titleSlidesResponse.data.replies[slidesInfo.length]",
+        titleSlideResponse.data.replies[slidesInfo.length]
+      );
       const slideObjectId =
         titleSlideResponse.data.replies[slidesInfo.length].createSlide.objectId;
       const slideObjectIds = await service.presentations.pages.get({

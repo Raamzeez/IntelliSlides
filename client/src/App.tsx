@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import "./style/App.css";
 import TextInput from "./components/TextInput";
-import Checkmark from "./components/Checkmark";
+// import Checkmark from "./components/Checkmark";
 import Button from "./components/Button";
 import NumberInput from "./components/NumberInput";
 import api from "./api";
@@ -20,7 +20,10 @@ import AdvancedSettings from "./components/AdvancedSettings";
 // import "./style/bootstrap.min.cerulean.css";
 // import "./style/bootstrap.min.cosmo.css";
 import "./style/bootstrap.min.quartz.css";
+// import "./style/bootstrap.min.litera.css";
+// import "./style/bootstrap.min.cyborg.css";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "./components/Footer";
 
 interface iState {
   topic: string;
@@ -146,8 +149,10 @@ const App: FC = () => {
         />
       )}
       <h2 style={{ color: "white", position: "absolute", top: 20 }}>
-        GPT3 Presentations
+        {/* GPT3 Presentations */}
+        IntelliSlides
       </h2>
+      <Footer />
       {!state.submit && (
         <>
           <Limitations />
@@ -189,7 +194,7 @@ const App: FC = () => {
               max={25}
             />
           </div>
-          <div>
+          {/* <div>
             <Checkmark
               label="Images"
               value={state.images}
@@ -204,7 +209,7 @@ const App: FC = () => {
                 setState({ ...state, sources: !state.sources })
               }
             />
-          </div>
+          </div> */}
           <div>
             <Button
               type="success"
