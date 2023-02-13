@@ -24,8 +24,13 @@ import "./style/bootstrap.min.quartz.css";
 // import "./style/bootstrap.min.cyborg.css";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
+import Alert from "./components/Alert";
+// import SettingsIcon from "./components/SettingsIcon";
+// import SettingsModal from "./components/SettingsModal";
 
 interface iState {
+  showAlert: boolean;
+  settings: boolean;
   topic: string;
   title: string;
   subtitle: string;
@@ -47,6 +52,8 @@ const controller = new AbortController();
 
 const App: FC = () => {
   const [state, setState] = useState<iState>({
+    showAlert: true,
+    settings: false,
     topic: "",
     title: "",
     subtitle: "",
@@ -148,10 +155,30 @@ const App: FC = () => {
           message={state.warning}
         />
       )}
-      <h2 style={{ color: "white", position: "absolute", top: 20 }}>
+      {state.showAlert && (
+        <Alert
+          onCloseHandler={() => setState({ ...state, showAlert: false })}
+        />
+      )}
+      <h2
+        style={{
+          color: "white",
+          position: "absolute",
+          top: state.showAlert ? "9vh" : 20,
+        }}
+      >
         {/* GPT3 Presentations */}
         IntelliSlides
       </h2>
+      {/* <SettingsIcon
+        showingAlert={state.showAlert}
+        onClickHandler={() => setState({ ...state, settings: true })}
+      />
+      {state.settings && (
+        <SettingsModal
+          onCloseHandler={() => setState({ ...state, settings: false })}
+        />
+      )} */}
       <Footer />
       {!state.submit && (
         <>
