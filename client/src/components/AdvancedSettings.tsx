@@ -1,7 +1,10 @@
 import React, { FC, useState } from "react";
 import { Card, Dropdown, DropdownButton } from "react-bootstrap";
+import models from "../data/models";
+import themes from "../data/themes";
 import Model from "../types/model";
 import Theme from "../types/theme";
+import fetchSetting from "../util/fetchSetting";
 import NumberInput from "./NumberInput";
 // import NumberInput from "./NumberInput";
 
@@ -21,14 +24,34 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
   );
 
   const [state, setState] = useState<iState>({
-    model: "text-davinci-003",
-    theme: "Simple Light",
-    timeout: 300,
+    model: fetchSetting("model", "text-davinci-003", "string", models) as Model,
+    theme: fetchSetting(
+      "presentationTheme",
+      "Simple Light",
+      "string",
+      themes
+    ) as Theme,
+    timeout: fetchSetting("timeout", 180, "number") as number,
   });
 
   const onHide = (hide: boolean) => {
     localStorage.setItem("showAdvancedSettings", JSON.stringify(hide));
     setHide(hide);
+  };
+
+  const onModelChange = (model: Model) => {
+    localStorage.setItem("model", JSON.stringify(model));
+    setState({ ...state, model });
+  };
+
+  const onThemeChange = (theme: Theme) => {
+    localStorage.setItem("presentationTheme", JSON.stringify(theme));
+    setState({ ...state, theme });
+  };
+
+  const onTimeoutChange = (timeout: number) => {
+    localStorage.setItem("timeout", JSON.stringify(timeout));
+    setState({ ...state, timeout });
   };
 
   return (
@@ -79,7 +102,7 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
             key={"secondary"}
             title={state.model}
             id={"1"}
-            onSelect={(value) => setState({ ...state, model: value as Model })}
+            onSelect={(model) => onModelChange(model as Model)}
           >
             <Dropdown.Item eventKey={"text-davinci-003"}>
               text-davinci-003
@@ -99,7 +122,7 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
             key={"primary"}
             title={state.theme}
             id={"2"}
-            onSelect={(value) => setState({ ...state, theme: value as Theme })}
+            onSelect={(theme) => onThemeChange(theme as Theme)}
           >
             <Dropdown.Item eventKey={"Simple Light"}>
               Simple Light
@@ -133,9 +156,7 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
           <NumberInput
             // label="Timeout: "
             value={state.timeout}
-            onChangeHandler={(e) =>
-              setState({ ...state, timeout: parseInt(e.target.value) })
-            }
+            onChangeHandler={(e) => onTimeoutChange(parseInt(e.target.value))}
             required={true}
             min={60}
             max={600}
