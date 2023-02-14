@@ -16,13 +16,20 @@ interface iState {
 }
 
 const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
-  const [hide, setHide] = useState(true);
+  const [hide, setHide] = useState(
+    localStorage.getItem("showAdvancedSettings") === "true" ? true : false
+  );
 
   const [state, setState] = useState<iState>({
     model: "text-davinci-003",
     theme: "Simple Light",
     timeout: 300,
   });
+
+  const onHide = (hide: boolean) => {
+    localStorage.setItem("showAdvancedSettings", JSON.stringify(hide));
+    setHide(hide);
+  };
 
   return (
     <Card
@@ -49,14 +56,14 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
             }
       }
       className="shadow"
-      onClick={hide ? () => setHide(false) : () => null}
+      onClick={hide ? () => onHide(false) : () => null}
     >
       {!hide ? (
         <div className="animate__animated animate__fadeIn animate__slower">
           <i
             className="fa-solid fa-right-long pointer"
             style={{ position: "absolute", top: 5, right: 10, fontSize: 20 }}
-            onClick={() => setHide(true)}
+            onClick={() => onHide(true)}
           />
           <h4 style={{ marginTop: 8.75 }}>Advanced Settings</h4>
           <div
@@ -87,7 +94,7 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
               text-ada-001
             </Dropdown.Item>
           </DropdownButton>
-          <p style={{ fontSize: 15, marginTop: 30 }}>Theme: </p>
+          <p style={{ fontSize: 15, marginTop: 30 }}>Presentation Theme: </p>
           <DropdownButton
             key={"primary"}
             title={state.theme}

@@ -16,10 +16,11 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
         justifyContent: "center",
         alignItems: "center",
         background:
-          "linear-gradient(231deg, rgba(255,138,138,1) 0%, rgba(255,110,141,1) 100%)",
+          "linear-gradient(231deg, rgba(255,100,138,1) 0%, rgba(255,110,141,1) 100%)",
       }}
+      className="shadow"
     >
-      <p style={{ fontSize: 15, marginTop: 10 }}>
+      <p style={{ fontSize: 16, marginTop: 10, width: "80%" }}>
         This is a Public Beta Release - Please be aware that there may be bugs
         and issues! We are actively working on improvements.
       </p>

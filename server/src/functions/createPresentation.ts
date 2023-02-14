@@ -27,6 +27,8 @@ async function createPresentation(
     console.log(
       `Created presentation with ID: ${presentation.data.presentationId}`
     );
+    console.log(JSON.stringify(presentation.data.slides, null, 3));
+    console.log("\n");
     const titleSlide = presentation.data.slides[0];
     const titleID = titleSlide.pageElements[0].objectId;
     const subtitleID = titleSlide.pageElements[1].objectId;
@@ -71,10 +73,11 @@ async function createPresentation(
       },
     });
     console.log("Added title slide and populated with correct info!");
-    // console.log(JSON.stringify(titleSlideResponse, null, 3));
+    console.log(JSON.stringify(titleSlideResponse, null, 3));
     requests.length = 0;
     const imageSources: string[] = [];
     for (let i = 0; i < slidesInfo.length; i++) {
+      console.log(titleSlideResponse.data.replies[i]);
       const slideObjectId =
         titleSlideResponse.data.replies[i].createSlide.objectId;
       const slideObjectIds = await service.presentations.pages.get({

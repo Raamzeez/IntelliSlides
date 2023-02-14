@@ -18,10 +18,8 @@ const Footer: FC<iProps> = ({ onClickHandler }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        // backgroundColor: "rgb(30, 20, 120)",
-        background:
-          "linear-gradient(90deg, rgba(0,147,163,1) 0%, rgba(1,123,193,1) 100%)",
       }}
+      className="footerBackground"
     >
       <Col>
         <Image
@@ -44,7 +42,7 @@ const Footer: FC<iProps> = ({ onClickHandler }) => {
           onClick={onClickHandler}
           className="pointer"
         >
-          Version 0.1
+          Version 1.0.0
         </p>
       </Col>
       <Col>

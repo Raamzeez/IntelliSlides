@@ -51,16 +51,6 @@ const dummyFacts: iSlideInfo[] = [
       "Numerous books and films have documented the Battle of Midway including the 1976 Academy Award-winning film Midway.",
     ],
   },
-  {
-    title: '"Victory in Europe: The Unconditional Surrender of Nazi Germany"',
-    facts: [
-      "The victory in Europe was the official Allied Forces victory over Nazi Germany that marked the total defeat of Nazi Germany in World War II",
-      "The unconditional surrender of Nazi Germany officially ended the European Theater of World War II",
-      "The document was signed on May 8, 1945 in Berlin by representatives of Nazi Germany and the Allied Forces",
-      "The treaty consisted of 19 articles that stipulated to the destruction of the Nazi Regime and the establishment of the Allied Control Council, which was responsible for the dismantling of Nazi Germany and its replacement with the Allied Provisional Government",
-      "Following the signing of the treaty, the Allied Powers occupied Germany and divided the country into four zones of occupation.",
-    ],
-  },
 ];
 
 export default dummyFacts;
