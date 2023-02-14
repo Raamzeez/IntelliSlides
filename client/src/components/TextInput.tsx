@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, useState } from "react";
+import useWindowDimensions from "../util/useWindowDimensions";
 import InfoIcon from "./InfoIcon";
 
 interface iProps {
@@ -26,7 +27,19 @@ const TextInput: FC<iProps> = ({
   pattern,
   required,
 }) => {
+  const { height, width } = useWindowDimensions();
+
   const [clicked, setClicked] = useState(false);
+
+  const iconLeftSpacing = () => {
+    if (width <= 600) {
+      return "22vw";
+    } else if (width <= 1000) {
+      return "18vw";
+    } else {
+      return "16.5vw";
+    }
+  };
 
   return (
     <div style={{ margin: 20 }}>
@@ -34,7 +47,11 @@ const TextInput: FC<iProps> = ({
         <p style={{ fontSize: 18, marginBottom: info ? -5 : 20 }}>{label}</p>
         {info && (
           <InfoIcon
-            style={{ position: "relative", bottom: 19, left: "16.5vw" }}
+            style={{
+              position: "relative",
+              bottom: 19,
+              left: iconLeftSpacing(),
+            }}
             onClickHandler={onTipClickHandler}
           />
         )}

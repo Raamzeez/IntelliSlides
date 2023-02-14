@@ -20,7 +20,7 @@ const errorChecks = (parameters: iParameters, res: Response) => {
       .status(400)
       .send("Incorrect Parameters: Slide Count Cannot Be Less Than 1");
   }
-  if (parameters.slideCount > 25) {
+  if (parameters.slideCount > 20) {
     return res
       .status(400)
       .send("Incorrect Parameters: Slide Count Cannot Exceed 25");

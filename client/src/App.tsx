@@ -240,7 +240,7 @@ const App: FC = () => {
               }
               required={true}
               min={1}
-              max={25}
+              max={20}
             />
           </div>
           {/* <div>
