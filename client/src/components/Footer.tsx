@@ -1,7 +1,13 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
 
-const Footer: FC = () => {
+interface iProps {
+  onClickHandler: () => void;
+}
+
+const Footer: FC<iProps> = ({ onClickHandler }) => {
+  const [hoverText, setHoverText] = useState(false);
+
   return (
     <Row
       style={{
@@ -13,6 +19,8 @@ const Footer: FC = () => {
         justifyContent: "center",
         alignItems: "center",
         // backgroundColor: "rgb(30, 20, 120)",
+        background:
+          "linear-gradient(90deg, rgba(0,147,163,1) 0%, rgba(1,123,193,1) 100%)",
       }}
     >
       <Col>
@@ -23,7 +31,19 @@ const Footer: FC = () => {
         />
       </Col>
       <Col>
-        <p style={{ fontSize: 15, fontWeight: 200, marginTop: 22 }}>
+        <p
+          style={{
+            fontSize: 15,
+            fontWeight: 200,
+            marginTop: 22,
+            textDecoration: hoverText ? "underline" : "",
+            opacity: hoverText ? 1 : 0.75,
+          }}
+          onMouseOver={() => setHoverText(true)}
+          onMouseLeave={() => setHoverText(false)}
+          onClick={onClickHandler}
+          className="pointer"
+        >
           Version 0.1
         </p>
       </Col>

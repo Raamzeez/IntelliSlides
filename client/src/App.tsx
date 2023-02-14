@@ -25,11 +25,15 @@ import "./style/bootstrap.min.quartz.css";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer";
 import Alert from "./components/Alert";
+import VersionModal from "./components/VersionModal";
+import InfoModal from "./components/InfoModal";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
   showAlert: boolean;
+  showVersion: boolean;
+  showTip: boolean;
   settings: boolean;
   topic: string;
   title: string;
@@ -53,6 +57,8 @@ const controller = new AbortController();
 const App: FC = () => {
   const [state, setState] = useState<iState>({
     showAlert: true,
+    showVersion: false,
+    showTip: false,
     settings: false,
     topic: "",
     title: "",
@@ -165,6 +171,8 @@ const App: FC = () => {
           color: "white",
           position: "absolute",
           top: state.showAlert ? "9vh" : 20,
+          fontWeight: 500,
+          transition: "all 0.5s ease",
         }}
       >
         {/* GPT3 Presentations */}
@@ -179,7 +187,19 @@ const App: FC = () => {
           onCloseHandler={() => setState({ ...state, settings: false })}
         />
       )} */}
-      <Footer />
+      {state.showVersion && (
+        <VersionModal
+          onCloseHandler={() => setState({ ...state, showVersion: false })}
+        />
+      )}
+      {state.showTip && (
+        <InfoModal
+          onCloseHandler={() => setState({ ...state, showTip: false })}
+        />
+      )}
+      <Footer
+        onClickHandler={() => setState({ ...state, showVersion: true })}
+      />
       {!state.submit && (
         <>
           <Limitations />
@@ -193,6 +213,8 @@ const App: FC = () => {
               }
               required={true}
               minLength={2}
+              info={true}
+              onTipClickHandler={() => setState({ ...state, showTip: true })}
             />
             <TextInput
               label="Title"

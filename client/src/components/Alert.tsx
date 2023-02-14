@@ -12,15 +12,16 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
         top: 0,
         height: "7vh",
         width: "100vw",
-        backgroundColor: "#ff99af",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        background:
+          "linear-gradient(231deg, rgba(255,138,138,1) 0%, rgba(255,110,141,1) 100%)",
       }}
     >
       <p style={{ fontSize: 15, marginTop: 10 }}>
         This is a Public Beta Release - Please be aware that there may be bugs
-        and issues!
+        and issues! We are actively working on improvements.
       </p>
       <i
         className="fa-solid fa-x pointer"
