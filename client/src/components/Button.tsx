@@ -2,7 +2,7 @@ import React, { CSSProperties, FC, useState } from "react";
 
 interface iProps {
   onClickHandler: () => void;
-  type: "success" | "danger" | "primary";
+  type: "success" | "danger" | "primary" | "secondary";
   value: string;
   disabled?: boolean;
   className?: string;
@@ -24,7 +24,13 @@ const Button: FC<iProps> = ({
   return (
     <div
       className={`${
-        type === "success" ? "submit" : type === "danger" ? "cancel" : "primary"
+        type === "success"
+          ? "submit"
+          : type === "danger"
+          ? "cancel"
+          : type == "primary"
+          ? "primary"
+          : "secondary"
       } ${disabled ? "" : "pointer"} ${className} ${hover ? "shadow" : ""}`}
       style={{
         height: 45,

@@ -20,7 +20,11 @@ const getTopics = async (
       max_tokens: 300,
     });
     const response = completion.data.choices[0].text;
-    return parseList(response);
+    console.log(response);
+    if (slideCount > 1) {
+      return parseList(response);
+    }
+    return [response.trim()];
   } catch (err) {
     console.error(err.response.data);
   }

@@ -6,15 +6,21 @@ const getPrompts = (
   title?: string
 ) => {
   if (type == "topic") {
-    if (index == 0) {
-      return `Suggest ${count} chronological book chapter titles regarding ${topic}`;
-    } else {
+    if (count > 1) {
       return `What are ${count} major chronological events of ${topic}? Please keep each event to less than 10 words.`;
+    } else {
+      return `What is 1 major event of ${topic}? Please keep it to less than 10 words.`;
     }
   } else if (type == "details") {
-    return `Provide ${count} important details about ${topic}${
-      title ? "as it pertains to " + title : "?"
-    }`;
+    if (count > 1) {
+      return `Provide ${count} important details about ${topic}${
+        title ? "as it pertains to " + title : "?"
+      }`;
+    } else {
+      return `Provide 1 important detail about ${topic}${
+        title ? "as it pertains to " + title : "?"
+      }`;
+    }
   } else {
     return `${topic} ${title}`;
   }

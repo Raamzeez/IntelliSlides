@@ -27,12 +27,14 @@ const TextInput: FC<iProps> = ({
   pattern,
   required,
 }) => {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const [clicked, setClicked] = useState(false);
 
   const iconLeftSpacing = () => {
-    if (width <= 600) {
+    if (width <= 300) {
+      return "26vw";
+    } else if (width <= 600) {
       return "22vw";
     } else if (width <= 1000) {
       return "18vw";

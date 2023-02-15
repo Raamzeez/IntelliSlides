@@ -42,6 +42,7 @@ router.post("/createPresentation", async (req, res) => {
       parameters.slideCount,
       model
     );
+    console.log("Titles", titles);
     const slidesInfo: iSlideInfo[] = [];
     for (let i = 0; i < titles.length; i++) {
       const title = titles[i];
@@ -59,8 +60,7 @@ router.post("/createPresentation", async (req, res) => {
       process.env.GOOGLE_SEARCH_KEY,
       process.env.CX
     );
-    // res.status(200).write("OK");
-    return res.status(200).send("OK");
+    return res.status(200).send(presentation);
   } catch (err) {
     console.error(err);
     // res.status(400).write("FAIL");

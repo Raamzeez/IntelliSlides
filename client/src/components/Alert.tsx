@@ -12,7 +12,11 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
     fontSize: number;
     icon: { fontSize: number; top: number; right: number };
   } => {
-    if (width <= 420) {
+    if (width <= 260) {
+      return { fontSize: 8, icon: { fontSize: 13, top: 18, right: 10 } };
+    } else if (width <= 443) {
+      return { fontSize: 10, icon: { fontSize: 13, top: 18, right: 10 } };
+    } else if (width <= 506) {
       return { fontSize: 12, icon: { fontSize: 15, top: 18, right: 15 } };
     } else if (width <= 570) {
       return { fontSize: 14, icon: { fontSize: 17.5, top: 15, right: 30 } };

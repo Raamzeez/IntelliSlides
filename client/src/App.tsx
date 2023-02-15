@@ -27,6 +27,7 @@ import Footer from "./components/Footer";
 import Alert from "./components/Alert";
 import VersionModal from "./components/VersionModal";
 import InfoModal from "./components/InfoModal";
+import Model from "./types/model";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
@@ -37,15 +38,12 @@ interface iState {
   settings: boolean;
   topic: string;
   title: string;
+  presentationId: string;
   subtitle: string;
   slideCount: number;
   images: boolean;
   sources: boolean;
-  model:
-    | "text-davinci-003"
-    | "text-curie-001"
-    | "text-babbage-001"
-    | "text-ada-001";
+  model: Model;
   submit: boolean;
   loading: boolean;
   warning: string;
@@ -62,12 +60,13 @@ const App: FC = () => {
     settings: false,
     topic: "",
     title: "",
+    presentationId: "",
     subtitle: "",
     slideCount: 5,
     images: false,
     sources: false,
     model: "text-davinci-003",
-    submit: false,
+    submit: true,
     loading: false,
     warning: "",
     error: null,
@@ -106,19 +105,27 @@ const App: FC = () => {
       signal: controller.signal,
     });
     console.log(response.data);
-    setState({
+    if (response.status !== 200) {
+      return setState({
+        ...state,
+        submit: true,
+        loading: false,
+        error:
+          response.status !== 200
+            ? {
+                message: "Couldn't Create Presentation",
+                status: response.status,
+              }
+            : null,
+      });
+    }
+    console.log(response);
+    return setState({
       ...state,
       submit: true,
       loading: false,
-      error:
-        response.status !== 200
-          ? {
-              message: "Couldn't Create Presentation",
-              status: response.status,
-            }
-          : null,
+      presentationId: response.data.data.presentationId,
     });
-    console.log(response);
   };
 
   const onCancelHandler = () => {
@@ -265,7 +272,7 @@ const App: FC = () => {
               value={"Submit"}
               onClickHandler={onSubmitHandler}
               disabled={disable()}
-              style={{ marginTop: "50%" }}
+              style={{ marginTop: 30 }}
             />
           </div>
         </>
@@ -280,6 +287,7 @@ const App: FC = () => {
       {state.submit && !state.loading && !state.error && (
         <Success
           title={state.title}
+          presentationId={state.presentationId}
           onClickHandler={() =>
             setState({ ...state, loading: false, submit: false })
           }

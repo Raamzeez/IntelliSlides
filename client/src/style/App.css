@@ -62,6 +62,10 @@
   background: linear-gradient(121deg, #1da2e5 0%, rgb(27, 188, 185) 100%);
 }
 
+.secondary {
+  background: linear-gradient(90deg, rgba(109, 65, 238, 1) 0%, rgba(154, 79, 255, 1) 100%);
+}
+
 .pointer {
   cursor: pointer;
 }

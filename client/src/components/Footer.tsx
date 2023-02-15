@@ -13,7 +13,7 @@ const Footer: FC<iProps> = ({ onClickHandler }) => {
       style={{
         position: "absolute",
         bottom: 0,
-        height: "10vh",
+        minHeight: "10vh",
         width: "100vw",
         display: "flex",
         justifyContent: "center",

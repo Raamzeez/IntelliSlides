@@ -74,8 +74,19 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
             backgroundColor: "grey",
           }}
         />
-        <p style={{ fontSize: 15, marginTop: 30 }}>Text Model: </p>
+        <p style={{ fontSize: 15, marginTop: 15, marginBottom: -15 }}>
+          Text Model{" "}
+        </p>
+        <a
+          href="https://platform.openai.com/docs/models/gpt-3"
+          target={"_blank"}
+          rel="noreferrer"
+          style={{ fontSize: 10 }}
+        >
+          Learn More
+        </a>
         <DropdownButton
+          style={{ marginTop: 15 }}
           key={"secondary"}
           title={state.model}
           id={"1"}
@@ -155,7 +166,7 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
             <Modal show={true} onHide={() => onHide(true)}>
               <div
                 style={{
-                  height: "75vh",
+                  height: "60vh",
                   width: "100%",
                   display: "flex",
                   flexDirection: "column",
