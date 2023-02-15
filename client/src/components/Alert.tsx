@@ -6,7 +6,7 @@ interface iProps {
 }
 
 const Alert: FC<iProps> = ({ onCloseHandler }) => {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const alertStyling = (): {
     fontSize: number;
@@ -34,7 +34,7 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
         background:
           "linear-gradient(231deg, rgba(255,100,138,1) 0%, rgba(255,110,141,1) 100%)",
       }}
-      className="shadow"
+      className="shadow animate__animated animate__fadeInDown"
     >
       <p
         style={{

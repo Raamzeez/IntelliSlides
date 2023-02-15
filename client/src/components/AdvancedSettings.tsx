@@ -1,10 +1,11 @@
 import React, { FC, useState } from "react";
-import { Card, Dropdown, DropdownButton } from "react-bootstrap";
+import { Card, Dropdown, DropdownButton, Modal } from "react-bootstrap";
 import models from "../data/models";
 import themes from "../data/themes";
 import Model from "../types/model";
 import Theme from "../types/theme";
 import fetchSetting from "../util/fetchSetting";
+import useWindowDimensions from "../util/useWindowDimensions";
 import NumberInput from "./NumberInput";
 // import NumberInput from "./NumberInput";
 
@@ -19,8 +20,15 @@ interface iState {
 }
 
 const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
+  const widthThreshold = 750;
+
+  const { width } = useWindowDimensions();
+
   const [hide, setHide] = useState(
-    localStorage.getItem("showAdvancedSettings") === "true" ? true : false
+    localStorage.getItem("showAdvancedSettings") === "true" &&
+      width >= widthThreshold
+      ? true
+      : false
   );
 
   const [state, setState] = useState<iState>({
@@ -54,10 +62,57 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
     setState({ ...state, timeout });
   };
 
+  const content = () => {
+    return (
+      <>
+        <h4 style={{ marginTop: 8.75 }}>Advanced Settings</h4>
+        <div
+          style={{
+            height: 2,
+            width: "90%",
+            marginLeft: "5%",
+            backgroundColor: "grey",
+          }}
+        />
+        <p style={{ fontSize: 15, marginTop: 30 }}>Text Model: </p>
+        <DropdownButton
+          key={"secondary"}
+          title={state.model}
+          id={"1"}
+          onSelect={(model) => onModelChange(model as Model)}
+        >
+          {models.map((model) => {
+            return <Dropdown.Item eventKey={model}>{model}</Dropdown.Item>;
+          })}
+        </DropdownButton>
+        <p style={{ fontSize: 15, marginTop: 30 }}>Presentation Theme: </p>
+        <DropdownButton
+          key={"primary"}
+          title={state.theme}
+          id={"2"}
+          onSelect={(theme) => onThemeChange(theme as Theme)}
+        >
+          {themes.map((theme) => {
+            return <Dropdown.Item eventKey={theme}>{theme}</Dropdown.Item>;
+          })}
+        </DropdownButton>
+        <p style={{ fontSize: 15, marginTop: 30 }}>Timeout (seconds): </p>
+        <NumberInput
+          // label="Timeout: "
+          value={state.timeout}
+          onChangeHandler={(e) => onTimeoutChange(parseInt(e.target.value))}
+          required={true}
+          min={60}
+          max={600}
+        />
+      </>
+    );
+  };
+
   return (
     <Card
       style={
-        !hide
+        !hide && width > widthThreshold
           ? {
               position: "absolute",
               right: 30,
@@ -81,86 +136,14 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
       className="shadow"
       onClick={hide ? () => onHide(false) : () => null}
     >
-      {!hide ? (
+      {!hide && width > widthThreshold ? (
         <div className="animate__animated animate__fadeIn animate__slower">
           <i
             className="fa-solid fa-right-long pointer"
             style={{ position: "absolute", top: 5, right: 10, fontSize: 20 }}
             onClick={() => onHide(true)}
           />
-          <h4 style={{ marginTop: 8.75 }}>Advanced Settings</h4>
-          <div
-            style={{
-              height: 2,
-              width: "90%",
-              marginLeft: "5%",
-              backgroundColor: "grey",
-            }}
-          />
-          <p style={{ fontSize: 15, marginTop: 30 }}>Text Model: </p>
-          <DropdownButton
-            key={"secondary"}
-            title={state.model}
-            id={"1"}
-            onSelect={(model) => onModelChange(model as Model)}
-          >
-            <Dropdown.Item eventKey={"text-davinci-003"}>
-              text-davinci-003
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"text-curie-001"}>
-              text-curie-001
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"text-babbage-001"}>
-              text-babbage-001
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"text-ada-001"}>
-              text-ada-001
-            </Dropdown.Item>
-          </DropdownButton>
-          <p style={{ fontSize: 15, marginTop: 30 }}>Presentation Theme: </p>
-          <DropdownButton
-            key={"primary"}
-            title={state.theme}
-            id={"2"}
-            onSelect={(theme) => onThemeChange(theme as Theme)}
-          >
-            <Dropdown.Item eventKey={"Simple Light"}>
-              Simple Light
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"Simple Dark"}>Simple Dark</Dropdown.Item>
-            <Dropdown.Item eventKey={"Streamline"}>Streamline</Dropdown.Item>
-            <Dropdown.Item eventKey={"Focus"}>Focus</Dropdown.Item>
-            <Dropdown.Item eventKey={"Shift"}>Shift</Dropdown.Item>
-            <Dropdown.Item eventKey={"Momentum"}>Momentum</Dropdown.Item>
-            <Dropdown.Item eventKey={"Paradigm"}>Paradigm</Dropdown.Item>
-            <Dropdown.Item eventKey={"Material"}>Material</Dropdown.Item>
-            <Dropdown.Item eventKey={"Swiss"}>Swiss</Dropdown.Item>
-            <Dropdown.Item eventKey={"Beach Day"}>Beach Day</Dropdown.Item>
-            <Dropdown.Item eventKey={"Slate"}>Slate</Dropdown.Item>
-            <Dropdown.Item eventKey={"Coral"}>Coral</Dropdown.Item>
-            <Dropdown.Item eventKey={"Spearmint"}>Spearmint</Dropdown.Item>
-            <Dropdown.Item eventKey={"Plum"}>Plum</Dropdown.Item>
-            <Dropdown.Item eventKey={"Paperback"}>Paperback</Dropdown.Item>
-            <Dropdown.Item eventKey={"Modern Writer"}>
-              Modern Writer
-            </Dropdown.Item>
-            <Dropdown.Item eventKey={"Geometric"}>Geometric</Dropdown.Item>
-            <Dropdown.Item eventKey={"Pop"}>Pop</Dropdown.Item>
-            <Dropdown.Item eventKey={"Luxe"}>Luxe</Dropdown.Item>
-            <Dropdown.Item eventKey={"Blue & Gold"}>Blue & Gold</Dropdown.Item>
-            <Dropdown.Item eventKey={"Tropic"}>Tropic</Dropdown.Item>
-            <Dropdown.Item eventKey={"Marina"}>Marina</Dropdown.Item>
-            <Dropdown.Item eventKey={"Gameday"}>Gameday</Dropdown.Item>
-          </DropdownButton>
-          <p style={{ fontSize: 15, marginTop: 30 }}>Timeout (seconds): </p>
-          <NumberInput
-            // label="Timeout: "
-            value={state.timeout}
-            onChangeHandler={(e) => onTimeoutChange(parseInt(e.target.value))}
-            required={true}
-            min={60}
-            max={600}
-          />
+          {content()}
         </div>
       ) : (
         <>
@@ -168,6 +151,33 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
             className="fa-solid fa-left-long pointer"
             style={{ position: "absolute", top: "40%", right: 3, fontSize: 20 }}
           />
+          {!hide && (
+            <Modal show={true} onHide={() => onHide(true)}>
+              <div
+                style={{
+                  height: "75vh",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  //   justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#3925ba",
+                }}
+              >
+                <i
+                  className="fa-solid fa-x pointer"
+                  style={{
+                    color: "white",
+                    position: "absolute",
+                    top: 15,
+                    right: 15,
+                  }}
+                  onClick={() => onHide(true)}
+                />
+                {content()}
+              </div>
+            </Modal>
+          )}
         </>
       )}
     </Card>
