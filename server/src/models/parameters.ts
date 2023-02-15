@@ -1,3 +1,5 @@
+import iSlideInfo from "./slideInfo";
+
 interface iParameters {
   title: string;
   topic: string;
@@ -10,6 +12,7 @@ interface iParameters {
     | "text-ada-001";
   images?: boolean;
   sources?: boolean;
+  slidesInfo?: iSlideInfo[];
 }
 
 export default iParameters;

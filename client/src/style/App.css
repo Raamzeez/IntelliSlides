@@ -50,6 +50,33 @@
       0 16px 16px hsl(0deg 0% 0% / 0.075);
 }
 
+.auto {
+      border: none;
+      padding: 6px 12px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      transition-duration: 0.15s;
+      cursor: pointer;
+      border-radius: 7px;
+        box-shadow: 0 6px #656565;
+}
+
+.autoButton {
+  background-color: white;
+  color: black;
+  border: 2px solid #008CBA;
+}
+
+.autoButton:active {
+  background-color: #008CBA;
+  color: white;
+  box-shadow: 0 4px #656565;
+  transform: translateY(3px);
+}
+
 .submit {
     background: linear-gradient(121deg, rgb(3, 202, 139) 0%, rgba(0, 199, 101, 1) 100%);
 }

@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import useWindowDimensions from "../util/useWindowDimensions";
 import InfoIcon from "./InfoIcon";
 
@@ -31,34 +32,18 @@ const TextInput: FC<iProps> = ({
 
   const [clicked, setClicked] = useState(false);
 
-  const iconLeftSpacing = () => {
-    if (width <= 300) {
-      return "26vw";
-    } else if (width <= 600) {
-      return "22vw";
-    } else if (width <= 1000) {
-      return "18vw";
-    } else {
-      return "16.5vw";
-    }
-  };
-
   return (
-    <div style={{ margin: 20 }}>
-      <div>
-        <p style={{ fontSize: 18, marginBottom: info ? -5 : 20 }}>{label}</p>
-        {info && (
-          <InfoIcon
-            style={{
-              position: "relative",
-              bottom: 19,
-              left: iconLeftSpacing(),
-            }}
-            onClickHandler={onTipClickHandler}
-          />
-        )}
-      </div>
-      <div>
+    <Row style={{ margin: 20 }}>
+      {info && (
+        <InfoIcon
+          style={{ marginTop: 10, marginRight: 5 }}
+          onClickHandler={onTipClickHandler}
+        />
+      )}
+      <Col>
+        <p style={{ fontSize: 18, marginTop: 9, marginRight: -5 }}>{label}:</p>
+      </Col>
+      <Col>
         <input
           type="text"
           value={value}
@@ -81,8 +66,8 @@ const TextInput: FC<iProps> = ({
           required={required}
           onClick={() => setClicked(true)}
         />
-      </div>
-    </div>
+      </Col>
+    </Row>
   );
 };
 

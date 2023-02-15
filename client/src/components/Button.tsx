@@ -28,7 +28,7 @@ const Button: FC<iProps> = ({
           ? "submit"
           : type === "danger"
           ? "cancel"
-          : type == "primary"
+          : type === "primary"
           ? "primary"
           : "secondary"
       } ${disabled ? "" : "pointer"} ${className} ${hover ? "shadow" : ""}`}

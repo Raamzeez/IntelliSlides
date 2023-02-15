@@ -16,8 +16,7 @@ const openai = new OpenAIApi(configuration);
 
 const router = express.Router();
 
-router.post("/createPresentation", async (req, res) => {
-  console.log("req.body", JSON.stringify(req.body, null, 2));
+router.post("/validateParameters", (req, res) => {
   const { topic, title, subtitle, slideCount, images, sources, model } =
     req.body;
   const parameters: iParameters = {
@@ -30,27 +29,68 @@ router.post("/createPresentation", async (req, res) => {
     model,
   };
   errorChecks(parameters, res);
+  return res.status(200).send("OK");
+});
+
+router.post("/slidesData", async (req, res) => {
+  // const { topic, title, subtitle, slideCount, images, sources, model } =
+  //   req.body;
+  // const parameters: iParameters = {
+  //   topic,
+  //   title,
+  //   subtitle,
+  //   slideCount,
+  //   images,
+  //   sources,
+  //   model,
+  // };
+  // console.log(`Fetching info about ${parameters.topic}...`);
+  // const titles = await getTopics(
+  //   openai,
+  //   parameters.topic,
+  //   parameters.slideCount,
+  //   model
+  // );
+  // console.log("Titles", titles);
+  // const slidesInfo: iSlideInfo[] = [];
+  // for (let i = 0; i < titles.length; i++) {
+  //   const title = titles[i];
+  //   const facts = await getDetails(openai, title, 5, parameters.title);
+  //   slidesInfo.push({ title, facts });
+  // }
+  // console.log("Gathered Data For Slides: \n");
+  // console.log(slidesInfo);
+  // return res.status(200).json(slidesInfo);
+  return res.status(200).send(dummyFacts);
+});
+
+router.post("/createPresentation", async (req, res) => {
+  console.log("req.body", JSON.stringify(req.body, null, 2));
+  const {
+    topic,
+    title,
+    subtitle,
+    slideCount,
+    images,
+    sources,
+    model,
+    slidesInfo,
+  } = req.body;
+  const parameters: iParameters = {
+    topic,
+    title,
+    subtitle,
+    slideCount,
+    images,
+    sources,
+    model,
+    slidesInfo,
+  };
   parameters.images = false; //For early version
   parameters.sources = false; //For early version
   try {
-    console.log("Authenticating...");
+    console.log("Authorizing...");
     const client = await authorize();
-    console.log(`Fetching info about ${parameters.topic}...`);
-    const titles = await getTopics(
-      openai,
-      parameters.topic,
-      parameters.slideCount,
-      model
-    );
-    console.log("Titles", titles);
-    const slidesInfo: iSlideInfo[] = [];
-    for (let i = 0; i < titles.length; i++) {
-      const title = titles[i];
-      const facts = await getDetails(openai, title, 5, parameters.title);
-      slidesInfo.push({ title, facts });
-    }
-    console.log("Gathered Data For Slides: \n");
-    console.log(slidesInfo);
     console.log("Creating presentation...");
     const presentation = await createPresentation(
       parameters,

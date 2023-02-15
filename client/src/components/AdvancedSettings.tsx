@@ -92,8 +92,12 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
           id={"1"}
           onSelect={(model) => onModelChange(model as Model)}
         >
-          {models.map((model) => {
-            return <Dropdown.Item eventKey={model}>{model}</Dropdown.Item>;
+          {models.map((model, index) => {
+            return (
+              <Dropdown.Item key={index} eventKey={model}>
+                {model}
+              </Dropdown.Item>
+            );
           })}
         </DropdownButton>
         <p style={{ fontSize: 15, marginTop: 30 }}>Presentation Theme: </p>
@@ -103,8 +107,12 @@ const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
           id={"2"}
           onSelect={(theme) => onThemeChange(theme as Theme)}
         >
-          {themes.map((theme) => {
-            return <Dropdown.Item eventKey={theme}>{theme}</Dropdown.Item>;
+          {themes.map((theme, index) => {
+            return (
+              <Dropdown.Item key={index} eventKey={theme}>
+                {theme}
+              </Dropdown.Item>
+            );
           })}
         </DropdownButton>
         <p style={{ fontSize: 15, marginTop: 30 }}>Timeout (seconds): </p>

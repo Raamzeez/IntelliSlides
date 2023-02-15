@@ -5,7 +5,7 @@ import TextInput from "./components/TextInput";
 import Button from "./components/Button";
 import NumberInput from "./components/NumberInput";
 import api from "./api";
-import { Container } from "react-bootstrap";
+import { Col, Container, Pagination, Row } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import Success from "./components/Success";
 import Loading from "./components/Loading";
@@ -28,6 +28,10 @@ import Alert from "./components/Alert";
 import VersionModal from "./components/VersionModal";
 import InfoModal from "./components/InfoModal";
 import Model from "./types/model";
+import AutoButton from "./components/AutoButton";
+import Category from "./types/category";
+import categories from "./data/categories";
+import LoadingType from "./types/loading";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
@@ -37,6 +41,8 @@ interface iState {
   showTip: boolean;
   settings: boolean;
   topic: string;
+  category: Category;
+  auto: boolean;
   title: string;
   presentationId: string;
   subtitle: string;
@@ -45,7 +51,8 @@ interface iState {
   sources: boolean;
   model: Model;
   submit: boolean;
-  loading: boolean;
+  // loading: boolean;
+  loading: LoadingType | null;
   warning: string;
   error: iError | null;
 }
@@ -59,6 +66,8 @@ const App: FC = () => {
     showTip: false,
     settings: false,
     topic: "",
+    category: "Event",
+    auto: false,
     title: "",
     presentationId: "",
     subtitle: "",
@@ -66,8 +75,8 @@ const App: FC = () => {
     images: false,
     sources: false,
     model: "text-davinci-003",
-    submit: true,
-    loading: false,
+    submit: false,
+    loading: null,
     warning: "",
     error: null,
   });
@@ -100,31 +109,62 @@ const App: FC = () => {
       }
       return setState({ ...state, warning: message });
     }
-    setState({ ...state, submit: true, loading: true });
-    const response = await api.post("/createPresentation", state, {
+    setState({ ...state, submit: true, loading: "ValidateParameters" });
+    console.log("/validateParameters");
+    const parametersResponse = await api.post("/validateParameters", state, {
       signal: controller.signal,
     });
-    console.log(response.data);
-    if (response.status !== 200) {
+    console.log(parametersResponse.data);
+    if (parametersResponse.status !== 200) {
       return setState({
         ...state,
         submit: true,
-        loading: false,
-        error:
-          response.status !== 200
-            ? {
-                message: "Couldn't Create Presentation",
-                status: response.status,
-              }
-            : null,
+        loading: null,
+        error: {
+          message: parametersResponse.data,
+          status: parametersResponse.status,
+        },
       });
     }
-    console.log(response);
+    setState({ ...state, loading: "SlidesData" });
+    const slidesDataResponse = await api.post("/slidesData", state, {
+      signal: controller.signal,
+    });
+    console.log(slidesDataResponse.data);
+    if (slidesDataResponse.status !== 200) {
+      return setState({
+        ...state,
+        submit: true,
+        loading: null,
+        error: {
+          message: "Couldn't Gather Information",
+          status: slidesDataResponse.status,
+        },
+      });
+    }
+    setState({ ...state, loading: "CreatePresentation" });
+    const data = { slidesInfo: slidesDataResponse.data, ...state };
+    console.log(data);
+    const presentationResponse = await api.post("/createPresentation", data);
+    console.log(presentationResponse.data);
+    if (presentationResponse.status !== 200) {
+      return setState({
+        ...state,
+        submit: true,
+        loading: null,
+        error: {
+          message: "Couldn't Create Presentation",
+          status: presentationResponse.status,
+        },
+      });
+    }
+    console.log(presentationResponse);
     return setState({
       ...state,
       submit: true,
-      loading: false,
-      presentationId: response.data.data.presentationId,
+      loading: null,
+      presentationId: presentationResponse.data.data.presentationId,
+      error: null,
     });
   };
 
@@ -223,6 +263,37 @@ const App: FC = () => {
               info={true}
               onTipClickHandler={() => setState({ ...state, showTip: true })}
             />
+            <Row>
+              <Col>
+                <p style={{ fontSize: 18, marginTop: 9, marginRight: -50 }}>
+                  Category:
+                </p>
+              </Col>
+              <Col>
+                <Pagination
+                  style={{
+                    position: "relative",
+                    left: 34,
+                    top: 6.5,
+                  }}
+                >
+                  {categories.map((category, index) => {
+                    return (
+                      <Pagination.Item disabled={state.auto} key={index}>
+                        {category}
+                      </Pagination.Item>
+                    );
+                  })}
+                </Pagination>
+              </Col>
+              <Col>
+                <AutoButton
+                  onClickHandler={() =>
+                    setState({ ...state, category: "Event", auto: !state.auto })
+                  }
+                />
+              </Col>
+            </Row>
             <TextInput
               label="Title"
               value={state.title}
@@ -289,14 +360,14 @@ const App: FC = () => {
           title={state.title}
           presentationId={state.presentationId}
           onClickHandler={() =>
-            setState({ ...state, loading: false, submit: false })
+            setState({ ...state, loading: null, submit: false })
           }
         />
       )}
       {state.submit && !state.loading && state.error && (
         <Error
           onClickHandler={() =>
-            setState({ ...state, loading: false, submit: false })
+            setState({ ...state, loading: null, submit: false })
           }
         />
       )}
