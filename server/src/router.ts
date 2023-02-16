@@ -33,35 +33,35 @@ router.post("/validateParameters", (req, res) => {
 });
 
 router.post("/slidesData", async (req, res) => {
-  // const { topic, title, subtitle, slideCount, images, sources, model } =
-  //   req.body;
-  // const parameters: iParameters = {
-  //   topic,
-  //   title,
-  //   subtitle,
-  //   slideCount,
-  //   images,
-  //   sources,
-  //   model,
-  // };
-  // console.log(`Fetching info about ${parameters.topic}...`);
-  // const titles = await getTopics(
-  //   openai,
-  //   parameters.topic,
-  //   parameters.slideCount,
-  //   model
-  // );
-  // console.log("Titles", titles);
-  // const slidesInfo: iSlideInfo[] = [];
-  // for (let i = 0; i < titles.length; i++) {
-  //   const title = titles[i];
-  //   const facts = await getDetails(openai, title, 5, parameters.title);
-  //   slidesInfo.push({ title, facts });
-  // }
-  // console.log("Gathered Data For Slides: \n");
-  // console.log(slidesInfo);
-  // return res.status(200).json(slidesInfo);
-  return res.status(200).send(dummyFacts);
+  const { topic, title, subtitle, slideCount, images, sources, model } =
+    req.body;
+  const parameters: iParameters = {
+    topic,
+    title,
+    subtitle,
+    slideCount,
+    images,
+    sources,
+    model,
+  };
+  console.log(`Fetching info about ${parameters.topic}...`);
+  const titles = await getTopics(
+    openai,
+    parameters.topic,
+    parameters.slideCount,
+    model
+  );
+  console.log("Titles", titles);
+  const slidesInfo: iSlideInfo[] = [];
+  for (let i = 0; i < titles.length; i++) {
+    const title = titles[i];
+    const facts = await getDetails(openai, title, 5, parameters.title);
+    slidesInfo.push({ title, facts });
+  }
+  console.log("Gathered Data For Slides: \n");
+  console.log(slidesInfo);
+  return res.status(200).json(slidesInfo);
+  // return res.status(200).send(dummyFacts);
 });
 
 router.post("/createPresentation", async (req, res) => {

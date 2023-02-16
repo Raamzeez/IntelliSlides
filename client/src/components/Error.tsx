@@ -1,11 +1,16 @@
 import React, { FC } from "react";
+import iError from "../models/error";
+import LoadingType from "../types/loading";
 import Button from "./Button";
+import LoadingStatus from "./LoadingStatus";
 
 interface iProps {
+  loadingStatus: LoadingType;
+  error: iError | null;
   onClickHandler: () => void;
 }
 
-const Error: FC<iProps> = ({ onClickHandler }) => {
+const Error: FC<iProps> = ({ loadingStatus, error, onClickHandler }) => {
   return (
     <div style={{ marginTop: 100 }}>
       <i
@@ -13,9 +18,7 @@ const Error: FC<iProps> = ({ onClickHandler }) => {
         className="animate__animated animate__fadeInDown fa-solid fa-circle-xmark"
       />
       <h1 style={{ marginTop: 15 }}>Error</h1>
-      <h5 style={{ marginTop: 30 }}>
-        Oops! Looks like there was an issue with our servers!
-      </h5>
+      <h5 style={{ marginTop: 30 }}>{error?.message}</h5>
       {/* <Card
             style={{
               height: 250,
@@ -32,6 +35,11 @@ const Error: FC<iProps> = ({ onClickHandler }) => {
       >
         <Button type="primary" value="Home" onClickHandler={onClickHandler} />
       </div>
+      <LoadingStatus
+        loadingStatus={loadingStatus}
+        error={error}
+        style={{ top: 0, right: 0 }}
+      />
     </div>
   );
 };

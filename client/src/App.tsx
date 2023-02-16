@@ -118,15 +118,15 @@ const App: FC = () => {
     if (parametersResponse.status !== 200) {
       return setState({
         ...state,
+        loading: "ValidateParameters",
         submit: true,
-        loading: null,
         error: {
           message: parametersResponse.data,
           status: parametersResponse.status,
         },
       });
     }
-    setState({ ...state, loading: "SlidesData" });
+    setState({ ...state, submit: true, loading: "SlidesData" });
     const slidesDataResponse = await api.post("/slidesData", state, {
       signal: controller.signal,
     });
@@ -134,15 +134,15 @@ const App: FC = () => {
     if (slidesDataResponse.status !== 200) {
       return setState({
         ...state,
+        loading: "SlidesData",
         submit: true,
-        loading: null,
         error: {
           message: "Couldn't Gather Information",
           status: slidesDataResponse.status,
         },
       });
     }
-    setState({ ...state, loading: "CreatePresentation" });
+    setState({ ...state, submit: true, loading: "CreatePresentation" });
     const data = { slidesInfo: slidesDataResponse.data, ...state };
     console.log(data);
     const presentationResponse = await api.post("/createPresentation", data);
@@ -150,8 +150,8 @@ const App: FC = () => {
     if (presentationResponse.status !== 200) {
       return setState({
         ...state,
+        loading: "CreatePresentation",
         submit: true,
-        loading: null,
         error: {
           message: "Couldn't Create Presentation",
           status: presentationResponse.status,
@@ -348,8 +348,10 @@ const App: FC = () => {
           </div>
         </>
       )}
-      {state.submit && state.loading && (
+      {state.submit && state.loading && !state.error && (
         <Loading
+          loadingStatus={state.loading}
+          error={state.error}
           topic={state.topic}
           title={state.title}
           onClickHandler={onCancelHandler}
@@ -364,10 +366,12 @@ const App: FC = () => {
           }
         />
       )}
-      {state.submit && !state.loading && state.error && (
+      {state.submit && state.error && (
         <Error
+          loadingStatus={state.loading as LoadingType}
+          error={state.error}
           onClickHandler={() =>
-            setState({ ...state, loading: null, submit: false })
+            setState({ ...state, loading: null, error: null, submit: false })
           }
         />
       )}
