@@ -1,9 +1,11 @@
 import { OpenAIApi } from "openai";
 import parseList from "../hooks/topics";
 import getPrompts from "../hooks/prompts";
+import Category from "../types/category";
 
 const getTopics = async (
   openai: OpenAIApi,
+  category: Category,
   topic: string,
   slideCount: number,
   model:
@@ -13,7 +15,7 @@ const getTopics = async (
     | "text-ada-001"
 ) => {
   try {
-    const question = getPrompts("topic", slideCount, topic, 1);
+    const question = getPrompts("topic", category, slideCount, topic);
     const completion = await openai.createCompletion({
       model,
       prompt: question,

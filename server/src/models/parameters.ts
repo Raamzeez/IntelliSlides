@@ -1,8 +1,10 @@
+import Category from "../types/category";
 import iSlideInfo from "./slideInfo";
 
 interface iParameters {
-  title: string;
   topic: string;
+  category: Category;
+  title: string;
   subtitle: string;
   slideCount: number;
   model:

@@ -17,10 +17,19 @@ const openai = new OpenAIApi(configuration);
 const router = express.Router();
 
 router.post("/validateParameters", (req, res) => {
-  const { topic, title, subtitle, slideCount, images, sources, model } =
-    req.body;
+  const {
+    topic,
+    category,
+    title,
+    subtitle,
+    slideCount,
+    images,
+    sources,
+    model,
+  } = req.body;
   const parameters: iParameters = {
     topic,
+    category,
     title,
     subtitle,
     slideCount,
@@ -33,10 +42,19 @@ router.post("/validateParameters", (req, res) => {
 });
 
 router.post("/slidesData", async (req, res) => {
-  const { topic, title, subtitle, slideCount, images, sources, model } =
-    req.body;
+  const {
+    topic,
+    category,
+    title,
+    subtitle,
+    slideCount,
+    images,
+    sources,
+    model,
+  } = req.body;
   const parameters: iParameters = {
     topic,
+    category,
     title,
     subtitle,
     slideCount,
@@ -47,6 +65,7 @@ router.post("/slidesData", async (req, res) => {
   console.log(`Fetching info about ${parameters.topic}...`);
   const titles = await getTopics(
     openai,
+    parameters.category,
     parameters.topic,
     parameters.slideCount,
     model
@@ -55,7 +74,13 @@ router.post("/slidesData", async (req, res) => {
   const slidesInfo: iSlideInfo[] = [];
   for (let i = 0; i < titles.length; i++) {
     const title = titles[i];
-    const facts = await getDetails(openai, title, 5, parameters.title);
+    const facts = await getDetails(
+      openai,
+      category,
+      title,
+      5,
+      parameters.title
+    );
     slidesInfo.push({ title, facts });
   }
   console.log("Gathered Data For Slides: \n");
@@ -68,6 +93,7 @@ router.post("/createPresentation", async (req, res) => {
   console.log("req.body", JSON.stringify(req.body, null, 2));
   const {
     topic,
+    category,
     title,
     subtitle,
     slideCount,
@@ -78,6 +104,7 @@ router.post("/createPresentation", async (req, res) => {
   } = req.body;
   const parameters: iParameters = {
     topic,
+    category,
     title,
     subtitle,
     slideCount,

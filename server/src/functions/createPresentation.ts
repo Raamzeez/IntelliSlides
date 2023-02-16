@@ -97,9 +97,9 @@ async function createPresentation(
         const imageResponse = await getImage(
           getPrompts(
             "image",
+            parameters.category,
             parameters.slideCount,
             slidesInfo[i].title,
-            0,
             parameters.topic
           ),
           key,
