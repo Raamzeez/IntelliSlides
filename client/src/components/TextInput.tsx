@@ -32,11 +32,29 @@ const TextInput: FC<iProps> = ({
 
   const [clicked, setClicked] = useState(false);
 
+  const iconLeft = () => {
+    if (width <= 750) {
+      return "15%";
+    } else if (width <= 900) {
+      return "11%";
+    } else if (width <= 1070) {
+      return "5%";
+    } else if (width <= 1200) {
+      return "3%";
+    }
+    return 0;
+  };
+
   return (
     <Row style={{ margin: 20 }}>
       {info && (
         <InfoIcon
-          style={{ marginTop: 10, marginRight: 5 }}
+          style={{
+            marginTop: 10,
+            marginRight: 5,
+            position: "relative",
+            left: iconLeft(),
+          }}
           onClickHandler={onTipClickHandler}
         />
       )}

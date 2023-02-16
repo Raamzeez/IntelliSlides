@@ -81,10 +81,10 @@ const validParametersStatus = (
   loadingStatus: LoadingType,
   error: iError | null
 ): IconStatus => {
-  if (error && loadingStatus == "ValidateParameters") {
+  if (error && loadingStatus === "ValidateParameters") {
     return "error";
   }
-  if (loadingStatus == "ValidateParameters") {
+  if (loadingStatus === "ValidateParameters") {
     return "loading";
   }
   return "success";

@@ -1,11 +1,16 @@
 import React, { FC, useState } from "react";
+import useWindowDimensions from "../util/useWindowDimensions";
 
 interface iProps {
   onClickHandler: () => void;
 }
 
 const AutoButton: FC<iProps> = ({ onClickHandler }) => {
-  const [clicked, setClicked] = useState(false);
+  const { width } = useWindowDimensions();
+
+  const [clicked, setClicked] = useState(
+    localStorage.getItem("auto") === "true" ? true : false
+  );
 
   // autoButton:active {
   //     background-color: #008CBA;
@@ -16,6 +21,7 @@ const AutoButton: FC<iProps> = ({ onClickHandler }) => {
 
   const onClick = () => {
     setClicked(!clicked);
+    localStorage.setItem("auto", JSON.stringify(!clicked));
     onClickHandler();
   };
 
@@ -34,7 +40,12 @@ const AutoButton: FC<iProps> = ({ onClickHandler }) => {
   return (
     <div
       className="auto autoButton"
-      style={{ position: "relative", left: 40, bottom: 4, ...clickedStyle() }}
+      style={{
+        position: "relative",
+        left: width > 1000 ? 40 : 0,
+        bottom: 4,
+        ...clickedStyle(),
+      }}
       onClick={() => onClick()}
     >
       Auto

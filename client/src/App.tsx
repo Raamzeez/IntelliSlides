@@ -5,7 +5,14 @@ import TextInput from "./components/TextInput";
 import Button from "./components/Button";
 import NumberInput from "./components/NumberInput";
 import api from "./api";
-import { Col, Container, Pagination, Row } from "react-bootstrap";
+import {
+  Col,
+  Container,
+  Dropdown,
+  DropdownButton,
+  Pagination,
+  Row,
+} from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import Success from "./components/Success";
 import Loading from "./components/Loading";
@@ -32,6 +39,7 @@ import AutoButton from "./components/AutoButton";
 import Category from "./types/category";
 import categories from "./data/categories";
 import LoadingType from "./types/loading";
+import useWindowDimensions from "./util/useWindowDimensions";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
@@ -60,8 +68,10 @@ interface iState {
 const controller = new AbortController();
 
 const App: FC = () => {
+  const { width } = useWindowDimensions();
+
   const [state, setState] = useState<iState>({
-    showAlert: true,
+    showAlert: sessionStorage.getItem("showAlert") === "false" ? false : true,
     showVersion: false,
     showTip: false,
     settings: false,
@@ -80,6 +90,11 @@ const App: FC = () => {
     warning: "",
     error: null,
   });
+
+  const onHideAlert = () => {
+    sessionStorage.setItem("showAlert", JSON.stringify(false));
+    setState({ ...state, showAlert: false });
+  };
 
   const errorToast = (message: string) => {
     toast.error(message, {
@@ -208,11 +223,7 @@ const App: FC = () => {
           message={state.warning}
         />
       )}
-      {state.showAlert && (
-        <Alert
-          onCloseHandler={() => setState({ ...state, showAlert: false })}
-        />
-      )}
+      {state.showAlert && <Alert onCloseHandler={() => onHideAlert()} />}
       <h2
         style={{
           color: "white",
@@ -270,21 +281,47 @@ const App: FC = () => {
                 </p>
               </Col>
               <Col>
-                <Pagination
-                  style={{
-                    position: "relative",
-                    left: 34,
-                    top: 6.5,
-                  }}
-                >
-                  {categories.map((category, index) => {
-                    return (
-                      <Pagination.Item disabled={state.auto} key={index}>
-                        {category}
-                      </Pagination.Item>
-                    );
-                  })}
-                </Pagination>
+                {width <= 1000 ? (
+                  <DropdownButton
+                    key={"primary"}
+                    title={state.category ? state.category : "Event"}
+                    onSelect={(value) =>
+                      setState({ ...state, category: value as Category })
+                    }
+                  >
+                    {categories.map((category, index) => {
+                      return (
+                        <Dropdown.Item key={index} eventKey={category}>
+                          {category}
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </DropdownButton>
+                ) : (
+                  <Pagination
+                    style={{
+                      position: "relative",
+                      left: 34,
+                      top: 6.5,
+                    }}
+                  >
+                    {categories.map((category, index) => {
+                      return (
+                        <Pagination.Item
+                          disabled={state.auto}
+                          key={index}
+                          active={
+                            categories.filter(
+                              (category) => category === state.category
+                            )[0].length === 1
+                          }
+                        >
+                          {category}
+                        </Pagination.Item>
+                      );
+                    })}
+                  </Pagination>
+                )}
               </Col>
               <Col>
                 <AutoButton
