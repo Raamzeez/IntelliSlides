@@ -77,7 +77,7 @@ const App: FC = () => {
     settings: false,
     topic: "",
     category: "Event",
-    auto: false,
+    auto: localStorage.getItem("auto") === "false" ? false : true,
     title: "",
     presentationId: "",
     subtitle: "",
@@ -141,24 +141,69 @@ const App: FC = () => {
         },
       });
     }
-    setState({ ...state, submit: true, loading: "SlidesData" });
-    const slidesDataResponse = await api.post("/slidesData", state, {
+    //######################################################################//
+    setState({ ...state, submit: true, loading: "FetchingCategory" });
+    const categoryResponse = await api.post("/category", state, {
       signal: controller.signal,
     });
-    console.log(slidesDataResponse.data);
-    if (slidesDataResponse.status !== 200) {
+    console.log(categoryResponse.data);
+    if (categoryResponse.status !== 200) {
       return setState({
         ...state,
-        loading: "SlidesData",
+        loading: "FetchingCategory",
+        submit: true,
+        error: {
+          message: "Cannot Determine Category",
+          status: categoryResponse.status,
+        },
+      });
+    }
+    setState({
+      ...state,
+      submit: true,
+      category: categoryResponse.data,
+      loading: "SlideTitles",
+    });
+    //######################################################################//
+    //######################################################################//
+    const titlesResponse = await api.post("/slideTitles", state, {
+      signal: controller.signal,
+    });
+    console.log(titlesResponse.data);
+    if (titlesResponse.status !== 200) {
+      return setState({
+        ...state,
+        loading: "SlideTitles",
+        submit: true,
+        error: {
+          message: "Cannot Get Titles for Each Slide",
+          status: titlesResponse.status,
+        },
+      });
+    }
+    setState({ ...state, submit: true, loading: "SlideDetails" });
+    //######################################################################//
+    const slideDetailsResponse = await api.post(
+      "/slideDetails",
+      { ...state, titles: titlesResponse.data },
+      {
+        signal: controller.signal,
+      }
+    );
+    console.log(slideDetailsResponse.data);
+    if (slideDetailsResponse.status !== 200) {
+      return setState({
+        ...state,
+        loading: "SlideDetails",
         submit: true,
         error: {
           message: "Couldn't Gather Information",
-          status: slidesDataResponse.status,
+          status: slideDetailsResponse.status,
         },
       });
     }
     setState({ ...state, submit: true, loading: "CreatePresentation" });
-    const data = { slidesInfo: slidesDataResponse.data, ...state };
+    const data = { slidesInfo: slideDetailsResponse.data, ...state };
     console.log(data);
     const presentationResponse = await api.post("/createPresentation", data);
     console.log(presentationResponse.data);
@@ -189,13 +234,17 @@ const App: FC = () => {
   };
 
   const disable = () => {
-    if (state.topic.length >= 2 && state.slideCount >= 1) {
+    if (
+      state.topic.length >= 2 &&
+      state.slideCount >= 1 &&
+      categories.filter((category) => category === state.category).length === 1
+    ) {
       return false;
     }
     return true;
   };
 
-  // console.log(state);
+  console.log(state);
 
   return (
     <Container
@@ -274,46 +323,66 @@ const App: FC = () => {
               info={true}
               onTipClickHandler={() => setState({ ...state, showTip: true })}
             />
-            <Row>
-              <Col>
-                <p style={{ fontSize: 18, marginTop: 9, marginRight: -50 }}>
-                  Category:
-                </p>
+            <Row style={{}}>
+              <Col
+                style={{
+                  // backgroundColor: "blue",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <p style={{ fontSize: 18, marginTop: 9 }}>Category:</p>
               </Col>
-              <Col>
-                {width <= 1000 ? (
+              <Col
+                style={{
+                  // backgroundColor: "red",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {width <= 2000 ? (
                   <DropdownButton
                     key={"primary"}
                     title={state.category ? state.category : "Event"}
                     onSelect={(value) =>
                       setState({ ...state, category: value as Category })
                     }
+                    disabled={state.auto}
                   >
                     {categories.map((category, index) => {
                       return (
-                        <Dropdown.Item key={index} eventKey={category}>
+                        <Dropdown.Item
+                          key={index}
+                          eventKey={category}
+                          onClick={(e) =>
+                            setState({
+                              ...state,
+                              category: (e.target as HTMLButtonElement)
+                                .innerHTML as Category,
+                            })
+                          }
+                        >
                           {category}
                         </Dropdown.Item>
                       );
                     })}
                   </DropdownButton>
                 ) : (
-                  <Pagination
-                    style={{
-                      position: "relative",
-                      left: 34,
-                      top: 6.5,
-                    }}
-                  >
+                  <Pagination style={{ marginTop: 13 }}>
                     {categories.map((category, index) => {
                       return (
                         <Pagination.Item
                           disabled={state.auto}
                           key={index}
-                          active={
-                            categories.filter(
-                              (category) => category === state.category
-                            )[0].length === 1
+                          active={category === state.category}
+                          onClick={(e) =>
+                            setState({
+                              ...state,
+                              category: (e.target as HTMLButtonElement)
+                                .innerHTML as Category,
+                            })
                           }
                         >
                           {category}
@@ -323,10 +392,17 @@ const App: FC = () => {
                   </Pagination>
                 )}
               </Col>
-              <Col>
+              <Col
+                style={{
+                  // backgroundColor: "green",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <AutoButton
                   onClickHandler={() =>
-                    setState({ ...state, category: "Event", auto: !state.auto })
+                    setState({ ...state, auto: !state.auto })
                   }
                 />
               </Col>

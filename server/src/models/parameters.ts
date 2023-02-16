@@ -12,6 +12,8 @@ interface iParameters {
     | "text-curie-001"
     | "text-babbage-001"
     | "text-ada-001";
+  auto?: boolean;
+  titles?: string[];
   images?: boolean;
   sources?: boolean;
   slidesInfo?: iSlideInfo[];

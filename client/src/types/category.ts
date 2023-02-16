@@ -1,3 +1,9 @@
-type Category = "Event" | "Person" | "Place" | "Object" | "Company" | "Concept";
+type Category =
+  | "Event"
+  | "Person"
+  | "Place"
+  | "Object"
+  | "Organization"
+  | "Concept";
 
 export default Category;

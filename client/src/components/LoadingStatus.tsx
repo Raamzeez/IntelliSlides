@@ -1,6 +1,7 @@
 import React, { CSSProperties, FC } from "react";
 import { Col, Row } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
+import loadingStatuses from "../data/loadingStatuses";
 import iError from "../models/error";
 import IconStatus from "../types/iconStatus";
 import LoadingType from "../types/loading";
@@ -77,50 +78,77 @@ const StatusElement: FC<StatusElementProps> = ({ text, status }) => {
   );
 };
 
-const validParametersStatus = (
-  loadingStatus: LoadingType,
-  error: iError | null
-): IconStatus => {
-  if (error && loadingStatus === "ValidateParameters") {
-    return "error";
-  }
-  if (loadingStatus === "ValidateParameters") {
-    return "loading";
-  }
-  return "success";
-};
+// const validParametersStatus = (
+//   loadingStatus: LoadingType,
+//   error: iError | null
+// ): IconStatus => {
+//   if (error && loadingStatus === "ValidateParameters") {
+//     return "error";
+//   }
+//   if (loadingStatus === "ValidateParameters") {
+//     return "loading";
+//   }
+//   return "success";
+// };
 
-const slidesDataStatus = (
-  loadingStatus: LoadingType,
-  error: iError | null
-): IconStatus => {
-  if (error && loadingStatus === "SlidesData") {
-    return "error";
-  }
-  if (loadingStatus === "SlidesData") {
-    return "loading";
-  } else if (loadingStatus === "ValidateParameters") {
-    return "hold";
-  }
-  return "success";
-};
+// const slidesDataStatus = (
+//   loadingStatus: LoadingType,
+//   error: iError | null
+// ): IconStatus => {
+//   if (error && loadingStatus === "SlidesData") {
+//     return "error";
+//   }
+//   if (loadingStatus === "SlidesData") {
+//     return "loading";
+//   } else if (loadingStatus === "ValidateParameters") {
+//     return "hold";
+//   }
+//   return "success";
+// };
 
-const createPresentationStatus = (
+// const createPresentationStatus = (
+//   loadingStatus: LoadingType,
+//   error: iError | null
+// ): IconStatus => {
+//   if (error && loadingStatus === "CreatePresentation") {
+//     return "error";
+//   }
+//   if (loadingStatus === "CreatePresentation") {
+//     return "loading";
+//   } else if (
+//     loadingStatus === "ValidateParameters" ||
+//     loadingStatus === "SlidesData"
+//   ) {
+//     return "hold";
+//   }
+//   return "success";
+// };
+
+const getStatus = (
+  status: LoadingType,
   loadingStatus: LoadingType,
   error: iError | null
-): IconStatus => {
-  if (error && loadingStatus === "CreatePresentation") {
+) => {
+  if (error && loadingStatus === status) {
     return "error";
   }
-  if (loadingStatus === "CreatePresentation") {
+  if (loadingStatus === status) {
     return "loading";
-  } else if (
-    loadingStatus === "ValidateParameters" ||
-    loadingStatus === "SlidesData"
-  ) {
-    return "hold";
   }
-  return "success";
+  let loadingStatusIndex = 0;
+  let statusIndex = 0;
+  loadingStatuses.forEach((obj, index) => {
+    if (obj.type === loadingStatus) {
+      loadingStatusIndex = index;
+    }
+    if (obj.type === status) {
+      statusIndex = index;
+    }
+  });
+  if (loadingStatusIndex > statusIndex) {
+    return "success";
+  }
+  return "hold";
 };
 
 const LoadingStatus: FC<iProps> = ({ loadingStatus, error, style }) => {
@@ -145,18 +173,14 @@ const LoadingStatus: FC<iProps> = ({ loadingStatus, error, style }) => {
       }}
       className="animate__animated animate__fadeInRight animate__fast"
     >
-      <StatusElement
-        text="Validating Parameters"
-        status={validParametersStatus(loadingStatus, error)}
-      />
-      <StatusElement
-        text="Gathering Data"
-        status={slidesDataStatus(loadingStatus, error)}
-      />
-      <StatusElement
-        text="Creating Presentation"
-        status={createPresentationStatus(loadingStatus, error)}
-      />
+      {loadingStatuses.map((status) => {
+        return (
+          <StatusElement
+            text={status.message}
+            status={getStatus(status.type, loadingStatus, error)}
+          />
+        );
+      })}
     </div>
   );
 };

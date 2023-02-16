@@ -1,3 +1,8 @@
-type LoadingType = "ValidateParameters" | "SlidesData" | "CreatePresentation";
+type LoadingType =
+  | "ValidateParameters"
+  | "FetchingCategory"
+  | "SlideTitles"
+  | "SlideDetails"
+  | "CreatePresentation";
 
 export default LoadingType;

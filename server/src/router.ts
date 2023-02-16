@@ -8,6 +8,8 @@ import { Configuration, OpenAIApi } from "openai";
 import iSlideInfo from "./models/slideInfo";
 import getDetails from "./functions/getDetails";
 import errorChecks from "./hooks/errorChecks";
+import getCategory from "./hooks/category";
+import dummyTitles from "./data/dummyTitles";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -41,7 +43,37 @@ router.post("/validateParameters", (req, res) => {
   return res.status(200).send("OK");
 });
 
-router.post("/slidesData", async (req, res) => {
+router.post("/category", async (req, res) => {
+  const {
+    topic,
+    auto,
+    category,
+    title,
+    subtitle,
+    slideCount,
+    images,
+    sources,
+    model,
+  } = req.body;
+  const parameters: iParameters = {
+    topic,
+    auto,
+    category,
+    title,
+    subtitle,
+    slideCount,
+    images,
+    sources,
+    model,
+  };
+  if (parameters.auto) {
+    const response = await getCategory(openai, topic);
+    return res.status(200).send(response);
+  }
+  return res.status(200).send(parameters.category);
+});
+
+router.post("/slideTitles", async (req, res) => {
   const {
     topic,
     category,
@@ -71,6 +103,34 @@ router.post("/slidesData", async (req, res) => {
     model
   );
   console.log("Titles", titles);
+  return res.status(200).json(titles);
+  // console.log("Titles", dummyTitles);
+  // return res.status(200).json(dummyTitles);
+});
+
+router.post("/slideDetails", async (req, res) => {
+  const {
+    topic,
+    category,
+    title,
+    subtitle,
+    slideCount,
+    images,
+    sources,
+    titles,
+    model,
+  } = req.body;
+  const parameters: iParameters = {
+    topic,
+    category,
+    title,
+    subtitle,
+    slideCount,
+    images,
+    sources,
+    titles,
+    model,
+  };
   const slidesInfo: iSlideInfo[] = [];
   for (let i = 0; i < titles.length; i++) {
     const title = titles[i];
@@ -86,7 +146,8 @@ router.post("/slidesData", async (req, res) => {
   console.log("Gathered Data For Slides: \n");
   console.log(slidesInfo);
   return res.status(200).json(slidesInfo);
-  // return res.status(200).send(dummyFacts);
+  // console.log(dummyFacts);
+  // return res.status(200).json(dummyFacts);
 });
 
 router.post("/createPresentation", async (req, res) => {

@@ -1,4 +1,5 @@
 import { Response } from "express";
+import categories from "../data/categories";
 import iParameters from "../models/parameters";
 
 const errorChecks = (parameters: iParameters, res: Response) => {
@@ -24,6 +25,12 @@ const errorChecks = (parameters: iParameters, res: Response) => {
     return res
       .status(400)
       .send("Incorrect Parameters: Slide Count Cannot Exceed 25");
+  }
+  if (
+    categories.filter((category) => category === parameters.category).length !==
+    1
+  ) {
+    return res.status(400).send("Incorrect Parameters: Invalid Category");
   }
 };
 
