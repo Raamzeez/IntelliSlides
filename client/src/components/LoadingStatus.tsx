@@ -78,52 +78,6 @@ const StatusElement: FC<StatusElementProps> = ({ text, status }) => {
   );
 };
 
-// const validParametersStatus = (
-//   loadingStatus: LoadingType,
-//   error: iError | null
-// ): IconStatus => {
-//   if (error && loadingStatus === "ValidateParameters") {
-//     return "error";
-//   }
-//   if (loadingStatus === "ValidateParameters") {
-//     return "loading";
-//   }
-//   return "success";
-// };
-
-// const slidesDataStatus = (
-//   loadingStatus: LoadingType,
-//   error: iError | null
-// ): IconStatus => {
-//   if (error && loadingStatus === "SlidesData") {
-//     return "error";
-//   }
-//   if (loadingStatus === "SlidesData") {
-//     return "loading";
-//   } else if (loadingStatus === "ValidateParameters") {
-//     return "hold";
-//   }
-//   return "success";
-// };
-
-// const createPresentationStatus = (
-//   loadingStatus: LoadingType,
-//   error: iError | null
-// ): IconStatus => {
-//   if (error && loadingStatus === "CreatePresentation") {
-//     return "error";
-//   }
-//   if (loadingStatus === "CreatePresentation") {
-//     return "loading";
-//   } else if (
-//     loadingStatus === "ValidateParameters" ||
-//     loadingStatus === "SlidesData"
-//   ) {
-//     return "hold";
-//   }
-//   return "success";
-// };
-
 const getStatus = (
   status: LoadingType,
   loadingStatus: LoadingType,

@@ -40,13 +40,15 @@ import Category from "./types/category";
 import categories from "./data/categories";
 import LoadingType from "./types/loading";
 import useWindowDimensions from "./util/useWindowDimensions";
+import InfoIcon from "./components/InfoIcon";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
   showAlert: boolean;
   showVersion: boolean;
-  showTip: boolean;
+  showTopicTip: boolean;
+  showCategoryTip: boolean;
   settings: boolean;
   topic: string;
   category: Category;
@@ -73,7 +75,8 @@ const App: FC = () => {
   const [state, setState] = useState<iState>({
     showAlert: sessionStorage.getItem("showAlert") === "false" ? false : true,
     showVersion: false,
-    showTip: false,
+    showTopicTip: false,
+    showCategoryTip: false,
     settings: false,
     topic: "",
     category: "Event",
@@ -299,9 +302,16 @@ const App: FC = () => {
           onCloseHandler={() => setState({ ...state, showVersion: false })}
         />
       )}
-      {state.showTip && (
+      {state.showTopicTip && (
         <InfoModal
-          onCloseHandler={() => setState({ ...state, showTip: false })}
+          title="Topic"
+          onCloseHandler={() => setState({ ...state, showTopicTip: false })}
+        />
+      )}
+      {state.showCategoryTip && (
+        <InfoModal
+          title="Category"
+          onCloseHandler={() => setState({ ...state, showCategoryTip: false })}
         />
       )}
       <Footer
@@ -321,9 +331,22 @@ const App: FC = () => {
               required={true}
               minLength={2}
               info={true}
-              onTipClickHandler={() => setState({ ...state, showTip: true })}
+              onTipClickHandler={() =>
+                setState({ ...state, showTopicTip: true })
+              }
             />
             <Row style={{}}>
+              <InfoIcon
+                style={{
+                  marginTop: 10,
+                  marginRight: 5,
+                  position: "relative",
+                  left: 32,
+                }}
+                onClickHandler={() =>
+                  setState({ ...state, showCategoryTip: true })
+                }
+              />
               <Col
                 style={{
                   // backgroundColor: "blue",
@@ -350,6 +373,7 @@ const App: FC = () => {
                       setState({ ...state, category: value as Category })
                     }
                     disabled={state.auto}
+                    style={{ marginRight: 25 }}
                   >
                     {categories.map((category, index) => {
                       return (

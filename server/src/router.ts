@@ -19,89 +19,24 @@ const openai = new OpenAIApi(configuration);
 const router = express.Router();
 
 router.post("/validateParameters", (req, res) => {
-  const {
-    topic,
-    category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
-    model,
-  } = req.body;
-  const parameters: iParameters = {
-    topic,
-    category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
-    model,
-  };
-  errorChecks(parameters, res);
+  const { topic, category, slideCount } = req.body;
+  errorChecks(topic, slideCount, category, res);
   return res.status(200).send("OK");
 });
 
 router.post("/category", async (req, res) => {
-  const {
-    topic,
-    auto,
-    category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
-    model,
-  } = req.body;
-  const parameters: iParameters = {
-    topic,
-    auto,
-    category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
-    model,
-  };
-  if (parameters.auto) {
+  const { topic, auto, category } = req.body;
+  if (auto) {
     const response = await getCategory(openai, topic);
     return res.status(200).send(response);
   }
-  return res.status(200).send(parameters.category);
+  return res.status(200).send(category);
 });
 
 router.post("/slideTitles", async (req, res) => {
-  const {
-    topic,
-    category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
-    model,
-  } = req.body;
-  const parameters: iParameters = {
-    topic,
-    category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
-    model,
-  };
-  console.log(`Fetching info about ${parameters.topic}...`);
-  const titles = await getTopics(
-    openai,
-    parameters.category,
-    parameters.topic,
-    parameters.slideCount,
-    model
-  );
+  const { topic, category, slideCount, model } = req.body;
+  console.log(`Fetching info about ${topic}...`);
+  const titles = await getTopics(openai, category, topic, slideCount, model);
   console.log("Titles", titles);
   return res.status(200).json(titles);
   // console.log("Titles", dummyTitles);
@@ -112,36 +47,13 @@ router.post("/slideDetails", async (req, res) => {
   const {
     topic,
     category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
+    // title,
     titles,
-    model,
   } = req.body;
-  const parameters: iParameters = {
-    topic,
-    category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
-    titles,
-    model,
-  };
   const slidesInfo: iSlideInfo[] = [];
   for (let i = 0; i < titles.length; i++) {
-    const title = titles[i];
-    const facts = await getDetails(
-      openai,
-      category,
-      title,
-      5,
-      parameters.title
-    );
-    slidesInfo.push({ title, facts });
+    const facts = await getDetails(openai, category, titles[i], 5, topic);
+    slidesInfo.push({ title: titles[i], facts });
   }
   console.log("Gathered Data For Slides: \n");
   console.log(slidesInfo);
@@ -152,28 +64,7 @@ router.post("/slideDetails", async (req, res) => {
 
 router.post("/createPresentation", async (req, res) => {
   console.log("req.body", JSON.stringify(req.body, null, 2));
-  const {
-    topic,
-    category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
-    model,
-    slidesInfo,
-  } = req.body;
-  const parameters: iParameters = {
-    topic,
-    category,
-    title,
-    subtitle,
-    slideCount,
-    images,
-    sources,
-    model,
-    slidesInfo,
-  };
+  const parameters = req.body;
   parameters.images = false; //For early version
   parameters.sources = false; //For early version
   try {
@@ -183,7 +74,7 @@ router.post("/createPresentation", async (req, res) => {
     const presentation = await createPresentation(
       parameters,
       client,
-      slidesInfo,
+      parameters.slidesInfo,
       // dummyFacts,
       process.env.GOOGLE_SEARCH_KEY,
       process.env.CX
