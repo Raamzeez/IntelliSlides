@@ -12,7 +12,8 @@ const getCategory = async (
       prompt: question,
       max_tokens: 300,
     });
-    const category: Category = completion.data.choices[0].text as Category;
+    const category: Category =
+      completion.data.choices[0].text.trim() as Category;
     return category;
   } catch (err) {
     console.error(err.response.data);

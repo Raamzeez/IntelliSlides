@@ -35,7 +35,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
           }}
           onClick={onCloseHandler}
         />
-        <h4 style={{ marginTop: 20, fontWeight: 400 }}>Version 1.0.0</h4>
+        <h4 style={{ marginTop: 20, fontWeight: 400 }}>Version 1.0.0 - BETA</h4>
         <Image
           src="https://media1.giphy.com/media/1337pmGIGROcdG/200w.webp?cid=ecf05e479zcgytk4ujp1jy90jbwlkbxjxss829rz8m9v0lok&rid=200w.webp&ct=g"
           height={"50%"}

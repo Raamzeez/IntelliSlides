@@ -28,8 +28,10 @@ router.post("/category", async (req, res) => {
   const { topic, auto, category } = req.body;
   if (auto) {
     const response = await getCategory(openai, topic);
+    console.log("Category:", response);
     return res.status(200).send(response);
   }
+  console.log("Category:", category);
   return res.status(200).send(category);
 });
 

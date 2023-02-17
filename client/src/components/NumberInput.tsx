@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, useState } from "react";
+import useWindowDimensions from "../util/useWindowDimensions";
 
 interface iProps {
   value: number;
@@ -25,6 +26,8 @@ const NumberInput: FC<iProps> = ({
   pattern,
   required,
 }) => {
+  const { height } = useWindowDimensions();
+
   const [clicked, setClicked] = useState(false);
 
   return (
@@ -34,6 +37,7 @@ const NumberInput: FC<iProps> = ({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
+        marginTop: height > 650 ? 0 : -30,
       }}
     >
       <p style={{ fontSize: 18, marginRight: 12, marginTop: 12 }}>{label}</p>

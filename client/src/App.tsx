@@ -75,7 +75,7 @@ const categoryTipMessage =
   'Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" will make the presentation discuss the events that unfolded. Select "Auto" as a last resort if you are unsure. This will make the program guess the category with no guarantee of accuracy.';
 
 const App: FC = () => {
-  const { width } = useWindowDimensions();
+  const { height, width } = useWindowDimensions();
 
   const [state, setState] = useState<iState>({
     showAlert: sessionStorage.getItem("showAlert") === "false" ? false : true,
@@ -189,7 +189,12 @@ const App: FC = () => {
         },
       });
     }
-    setState({ ...state, submit: true, loading: "SlideDetails" });
+    setState({
+      ...state,
+      submit: true,
+      category: categoryResponse.data,
+      loading: "SlideDetails",
+    });
     //######################################################################//
     const slideDetailsResponse = await api.post(
       "/slideDetails",
@@ -210,7 +215,12 @@ const App: FC = () => {
         },
       });
     }
-    setState({ ...state, submit: true, loading: "CreatePresentation" });
+    setState({
+      ...state,
+      submit: true,
+      category: categoryResponse.data,
+      loading: "CreatePresentation",
+    });
     const data = { slidesInfo: slideDetailsResponse.data, ...state };
     console.log(data);
     const presentationResponse = await api.post("/createPresentation", data);
@@ -345,8 +355,8 @@ const App: FC = () => {
             <Row style={{}}>
               <InfoIcon
                 style={{
-                  marginTop: 10,
-                  marginRight: 5,
+                  marginTop: width > 2000 ? 18 : 10,
+                  marginRight: width > 2000 ? 32 : width > 1100 ? 5 : 35,
                   position: "relative",
                   left: 32,
                 }}
@@ -380,7 +390,7 @@ const App: FC = () => {
                       setState({ ...state, category: value as Category })
                     }
                     disabled={state.auto}
-                    style={{ marginRight: 25 }}
+                    style={{ marginRight: width > 1100 ? 25 : -10 }}
                   >
                     {categories.map((category, index) => {
                       return (
@@ -487,7 +497,7 @@ const App: FC = () => {
               value={"Submit"}
               onClickHandler={onSubmitHandler}
               disabled={disable()}
-              style={{ marginTop: 30 }}
+              style={{ marginTop: height > 800 ? 30 : 0 }}
             />
           </div>
         </>

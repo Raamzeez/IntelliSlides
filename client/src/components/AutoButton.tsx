@@ -44,7 +44,7 @@ const AutoButton: FC<iProps> = ({ onClickHandler }) => {
         position: "relative",
         // left: width > 1000 ? 40 : 0,
         bottom: 4,
-        left: 16,
+        left: width > 400 ? 16 : 0,
         ...clickedStyle(),
       }}
       onClick={() => onClick()}
