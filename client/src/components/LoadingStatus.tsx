@@ -1,37 +1,69 @@
 import React, { CSSProperties, FC } from "react";
 import { Col, Row } from "react-bootstrap";
+import ContentLoader from "react-content-loader";
 import { ClipLoader } from "react-spinners";
 import loadingStatuses from "../data/loadingStatuses";
 import iError from "../models/error";
+import Category from "../types/category";
 import IconStatus from "../types/iconStatus";
 import LoadingType from "../types/loading";
 
 interface iProps {
   loadingStatus: LoadingType;
   error: iError | null;
+  category: Category;
+  auto: boolean;
   style?: CSSProperties;
 }
 
 interface StatusElementProps {
   text: string;
+  loadingStatus: LoadingType;
+  category: Category;
   status: IconStatus;
+  contentLoader: boolean;
 }
 
-const StatusElement: FC<StatusElementProps> = ({ text, status }) => {
+const StatusElement: FC<StatusElementProps> = ({
+  text,
+  loadingStatus,
+  status,
+  category,
+  contentLoader,
+}) => {
   return (
     <Row style={{ width: "100%", marginTop: 20 }}>
       <Col style={{}} lg={10}>
         <p style={{ fontSize: 16, fontWeight: 600, marginTop: 8 }}>{text}</p>
       </Col>
       <Col style={{}} lg={2}>
-        {status === "loading" && (
+        {status === "loading" && !contentLoader && (
           <>
             <div style={{ position: "relative", right: "5vw", top: 2 }}>
               <ClipLoader size={20} color="dodgerblue" />
             </div>
           </>
         )}
-        {status === "success" && (
+        {status === "loading" && contentLoader && (
+          <>
+            <ContentLoader
+              speed={2}
+              width={97}
+              height={50}
+              viewBox="0 0 500 160"
+              backgroundColor="black"
+              foregroundColor="dodgerblue"
+              style={{
+                // backgroundColor: "blue",
+                position: "relative",
+                right: 80,
+              }}
+            >
+              <rect x="80" y="0" rx="3" ry="3" width="800" height="140" />
+            </ContentLoader>
+          </>
+        )}
+        {status === "success" && loadingStatus !== "FetchingCategory" && (
           <>
             <i
               style={{
@@ -41,8 +73,23 @@ const StatusElement: FC<StatusElementProps> = ({ text, status }) => {
                 right: "5vw",
                 top: -2.5,
               }}
-              className="fa-solid fa-circle-check"
+              className="fa-solid fa-circle-check animate__animated animate__fadeIn"
             />
+          </>
+        )}
+        {status === "success" && loadingStatus === "FetchingCategory" && (
+          <>
+            <p
+              style={{
+                position: "relative",
+                right: 62,
+                top: 9,
+                fontSize: 17,
+                color: "orange",
+              }}
+            >
+              {category}
+            </p>
           </>
         )}
         {status === "hold" && (
@@ -105,7 +152,13 @@ const getStatus = (
   return "hold";
 };
 
-const LoadingStatus: FC<iProps> = ({ loadingStatus, error, style }) => {
+const LoadingStatus: FC<iProps> = ({
+  loadingStatus,
+  error,
+  category,
+  auto,
+  style,
+}) => {
   console.log("loadingStatus", loadingStatus);
   console.log("error", error);
 
@@ -131,7 +184,10 @@ const LoadingStatus: FC<iProps> = ({ loadingStatus, error, style }) => {
         return (
           <StatusElement
             text={status.message}
+            loadingStatus={status.type}
+            category={category}
             status={getStatus(status.type, loadingStatus, error)}
+            contentLoader={status.contentLoader}
           />
         );
       })}

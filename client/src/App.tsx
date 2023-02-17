@@ -69,6 +69,11 @@ interface iState {
 
 const controller = new AbortController();
 
+const topicTipMessage =
+  'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company instead of something else, such as the products they sell.';
+const categoryTipMessage =
+  'Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" will make the presentation discuss the events that unfolded. Select "Auto" as a last resort if you are unsure. This will make the program guess the category with no guarantee of accuracy.';
+
 const App: FC = () => {
   const { width } = useWindowDimensions();
 
@@ -305,12 +310,14 @@ const App: FC = () => {
       {state.showTopicTip && (
         <InfoModal
           title="Topic"
+          message={topicTipMessage}
           onCloseHandler={() => setState({ ...state, showTopicTip: false })}
         />
       )}
       {state.showCategoryTip && (
         <InfoModal
           title="Category"
+          message={categoryTipMessage}
           onCloseHandler={() => setState({ ...state, showCategoryTip: false })}
         />
       )}
@@ -491,6 +498,8 @@ const App: FC = () => {
           error={state.error}
           topic={state.topic}
           title={state.title}
+          category={state.category}
+          auto={state.auto}
           onClickHandler={onCancelHandler}
         />
       )}
@@ -507,6 +516,8 @@ const App: FC = () => {
         <Error
           loadingStatus={state.loading as LoadingType}
           error={state.error}
+          category={state.category}
+          auto={state.auto}
           onClickHandler={() =>
             setState({ ...state, loading: null, error: null, submit: false })
           }

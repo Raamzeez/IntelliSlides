@@ -2,6 +2,7 @@ import React, { FC } from "react";
 // import { ProgressBar } from "react-bootstrap";
 import { PacmanLoader } from "react-spinners";
 import iError from "../models/error";
+import Category from "../types/category";
 import LoadingType from "../types/loading";
 import LoadingStatus from "./LoadingStatus";
 // import Button from "./Button";
@@ -11,6 +12,8 @@ interface iProps {
   error: iError | null;
   topic: string;
   title: string;
+  category: Category;
+  auto: boolean;
   onClickHandler: () => void;
 }
 
@@ -19,6 +22,8 @@ const Loading: FC<iProps> = ({
   error,
   topic,
   title,
+  category,
+  auto,
   onClickHandler,
 }) => {
   return (
@@ -44,7 +49,12 @@ const Loading: FC<iProps> = ({
       >
         This may several minutes...
       </p>
-      <LoadingStatus loadingStatus={loadingStatus} error={error} />
+      <LoadingStatus
+        loadingStatus={loadingStatus}
+        error={error}
+        category={category}
+        auto={auto}
+      />
       {/* <ProgressBar now={45} style={{ width: 230, marginTop: 35 }} /> */}
       {/* <div style={{ marginLeft: 52, marginTop: 100 }}>
         <Button

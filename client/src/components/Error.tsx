@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import iError from "../models/error";
+import Category from "../types/category";
 import LoadingType from "../types/loading";
 import Button from "./Button";
 import LoadingStatus from "./LoadingStatus";
@@ -7,10 +8,18 @@ import LoadingStatus from "./LoadingStatus";
 interface iProps {
   loadingStatus: LoadingType;
   error: iError | null;
+  category: Category;
+  auto: boolean;
   onClickHandler: () => void;
 }
 
-const Error: FC<iProps> = ({ loadingStatus, error, onClickHandler }) => {
+const Error: FC<iProps> = ({
+  loadingStatus,
+  error,
+  category,
+  auto,
+  onClickHandler,
+}) => {
   return (
     <div style={{ marginTop: 100 }}>
       <i
@@ -38,6 +47,8 @@ const Error: FC<iProps> = ({ loadingStatus, error, onClickHandler }) => {
       <LoadingStatus
         loadingStatus={loadingStatus}
         error={error}
+        category={category}
+        auto={auto}
         style={{ top: 0, right: 0 }}
       />
     </div>

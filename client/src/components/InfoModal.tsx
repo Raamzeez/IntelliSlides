@@ -3,10 +3,11 @@ import { Modal } from "react-bootstrap";
 
 interface iProps {
   title: string;
+  message: string;
   onCloseHandler: () => void;
 }
 
-const InfoModal: FC<iProps> = ({ title, onCloseHandler }) => {
+const InfoModal: FC<iProps> = ({ title, message, onCloseHandler }) => {
   return (
     <Modal show={true} onHide={onCloseHandler}>
       <div
@@ -32,6 +33,7 @@ const InfoModal: FC<iProps> = ({ title, onCloseHandler }) => {
           onClick={onCloseHandler}
         />
         <h4 style={{ marginTop: 20 }}>{title}</h4>
+        <p style={{ fontSize: 13, marginTop: 30, width: "80%" }}>{message}</p>
       </div>
     </Modal>
   );
