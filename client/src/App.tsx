@@ -15,6 +15,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
+import jwtDecode from "jwt-decode";
 import Success from "./components/Success";
 import Loading from "./components/Loading";
 import iError from "./models/error";
@@ -42,6 +43,9 @@ import categories from "./data/categories";
 import LoadingType from "./types/loading";
 import useWindowDimensions from "./util/useWindowDimensions";
 import InfoIcon from "./components/InfoIcon";
+import Profile from "./components/Profile";
+import iUser from "./models/user";
+import LogoutButton from "./components/LogoutButton";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
@@ -77,6 +81,8 @@ const categoryTipMessage =
 
 const App: FC = () => {
   const { height, width } = useWindowDimensions();
+
+  const [user, setUser] = useState<iUser | null>(null);
 
   const [state, setState] = useState<iState>({
     showAlert: sessionStorage.getItem("showAlert") === "false" ? false : true,
@@ -263,7 +269,7 @@ const App: FC = () => {
     return true;
   };
 
-  // console.log(state);
+  console.log(user);
 
   return (
     <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">
@@ -312,16 +318,32 @@ const App: FC = () => {
             top: width > 600 ? (state.showAlert ? "9vh" : 20) : 0,
             transition: "all 0.5s ease",
           }}
-          className="shadow"
+          className={!user ? "shadow" : ""}
         >
-          <GoogleLogin
-            onSuccess={(credentialResponse) => {
-              console.log(credentialResponse);
-            }}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-          />
+          {!user && (
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                console.log(credentialResponse);
+                const userObject = jwtDecode(
+                  credentialResponse.credential as string
+                );
+                setUser(userObject as any);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+          )}
+          {user && (
+            <>
+              <Profile
+                imageURL={user.picture}
+                email={user.email}
+                name={user.name}
+              />
+              <LogoutButton onClickHandler={() => setUser(null)} />
+            </>
+          )}
         </div>
         {/* <SettingsIcon
         showingAlert={state.showAlert}

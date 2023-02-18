@@ -95,6 +95,10 @@
   background: linear-gradient(90deg, rgba(109, 65, 238, 1) 0%, rgba(154, 79, 255, 1) 100%);
 }
 
+.profile {
+    /* background: linear-gradient(231deg, rgba(0, 255, 96, 1) 0%, rgba(0, 213, 255, 1) 100%); */
+}
+
 .pointer {
   cursor: pointer;
 }
