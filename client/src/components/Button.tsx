@@ -7,6 +7,7 @@ interface iProps {
   disabled?: boolean;
   className?: string;
   style?: CSSProperties;
+  textStyle?: CSSProperties;
   hoverStyle?: CSSProperties;
 }
 
@@ -17,6 +18,7 @@ const Button: FC<iProps> = ({
   disabled,
   className,
   style,
+  textStyle,
   hoverStyle,
 }) => {
   const [hover, setHover] = useState(false);
@@ -46,7 +48,7 @@ const Button: FC<iProps> = ({
       onMouseOver={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <p style={{ fontSize: 17, marginTop: 13 }}>{value}</p>
+      <p style={{ fontSize: 17, marginTop: 13, ...textStyle }}>{value}</p>
     </div>
   );
 };

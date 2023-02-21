@@ -1,5 +1,11 @@
 import React, { FC, useState } from "react";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import {
+  GoogleOAuthProvider,
+  GoogleLogin,
+  googleLogout,
+  CredentialResponse,
+  useGoogleLogin,
+} from "@react-oauth/google";
 import "./style/App.css";
 import TextInput from "./components/TextInput";
 // import Checkmark from "./components/Checkmark";
@@ -46,6 +52,7 @@ import InfoIcon from "./components/InfoIcon";
 import Profile from "./components/Profile";
 import iUser from "./models/user";
 import LogoutButton from "./components/LogoutButton";
+import { useCookies } from "react-cookie";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
@@ -80,9 +87,22 @@ const categoryTipMessage =
   'Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" will make the presentation discuss the events that unfolded. Select "Auto" as a last resort if you are unsure. This will make the program guess the category with no guarantee of accuracy.';
 
 const App: FC = () => {
+  // const [cookies, setCookie, removeCookie] = useCookies(["jwt_token"]);
+
+  const fetchToken = () => {
+    console.log("Token:", localStorage.getItem("jwt_token"));
+    const token = localStorage.getItem("jwt_token");
+    if (!token) {
+      return null;
+    }
+    return jwtDecode(token);
+  };
+
   const { height, width } = useWindowDimensions();
 
-  const [user, setUser] = useState<iUser | null>(null);
+  const [user, setUser] = useState<iUser | null>(fetchToken() as iUser | null);
+
+  // console.log(localStorage.getItem("jwt_token"));
 
   const [state, setState] = useState<iState>({
     showAlert: sessionStorage.getItem("showAlert") === "false" ? false : true,
@@ -105,6 +125,26 @@ const App: FC = () => {
     warning: "",
     error: null,
   });
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("jwt_token");
+    googleLogout();
+  };
+
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => console.log(tokenResponse),
+  });
+
+  const credentialStorage = (credentialResponse: CredentialResponse) => {
+    console.log(credentialResponse);
+    const userObject = jwtDecode(credentialResponse.credential as string);
+    setUser(userObject as iUser);
+    localStorage.setItem(
+      "jwt_token",
+      JSON.stringify(credentialResponse.credential)
+    );
+  };
 
   const onHideAlert = () => {
     sessionStorage.setItem("showAlert", JSON.stringify(false));
@@ -272,80 +312,45 @@ const App: FC = () => {
   console.log(user);
 
   return (
-    <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">
-      <Container
-        fluid
-        className="App App-header"
-        style={{ margin: 0, padding: 0 }}
-      >
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-          style={{ fontSize: 13 }}
+    <Container
+      fluid
+      className="App App-header"
+      style={{ margin: 0, padding: 0 }}
+    >
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        style={{ fontSize: 13 }}
+      />
+      {state.warning && (
+        <Warning
+          onClickHandler={onSubmitHandler}
+          onCloseHandler={() => setState({ ...state, warning: "" })}
+          message={state.warning}
         />
-        {state.warning && (
-          <Warning
-            onClickHandler={onSubmitHandler}
-            onCloseHandler={() => setState({ ...state, warning: "" })}
-            message={state.warning}
-          />
-        )}
-        {state.showAlert && <Alert onCloseHandler={() => onHideAlert()} />}
-        <h2
-          style={{
-            color: "white",
-            position: "absolute",
-            top: state.showAlert ? "9vh" : 20,
-            fontWeight: 500,
-            transition: "all 0.5s ease",
-          }}
-        >
-          {/* GPT3 Presentations */}
-          IntelliSlides
-        </h2>
-        <div
-          style={{
-            position: width > 600 ? "absolute" : "relative",
-            right: width > 600 ? 30 : 0,
-            top: width > 600 ? (state.showAlert ? "9vh" : 20) : 0,
-            transition: "all 0.5s ease",
-          }}
-          className={!user ? "shadow" : ""}
-        >
-          {!user && (
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                console.log(credentialResponse);
-                const userObject = jwtDecode(
-                  credentialResponse.credential as string
-                );
-                setUser(userObject as any);
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-            />
-          )}
-          {user && (
-            <>
-              <Profile
-                imageURL={user.picture}
-                email={user.email}
-                name={user.name}
-              />
-              <LogoutButton onClickHandler={() => setUser(null)} />
-            </>
-          )}
-        </div>
-        {/* <SettingsIcon
+      )}
+      {state.showAlert && <Alert onCloseHandler={() => onHideAlert()} />}
+      <h2
+        style={{
+          color: "white",
+          position: "absolute",
+          top: state.showAlert ? "9vh" : 20,
+          fontWeight: 500,
+          transition: "all 0.5s ease",
+        }}
+      >
+        {/* GPT3 Presentations */}
+        IntelliSlides
+      </h2>
+      {/* <SettingsIcon
         showingAlert={state.showAlert}
         onClickHandler={() => setState({ ...state, settings: true })}
       />
@@ -354,169 +359,197 @@ const App: FC = () => {
           onCloseHandler={() => setState({ ...state, settings: false })}
         />
       )} */}
-        {state.showVersion && (
-          <VersionModal
-            onCloseHandler={() => setState({ ...state, showVersion: false })}
-          />
-        )}
-        {state.showTopicTip && (
-          <InfoModal
-            title="Topic"
-            message={topicTipMessage}
-            onCloseHandler={() => setState({ ...state, showTopicTip: false })}
-          />
-        )}
-        {state.showCategoryTip && (
-          <InfoModal
-            title="Category"
-            message={categoryTipMessage}
-            onCloseHandler={() =>
-              setState({ ...state, showCategoryTip: false })
-            }
-          />
-        )}
-        {!state.submit && (
-          <>
-            <Limitations />
-            <AdvancedSettings onClickHandler={() => null} />
-            <div style={{ marginBottom: 25 }}>
-              <TextInput
-                label="Topic"
-                value={state.topic}
-                onChangeHandler={(e) =>
-                  setState({ ...state, topic: e.target.value })
-                }
-                required={true}
-                minLength={2}
-                info={true}
-                onTipClickHandler={() =>
-                  setState({ ...state, showTopicTip: true })
+      {state.showVersion && (
+        <VersionModal
+          onCloseHandler={() => setState({ ...state, showVersion: false })}
+        />
+      )}
+      {state.showTopicTip && (
+        <InfoModal
+          title="Topic"
+          message={topicTipMessage}
+          onCloseHandler={() => setState({ ...state, showTopicTip: false })}
+        />
+      )}
+      {state.showCategoryTip && (
+        <InfoModal
+          title="Category"
+          message={categoryTipMessage}
+          onCloseHandler={() => setState({ ...state, showCategoryTip: false })}
+        />
+      )}
+      {!state.submit && (
+        <>
+          <div
+            style={{
+              position: width > 600 ? "absolute" : "relative",
+              right: width > 600 ? 30 : 0,
+              top: width > 600 ? (state.showAlert ? "9vh" : 20) : 0,
+              transition: "all 0.5s ease",
+            }}
+            className={!user ? "shadow" : ""}
+          >
+            {!user && (
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  credentialStorage(credentialResponse);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+            )}
+            {user && (
+              <>
+                <Profile
+                  imageURL={user.picture}
+                  email={user.email}
+                  name={user.name}
+                />
+                <LogoutButton onClickHandler={logout} />
+              </>
+            )}
+          </div>
+          <Limitations />
+          <AdvancedSettings onClickHandler={() => null} />
+          <div style={{ marginBottom: 25 }}>
+            <TextInput
+              label="Topic"
+              value={state.topic}
+              onChangeHandler={(e) =>
+                setState({ ...state, topic: e.target.value })
+              }
+              required={true}
+              minLength={2}
+              info={true}
+              onTipClickHandler={() =>
+                setState({ ...state, showTopicTip: true })
+              }
+            />
+            <Row style={{}}>
+              <InfoIcon
+                style={{
+                  marginTop: width > 2000 ? 18 : 10,
+                  marginRight: width > 2000 ? 32 : width > 1100 ? 5 : 35,
+                  position: "relative",
+                  left: 32,
+                }}
+                onClickHandler={() =>
+                  setState({ ...state, showCategoryTip: true })
                 }
               />
-              <Row style={{}}>
-                <InfoIcon
-                  style={{
-                    marginTop: width > 2000 ? 18 : 10,
-                    marginRight: width > 2000 ? 32 : width > 1100 ? 5 : 35,
-                    position: "relative",
-                    left: 32,
-                  }}
+              <Col
+                style={{
+                  // backgroundColor: "blue",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <p style={{ fontSize: 18, marginTop: 9 }}>Category:</p>
+              </Col>
+              <Col
+                style={{
+                  // backgroundColor: "red",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {width <= 2000 ? (
+                  <DropdownButton
+                    key={"primary"}
+                    title={state.category ? state.category : "Event"}
+                    onSelect={(value) =>
+                      setState({ ...state, category: value as Category })
+                    }
+                    disabled={state.auto}
+                    style={{ marginRight: width > 1100 ? 25 : -10 }}
+                  >
+                    {categories.map((category, index) => {
+                      return (
+                        <Dropdown.Item
+                          key={index}
+                          eventKey={category}
+                          onClick={(e) =>
+                            setState({
+                              ...state,
+                              category: (e.target as HTMLButtonElement)
+                                .innerHTML as Category,
+                            })
+                          }
+                        >
+                          {category}
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </DropdownButton>
+                ) : (
+                  <Pagination style={{ marginTop: 13 }}>
+                    {categories.map((category, index) => {
+                      return (
+                        <Pagination.Item
+                          disabled={state.auto}
+                          key={index}
+                          active={category === state.category}
+                          onClick={(e) =>
+                            setState({
+                              ...state,
+                              category: (e.target as HTMLButtonElement)
+                                .innerHTML as Category,
+                            })
+                          }
+                        >
+                          {category}
+                        </Pagination.Item>
+                      );
+                    })}
+                  </Pagination>
+                )}
+              </Col>
+              <Col
+                style={{
+                  // backgroundColor: "green",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <AutoButton
                   onClickHandler={() =>
-                    setState({ ...state, showCategoryTip: true })
+                    setState({ ...state, auto: !state.auto })
                   }
                 />
-                <Col
-                  style={{
-                    // backgroundColor: "blue",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <p style={{ fontSize: 18, marginTop: 9 }}>Category:</p>
-                </Col>
-                <Col
-                  style={{
-                    // backgroundColor: "red",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {width <= 2000 ? (
-                    <DropdownButton
-                      key={"primary"}
-                      title={state.category ? state.category : "Event"}
-                      onSelect={(value) =>
-                        setState({ ...state, category: value as Category })
-                      }
-                      disabled={state.auto}
-                      style={{ marginRight: width > 1100 ? 25 : -10 }}
-                    >
-                      {categories.map((category, index) => {
-                        return (
-                          <Dropdown.Item
-                            key={index}
-                            eventKey={category}
-                            onClick={(e) =>
-                              setState({
-                                ...state,
-                                category: (e.target as HTMLButtonElement)
-                                  .innerHTML as Category,
-                              })
-                            }
-                          >
-                            {category}
-                          </Dropdown.Item>
-                        );
-                      })}
-                    </DropdownButton>
-                  ) : (
-                    <Pagination style={{ marginTop: 13 }}>
-                      {categories.map((category, index) => {
-                        return (
-                          <Pagination.Item
-                            disabled={state.auto}
-                            key={index}
-                            active={category === state.category}
-                            onClick={(e) =>
-                              setState({
-                                ...state,
-                                category: (e.target as HTMLButtonElement)
-                                  .innerHTML as Category,
-                              })
-                            }
-                          >
-                            {category}
-                          </Pagination.Item>
-                        );
-                      })}
-                    </Pagination>
-                  )}
-                </Col>
-                <Col
-                  style={{
-                    // backgroundColor: "green",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <AutoButton
-                    onClickHandler={() =>
-                      setState({ ...state, auto: !state.auto })
-                    }
-                  />
-                </Col>
-              </Row>
-              <TextInput
-                label="Title"
-                value={state.title}
-                onChangeHandler={(e) =>
-                  setState({ ...state, title: e.target.value })
-                }
-              />
-              <TextInput
-                label="Subtitle"
-                value={state.subtitle}
-                onChangeHandler={(e) =>
-                  setState({ ...state, subtitle: e.target.value })
-                }
-              />
-            </div>
-            <div style={{ marginBottom: 25 }}>
-              <NumberInput
-                label="Slide Count: "
-                value={state.slideCount}
-                onChangeHandler={(e) =>
-                  setState({ ...state, slideCount: parseInt(e.target.value) })
-                }
-                required={true}
-                min={1}
-                max={20}
-              />
-            </div>
-            {/* <div>
+              </Col>
+            </Row>
+            <TextInput
+              label="Title"
+              value={state.title}
+              onChangeHandler={(e) =>
+                setState({ ...state, title: e.target.value })
+              }
+            />
+            <TextInput
+              label="Subtitle"
+              value={state.subtitle}
+              onChangeHandler={(e) =>
+                setState({ ...state, subtitle: e.target.value })
+              }
+            />
+          </div>
+          <div style={{ marginBottom: 25 }}>
+            <NumberInput
+              label="Slide Count: "
+              value={state.slideCount}
+              onChangeHandler={(e) =>
+                setState({ ...state, slideCount: parseInt(e.target.value) })
+              }
+              required={true}
+              min={1}
+              max={20}
+            />
+          </div>
+          {/* <div>
             <Checkmark
               label="Images"
               value={state.images}
@@ -532,18 +565,34 @@ const App: FC = () => {
               }
             />
           </div> */}
-            <div>
-              <Button
-                type="success"
-                value={"Submit"}
-                onClickHandler={onSubmitHandler}
-                disabled={disable()}
-                style={{ marginTop: height > 800 ? 30 : 0 }}
-              />
-            </div>
-          </>
-        )}
-        {state.submit && state.loading && !state.error && (
+          <div>
+            <Button
+              type={!user ? "secondary" : "success"}
+              value={!user ? "Sign In & Submit" : "Submit"}
+              onClickHandler={!user ? login : onSubmitHandler}
+              disabled={disable()}
+              style={{ marginTop: height > 800 ? 30 : 0 }}
+              textStyle={{ fontSize: !user ? 13 : 17 }}
+            />
+          </div>
+        </>
+      )}
+      {state.submit && state.loading && !state.error && user && (
+        <>
+          <div
+            style={{
+              position: width > 600 ? "absolute" : "relative",
+              left: width > 600 ? 30 : 0,
+              top: width > 600 ? (state.showAlert ? "9vh" : 20) : 0,
+              transition: "all 0.5s ease",
+            }}
+          >
+            <Profile
+              imageURL={user.picture}
+              email={user.email}
+              name={user.name}
+            />
+          </div>
           <Loading
             loadingStatus={state.loading}
             error={state.error}
@@ -553,32 +602,32 @@ const App: FC = () => {
             auto={state.auto}
             onClickHandler={onCancelHandler}
           />
-        )}
-        {state.submit && !state.loading && !state.error && (
-          <Success
-            title={state.title}
-            presentationId={state.presentationId}
-            onClickHandler={() =>
-              setState({ ...state, loading: null, submit: false })
-            }
-          />
-        )}
-        {state.submit && state.error && (
-          <Error
-            loadingStatus={state.loading as LoadingType}
-            error={state.error}
-            category={state.category}
-            auto={state.auto}
-            onClickHandler={() =>
-              setState({ ...state, loading: null, error: null, submit: false })
-            }
-          />
-        )}
-        <Footer
-          onClickHandler={() => setState({ ...state, showVersion: true })}
+        </>
+      )}
+      {state.submit && !state.loading && !state.error && (
+        <Success
+          title={state.title}
+          presentationId={state.presentationId}
+          onClickHandler={() =>
+            setState({ ...state, loading: null, submit: false })
+          }
         />
-      </Container>
-    </GoogleOAuthProvider>
+      )}
+      {state.submit && state.error && (
+        <Error
+          loadingStatus={state.loading as LoadingType}
+          error={state.error}
+          category={state.category}
+          auto={state.auto}
+          onClickHandler={() =>
+            setState({ ...state, loading: null, error: null, submit: false })
+          }
+        />
+      )}
+      <Footer
+        onClickHandler={() => setState({ ...state, showVersion: true })}
+      />
+    </Container>
   );
 };
 
