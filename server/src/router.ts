@@ -14,6 +14,11 @@ import getCategory from "./hooks/category";
 import dummyTitles from "./data/dummyTitles";
 import axios from "axios";
 import iVerifyCodeParams from "./models/verifyCodeParams";
+import iTokenPayload from "./models/tokenPayload";
+import iTokenResponse from "./models/tokenResponse";
+import fetchOAuthTokens from "./functions/fetchOAuthTokens";
+import iUserJWT from "./models/userJWT";
+import jwtDecode from "jwt-decode";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -39,32 +44,22 @@ state	CRSF state variable
 */
 
 router.get("/verifyCode", async (req, res) => {
-  console.log(req.headers);
+  console.log("Verifying Code");
+  // console.log(req.headers);
   if (req.headers["x-requested-with"] !== "XmlHttpRequest") {
     return res.status(400).send("Invalid Headers");
   }
-  const code = req.query.code;
-  const URL = "https://oauth2.googleapis.com/token";
-  const response = await axios.post(
-    URL,
-    {
-      client_id: process.env.GOOGLE_WEB_CLIENT_ID,
-      client_secret: process.env.GOOGLE_WEB_CLIENT_SECRET,
-      code,
-      grant_type: "authorization_code",
-      redirect_uri: "http://localhost:4000/api/verifyCode",
-    },
-    {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }
-  );
-  console.log(response.data);
-  if (response.status !== 200) {
+  const code = req.query.code as string;
+  const tokenResponse = await fetchOAuthTokens(code);
+  const { access_token, id_token, refresh_token } = tokenResponse;
+  if (!access_token || !id_token) {
     return res.status(400).send("Error");
   }
-  return res.status(200).send(response.data);
+  const user: iUserJWT = jwtDecode(id_token);
+  if (!user.email_verified) {
+    return res.status(403).send("Google account is not verified");
+  }
+  return res.status(200).send(user);
 });
 
 router.post("/validateParameters", (req, res) => {
