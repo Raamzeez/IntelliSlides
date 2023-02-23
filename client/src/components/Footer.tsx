@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
+import fetchVersion from "../util/fetchVersion";
 
 interface iProps {
   onClickHandler: () => void;
@@ -42,7 +43,7 @@ const Footer: FC<iProps> = ({ onClickHandler }) => {
           onClick={onClickHandler}
           className="pointer"
         >
-          Version 1.0.0
+          {fetchVersion()}
         </p>
       </Col>
       <Col>

@@ -1,10 +1,12 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   GoogleOAuthProvider,
   GoogleLogin,
   googleLogout,
   CredentialResponse,
   useGoogleLogin,
+  hasGrantedAllScopesGoogle,
+  CodeResponse,
 } from "@react-oauth/google";
 import "./style/App.css";
 import TextInput from "./components/TextInput";
@@ -82,27 +84,27 @@ interface iState {
 const controller = new AbortController();
 
 const topicTipMessage =
-  'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company instead of something else, such as the products they sell.';
+  'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company called "Tesla Motors" instead of something else, such as the life of the individual konwn as Nikola Tesla.';
 const categoryTipMessage =
-  'Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" will make the presentation discuss the events that unfolded. Select "Auto" as a last resort if you are unsure. This will make the program guess the category with no guarantee of accuracy.';
+  'Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" may make the presentation discuss the events that unfolded. Select "Auto" as a last resort if you are unsure. This will make the program guess the category with no guarantee of accuracy.';
 
 const App: FC = () => {
   // const [cookies, setCookie, removeCookie] = useCookies(["jwt_token"]);
 
-  const fetchToken = () => {
-    console.log("Token:", localStorage.getItem("jwt_token"));
-    const token = localStorage.getItem("jwt_token");
-    if (!token) {
-      return null;
-    }
-    return jwtDecode(token);
-  };
+  // const fetchToken = () => {
+  //   console.log("JWT Token:", localStorage.getItem("jwt_token"));
+  //   const token = localStorage.getItem("jwt_token");
+  //   if (!token) {
+  //     return null;
+  //   }
+  //   return jwtDecode(token);
+  // };
 
   const { height, width } = useWindowDimensions();
 
-  const [user, setUser] = useState<iUser | null>(fetchToken() as iUser | null);
+  // const [user, setUser] = useState<iUser | null>(fetchToken() as iUser | null);
 
-  // console.log(localStorage.getItem("jwt_token"));
+  const [token, setToken] = useState<string | null>(null);
 
   const [state, setState] = useState<iState>({
     showAlert: sessionStorage.getItem("showAlert") === "false" ? false : true,
@@ -126,25 +128,63 @@ const App: FC = () => {
     error: null,
   });
 
+  useEffect(() => {}, []);
+
+  const verifyCode = async (
+    tokenResponse: Omit<
+      CodeResponse,
+      "error" | "error_description" | "error_uri"
+    >
+  ) => {
+    const URL =
+      "http://localhost:4000/api/verifyCode?" +
+      new URLSearchParams(tokenResponse).toString();
+
+    const response = await api.get(URL, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-Requested-With": "XmlHttpRequest",
+      },
+    });
+    console.log(response.data);
+    if (response.status !== 200) {
+      return console.error(response.data);
+    }
+    return true;
+  };
+
   const logout = () => {
-    setUser(null);
+    // setUser(null);
     localStorage.removeItem("jwt_token");
     googleLogout();
   };
 
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
-  });
-
   const credentialStorage = (credentialResponse: CredentialResponse) => {
     console.log(credentialResponse);
     const userObject = jwtDecode(credentialResponse.credential as string);
-    setUser(userObject as iUser);
+    // setUser(userObject as iUser);
     localStorage.setItem(
       "jwt_token",
       JSON.stringify(credentialResponse.credential)
     );
   };
+
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      console.log(tokenResponse);
+      verifyCode(tokenResponse);
+      // onSubmitHandler();
+      // credentialStorage(tokenResponse);
+    },
+    ux_mode: "popup",
+    flow: "auth-code",
+  });
+
+  // const hasAccess = hasGrantedAllScopesGoogle(
+  //   tokenResponse,
+  //   "google-scope-1",
+  //   "google-scope-2"
+  // );
 
   const onHideAlert = () => {
     sessionStorage.setItem("showAlert", JSON.stringify(false));
@@ -309,7 +349,7 @@ const App: FC = () => {
     return true;
   };
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <Container
@@ -380,7 +420,7 @@ const App: FC = () => {
       )}
       {!state.submit && (
         <>
-          <div
+          {/* <div
             style={{
               position: width > 600 ? "absolute" : "relative",
               right: width > 600 ? 30 : 0,
@@ -409,7 +449,7 @@ const App: FC = () => {
                 <LogoutButton onClickHandler={logout} />
               </>
             )}
-          </div>
+          </div> */}
           <Limitations />
           <AdvancedSettings onClickHandler={() => null} />
           <div style={{ marginBottom: 25 }}>
@@ -567,19 +607,24 @@ const App: FC = () => {
           </div> */}
           <div>
             <Button
-              type={!user ? "secondary" : "success"}
-              value={!user ? "Sign In & Submit" : "Submit"}
-              onClickHandler={!user ? login : onSubmitHandler}
+              // type={!user ? "secondary" : "success"}
+              // value={!user ? "Sign In & Submit" : "Submit"}
+              type={"success"}
+              value={"Submit"}
+              // onClickHandler={!user ? login : onSubmitHandler}
+              onClickHandler={login}
               disabled={disable()}
               style={{ marginTop: height > 800 ? 30 : 0 }}
-              textStyle={{ fontSize: !user ? 13 : 17 }}
+              // textStyle={{ fontSize: !user ? 13 : 17 }}
+              textStyle={{ fontSize: 17 }}
             />
           </div>
         </>
       )}
-      {state.submit && state.loading && !state.error && user && (
+      {/* {state.submit && state.loading && !state.error && user && ( */}
+      {state.submit && state.loading && !state.error && (
         <>
-          <div
+          {/* <div
             style={{
               position: width > 600 ? "absolute" : "relative",
               left: width > 600 ? 30 : 0,
@@ -592,7 +637,7 @@ const App: FC = () => {
               email={user.email}
               name={user.name}
             />
-          </div>
+          </div> */}
           <Loading
             loadingStatus={state.loading}
             error={state.error}
