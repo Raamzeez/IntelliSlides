@@ -19,6 +19,10 @@ import iTokenResponse from "./models/tokenResponse";
 import fetchOAuthTokens from "./functions/fetchOAuthTokens";
 import iUserJWT from "./models/userJWT";
 import jwtDecode from "jwt-decode";
+import mongoose, { Schema } from "mongoose";
+import iUserAccount from "./models/userAccount";
+import userSchema from "./schemas/user";
+// import UserAccount from "./modules/user";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -46,20 +50,38 @@ state	CRSF state variable
 router.get("/verifyCode", async (req, res) => {
   console.log("Verifying Code");
   // console.log(req.headers);
-  if (req.headers["x-requested-with"] !== "XmlHttpRequest") {
-    return res.status(400).send("Invalid Headers");
-  }
-  const code = req.query.code as string;
-  const tokenResponse = await fetchOAuthTokens(code);
-  const { access_token, id_token, refresh_token } = tokenResponse;
-  if (!access_token || !id_token) {
+  try {
+    if (req.headers["x-requested-with"] !== "XmlHttpRequest") {
+      return res.status(400).send("Invalid Headers");
+    }
+    const code = req.query.code as string;
+    const tokenResponse = await fetchOAuthTokens(code);
+    const { access_token, id_token, refresh_token } = tokenResponse;
+    if (!access_token || !id_token) {
+      return res.status(400).send("Error");
+    }
+    const userResponse: iUserJWT = jwtDecode(id_token);
+    if (!userResponse.email_verified) {
+      return res.status(403).send("Google account is not verified");
+    }
+    const userDB = mongoose.model<iUserAccount>("users", userSchema);
+    const foundUser = await userDB.findOneAndUpdate(
+      { email: userResponse.email },
+      {
+        // _id: id,
+        firstName: userResponse.given_name,
+        lastName: userResponse.family_name,
+        email: userResponse.email,
+        googleOAuthCredentials: tokenResponse,
+      },
+      { upsert: true, new: true }
+    );
+    console.log(foundUser);
+    return res.status(200).send(userResponse);
+  } catch (err) {
+    console.error(err);
     return res.status(400).send("Error");
   }
-  const user: iUserJWT = jwtDecode(id_token);
-  if (!user.email_verified) {
-    return res.status(403).send("Google account is not verified");
-  }
-  return res.status(200).send(user);
 });
 
 router.post("/validateParameters", (req, res) => {

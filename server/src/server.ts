@@ -8,23 +8,6 @@ import helmet from "helmet";
 import router from "./router";
 import mongoose from "mongoose";
 
-const oauthConfig = {
-  client_id: process.env.GOOGLE_WEB_CLIENT_ID,
-  project_id: process.env.GOOGLE_PROJECT_ID,
-  auth_uri: "https://accounts.google.com/o/oauth2/auth",
-  token_uri: "https://oauth2.googleapis.com/token",
-  auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-  client_secret: process.env.GOOGLE_WEB_CLIENT_SECRET,
-  // redirect_uris: [`${BASE_URL}/auth/google/callback`],
-  JWTsecret: "secret",
-  scopes: [
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/userinfo.profile",
-    "openid",
-    // any other scopes you might require. View all here - https://developers.google.com/identity/protocols/oauth2/scopes
-  ],
-};
-
 const PORT = 4000;
 const app = express();
 
@@ -36,11 +19,12 @@ app.use(bodyParser.json({ limit: "1mb" }));
 
 app.use("/api", router);
 
-const connectionParams: mongoose.ConnectOptions = {};
-
 mongoose.connect(
   "mongodb+srv://raamizabbasi:WdoauCvmccpX2x6h@cluster0.k2l4xfy.mongodb.net/?retryWrites=true&w=majority",
-  connectionParams,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  } as mongoose.ConnectOptions,
   (err) => {
     if (err) {
       throw new Error(`could not connect to mongodb: ${err}`);
