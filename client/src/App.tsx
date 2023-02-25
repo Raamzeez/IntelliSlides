@@ -19,6 +19,7 @@ import {
   Container,
   Dropdown,
   DropdownButton,
+  Image,
   Pagination,
   Row,
 } from "react-bootstrap";
@@ -55,6 +56,7 @@ import Profile from "./components/Profile";
 import iUser from "./models/user";
 import LogoutButton from "./components/LogoutButton";
 import { useCookies } from "react-cookie";
+import LoginButton from "./components/LoginButton";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
@@ -91,18 +93,18 @@ const categoryTipMessage =
 const App: FC = () => {
   // const [cookies, setCookie, removeCookie] = useCookies(["jwt_token"]);
 
-  // const fetchToken = () => {
-  //   console.log("JWT Token:", localStorage.getItem("jwt_token"));
-  //   const token = localStorage.getItem("jwt_token");
-  //   if (!token) {
-  //     return null;
-  //   }
-  //   return jwtDecode(token);
-  // };
+  const fetchToken = () => {
+    console.log("JWT Token:", localStorage.getItem("jwt_token"));
+    const token = localStorage.getItem("jwt_token");
+    if (!token) {
+      return null;
+    }
+    return jwtDecode(token);
+  };
 
   const { height, width } = useWindowDimensions();
 
-  // const [user, setUser] = useState<iUser | null>(fetchToken() as iUser | null);
+  const [user, setUser] = useState<iUser | null>(fetchToken() as iUser);
 
   const [token, setToken] = useState<string | null>(null);
 
@@ -147,6 +149,10 @@ const App: FC = () => {
       },
     });
     console.log(response.data);
+    const userObject = jwtDecode(response.data.idToken as string);
+    console.log(userObject);
+    setUser(userObject as iUser);
+    localStorage.setItem("jwt_token", response.data.idToken);
     if (response.status !== 200) {
       return console.error(response.data);
     }
@@ -154,7 +160,7 @@ const App: FC = () => {
   };
 
   const logout = () => {
-    // setUser(null);
+    setUser(null);
     localStorage.removeItem("jwt_token");
     googleLogout();
   };
@@ -420,25 +426,16 @@ const App: FC = () => {
       )}
       {!state.submit && (
         <>
-          {/* <div
+          <div
             style={{
-              position: width > 600 ? "absolute" : "relative",
-              right: width > 600 ? 30 : 0,
-              top: width > 600 ? (state.showAlert ? "9vh" : 20) : 0,
+              position: width > 400 ? "absolute" : "relative",
+              right: width > 400 ? 30 : 0,
+              top: width > 400 ? (state.showAlert ? "9vh" : 20) : 0,
               transition: "all 0.5s ease",
             }}
             className={!user ? "shadow" : ""}
           >
-            {!user && (
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  credentialStorage(credentialResponse);
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-              />
-            )}
+            {!user && <LoginButton onClickHandler={login} />}
             {user && (
               <>
                 <Profile
@@ -449,7 +446,7 @@ const App: FC = () => {
                 <LogoutButton onClickHandler={logout} />
               </>
             )}
-          </div> */}
+          </div>
           <Limitations />
           <AdvancedSettings onClickHandler={() => null} />
           <div style={{ marginBottom: 25 }}>
@@ -607,24 +604,24 @@ const App: FC = () => {
           </div> */}
           <div>
             <Button
-              // type={!user ? "secondary" : "success"}
-              // value={!user ? "Sign In & Submit" : "Submit"}
-              type={"success"}
-              value={"Submit"}
-              // onClickHandler={!user ? login : onSubmitHandler}
-              onClickHandler={login}
+              type={!user ? "secondary" : "success"}
+              value={!user ? "Sign In & Submit" : "Submit"}
+              // type={"success"}
+              // value={"Submit"}
+              onClickHandler={!user ? login : onSubmitHandler}
+              // onClickHandler={login}
               disabled={disable()}
               style={{ marginTop: height > 800 ? 30 : 0 }}
-              // textStyle={{ fontSize: !user ? 13 : 17 }}
-              textStyle={{ fontSize: 17 }}
+              textStyle={{ fontSize: !user ? 13 : 17 }}
+              // textStyle={{ fontSize: 17 }}
             />
           </div>
         </>
       )}
-      {/* {state.submit && state.loading && !state.error && user && ( */}
-      {state.submit && state.loading && !state.error && (
+      {/* {state.submit && state.loading && !state.error && ( */}
+      {state.submit && state.loading && !state.error && user && (
         <>
-          {/* <div
+          <div
             style={{
               position: width > 600 ? "absolute" : "relative",
               left: width > 600 ? 30 : 0,
@@ -637,7 +634,7 @@ const App: FC = () => {
               email={user.email}
               name={user.name}
             />
-          </div> */}
+          </div>
           <Loading
             loadingStatus={state.loading}
             error={state.error}

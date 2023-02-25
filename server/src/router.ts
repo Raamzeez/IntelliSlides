@@ -22,6 +22,7 @@ import jwtDecode from "jwt-decode";
 import mongoose, { Schema } from "mongoose";
 import iUserAccount from "./models/userAccount";
 import userSchema from "./schemas/user";
+import userDB from "./schemas/user";
 // import UserAccount from "./modules/user";
 
 const configuration = new Configuration({
@@ -56,7 +57,7 @@ router.get("/verifyCode", async (req, res) => {
     }
     const code = req.query.code as string;
     const tokenResponse = await fetchOAuthTokens(code);
-    const { access_token, id_token, refresh_token } = tokenResponse;
+    const { access_token, id_token, expires_in } = tokenResponse;
     if (!access_token || !id_token) {
       return res.status(400).send("Error");
     }
@@ -64,7 +65,6 @@ router.get("/verifyCode", async (req, res) => {
     if (!userResponse.email_verified) {
       return res.status(403).send("Google account is not verified");
     }
-    const userDB = mongoose.model<iUserAccount>("users", userSchema);
     const foundUser = await userDB.findOneAndUpdate(
       { email: userResponse.email },
       {
@@ -77,7 +77,12 @@ router.get("/verifyCode", async (req, res) => {
       { upsert: true, new: true }
     );
     console.log(foundUser);
-    return res.status(200).send(userResponse);
+    const response = {
+      idToken: id_token,
+      accessToken: access_token,
+      expiresIn: expires_in,
+    };
+    return res.status(200).send(response);
   } catch (err) {
     console.error(err);
     return res.status(400).send("Error");

@@ -7,6 +7,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 import router from "./router";
 import mongoose from "mongoose";
+import passport from "passport";
+import session from "express-session";
 
 const PORT = 4000;
 const app = express();
@@ -16,6 +18,17 @@ app.use(morgan("combined"));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: "1mb" }));
+
+// app.use(
+//   session({
+//     secret: "subscribe to DJ Raamzeez",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
+
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use("/api", router);
 

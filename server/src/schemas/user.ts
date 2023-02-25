@@ -1,4 +1,5 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import iUserAccount from "../models/userAccount";
 
 const schema = {
   firstName: String,
@@ -16,4 +17,6 @@ const schema = {
 
 const userSchema = new Schema(schema);
 
-export default userSchema;
+const userDB = mongoose.model<iUserAccount>("users", userSchema);
+
+export default userDB;
