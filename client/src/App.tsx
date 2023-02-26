@@ -153,6 +153,7 @@ const App: FC = () => {
     console.log(userObject);
     setUser(userObject as iUser);
     localStorage.setItem("jwt_token", response.data.idToken);
+    localStorage.setItem("access_token", response.data.accessToken);
     if (response.status !== 200) {
       return console.error(response.data);
     }
@@ -162,6 +163,7 @@ const App: FC = () => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("jwt_token");
+    localStorage.removeItem("access_token");
     googleLogout();
   };
 

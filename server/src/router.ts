@@ -48,6 +48,20 @@ state	CRSF state variable
 
 */
 
+router.get("/verifyToken", async (req, res) => {
+  const accessToken = req.body;
+  const response = await axios.get(
+    "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + accessToken
+  );
+  if (response.status !== 200) {
+    return res.status(400).send("Error");
+  }
+  if (response.data.expires_in > 0) {
+    return res.status(200).send("OK");
+  }
+  return res.status(400).send("Expired");
+});
+
 router.get("/verifyCode", async (req, res) => {
   console.log("Verifying Code");
   // console.log(req.headers);
