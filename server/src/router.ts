@@ -23,6 +23,7 @@ import mongoose, { Schema } from "mongoose";
 import iUserAccount from "./models/userAccount";
 import userSchema from "./schemas/user";
 import userDB from "./schemas/user";
+import { OAuth2Client } from "google-auth-library";
 // import UserAccount from "./modules/user";
 
 const configuration = new Configuration({
@@ -31,6 +32,12 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const router = express.Router();
+
+const client = new OAuth2Client(
+  process.env.GOOGLE_WEB_CLIENT_ID,
+  process.env.GOOGLE_WEB_CLIENT_SECRET,
+  "http://localhost:4000/api/verifyCode"
+);
 
 //Google Authorization Workflow API
 
@@ -70,8 +77,8 @@ router.get("/verifyCode", async (req, res) => {
       return res.status(400).send("Invalid Headers");
     }
     const code = req.query.code as string;
-    const tokenResponse = await fetchOAuthTokens(code);
-    const { access_token, id_token, expires_in } = tokenResponse;
+    const tokensResponse = await (await client.getToken(code)).tokens;
+    const { access_token, id_token } = tokensResponse;
     if (!access_token || !id_token) {
       return res.status(400).send("Error");
     }
@@ -86,7 +93,7 @@ router.get("/verifyCode", async (req, res) => {
         firstName: userResponse.given_name,
         lastName: userResponse.family_name,
         email: userResponse.email,
-        googleOAuthCredentials: tokenResponse,
+        googleOAuthCredentials: tokensResponse,
       },
       { upsert: true, new: true }
     );
@@ -94,7 +101,6 @@ router.get("/verifyCode", async (req, res) => {
     const response = {
       idToken: id_token,
       accessToken: access_token,
-      expiresIn: expires_in,
     };
     return res.status(200).send(response);
   } catch (err) {
@@ -154,9 +160,13 @@ router.post("/createPresentation", async (req, res) => {
   const parameters = req.body;
   parameters.images = false; //For early version
   parameters.sources = false; //For early version
+  const accessToken = parameters.accessToken;
   try {
     console.log("Authorizing...");
-    const client = await authorize();
+    // const client = await authorize();
+    client.setCredentials({
+      access_token: accessToken,
+    });
     console.log("Creating presentation...");
     const presentation = await createPresentation(
       parameters,

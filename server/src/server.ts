@@ -19,17 +19,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: "1mb" }));
 
-// app.use(
-//   session({
-//     secret: "subscribe to DJ Raamzeez",
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-
 app.use("/api", router);
 
 mongoose.connect(

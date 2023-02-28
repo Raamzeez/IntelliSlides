@@ -57,6 +57,7 @@ import iUser from "./models/user";
 import LogoutButton from "./components/LogoutButton";
 import { useCookies } from "react-cookie";
 import LoginButton from "./components/LoginButton";
+import ThemeButton from "./components/ThemeButton";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
@@ -116,7 +117,7 @@ const App: FC = () => {
     settings: false,
     topic: "",
     category: "Event",
-    auto: localStorage.getItem("auto") === "false" ? false : true,
+    auto: localStorage.getItem("auto") === "true" ? true : false,
     title: "",
     presentationId: "",
     subtitle: "",
@@ -186,6 +187,7 @@ const App: FC = () => {
     },
     ux_mode: "popup",
     flow: "auth-code",
+    scope: "https://www.googleapis.com/auth/presentations",
   });
 
   // const hasAccess = hasGrantedAllScopesGoogle(
@@ -316,7 +318,11 @@ const App: FC = () => {
       category: categoryResponse.data,
       loading: "CreatePresentation",
     });
-    const data = { slidesInfo: slideDetailsResponse.data, ...state };
+    const data = {
+      slidesInfo: slideDetailsResponse.data,
+      accessToken: localStorage.getItem("access_token"),
+      ...state,
+    };
     console.log(data);
     const presentationResponse = await api.post("/createPresentation", data);
     console.log(presentationResponse.data);
@@ -407,6 +413,14 @@ const App: FC = () => {
           onCloseHandler={() => setState({ ...state, settings: false })}
         />
       )} */}
+      {/* <ThemeButton
+        theme={"light"}
+        style={{
+          position: width > 400 ? "absolute" : "relative",
+          left: width > 400 ? 30 : 0,
+          top: width > 400 ? (state.showAlert ? "9vh" : 20) : 0,
+        }}
+      /> */}
       {state.showVersion && (
         <VersionModal
           onCloseHandler={() => setState({ ...state, showVersion: false })}
@@ -439,14 +453,14 @@ const App: FC = () => {
           >
             {!user && <LoginButton onClickHandler={login} />}
             {user && (
-              <>
+              <div className="animate__animated animate__fadeInRight">
                 <Profile
                   imageURL={user.picture}
                   email={user.email}
                   name={user.name}
                 />
                 <LogoutButton onClickHandler={logout} />
-              </>
+              </div>
             )}
           </div>
           <Limitations />
