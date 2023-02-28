@@ -7,6 +7,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import router from "./router";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import passport from "passport";
 import session from "express-session";
 
@@ -18,6 +19,7 @@ app.use(morgan("combined"));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: "1mb" }));
+app.use(cookieParser());
 
 app.use("/api", router);
 

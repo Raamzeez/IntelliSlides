@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config({});
-import express from "express";
+import express, { response } from "express";
 import dummyFacts from "./data/dummyFacts";
 import createPresentation from "./functions/createPresentation";
 import getTopics from "./functions/getTopics";
@@ -24,6 +24,7 @@ import iUserAccount from "./models/userAccount";
 import userSchema from "./schemas/user";
 import userDB from "./schemas/user";
 import { OAuth2Client } from "google-auth-library";
+import client from "./client";
 // import UserAccount from "./modules/user";
 
 const configuration = new Configuration({
@@ -32,12 +33,6 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const router = express.Router();
-
-const client = new OAuth2Client(
-  process.env.GOOGLE_WEB_CLIENT_ID,
-  process.env.GOOGLE_WEB_CLIENT_SECRET,
-  "http://localhost:4000/api/verifyCode"
-);
 
 //Google Authorization Workflow API
 
@@ -55,41 +50,32 @@ state	CRSF state variable
 
 */
 
-router.get("/verifyToken", async (req, res) => {
-  const accessToken = req.body;
-  const response = await axios.get(
-    "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + accessToken
-  );
-  if (response.status !== 200) {
-    return res.status(400).send("Error");
-  }
-  if (response.data.expires_in > 0) {
-    return res.status(200).send("OK");
-  }
-  return res.status(400).send("Expired");
-});
-
 router.get("/verifyCode", async (req, res) => {
   console.log("Verifying Code");
   // console.log(req.headers);
   try {
+    //Google guidelines suggest we check and verify the header name and value
     if (req.headers["x-requested-with"] !== "XmlHttpRequest") {
       return res.status(400).send("Invalid Headers");
     }
+    //We retrieve the authorization code from the request
     const code = req.query.code as string;
+    //We use the built in Node JS OAuth2Client to get id and access token data
     const tokensResponse = await (await client.getToken(code)).tokens;
     const { access_token, id_token } = tokensResponse;
-    if (!access_token || !id_token) {
-      return res.status(400).send("Error");
-    }
     const userResponse: iUserJWT = jwtDecode(id_token);
+    //We confirm that the user is veriifed by Google
     if (!userResponse.email_verified) {
       return res.status(403).send("Google account is not verified");
     }
+    //We sent the ID token in a secure httpOnly cookie to the frontend
+    res.cookie("id_token", id_token, { httpOnly: true, secure: true });
+    //We then either update the user in the MongoDB database with updated credentials or add the user if it doesn't exist
+    const id = userResponse.sub;
     const foundUser = await userDB.findOneAndUpdate(
       { email: userResponse.email },
       {
-        // _id: id,
+        _id: id,
         firstName: userResponse.given_name,
         lastName: userResponse.family_name,
         email: userResponse.email,
@@ -97,6 +83,7 @@ router.get("/verifyCode", async (req, res) => {
       },
       { upsert: true, new: true }
     );
+    console.log("Stored user with id: " + id);
     console.log(foundUser);
     const response = {
       idToken: id_token,
