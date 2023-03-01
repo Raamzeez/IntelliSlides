@@ -4,7 +4,7 @@ import useWindowDimensions from "../util/useWindowDimensions";
 import BulletPoint from "./BulletPoint";
 
 const Limitations: FC = () => {
-  const widthThreshold = 750;
+  const widthThreshold = 1000;
 
   const { width } = useWindowDimensions();
 

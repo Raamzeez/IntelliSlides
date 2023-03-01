@@ -7,8 +7,6 @@ import morgan from "morgan";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import passport from "passport";
-import session from "express-session";
 import userRouter from "./routes/user.routes";
 import presentationRouter from "./routes/presentation.routes";
 
@@ -24,12 +22,12 @@ const corsOptions = {
 app.use(helmet());
 app.use(morgan("combined"));
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: "1mb" }));
-app.use(cookieParser());
 
-app.use("/api/user", userRouter);
-app.use("/api/presentation", presentationRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/presentation", presentationRouter);
 
 mongoose.connect(
   "mongodb+srv://raamizabbasi:WdoauCvmccpX2x6h@cluster0.k2l4xfy.mongodb.net/?retryWrites=true&w=majority",

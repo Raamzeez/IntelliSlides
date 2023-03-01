@@ -39,11 +39,16 @@ userRouter.get("/login", async (req, res) => {
       return res.status(403).send("Google account is not verified");
     }
     //We sent the ID token in a secure httpOnly cookie to the frontend
+    const UTCSeconds = userResponse.exp;
+    const date = new Date(0);
+    date.setUTCSeconds(UTCSeconds);
     res.cookie("id_token", id_token, {
       // httpOnly: true,
       // secure: true,
-      // sameSite: "strict",
+      // sameSite: true,
+      expires: date,
     });
+    console.log("Set cookie");
     //We then either update the user in the MongoDB database with updated credentials or add the user if it doesn't exist
     const id = userResponse.sub;
     const foundUser = await userDB.findByIdAndUpdate(

@@ -9,7 +9,7 @@ interface iProps {
 
 const Profile: FC<iProps> = ({ imageURL, email, name }) => {
   return (
-    <div style={{ borderRadius: 5 }} className="profile">
+    <div style={{ borderRadius: 5 }} className="">
       <Image
         src={imageURL}
         height={50}

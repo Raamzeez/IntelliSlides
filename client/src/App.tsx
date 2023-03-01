@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import {
   googleLogout,
   useGoogleLogin,
-  hasGrantedAllScopesGoogle,
+  // hasGrantedAllScopesGoogle,
   CodeResponse,
 } from "@react-oauth/google";
 import "./style/App.css";
@@ -20,7 +20,6 @@ import {
   Row,
 } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
-import jwtDecode from "jwt-decode";
 import Success from "./components/Success";
 import Loading from "./components/Loading";
 import iError from "./models/error";
@@ -52,7 +51,7 @@ import Profile from "./components/Profile";
 import iUser from "./models/user";
 import LogoutButton from "./components/LogoutButton";
 import LoginButton from "./components/LoginButton";
-import ThemeButton from "./components/ThemeButton";
+// import ThemeButton from "./components/ThemeButton";
 import { CircleLoader } from "react-spinners";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
@@ -74,7 +73,6 @@ interface iState {
   sources: boolean;
   model: Model;
   submit: boolean;
-  // loading: boolean;
   profileLoading: boolean;
   loading: LoadingType | null;
   warning: string;
@@ -89,13 +87,9 @@ const categoryTipMessage =
   'Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" may make the presentation discuss the events that unfolded. Select "Auto" as a last resort if you are unsure. This will make the program guess the category with no guarantee of accuracy.';
 
 const App: FC = () => {
-  // const [cookies, setCookie, removeCookie] = useCookies(["jwt_token"]);
-
   const { height, width } = useWindowDimensions();
 
   const [user, setUser] = useState<iUser | null>(null);
-
-  const [token, setToken] = useState<string | null>(null);
 
   const [state, setState] = useState<iState>({
     showAlert: sessionStorage.getItem("showAlert") === "false" ? false : true,
@@ -122,11 +116,11 @@ const App: FC = () => {
 
   const fetchUser = async () => {
     const response = await api.get("/user/userInfo", {
+      withCredentials: true,
       headers: {
         "Access-Control-Allow-Origin": "http://localhost:3000",
         "Access-Control-Allow-Credentials": true,
       },
-      withCredentials: true,
     });
     setState({ ...state, profileLoading: false });
     if (response.status !== 200) {
@@ -148,7 +142,7 @@ const App: FC = () => {
     >
   ) => {
     const URL =
-      "http://localhost:4000/api/user/login?" +
+      "http://localhost:4000/api/v1/user/login?" +
       new URLSearchParams(tokenResponse).toString();
 
     const response = await api.get(URL, {
@@ -161,8 +155,6 @@ const App: FC = () => {
     const userObject = response.data as iUser;
     setState({ ...state, profileLoading: false });
     setUser(userObject);
-    // localStorage.setItem("jwt_token", response.data.idToken);
-    // localStorage.setItem("access_token", response.data.accessToken);
     if (response.status !== 200) {
       return console.error(response.data);
     }

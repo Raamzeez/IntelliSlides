@@ -20,7 +20,7 @@ interface iState {
 }
 
 const AdvancedOptions: FC<iProps> = ({ onClickHandler }) => {
-  const widthThreshold = 750;
+  const widthThreshold = 1000;
 
   const { width } = useWindowDimensions();
 

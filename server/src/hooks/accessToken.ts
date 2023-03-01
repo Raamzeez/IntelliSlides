@@ -15,10 +15,13 @@ const accessToken = async (id: string) => {
       refresh_token: refreshToken,
       access_token: accessToken,
     });
-    const credentials = await (await client.refreshAccessToken()).credentials;
-    const updatedUser = foundUser.update({
+    const response = await client.refreshAccessToken();
+    const credentials = response.credentials;
+    const updatedUser = await foundUser.update({
       $set: { googleOAuthCredentials: credentials },
     });
+    console.log("Updated User");
+    console.log(updatedUser);
     return credentials.access_token;
   }
   return accessToken;
