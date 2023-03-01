@@ -37,6 +37,16 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
           onClick={onCloseHandler}
         />
         <h4 style={{ marginTop: 20, fontWeight: 400 }}>{fetchVersion()}</h4>
+        <p
+          style={{
+            fontSize: 12,
+            color: "dodgerblue",
+            marginTop: -12,
+            fontWeight: "bold",
+          }}
+        >
+          Last Updated: 2/26/23
+        </p>
         <Image
           src="https://media1.giphy.com/media/1337pmGIGROcdG/200w.webp?cid=ecf05e479zcgytk4ujp1jy90jbwlkbxjxss829rz8m9v0lok&rid=200w.webp&ct=g"
           height={"50%"}

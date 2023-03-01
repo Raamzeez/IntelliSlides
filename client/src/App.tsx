@@ -1,9 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import {
-  GoogleOAuthProvider,
-  GoogleLogin,
   googleLogout,
-  CredentialResponse,
   useGoogleLogin,
   hasGrantedAllScopesGoogle,
   CodeResponse,
@@ -19,7 +16,6 @@ import {
   Container,
   Dropdown,
   DropdownButton,
-  Image,
   Pagination,
   Row,
 } from "react-bootstrap";
@@ -55,9 +51,9 @@ import InfoIcon from "./components/InfoIcon";
 import Profile from "./components/Profile";
 import iUser from "./models/user";
 import LogoutButton from "./components/LogoutButton";
-import { useCookies } from "react-cookie";
 import LoginButton from "./components/LoginButton";
 import ThemeButton from "./components/ThemeButton";
+import { CircleLoader } from "react-spinners";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
@@ -79,6 +75,7 @@ interface iState {
   model: Model;
   submit: boolean;
   // loading: boolean;
+  profileLoading: boolean;
   loading: LoadingType | null;
   warning: string;
   error: iError | null;
@@ -94,18 +91,9 @@ const categoryTipMessage =
 const App: FC = () => {
   // const [cookies, setCookie, removeCookie] = useCookies(["jwt_token"]);
 
-  const fetchToken = () => {
-    console.log("JWT Token:", localStorage.getItem("jwt_token"));
-    const token = localStorage.getItem("jwt_token");
-    if (!token) {
-      return null;
-    }
-    return jwtDecode(token);
-  };
-
   const { height, width } = useWindowDimensions();
 
-  const [user, setUser] = useState<iUser | null>(fetchToken() as iUser);
+  const [user, setUser] = useState<iUser | null>(null);
 
   const [token, setToken] = useState<string | null>(null);
 
@@ -126,12 +114,26 @@ const App: FC = () => {
     sources: false,
     model: "text-davinci-003",
     submit: false,
+    profileLoading: true,
     loading: null,
     warning: "",
     error: null,
   });
 
-  useEffect(() => {}, []);
+  const fetchUser = async () => {
+    const response = await api.get("/user/userInfo");
+    setState({ ...state, profileLoading: false });
+    if (response.status !== 200) {
+      return console.error("Failed to fetch user");
+    }
+    console.log("User Info");
+    console.log(response.data);
+    setUser(response.data);
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const verifyCode = async (
     tokenResponse: Omit<
@@ -140,7 +142,7 @@ const App: FC = () => {
     >
   ) => {
     const URL =
-      "http://localhost:4000/api/verifyCode?" +
+      "http://localhost:4000/api/user/verifyCode?" +
       new URLSearchParams(tokenResponse).toString();
 
     const response = await api.get(URL, {
@@ -152,9 +154,10 @@ const App: FC = () => {
     console.log(response.data);
     const userObject = jwtDecode(response.data.idToken as string);
     console.log(userObject);
+    setState({ ...state, profileLoading: false });
     setUser(userObject as iUser);
-    localStorage.setItem("jwt_token", response.data.idToken);
-    localStorage.setItem("access_token", response.data.accessToken);
+    // localStorage.setItem("jwt_token", response.data.idToken);
+    // localStorage.setItem("access_token", response.data.accessToken);
     if (response.status !== 200) {
       return console.error(response.data);
     }
@@ -166,16 +169,6 @@ const App: FC = () => {
     localStorage.removeItem("jwt_token");
     localStorage.removeItem("access_token");
     googleLogout();
-  };
-
-  const credentialStorage = (credentialResponse: CredentialResponse) => {
-    console.log(credentialResponse);
-    const userObject = jwtDecode(credentialResponse.credential as string);
-    // setUser(userObject as iUser);
-    localStorage.setItem(
-      "jwt_token",
-      JSON.stringify(credentialResponse.credential)
-    );
   };
 
   const login = useGoogleLogin({
@@ -231,9 +224,13 @@ const App: FC = () => {
     }
     setState({ ...state, submit: true, loading: "ValidateParameters" });
     console.log("/validateParameters");
-    const parametersResponse = await api.post("/validateParameters", state, {
-      signal: controller.signal,
-    });
+    const parametersResponse = await api.post(
+      "/presentation/validateParameters",
+      state,
+      {
+        signal: controller.signal,
+      }
+    );
     console.log(parametersResponse.data);
     if (parametersResponse.status !== 200) {
       return setState({
@@ -248,7 +245,7 @@ const App: FC = () => {
     }
     //######################################################################//
     setState({ ...state, submit: true, loading: "FetchingCategory" });
-    const categoryResponse = await api.post("/category", state, {
+    const categoryResponse = await api.post("/presentation/category", state, {
       signal: controller.signal,
     });
     console.log(categoryResponse.data);
@@ -271,7 +268,7 @@ const App: FC = () => {
     });
     //######################################################################//
     //######################################################################//
-    const titlesResponse = await api.post("/slideTitles", state, {
+    const titlesResponse = await api.post("/presentation/slideTitles", state, {
       signal: controller.signal,
     });
     console.log(titlesResponse.data);
@@ -294,7 +291,7 @@ const App: FC = () => {
     });
     //######################################################################//
     const slideDetailsResponse = await api.post(
-      "/slideDetails",
+      "/presentation/slideDetails",
       { ...state, titles: titlesResponse.data },
       {
         signal: controller.signal,
@@ -324,7 +321,10 @@ const App: FC = () => {
       ...state,
     };
     console.log(data);
-    const presentationResponse = await api.post("/createPresentation", data);
+    const presentationResponse = await api.post(
+      "/presentation/createPresentation",
+      data
+    );
     console.log(presentationResponse.data);
     if (presentationResponse.status !== 200) {
       return setState({
@@ -451,16 +451,22 @@ const App: FC = () => {
             }}
             className={!user ? "shadow" : ""}
           >
-            {!user && <LoginButton onClickHandler={login} />}
-            {user && (
-              <div className="animate__animated animate__fadeInRight">
-                <Profile
-                  imageURL={user.picture}
-                  email={user.email}
-                  name={user.name}
-                />
-                <LogoutButton onClickHandler={logout} />
-              </div>
+            {state.profileLoading ? (
+              <CircleLoader size={50} color={"#36d7b7"} />
+            ) : (
+              <>
+                {!user && <LoginButton onClickHandler={login} />}
+                {user && (
+                  <div className="animate__animated animate__fadeInRight">
+                    <Profile
+                      imageURL={user.picture}
+                      email={user.email}
+                      name={user.name}
+                    />
+                    <LogoutButton onClickHandler={logout} />
+                  </div>
+                )}
+              </>
             )}
           </div>
           <Limitations />
