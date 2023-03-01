@@ -41,7 +41,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
           style={{
             fontSize: 12,
             color: "dodgerblue",
-            marginTop: -12,
+            marginTop: -10,
             fontWeight: "bold",
           }}
         >
@@ -49,8 +49,8 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
         </p>
         <Image
           src="https://media1.giphy.com/media/1337pmGIGROcdG/200w.webp?cid=ecf05e479zcgytk4ujp1jy90jbwlkbxjxss829rz8m9v0lok&rid=200w.webp&ct=g"
-          height={"50%"}
-          width={"100%"}
+          style={{ height: "40%", maxWidth: "100%", borderRadius: 10 }}
+          className="shadow"
         />
         <Pagination style={{ marginTop: 30, position: "absolute", bottom: 10 }}>
           <Pagination.Item>1</Pagination.Item>

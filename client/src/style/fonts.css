@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Gloock&family=Heebo&family=Inter:wght@500&family=Manrope&display=swap');
+
+p {
+    font-family: 'Inter', sans-serif;
+}
+
+h2 {
+    font-family: 'DM Sans', sans-serif;
+}
+
+li {
+    font-family: "Heebo", sans-serif;
+}

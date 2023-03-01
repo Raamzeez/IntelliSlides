@@ -11,7 +11,7 @@ const fetchOAuthTokens = async (
     client_secret: process.env.GOOGLE_WEB_CLIENT_SECRET,
     code: code as string,
     grant_type: "authorization_code",
-    // redirect_uri: "http://localhost:4000/api/verifyCode",
+    // redirect_uri: "http://localhost:4000/api/login",
     redirect_uri: "postmessage",
   };
   console.log("Payload", payload);

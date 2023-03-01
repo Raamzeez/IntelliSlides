@@ -121,7 +121,13 @@ const App: FC = () => {
   });
 
   const fetchUser = async () => {
-    const response = await api.get("/user/userInfo");
+    const response = await api.get("/user/userInfo", {
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Credentials": true,
+      },
+      withCredentials: true,
+    });
     setState({ ...state, profileLoading: false });
     if (response.status !== 200) {
       return console.error("Failed to fetch user");
@@ -135,14 +141,14 @@ const App: FC = () => {
     fetchUser();
   }, []);
 
-  const verifyCode = async (
+  const login = async (
     tokenResponse: Omit<
       CodeResponse,
       "error" | "error_description" | "error_uri"
     >
   ) => {
     const URL =
-      "http://localhost:4000/api/user/verifyCode?" +
+      "http://localhost:4000/api/user/login?" +
       new URLSearchParams(tokenResponse).toString();
 
     const response = await api.get(URL, {
@@ -152,10 +158,9 @@ const App: FC = () => {
       },
     });
     console.log(response.data);
-    const userObject = jwtDecode(response.data.idToken as string);
-    console.log(userObject);
+    const userObject = response.data as iUser;
     setState({ ...state, profileLoading: false });
-    setUser(userObject as iUser);
+    setUser(userObject);
     // localStorage.setItem("jwt_token", response.data.idToken);
     // localStorage.setItem("access_token", response.data.accessToken);
     if (response.status !== 200) {
@@ -164,17 +169,25 @@ const App: FC = () => {
     return true;
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("jwt_token");
-    localStorage.removeItem("access_token");
+  const logout = async () => {
     googleLogout();
+    setUser(null);
+    const response = await api.get("/user/logout", {
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Credentials": true,
+      },
+      withCredentials: true,
+    });
+    if (response.status !== 200) {
+      return console.error("Couldn't logout user");
+    }
+    console.log("Logged out");
   };
 
-  const login = useGoogleLogin({
+  const onLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-      console.log(tokenResponse);
-      verifyCode(tokenResponse);
+      login(tokenResponse);
       // onSubmitHandler();
       // credentialStorage(tokenResponse);
     },
@@ -400,6 +413,7 @@ const App: FC = () => {
           fontWeight: 500,
           transition: "all 0.5s ease",
         }}
+        className="animate__animated animate__fadeIn animate__slow"
       >
         {/* GPT3 Presentations */}
         IntelliSlides
@@ -455,7 +469,7 @@ const App: FC = () => {
               <CircleLoader size={50} color={"#36d7b7"} />
             ) : (
               <>
-                {!user && <LoginButton onClickHandler={login} />}
+                {!user && <LoginButton onClickHandler={onLogin} />}
                 {user && (
                   <div className="animate__animated animate__fadeInRight">
                     <Profile
@@ -630,7 +644,7 @@ const App: FC = () => {
               value={!user ? "Sign In & Submit" : "Submit"}
               // type={"success"}
               // value={"Submit"}
-              onClickHandler={!user ? login : onSubmitHandler}
+              onClickHandler={!user ? onLogin : onSubmitHandler}
               // onClickHandler={login}
               disabled={disable()}
               style={{ marginTop: height > 800 ? 30 : 0 }}

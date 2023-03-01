@@ -18,7 +18,7 @@ userRouter.get("/userInfo", requireAuth, (req, res) => {
   return res.status(200).send(responseObj);
 });
 
-userRouter.get("/verifyCode", async (req, res) => {
+userRouter.get("/login", async (req, res) => {
   console.log("Verifying Code");
   // console.log(req.headers);
   try {
@@ -39,13 +39,16 @@ userRouter.get("/verifyCode", async (req, res) => {
       return res.status(403).send("Google account is not verified");
     }
     //We sent the ID token in a secure httpOnly cookie to the frontend
-    res.cookie("id_token", id_token, { httpOnly: true, secure: true });
+    res.cookie("id_token", id_token, {
+      // httpOnly: true,
+      // secure: true,
+      // sameSite: "strict",
+    });
     //We then either update the user in the MongoDB database with updated credentials or add the user if it doesn't exist
     const id = userResponse.sub;
-    const foundUser = await userDB.findOneAndUpdate(
-      { email: userResponse.email },
+    const foundUser = await userDB.findByIdAndUpdate(
+      new ObjectId(subToObjectId(id)),
       {
-        _id: new ObjectId(subToObjectId(id)),
         firstName: userResponse.given_name,
         lastName: userResponse.family_name,
         email: userResponse.email,
@@ -55,15 +58,28 @@ userRouter.get("/verifyCode", async (req, res) => {
     );
     console.log("Stored user with id: " + id);
     console.log(foundUser);
-    const response = {
-      idToken: id_token,
-      accessToken: access_token,
-    };
-    return res.status(200).send(response);
+    return res.status(200).send({
+      name: userResponse.name,
+      email: userResponse.email,
+      picture: userResponse.picture,
+    });
   } catch (err) {
     console.error(err);
     return res.status(400).send("Error");
   }
+});
+
+userRouter.get("/logout", requireAuth, (req, res) => {
+  const id_token = req.cookies.id_token;
+  const { sub }: iUserJWT = jwtDecode(id_token);
+  const foundUser = userDB.findOneAndDelete({
+    _id: subToObjectId(sub).toString(),
+  });
+  if (!foundUser) {
+    return res.status(400).send("Could not find user");
+  }
+  res.clearCookie("id_token");
+  return res.status(200).send("OK");
 });
 
 export default userRouter;
