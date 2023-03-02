@@ -96,9 +96,14 @@
 }
 
 .profile {
-    background: linear-gradient(231deg, rgba(0, 255, 96, 1) 0%, rgba(0, 213, 255, 1) 100%);
+    background: linear-gradient(231deg, rgb(0, 91, 171) 0%, rgb(0, 170, 167) 100%);
+    border-radius: 15px;
+    height: 157.5px;
 }
 
+.alertBackground {
+    background: linear-gradient(231deg, rgb(255, 80, 80) 0%, rgb(255, 70, 160) 100%);
+}
 .pointer {
   cursor: pointer;
 }

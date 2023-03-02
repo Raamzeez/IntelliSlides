@@ -31,15 +31,13 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
         position: "absolute",
         top: 0,
         // height: "7vh",
-        height: 55,
+        height: 50,
         width: "100vw",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background:
-          "linear-gradient(231deg, rgba(255,100,138,1) 0%, rgba(255,110,141,1) 100%)",
       }}
-      className="shadow animate__animated animate__fadeInDown"
+      className="shadow animate__animated animate__fadeInDown alertBackground"
     >
       <p
         style={{

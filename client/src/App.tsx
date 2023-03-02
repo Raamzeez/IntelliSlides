@@ -54,7 +54,8 @@ import LoginButton from "./components/LoginButton";
 // import ThemeButton from "./components/ThemeButton";
 import { CircleLoader } from "react-spinners";
 import jwtDecode from "jwt-decode";
-// import SettingsIcon from "./components/SettingsIcon";
+import SettingsIcon from "./components/SettingsIcon";
+import SettingsModal from "./components/SettingsModal";
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -394,7 +395,7 @@ const App: FC = () => {
         {/* GPT3 Presentations */}
         IntelliSlides
       </h2>
-      {/* <SettingsIcon
+      <SettingsIcon
         showingAlert={state.showAlert}
         onClickHandler={() => setState({ ...state, settings: true })}
       />
@@ -402,7 +403,7 @@ const App: FC = () => {
         <SettingsModal
           onCloseHandler={() => setState({ ...state, settings: false })}
         />
-      )} */}
+      )}
       {/* <ThemeButton
         theme={"light"}
         style={{
@@ -452,8 +453,8 @@ const App: FC = () => {
                       imageURL={user.picture}
                       email={user.email}
                       name={user.name}
+                      onLogoutHandler={logout}
                     />
-                    <LogoutButton onClickHandler={logout} />
                   </div>
                 )}
               </>
@@ -645,6 +646,7 @@ const App: FC = () => {
               imageURL={user.picture}
               email={user.email}
               name={user.name}
+              onLogoutHandler={logout}
             />
           </div>
           <Loading

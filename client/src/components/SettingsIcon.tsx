@@ -15,21 +15,21 @@ const SettingsIcon: FC<iProps> = ({ onClickHandler, showingAlert }) => {
         height: 50,
         width: 50,
         borderRadius: 25,
-        backgroundColor: "dodgerblue",
+        backgroundColor: "rgb(80, 80, 80)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
-        top: showingAlert ? 50 : 20,
-        right: 20,
+        top: showingAlert ? "8vh" : 20,
+        left: 20,
       }}
       className={`pointer ${hover ? "shadow" : ""}`}
       onMouseOver={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={onClickHandler}
     >
-      <Image src={require("../images/GearIcon.png")} height={30} width={30} />
+      <Image src={require("../images/GearIcon.png")} height={27} width={27} />
     </div>
   );
 };

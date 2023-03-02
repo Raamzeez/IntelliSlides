@@ -12,13 +12,12 @@ const LogoutButton: FC<iProps> = ({ onClickHandler }) => {
       style={{
         height: 30,
         width: 100,
-        borderRadius: 10,
-        backgroundColor: hover ? "darkblue" : "blue",
+        borderRadius: 7,
+        backgroundColor: hover ? "darkred" : "#d60032",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginLeft: 21,
-        marginTop: 20,
+        margin: 21,
       }}
       className="pointer"
       onMouseOver={() => setHover(true)}
