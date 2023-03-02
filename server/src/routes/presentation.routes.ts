@@ -1,4 +1,5 @@
 import express from "express";
+import jwtDecode from "jwt-decode";
 import { ObjectId } from "mongodb";
 import client from "../client";
 import dummyFacts from "../data/dummyFacts";
@@ -9,9 +10,11 @@ import getTopics from "../functions/getTopics";
 import accessToken from "../hooks/accessToken";
 import getCategory from "../hooks/category";
 import errorChecks from "../hooks/errorChecks";
+import extractIDToken from "../hooks/extractIDToken";
 import subToObjectId from "../hooks/subToObjectId";
 import requireAuth from "../middleware/requireAuth";
 import iSlideInfo from "../models/slideInfo";
+import iUserJWT from "../models/userJWT";
 import openai from "../openai";
 
 const presentationRouter = express.Router();
@@ -66,14 +69,17 @@ presentationRouter.post(
   "/createPresentation",
   requireAuth,
   async (req, res) => {
-    console.log("req.body", JSON.stringify(req.body, null, 2));
+    // console.log("req.body", JSON.stringify(req.body, null, 2));
     const parameters = req.body;
     parameters.images = false; //For early version
     parameters.sources = false; //For early version
     // const accessToken = parameters.accessToken;
     const access_token = await accessToken(
-      subToObjectId(req.cookies.id_token).toString()
+      new ObjectId(
+        subToObjectId((jwtDecode(extractIDToken(req)) as iUserJWT).sub)
+      )
     );
+    console.log("Access Token", access_token);
     try {
       console.log("Authorizing...");
       // const client = await authorize();

@@ -53,6 +53,7 @@ import LogoutButton from "./components/LogoutButton";
 import LoginButton from "./components/LoginButton";
 // import ThemeButton from "./components/ThemeButton";
 import { CircleLoader } from "react-spinners";
+import jwtDecode from "jwt-decode";
 // import SettingsIcon from "./components/SettingsIcon";
 // import SettingsModal from "./components/SettingsModal";
 
@@ -115,19 +116,11 @@ const App: FC = () => {
   });
 
   const fetchUser = async () => {
-    const response = await api.get("/user/userInfo", {
-      withCredentials: true,
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        "Access-Control-Allow-Credentials": true,
-      },
-    });
+    const response = await api.get("/user/userInfo");
     setState({ ...state, profileLoading: false });
     if (response.status !== 200) {
       return console.error("Failed to fetch user");
     }
-    console.log("User Info");
-    console.log(response.data);
     setUser(response.data);
   };
 
@@ -151,10 +144,11 @@ const App: FC = () => {
         "X-Requested-With": "XmlHttpRequest",
       },
     });
-    console.log(response.data);
-    const userObject = response.data as iUser;
+    const id_token = response.data.id_token;
+    const { name, email, picture } = jwtDecode(id_token) as iUser;
     setState({ ...state, profileLoading: false });
-    setUser(userObject);
+    setUser({ name, email, picture });
+    localStorage.setItem("id_token", id_token);
     if (response.status !== 200) {
       return console.error(response.data);
     }
@@ -164,6 +158,7 @@ const App: FC = () => {
   const logout = async () => {
     googleLogout();
     setUser(null);
+    localStorage.removeItem("id_token");
     const response = await api.get("/user/logout", {
       headers: {
         "Access-Control-Allow-Origin": "http://localhost:3000",
@@ -174,7 +169,6 @@ const App: FC = () => {
     if (response.status !== 200) {
       return console.error("Couldn't logout user");
     }
-    console.log("Logged out");
   };
 
   const onLogin = useGoogleLogin({
@@ -228,7 +222,6 @@ const App: FC = () => {
       return setState({ ...state, warning: message });
     }
     setState({ ...state, submit: true, loading: "ValidateParameters" });
-    console.log("/validateParameters");
     const parametersResponse = await api.post(
       "/presentation/validateParameters",
       state,
@@ -236,7 +229,6 @@ const App: FC = () => {
         signal: controller.signal,
       }
     );
-    console.log(parametersResponse.data);
     if (parametersResponse.status !== 200) {
       return setState({
         ...state,
@@ -253,7 +245,6 @@ const App: FC = () => {
     const categoryResponse = await api.post("/presentation/category", state, {
       signal: controller.signal,
     });
-    console.log(categoryResponse.data);
     if (categoryResponse.status !== 200) {
       return setState({
         ...state,
@@ -276,7 +267,6 @@ const App: FC = () => {
     const titlesResponse = await api.post("/presentation/slideTitles", state, {
       signal: controller.signal,
     });
-    console.log(titlesResponse.data);
     if (titlesResponse.status !== 200) {
       return setState({
         ...state,
@@ -302,7 +292,6 @@ const App: FC = () => {
         signal: controller.signal,
       }
     );
-    console.log(slideDetailsResponse.data);
     if (slideDetailsResponse.status !== 200) {
       return setState({
         ...state,
@@ -325,12 +314,10 @@ const App: FC = () => {
       accessToken: localStorage.getItem("access_token"),
       ...state,
     };
-    console.log(data);
     const presentationResponse = await api.post(
       "/presentation/createPresentation",
       data
     );
-    console.log(presentationResponse.data);
     if (presentationResponse.status !== 200) {
       return setState({
         ...state,
@@ -342,7 +329,6 @@ const App: FC = () => {
         },
       });
     }
-    console.log(presentationResponse);
     return setState({
       ...state,
       submit: true,
@@ -367,8 +353,6 @@ const App: FC = () => {
     }
     return true;
   };
-
-  // console.log(user);
 
   return (
     <Container

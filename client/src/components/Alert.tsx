@@ -12,13 +12,13 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
     fontSize: number;
     icon: { fontSize: number; top: number; right: number };
   } => {
-    if (width <= 260) {
+    if (width <= 300) {
       return { fontSize: 8, icon: { fontSize: 13, top: 18, right: 10 } };
-    } else if (width <= 443) {
+    } else if (width <= 480) {
       return { fontSize: 10, icon: { fontSize: 13, top: 18, right: 10 } };
-    } else if (width <= 506) {
+    } else if (width <= 550) {
       return { fontSize: 12, icon: { fontSize: 15, top: 18, right: 15 } };
-    } else if (width <= 570) {
+    } else if (width <= 600) {
       return { fontSize: 14, icon: { fontSize: 17.5, top: 15, right: 30 } };
     } else {
       return { fontSize: 16, icon: { fontSize: 20, top: 15, right: 30 } };
@@ -30,7 +30,8 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
       style={{
         position: "absolute",
         top: 0,
-        height: "7vh",
+        // height: "7vh",
+        height: 55,
         width: "100vw",
         display: "flex",
         justifyContent: "center",
@@ -38,7 +39,7 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
         background:
           "linear-gradient(231deg, rgba(255,100,138,1) 0%, rgba(255,110,141,1) 100%)",
       }}
-      className="shadow animate__animated animate__bounceInDown animate__slow"
+      className="shadow animate__animated animate__fadeInDown"
     >
       <p
         style={{

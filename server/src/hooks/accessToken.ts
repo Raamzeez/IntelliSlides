@@ -1,8 +1,9 @@
+import { ObjectId } from "mongodb";
 import client from "../client";
 import verifyAccessToken from "../functions/verifyAccessToken";
 import userDB from "../schemas/user";
 
-const accessToken = async (id: string) => {
+const accessToken = async (id: ObjectId) => {
   const foundUser = await userDB.findById(id);
   if (!foundUser) {
     return null;

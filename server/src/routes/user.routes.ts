@@ -2,6 +2,7 @@ import express from "express";
 import jwtDecode from "jwt-decode";
 import { ObjectId } from "mongodb";
 import client from "../client";
+import extractIDToken from "../hooks/extractIDToken";
 import subToObjectId from "../hooks/subToObjectId";
 import requireAuth from "../middleware/requireAuth";
 import iUserJWT from "../models/userJWT";
@@ -10,7 +11,7 @@ import userDB from "../schemas/user";
 const userRouter = express.Router();
 
 userRouter.get("/userInfo", requireAuth, (req, res) => {
-  const id_token = req.cookies.id_token;
+  const id_token = extractIDToken(req);
   const { name, picture, email }: iUserJWT = jwtDecode(id_token);
   const responseObj = { name, picture, email };
   console.log("responseObj");
@@ -30,7 +31,8 @@ userRouter.get("/login", async (req, res) => {
     const code = req.query.code as string;
     //We use the built in Node JS OAuth2Client to get id and access token data
     const tokensResponse = await (await client.getToken(code)).tokens;
-    const { access_token, id_token } = tokensResponse;
+    const { id_token } = tokensResponse;
+    console.log(id_token);
     const userResponse: iUserJWT = jwtDecode(id_token);
     console.log("User Decoded JWT ID Token");
     console.log(userResponse);
@@ -42,12 +44,6 @@ userRouter.get("/login", async (req, res) => {
     const UTCSeconds = userResponse.exp;
     const date = new Date(0);
     date.setUTCSeconds(UTCSeconds);
-    res.cookie("id_token", id_token, {
-      // httpOnly: true,
-      // secure: true,
-      // sameSite: true,
-      expires: date,
-    });
     console.log("Set cookie");
     //We then either update the user in the MongoDB database with updated credentials or add the user if it doesn't exist
     const id = userResponse.sub;
@@ -64,9 +60,7 @@ userRouter.get("/login", async (req, res) => {
     console.log("Stored user with id: " + id);
     console.log(foundUser);
     return res.status(200).send({
-      name: userResponse.name,
-      email: userResponse.email,
-      picture: userResponse.picture,
+      id_token,
     });
   } catch (err) {
     console.error(err);
@@ -75,7 +69,7 @@ userRouter.get("/login", async (req, res) => {
 });
 
 userRouter.get("/logout", requireAuth, (req, res) => {
-  const id_token = req.cookies.id_token;
+  const id_token = extractIDToken(req);
   const { sub }: iUserJWT = jwtDecode(id_token);
   const foundUser = userDB.findOneAndDelete({
     _id: subToObjectId(sub).toString(),
