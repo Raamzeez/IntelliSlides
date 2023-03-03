@@ -25,6 +25,7 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.1",
+    "react-type-animation": "^2.1.2",
     "theme-ui": "^0.15.5",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"

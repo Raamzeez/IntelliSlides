@@ -57,6 +57,7 @@ import jwtDecode from "jwt-decode";
 import SettingsIcon from "./components/SettingsIcon";
 import SettingsModal from "./components/SettingsModal";
 import iPresentation from "./models/presentation";
+import { TypeAnimation } from "react-type-animation";
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -397,6 +398,31 @@ const App: FC = () => {
         {/* GPT3 Presentations */}
         IntelliSlides
       </h2>
+      <TypeAnimation
+        sequence={[
+          "Your Presentation on WW2", // Types 'One'
+          800, // Waits 1s
+          "Your Presentation on Space X", // Deletes 'One' and types 'Two'
+          800, // Waits 2s
+          "Your Presentation on the iPhone", // Deletes 'One' and types 'Two'
+          800, // Waits 2s
+          "Your Presentation on the Burj Khalifa", // Deletes 'One' and types 'Two'
+          800, // Waits 2s
+          "Your Presentation on Anything in Matters of Seconds", // Types 'Three' without deleting 'Two'
+          () => {
+            console.log("Done typing!"); // Place optional callbacks anywhere in the array
+          },
+        ]}
+        wrapper="div"
+        cursor={true}
+        repeat={0}
+        style={{
+          fontSize: 15,
+          position: "absolute",
+          top: state.showAlert ? "15vh" : 80,
+          color: "lightgrey",
+        }}
+      />
       {/* <SettingsIcon
         showingAlert={state.showAlert}
         onClickHandler={() => setState({ ...state, settings: true })}
@@ -464,6 +490,7 @@ const App: FC = () => {
             <TextInput
               label="Topic"
               value={state.topic}
+              placeholder={"The Major Historical Events of WW2"}
               onChangeHandler={(e) =>
                 setState({ ...state, topic: e.target.value })
               }
@@ -573,12 +600,14 @@ const App: FC = () => {
             <TextInput
               label="Title"
               value={state.title}
+              placeholder={"WW2 Presentation"}
               onChangeHandler={(e) =>
                 setState({ ...state, title: e.target.value })
               }
             />
             <TextInput
               label="Subtitle"
+              placeholder="By: John Appleseed"
               value={state.subtitle}
               onChangeHandler={(e) =>
                 setState({ ...state, subtitle: e.target.value })
@@ -616,14 +645,14 @@ const App: FC = () => {
           <div>
             <Button
               type={!user ? "secondary" : "success"}
-              value={!user ? "Sign In & Submit" : "Submit"}
+              value={!user ? "Sign In" : "Submit"}
               // type={"success"}
               // value={"Submit"}
               onClickHandler={!user ? onLogin : onSubmitHandler}
               // onClickHandler={login}
               disabled={disable()}
               style={{ marginTop: height > 800 ? 30 : 0 }}
-              textStyle={{ fontSize: !user ? 13 : 17 }}
+              textStyle={{ fontSize: 17 }}
               // textStyle={{ fontSize: 17 }}
             />
           </div>

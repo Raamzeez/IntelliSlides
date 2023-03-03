@@ -7,6 +7,7 @@ interface iProps {
   label: string;
   value: string;
   onChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
   info?: boolean;
   onTipClickHandler?: () => void;
   disabled?: boolean;
@@ -20,6 +21,7 @@ const TextInput: FC<iProps> = ({
   label,
   value,
   onChangeHandler,
+  placeholder,
   info,
   onTipClickHandler,
   disabled,
@@ -77,6 +79,7 @@ const TextInput: FC<iProps> = ({
             paddingLeft: 10,
             fontSize: 15,
           }}
+          placeholder={placeholder}
           disabled={disabled}
           maxLength={maxLength}
           minLength={minLength}
