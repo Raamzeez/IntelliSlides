@@ -16,6 +16,7 @@ import requireAuth from "../middleware/requireAuth";
 import iSlideInfo from "../models/slideInfo";
 import iUserJWT from "../models/userJWT";
 import openai from "../openai";
+import userDB from "../schemas/user";
 
 const presentationRouter = express.Router();
 
@@ -94,6 +95,21 @@ presentationRouter.post(
         process.env.GOOGLE_SEARCH_KEY,
         process.env.CX
       );
+      const _id = new ObjectId(
+        subToObjectId((jwtDecode(extractIDToken(req)) as iUserJWT).sub)
+      );
+      const foundUser = await userDB.findOneAndUpdate(
+        { _id },
+        {
+          $push: {
+            presentations: presentation,
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      console.log("Found user", foundUser);
       return res.status(200).send(presentation);
     } catch (err) {
       console.error(err);

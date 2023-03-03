@@ -13,6 +13,18 @@ const schema = {
     id_token: String,
     scope: String,
   },
+  presentations: [
+    {
+      title: String,
+      subtitle: String,
+      id: String,
+      thumbnail: {
+        contentUrl: String,
+        height: Number,
+        width: Number,
+      },
+    },
+  ],
 };
 
 const userSchema = new Schema(schema);

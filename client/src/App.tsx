@@ -56,6 +56,7 @@ import { CircleLoader } from "react-spinners";
 import jwtDecode from "jwt-decode";
 import SettingsIcon from "./components/SettingsIcon";
 import SettingsModal from "./components/SettingsModal";
+import iPresentation from "./models/presentation";
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -319,6 +320,7 @@ const App: FC = () => {
       "/presentation/createPresentation",
       data
     );
+    const presentationData = presentationResponse.data as iPresentation;
     if (presentationResponse.status !== 200) {
       return setState({
         ...state,
@@ -334,7 +336,7 @@ const App: FC = () => {
       ...state,
       submit: true,
       loading: null,
-      presentationId: presentationResponse.data.data.presentationId,
+      presentationId: presentationData.presentationId,
       error: null,
     });
   };
@@ -395,7 +397,7 @@ const App: FC = () => {
         {/* GPT3 Presentations */}
         IntelliSlides
       </h2>
-      <SettingsIcon
+      {/* <SettingsIcon
         showingAlert={state.showAlert}
         onClickHandler={() => setState({ ...state, settings: true })}
       />
@@ -403,7 +405,7 @@ const App: FC = () => {
         <SettingsModal
           onCloseHandler={() => setState({ ...state, settings: false })}
         />
-      )}
+      )} */}
       {/* <ThemeButton
         theme={"light"}
         style={{
@@ -460,8 +462,8 @@ const App: FC = () => {
               </>
             )}
           </div>
-          <Limitations />
-          <AdvancedSettings onClickHandler={() => null} />
+          {/* <Limitations />
+          <AdvancedSettings onClickHandler={() => null} /> */}
           <div style={{ marginBottom: 25 }}>
             <TextInput
               label="Topic"

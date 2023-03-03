@@ -5,6 +5,7 @@ import { google } from "googleapis";
 import iSlideInfo from "../models/slideInfo";
 import getImage from "./getImage";
 import getPrompts from "../hooks/prompts";
+import iPresentationResponse from "../models/presentationResponse";
 
 /**
  * Creates a Google Slide presentation.
@@ -204,8 +205,20 @@ async function createPresentation(
         requests,
       },
     });
+    const response = await service.presentations.pages.getThumbnail({
+      presentationId: presentation.data.presentationId,
+      pageObjectId: presentation.data.slides[0].objectId,
+    });
     console.log("Added slides to presentation and populated with info!");
-    return presentation;
+    const presentationId = presentation.data.presentationId;
+    const title = parameters.title;
+    const subtitle = parameters.subtitle;
+    return {
+      presentationId,
+      title,
+      subtitle,
+      thumbnail: response.data,
+    };
   } catch (err) {
     // TODO (developer) - Handle exception
     throw err;

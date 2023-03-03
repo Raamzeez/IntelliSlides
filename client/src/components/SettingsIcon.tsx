@@ -23,6 +23,7 @@ const SettingsIcon: FC<iProps> = ({ onClickHandler, showingAlert }) => {
         position: "absolute",
         top: showingAlert ? "8vh" : 20,
         left: 20,
+        transition: "all 0.5s ease",
       }}
       className={`pointer ${hover ? "shadow" : ""}`}
       onMouseOver={() => setHover(true)}
