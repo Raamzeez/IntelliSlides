@@ -48,30 +48,29 @@ const TextInput: FC<iProps> = ({
   };
 
   return (
-    <Row style={{ margin: 20 }}>
-      {info && (
-        <InfoIcon
-          style={{
-            marginTop: 11.7,
-            marginRight: 5,
-            position: "relative",
-            left: iconLeft(),
-          }}
-          onClickHandler={onTipClickHandler}
-        />
-      )}
-      <Col>
-        <p style={{ fontSize: 18, marginTop: 9, marginRight: -5 }}>{label}:</p>
+    <Row
+      style={{
+        margin: width > 400 ? 20 : "9.5vw",
+        padding: 0,
+        flex: 1,
+        width: width > 991 ? "40vw" : "80vw",
+      }}
+    >
+      <Col className="centerContainer" lg={1}>
+        {info && <InfoIcon onClickHandler={onTipClickHandler} />}
       </Col>
-      <Col>
+      <Col className="centerContainer" lg={2}>
+        <p style={{ fontSize: 15, marginTop: 15 }}>{label}:</p>
+      </Col>
+      <Col className="centerContainer" lg={9}>
         <input
           type="text"
           value={value}
           onChange={onChangeHandler}
           className={clicked ? "input" : "shadow"}
           style={{
-            height: "4vh",
-            width: "27vw",
+            height: 35,
+            width: "100%",
             borderRadius: 8,
             border: "none",
             backgroundColor: "rgb(64, 65, 78)",

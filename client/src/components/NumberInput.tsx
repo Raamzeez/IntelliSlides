@@ -37,7 +37,6 @@ const NumberInput: FC<iProps> = ({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: height > 650 ? 0 : -30,
       }}
     >
       <p style={{ fontSize: 18, marginRight: 12, marginTop: 12 }}>{label}</p>

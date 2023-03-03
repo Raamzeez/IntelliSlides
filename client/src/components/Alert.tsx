@@ -30,9 +30,8 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
       style={{
         position: "absolute",
         top: 0,
-        // height: "7vh",
         height: 50,
-        width: "100vw",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
