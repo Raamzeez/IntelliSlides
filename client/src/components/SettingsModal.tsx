@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Col, Dropdown, DropdownButton, Modal, Row } from "react-bootstrap";
+import Line from "./Line";
 
 interface iProps {
   onCloseHandler: () => void;
@@ -41,9 +42,7 @@ const SettingsModal: FC<iProps> = ({ onCloseHandler }) => {
         >
           Apply To Browser
         </p>
-        <div
-          style={{ height: 2, width: "100%", backgroundColor: "dodgerblue" }}
-        />
+        <Line />
         <Row style={{ marginTop: 20 }}>
           <Col
             style={{

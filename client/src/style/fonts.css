@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Gloock&family=Heebo&family=Inter:wght@500&family=Manrope&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Gloock&family=Heebo&family=Inter:wght@500&family=Manrope&family=Poppins:wght@500&display=swap');
 
 p {
     font-family: 'Inter', sans-serif;
@@ -11,3 +11,12 @@ h2 {
 li {
     font-family: "Heebo", sans-serif;
 }
+
+.updates {
+    font-family: "Manrope", sans-serif
+}
+
+.poppins {
+    font-family: "Poppins", sans-serif;
+}
+

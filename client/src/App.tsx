@@ -96,7 +96,7 @@ const App: FC = () => {
 
   const [state, setState] = useState<iState>({
     showAlert: sessionStorage.getItem("showAlert") === "false" ? false : true,
-    showVersion: false,
+    showVersion: localStorage.getItem("showVersion") === "true" ? true : false,
     showTopicTip: false,
     showCategoryTip: false,
     settings: false,
@@ -161,16 +161,6 @@ const App: FC = () => {
     googleLogout();
     setUser(null);
     localStorage.removeItem("id_token");
-    const response = await api.get("/user/logout", {
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        "Access-Control-Allow-Credentials": true,
-      },
-      withCredentials: true,
-    });
-    if (response.status !== 200) {
-      return console.error("Couldn't logout user");
-    }
   };
 
   const onLogin = useGoogleLogin({
@@ -346,6 +336,16 @@ const App: FC = () => {
     errorToast("Presentation generation was cancelled!");
   };
 
+  const onHideVersion = () => {
+    localStorage.setItem("showVersion", "false");
+    setState({ ...state, showVersion: false });
+  };
+
+  const onShowVersion = () => {
+    localStorage.setItem("showVersion", "true");
+    setState({ ...state, showVersion: true });
+  };
+
   const disable = () => {
     if (
       state.topic.length >= 2 &&
@@ -414,11 +414,7 @@ const App: FC = () => {
           top: width > 400 ? (state.showAlert ? "9vh" : 20) : 0,
         }}
       /> */}
-      {state.showVersion && (
-        <VersionModal
-          onCloseHandler={() => setState({ ...state, showVersion: false })}
-        />
-      )}
+      {state.showVersion && <VersionModal onCloseHandler={onHideVersion} />}
       {state.showTopicTip && (
         <InfoModal
           title="Topic"
@@ -682,9 +678,7 @@ const App: FC = () => {
           }
         />
       )}
-      <Footer
-        onClickHandler={() => setState({ ...state, showVersion: true })}
-      />
+      <Footer onClickHandler={onShowVersion} />
     </Container>
   );
 };

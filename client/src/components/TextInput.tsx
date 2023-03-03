@@ -50,7 +50,7 @@ const TextInput: FC<iProps> = ({
       {info && (
         <InfoIcon
           style={{
-            marginTop: 10,
+            marginTop: 11.7,
             marginRight: 5,
             position: "relative",
             left: iconLeft(),

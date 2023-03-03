@@ -68,17 +68,4 @@ userRouter.get("/login", async (req, res) => {
   }
 });
 
-userRouter.get("/logout", requireAuth, (req, res) => {
-  const id_token = extractIDToken(req);
-  const { sub }: iUserJWT = jwtDecode(id_token);
-  const foundUser = userDB.findOneAndDelete({
-    _id: subToObjectId(sub).toString(),
-  });
-  if (!foundUser) {
-    return res.status(400).send("Could not find user");
-  }
-  res.clearCookie("id_token");
-  return res.status(200).send("OK");
-});
-
 export default userRouter;

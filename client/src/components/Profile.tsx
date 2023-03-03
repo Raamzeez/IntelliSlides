@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Image } from "react-bootstrap";
+import useWindowDimensions from "../util/useWindowDimensions";
 import LogoutButton from "./LogoutButton";
 
 interface iProps {
@@ -10,8 +11,21 @@ interface iProps {
 }
 
 const Profile: FC<iProps> = ({ imageURL, email, name, onLogoutHandler }) => {
+  const { width } = useWindowDimensions();
+
+  const rightPosition = {
+    position: "absolute",
+    right: -30,
+  };
+
   return (
-    <div className="profile">
+    <div
+      className={width > 650 ? "profile" : ""}
+      style={{
+        height: width > 750 ? 157.5 : 130,
+        // ...rightPosition
+      }}
+    >
       <Image
         src={imageURL}
         height={50}
@@ -19,7 +33,7 @@ const Profile: FC<iProps> = ({ imageURL, email, name, onLogoutHandler }) => {
         style={{ borderRadius: 25, margin: 10 }}
         className="shadow"
       />
-      <p style={{ fontSize: 10, margin: 10 }}>{email}</p>
+      {width > 750 && <p style={{ fontSize: 10, margin: 10 }}>{email}</p>}
       <LogoutButton onClickHandler={onLogoutHandler} />
     </div>
   );
