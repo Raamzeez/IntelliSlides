@@ -38,32 +38,32 @@ presentationRouter.post("/category", async (req, res) => {
 });
 
 presentationRouter.post("/slideTitles", async (req, res) => {
-  // const { topic, category, slideCount, model } = req.body;
-  // console.log(`Fetching info about ${topic}...`);
-  // const titles = await getTopics(openai, category, topic, slideCount, model);
-  // console.log("Titles", titles);
-  // return res.status(200).json(titles);
-  console.log("Titles", dummyTitles);
-  return res.status(200).json(dummyTitles);
+  const { topic, category, slideCount, model } = req.body;
+  console.log(`Fetching info about ${topic}...`);
+  const titles = await getTopics(openai, category, topic, slideCount, model);
+  console.log("Titles", titles);
+  return res.status(200).json(titles);
+  // console.log("Titles", dummyTitles);
+  // return res.status(200).json(dummyTitles);
 });
 
 presentationRouter.post("/slideDetails", async (req, res) => {
-  // const {
-  //   topic,
-  //   category,
-  //   // title,
-  //   titles,
-  // } = req.body;
-  // const slidesInfo: iSlideInfo[] = [];
-  // for (let i = 0; i < titles.length; i++) {
-  //   const facts = await getDetails(openai, category, titles[i], 5, topic);
-  //   slidesInfo.push({ title: titles[i], facts });
-  // }
-  // console.log("Gathered Data For Slides: \n");
-  // console.log(slidesInfo);
-  // return res.status(200).json(slidesInfo);
-  console.log(dummyFacts);
-  return res.status(200).json(dummyFacts);
+  const {
+    topic,
+    category,
+    // title,
+    titles,
+  } = req.body;
+  const slidesInfo: iSlideInfo[] = [];
+  for (let i = 0; i < titles.length; i++) {
+    const facts = await getDetails(openai, category, titles[i], 5, topic);
+    slidesInfo.push({ title: titles[i], facts });
+  }
+  console.log("Gathered Data For Slides: \n");
+  console.log(slidesInfo);
+  return res.status(200).json(slidesInfo);
+  // console.log(dummyFacts);
+  // return res.status(200).json(dummyFacts);
 });
 
 presentationRouter.post(

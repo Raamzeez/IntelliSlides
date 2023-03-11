@@ -50,7 +50,7 @@ const TextInput: FC<iProps> = ({
   return (
     <Row
       style={{
-        margin: width > 400 ? 20 : "9.5vw",
+        margin: width > 400 ? 30 : "9.5vw",
         padding: 0,
         flex: 1,
         width: width > 991 ? "40vw" : "80vw",
