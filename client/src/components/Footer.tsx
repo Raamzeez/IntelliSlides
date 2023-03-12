@@ -1,13 +1,15 @@
 import React, { FC, useState } from "react"
 import { Col, Image, Row } from "react-bootstrap"
 import fetchVersion from "../util/fetchVersion"
+import isMobile from "../util/isMobile"
 import useWindowDimensions from "../util/useWindowDimensions"
 
 interface iProps {
+    isLoading: boolean
     onClickHandler: () => void
 }
 
-const Footer: FC<iProps> = ({ onClickHandler }) => {
+const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
     const { height, width } = useWindowDimensions()
 
     const [hoverText, setHoverText] = useState(false)
@@ -15,7 +17,7 @@ const Footer: FC<iProps> = ({ onClickHandler }) => {
     return (
         <Row
             style={{
-                position: height < 730 || width < 530 ? "relative" : "absolute",
+                position: isMobile() && !isLoading ? "relative" : "absolute",
                 bottom: 0,
                 width: "100%",
             }}

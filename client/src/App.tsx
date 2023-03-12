@@ -58,6 +58,7 @@ import SettingsIcon from "./components/SettingsIcon"
 import SettingsModal from "./components/SettingsModal"
 import iPresentation from "./models/presentation"
 import { TypeAnimation } from "react-type-animation"
+import isMobile from "./util/isMobile"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -114,8 +115,10 @@ const App: FC = () => {
         sources: false,
         model: "text-davinci-003",
         submit: false,
-        profileLoading: true,
         loading: null,
+        // submit: true,
+        // loading: "ValidateParameters",
+        profileLoading: true,
         warning: "",
         error: null,
     })
@@ -357,6 +360,13 @@ const App: FC = () => {
         setState({ ...state, showVersion: true })
     }
 
+    const isLoading = () => {
+        if (state.submit && state.loading && !state.error && user) {
+            return true
+        }
+        return false
+    }
+
     const disable = () => {
         if (
             state.topic.length >= 2 &&
@@ -395,54 +405,61 @@ const App: FC = () => {
                     />
                 )}
                 {state.showAlert && (
-                    <Alert onCloseHandler={() => onHideAlert()} />
+                    <Alert
+                        isLoading={isLoading()}
+                        onCloseHandler={() => onHideAlert()}
+                    />
                 )}
-                <Row>
-                    <Col xs={12}>
-                        <h2
-                            style={{
-                                color: "white",
-                                fontWeight: 500,
-                                transition: "all 0.5s ease",
-                                marginTop: height < 730 || width < 530 ? 30 : 0,
-                            }}
-                            className="animate__animated animate__fadeIn animate__slow"
-                        >
-                            {/* GPT3 Presentations< */}
-                            IntelliSlides
-                        </h2>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={12}>
-                        <TypeAnimation
-                            sequence={[
-                                "Your Presentation on WW2", // Types 'One'
-                                800, // Waits 1s
-                                "Your Presentation on Space X", // Deletes 'One' and types 'Two'
-                                800, // Waits 2s
-                                "Your Presentation on the iPhone", // Deletes 'One' and types 'Two'
-                                800, // Waits 2s
-                                "Your Presentation on the Burj Khalifa", // Deletes 'One' and types 'Two'
-                                800, // Waits 2s
-                                "Your Presentation on Anything in Matters of Seconds", // Types 'Three' without deleting 'Two'
-                                () => {
-                                    console.log("Done typing!") // Place optional callbacks anywhere in the array
-                                },
-                            ]}
-                            wrapper="div"
-                            cursor={true}
-                            repeat={0}
-                            style={{
-                                fontSize: 15,
-                                color: "lightgrey",
-                                // position: "absolute",
-                                // top: state.showAlert ? 120 : 70,
-                            }}
-                            className="poppins"
-                        />
-                    </Col>
-                </Row>
+                {!(state.submit && state.loading) && (
+                    <>
+                        <Row>
+                            <Col xs={12}>
+                                <h2
+                                    style={{
+                                        color: "white",
+                                        fontWeight: 500,
+                                        transition: "all 0.5s ease",
+                                        marginTop: isMobile() ? 30 : 0,
+                                    }}
+                                    className="animate__animated animate__fadeIn animate__slow"
+                                >
+                                    {/* GPT3 Presentations< */}
+                                    IntelliSlides
+                                </h2>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12}>
+                                <TypeAnimation
+                                    sequence={[
+                                        "Your Presentation on WW2", // Types 'One'
+                                        800, // Waits 1s
+                                        "Your Presentation on Space X", // Deletes 'One' and types 'Two'
+                                        800, // Waits 2s
+                                        "Your Presentation on the iPhone", // Deletes 'One' and types 'Two'
+                                        800, // Waits 2s
+                                        "Your Presentation on the Burj Khalifa", // Deletes 'One' and types 'Two'
+                                        800, // Waits 2s
+                                        "Your Presentation on Anything in Matters of Seconds", // Types 'Three' without deleting 'Two'
+                                        () => {
+                                            console.log("Done typing!") // Place optional callbacks anywhere in the array
+                                        },
+                                    ]}
+                                    wrapper="div"
+                                    cursor={true}
+                                    repeat={0}
+                                    style={{
+                                        fontSize: 15,
+                                        color: "lightgrey",
+                                        // position: "absolute",
+                                        // top: state.showAlert ? 120 : 70,
+                                    }}
+                                    className="poppins"
+                                />
+                            </Col>
+                        </Row>
+                    </>
+                )}
                 {state.showVersion && (
                     <VersionModal onCloseHandler={onHideVersion} />
                 )}
@@ -494,6 +511,7 @@ const App: FC = () => {
                                                 imageURL={user.picture}
                                                 email={user.email}
                                                 name={user.name}
+                                                showLogout={true}
                                                 onLogoutHandler={logout}
                                             />
                                         </div>
@@ -732,6 +750,7 @@ const App: FC = () => {
                                 imageURL={user.picture}
                                 email={user.email}
                                 name={user.name}
+                                showLogout={false}
                                 onLogoutHandler={logout}
                             />
                         </div>
@@ -771,7 +790,10 @@ const App: FC = () => {
                         }
                     />
                 )}
-                <Footer onClickHandler={onShowVersion} />
+                <Footer
+                    isLoading={isLoading()}
+                    onClickHandler={onShowVersion}
+                />
             </Container>
         </>
     )

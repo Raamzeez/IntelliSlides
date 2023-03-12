@@ -1,12 +1,14 @@
 import React, { FC } from "react"
 import { Col, Row } from "react-bootstrap"
+import isMobile from "../util/isMobile"
 import useWindowDimensions from "../util/useWindowDimensions"
 
 interface iProps {
+    isLoading: boolean
     onCloseHandler: () => void
 }
 
-const Alert: FC<iProps> = ({ onCloseHandler }) => {
+const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
     const { height, width } = useWindowDimensions()
 
     const alertStyling = (): {
@@ -32,7 +34,7 @@ const Alert: FC<iProps> = ({ onCloseHandler }) => {
     return (
         <div
             style={{
-                position: height < 730 || width < 530 ? "relative" : "absolute",
+                position: isMobile() && !isLoading ? "relative" : "absolute",
                 top: 0,
                 height: 50,
                 width: "100%",

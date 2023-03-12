@@ -7,10 +7,17 @@ interface iProps {
     imageURL: string
     email: string
     name: string
+    showLogout: boolean
     onLogoutHandler: () => void
 }
 
-const Profile: FC<iProps> = ({ imageURL, email, name, onLogoutHandler }) => {
+const Profile: FC<iProps> = ({
+    imageURL,
+    email,
+    name,
+    showLogout,
+    onLogoutHandler,
+}) => {
     const { width } = useWindowDimensions()
 
     const rightPosition = {
@@ -20,9 +27,9 @@ const Profile: FC<iProps> = ({ imageURL, email, name, onLogoutHandler }) => {
 
     return (
         <div
-            className={width > 650 ? "profile" : ""}
+            className={showLogout ? (width > 650 ? "profile" : "") : ""}
             style={{
-                height: width > 750 ? 157.5 : 130,
+                height: showLogout ? (width > 750 ? 157.5 : 130) : 100,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -34,11 +41,11 @@ const Profile: FC<iProps> = ({ imageURL, email, name, onLogoutHandler }) => {
                 src={imageURL}
                 height={50}
                 width={50}
-                style={{ borderRadius: 25, margin: 10 }}
+                style={{ borderRadius: 25, marginTop: 20 }}
                 className="shadow"
             />
             {width > 750 && <p style={{ fontSize: 10, margin: 10 }}>{email}</p>}
-            <LogoutButton onClickHandler={onLogoutHandler} />
+            {showLogout && <LogoutButton onClickHandler={onLogoutHandler} />}
         </div>
     )
 }
