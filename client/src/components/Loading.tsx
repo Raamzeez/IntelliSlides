@@ -4,6 +4,7 @@ import { GridLoader, PacmanLoader, PropagateLoader } from "react-spinners"
 import iError from "../models/error"
 import Category from "../types/category"
 import LoadingType from "../types/loading"
+import useWindowDimensions from "../util/useWindowDimensions"
 import LoadingStatus from "./LoadingStatus"
 // import Button from "./Button";
 
@@ -26,16 +27,26 @@ const Loading: FC<iProps> = ({
     auto,
     onClickHandler,
 }) => {
+    const { height, width } = useWindowDimensions()
+
+    const loaderSize = () => {
+        const adjustedSize = height * 0.05
+        if (adjustedSize < 52) {
+            return adjustedSize
+        }
+        return 52
+    }
+
     return (
         <>
             <GridLoader
                 color={"aqua"}
                 loading={true}
-                size={52}
+                size={loaderSize()}
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />
-            <h4 style={{ position: "relative", top: 100 }}>
+            <h4 style={{ marginTop: "8vh" }}>
                 Researching {topic} And Creating "{title}"
             </h4>
             <p
@@ -43,8 +54,7 @@ const Loading: FC<iProps> = ({
                     color: "grey",
                     fontSize: 20,
                     fontStyle: "italic",
-                    position: "relative",
-                    top: 100,
+                    marginTop: 0,
                 }}
             >
                 This may several minutes...

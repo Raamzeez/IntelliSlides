@@ -17,7 +17,10 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
     return (
         <Row
             style={{
-                position: isMobile() && !isLoading ? "relative" : "absolute",
+                position:
+                    isMobile(height, width) && !isLoading
+                        ? "relative"
+                        : "absolute",
                 bottom: 0,
                 width: "100%",
             }}

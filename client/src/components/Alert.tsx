@@ -34,7 +34,10 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
     return (
         <div
             style={{
-                position: isMobile() && !isLoading ? "relative" : "absolute",
+                position:
+                    isMobile(height, width) && !isLoading
+                        ? "relative"
+                        : "absolute",
                 top: 0,
                 height: 50,
                 width: "100%",

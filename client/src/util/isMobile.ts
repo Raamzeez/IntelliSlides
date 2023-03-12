@@ -1,7 +1,6 @@
 import useWindowDimensions from "./useWindowDimensions"
 
-const useMobile = () => {
-    const { height, width } = useWindowDimensions()
+const isMobile = (height: number, width: number) => {
     const maxHeight = 730
     const maxWidth = 600
     if (height < maxHeight || width < maxWidth) {
@@ -10,4 +9,4 @@ const useMobile = () => {
     return false
 }
 
-export default useMobile
+export default isMobile

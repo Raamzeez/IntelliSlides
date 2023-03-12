@@ -122,6 +122,8 @@ const App: FC = () => {
         warning: "",
         error: null,
     })
+    console.log(user)
+    console.log(state)
 
     const fetchUser = async () => {
         const response = await api.get("/user/userInfo")
@@ -410,56 +412,6 @@ const App: FC = () => {
                         onCloseHandler={() => onHideAlert()}
                     />
                 )}
-                {!(state.submit && state.loading) && (
-                    <>
-                        <Row>
-                            <Col xs={12}>
-                                <h2
-                                    style={{
-                                        color: "white",
-                                        fontWeight: 500,
-                                        transition: "all 0.5s ease",
-                                        marginTop: isMobile() ? 30 : 0,
-                                    }}
-                                    className="animate__animated animate__fadeIn animate__slow"
-                                >
-                                    {/* GPT3 Presentations< */}
-                                    IntelliSlides
-                                </h2>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={12}>
-                                <TypeAnimation
-                                    sequence={[
-                                        "Your Presentation on WW2", // Types 'One'
-                                        800, // Waits 1s
-                                        "Your Presentation on Space X", // Deletes 'One' and types 'Two'
-                                        800, // Waits 2s
-                                        "Your Presentation on the iPhone", // Deletes 'One' and types 'Two'
-                                        800, // Waits 2s
-                                        "Your Presentation on the Burj Khalifa", // Deletes 'One' and types 'Two'
-                                        800, // Waits 2s
-                                        "Your Presentation on Anything in Matters of Seconds", // Types 'Three' without deleting 'Two'
-                                        () => {
-                                            console.log("Done typing!") // Place optional callbacks anywhere in the array
-                                        },
-                                    ]}
-                                    wrapper="div"
-                                    cursor={true}
-                                    repeat={0}
-                                    style={{
-                                        fontSize: 15,
-                                        color: "lightgrey",
-                                        // position: "absolute",
-                                        // top: state.showAlert ? 120 : 70,
-                                    }}
-                                    className="poppins"
-                                />
-                            </Col>
-                        </Row>
-                    </>
-                )}
                 {state.showVersion && (
                     <VersionModal onCloseHandler={onHideVersion} />
                 )}
@@ -483,6 +435,44 @@ const App: FC = () => {
                 )}
                 {!state.submit && (
                     <>
+                        <h2
+                            style={{
+                                color: "white",
+                                fontWeight: 500,
+                                transition: "all 0.5s ease",
+                                marginTop: isMobile(height, width) ? 30 : 0,
+                            }}
+                            className="animate__animated animate__fadeIn animate__slow"
+                        >
+                            {/* GPT3 Presentations< */}
+                            IntelliSlides
+                        </h2>
+                        <TypeAnimation
+                            sequence={[
+                                "Your Presentation on WW2", // Types 'One'
+                                800, // Waits 1s
+                                "Your Presentation on Space X", // Deletes 'One' and types 'Two'
+                                800, // Waits 2s
+                                "Your Presentation on the iPhone", // Deletes 'One' and types 'Two'
+                                800, // Waits 2s
+                                "Your Presentation on the Burj Khalifa", // Deletes 'One' and types 'Two'
+                                800, // Waits 2s
+                                "Your Presentation on Anything in Matters of Seconds", // Types 'Three' without deleting 'Two'
+                                () => {
+                                    console.log("Done typing!") // Place optional callbacks anywhere in the array
+                                },
+                            ]}
+                            wrapper="div"
+                            cursor={true}
+                            repeat={0}
+                            style={{
+                                fontSize: 15,
+                                color: "lightgrey",
+                                // position: "absolute",
+                                // top: state.showAlert ? 120 : 70,
+                            }}
+                            className="poppins"
+                        />
                         <div
                             style={{
                                 position: width > 600 ? "absolute" : "relative",
