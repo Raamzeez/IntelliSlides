@@ -22,7 +22,7 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                         ? "relative"
                         : "absolute",
                 bottom: 0,
-                width: "100%",
+                width: "100vw",
             }}
             className="footerBackground"
         >

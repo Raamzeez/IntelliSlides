@@ -31,6 +31,13 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
         }
     }
 
+    const widthStyle = () => {
+        if (width > 1220) {
+            return {}
+        }
+        return { width: "80%" }
+    }
+
     return (
         <div
             style={{
@@ -40,7 +47,7 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
                         : "absolute",
                 top: 0,
                 height: 50,
-                width: "100%",
+                width: "100vw",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -52,6 +59,7 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
                 style={{
                     fontSize: alertStyling().fontSize,
                     marginTop: 10,
+                    ...widthStyle(),
                 }}
             >
                 This is a Public Beta Release - Please be aware that there may

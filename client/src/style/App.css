@@ -6,7 +6,6 @@ html, body {
 
 .App {
   overflow-x: none;
-  overflow-y: none;
   background-color: hsl(220, 13%, 18%);
   min-height: 100vh;
   display: flex;

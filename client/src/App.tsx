@@ -77,7 +77,6 @@ interface iState {
     sources: boolean
     model: Model
     submit: boolean
-    authenticating: boolean
     profileLoading: boolean
     loading: LoadingType | null
     warning: string
@@ -114,8 +113,8 @@ const App: FC = () => {
         images: false,
         sources: false,
         model: "text-davinci-003",
-        authenticating: false,
         submit: false,
+        // loading: "FetchingCategory",
         loading: null,
         // submit: true,
         // loading: "ValidateParameters",
@@ -144,6 +143,7 @@ const App: FC = () => {
         const response = await api.get("/user/userInfo")
         setState({ ...state, profileLoading: false })
         if (response.status !== 200) {
+            setUser(null)
             return console.error("Failed to fetch user")
         }
         setUser(response.data)
@@ -236,7 +236,6 @@ const App: FC = () => {
             }
             return setState({ ...state, warning: message })
         }
-        setState({ ...state, authenticating: true })
         const parametersResponse = await api.post(
             "/presentation/validateParameters",
             state,
@@ -244,11 +243,14 @@ const App: FC = () => {
                 signal: controller.signal,
             }
         )
+        if (parametersResponse.status === 401) {
+            logout()
+            return errorToast("Expired Session. Please login again.")
+        }
         setState({
             ...state,
             submit: true,
             loading: "ValidateParameters",
-            authenticating: false,
         })
         if (parametersResponse.status !== 200) {
             return setState({
@@ -406,7 +408,7 @@ const App: FC = () => {
         <>
             <Container fluid className="App">
                 <ToastContainer
-                    position="top-right"
+                    position="top-left"
                     autoClose={5000}
                     hideProgressBar={false}
                     newestOnTop={false}
@@ -496,15 +498,15 @@ const App: FC = () => {
                         />
                         <div
                             style={{
-                                position: width > 600 ? "absolute" : "relative",
-                                right: width > 600 ? 30 : 0,
+                                position: width > 700 ? "absolute" : "relative",
+                                right: width > 700 ? 30 : 0,
                                 top:
-                                    width > 600
+                                    width > 700
                                         ? state.showAlert
-                                            ? "9vh"
+                                            ? 70
                                             : 20
                                         : 0,
-                                margin: width > 600 ? 0 : 20,
+                                margin: width > 700 ? 0 : 20,
                                 transition: "all 0.5s ease",
                             }}
                             className={!user ? "shadow" : ""}
@@ -777,13 +779,6 @@ const App: FC = () => {
                     </>
                 )}
                 {state.submit && !state.loading && !state.error && (
-                    // <Success
-                    //     title={state.title}
-                    //     presentationId={state.presentationId}
-                    //     onClickHandler={() =>
-                    //         setState({ ...state, loading: null, submit: false })
-                    //     }
-                    // />
                     <Result
                         title="Success"
                         message={`Your Presentation "${state.title}" Was Created!`}
@@ -794,20 +789,6 @@ const App: FC = () => {
                     />
                 )}
                 {state.submit && state.error && (
-                    // <Error
-                    //     loadingStatus={state.loading as LoadingType}
-                    //     error={state.error}
-                    //     category={state.category}
-                    //     auto={state.auto}
-                    //     onClickHandler={() =>
-                    //         setState({
-                    //             ...state,
-                    //             loading: null,
-                    //             error: null,
-                    //             submit: false,
-                    //         })
-                    //     }
-                    // />
                     <Result
                         title="Error"
                         message={state.error.message}

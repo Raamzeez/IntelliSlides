@@ -35,7 +35,7 @@ const StatusElement: FC<StatusElementProps> = ({
     const { width } = useWindowDimensions()
 
     return (
-        <Row style={{ width: "100%", marginTop: 20 }}>
+        <Row style={{ width: "100%", margin: 20 }}>
             <Col
                 style={
                     width < 992
@@ -82,19 +82,15 @@ const StatusElement: FC<StatusElementProps> = ({
                             viewBox="0 0 500 160"
                             backgroundColor="black"
                             foregroundColor="dodgerblue"
-                            style={{
-                                // backgroundColor: "blue",
-                                position: "relative",
-                                right: 80,
-                            }}
+                            style={{ position: "absolute" }}
                         >
                             <rect
                                 x="80"
-                                y="0"
+                                y="20"
                                 rx="3"
                                 ry="3"
-                                width="800"
-                                height="140"
+                                width="600"
+                                height="120"
                             />
                         </ContentLoader>
                     </>

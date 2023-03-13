@@ -27,7 +27,7 @@ const Profile: FC<iProps> = ({
 
     return (
         <div
-            className={showLogout ? (width > 650 ? "profile" : "") : ""}
+            className={showLogout ? (width > 800 ? "profile" : "") : ""}
             style={{
                 height: showLogout ? (width > 750 ? 157.5 : 130) : 100,
                 display: "flex",
