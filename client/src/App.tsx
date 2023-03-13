@@ -115,20 +115,32 @@ const App: FC = () => {
         sources: false,
         model: "text-davinci-003",
         authenticating: false,
-        // submit: false,
+        submit: false,
         loading: null,
-        submit: true,
+        // submit: true,
         // loading: "ValidateParameters",
+        // profileLoading: true,
         profileLoading: true,
         warning: "",
-        error: {
-            message: "Test",
-        },
+        error: null,
+        // error: {
+        //     message: "Test",
+        // },
     })
     console.log(user)
     console.log(state)
 
     const fetchUser = async () => {
+        // const rawToken = localStorage.getItem("id_token")
+        // if (rawToken) {
+        //     const { name, picture, email } = jwtDecode(rawToken) as iUser
+        //     setUser({ name, picture, email })
+        // } else {
+        //     setUser(null)
+        //     return console.error("Failed to fetch user")
+        // }
+        const rawData = jwtDecode(localStorage.getItem("id_token") as string)
+        console.log(rawData)
         const response = await api.get("/user/userInfo")
         setState({ ...state, profileLoading: false })
         if (response.status !== 200) {
@@ -774,7 +786,7 @@ const App: FC = () => {
                     // />
                     <Result
                         title="Success"
-                        message={`our Presentation "${state.title}" Was Created!`}
+                        message={`Your Presentation "${state.title}" Was Created!`}
                         presentationId={state.presentationId}
                         onClickHandler={() =>
                             setState({ ...state, loading: null, submit: false })
