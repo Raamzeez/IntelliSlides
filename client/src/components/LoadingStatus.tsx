@@ -7,6 +7,7 @@ import iError from "../models/error"
 import Category from "../types/category"
 import IconStatus from "../types/iconStatus"
 import LoadingType from "../types/loading"
+import useWindowDimensions from "../util/useWindowDimensions"
 
 interface iProps {
     loadingStatus: LoadingType
@@ -31,24 +32,34 @@ const StatusElement: FC<StatusElementProps> = ({
     category,
     contentLoader,
 }) => {
+    const { width } = useWindowDimensions()
+
     return (
         <Row style={{ width: "100%", marginTop: 20 }}>
             <Col
-                style={{
-                    // backgroundColor: "blue",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
+                style={
+                    width < 992
+                        ? {
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                          }
+                        : {}
+                }
                 lg={10}
             >
-                <p style={{ fontSize: 16, fontWeight: 600, marginTop: 8 }}>
+                <p
+                    style={{
+                        fontSize: width < 850 ? 12 : 16,
+                        fontWeight: 600,
+                        marginTop: 15,
+                    }}
+                >
                     {text}
                 </p>
             </Col>
             <Col
                 style={{
-                    // backgroundColor: "green",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -180,35 +191,43 @@ const LoadingStatus: FC<iProps> = ({
     console.log("loadingStatus", loadingStatus)
     console.log("error", error)
 
+    const { height, width } = useWindowDimensions()
+
     return (
         <div
             style={{
-                height: "100vh",
-                width: "25vw",
                 borderRadius: 20,
-                position: "absolute",
-                right: 50,
+                position: width < 850 || height < 600 ? "relative" : "absolute",
+                right: width < 850 || height < 600 ? 0 : 50,
                 border: "none",
-                // backgroundColor: "blue",
+                // backgroundColor: "red",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                flexDirection: "column",
+                flexDirection: width < 850 || height < 600 ? "row" : "column",
                 ...style,
             }}
             className="animate__animated animate__fadeInRight animate__fast"
         >
-            {loadingStatuses.map((status) => {
-                return (
-                    <StatusElement
-                        text={status.message}
-                        loadingStatus={status.type}
-                        category={category}
-                        status={getStatus(status.type, loadingStatus, error)}
-                        contentLoader={status.contentLoader}
-                    />
-                )
-            })}
+            {width > 500 ? (
+                loadingStatuses.map((status) => {
+                    return (
+                        <StatusElement
+                            text={status.message}
+                            loadingStatus={status.type}
+                            category={category}
+                            status={getStatus(
+                                status.type,
+                                loadingStatus,
+                                error
+                            )}
+                            contentLoader={status.contentLoader}
+                        />
+                    )
+                })
+            ) : (
+                <></>
+            )}
         </div>
     )
 }

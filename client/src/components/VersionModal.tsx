@@ -51,7 +51,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                         fontWeight: "bold",
                     }}
                 >
-                    Last Updated: 3/10/23
+                    Last Updated: 3/13/23
                 </p>
                 <h1
                     style={{
