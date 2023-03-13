@@ -20,10 +20,8 @@ import {
     Row,
 } from "react-bootstrap"
 import { toast, ToastContainer } from "react-toastify"
-import Success from "./components/Success"
 import Loading from "./components/Loading"
 import iError from "./models/error"
-import Error from "./components/Error"
 import Warning from "./components/Warning"
 import Limitations from "./components/Limitations"
 import AdvancedSettings from "./components/AdvancedSettings"
@@ -59,6 +57,7 @@ import SettingsModal from "./components/SettingsModal"
 import iPresentation from "./models/presentation"
 import { TypeAnimation } from "react-type-animation"
 import isMobile from "./util/isMobile"
+import Result from "./components/Result"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -78,6 +77,7 @@ interface iState {
     sources: boolean
     model: Model
     submit: boolean
+    authenticating: boolean
     profileLoading: boolean
     loading: LoadingType | null
     warning: string
@@ -114,13 +114,16 @@ const App: FC = () => {
         images: false,
         sources: false,
         model: "text-davinci-003",
-        submit: false,
+        authenticating: false,
+        // submit: false,
         loading: null,
-        // submit: true,
+        submit: true,
         // loading: "ValidateParameters",
         profileLoading: true,
         warning: "",
-        error: null,
+        error: {
+            message: "Test",
+        },
     })
     console.log(user)
     console.log(state)
@@ -221,7 +224,7 @@ const App: FC = () => {
             }
             return setState({ ...state, warning: message })
         }
-        setState({ ...state, submit: true, loading: "ValidateParameters" })
+        setState({ ...state, authenticating: true })
         const parametersResponse = await api.post(
             "/presentation/validateParameters",
             state,
@@ -229,6 +232,12 @@ const App: FC = () => {
                 signal: controller.signal,
             }
         )
+        setState({
+            ...state,
+            submit: true,
+            loading: "ValidateParameters",
+            authenticating: false,
+        })
         if (parametersResponse.status !== 200) {
             return setState({
                 ...state,
@@ -756,8 +765,16 @@ const App: FC = () => {
                     </>
                 )}
                 {state.submit && !state.loading && !state.error && (
-                    <Success
-                        title={state.title}
+                    // <Success
+                    //     title={state.title}
+                    //     presentationId={state.presentationId}
+                    //     onClickHandler={() =>
+                    //         setState({ ...state, loading: null, submit: false })
+                    //     }
+                    // />
+                    <Result
+                        title="Success"
+                        message={`our Presentation "${state.title}" Was Created!`}
                         presentationId={state.presentationId}
                         onClickHandler={() =>
                             setState({ ...state, loading: null, submit: false })
@@ -765,11 +782,23 @@ const App: FC = () => {
                     />
                 )}
                 {state.submit && state.error && (
-                    <Error
-                        loadingStatus={state.loading as LoadingType}
-                        error={state.error}
-                        category={state.category}
-                        auto={state.auto}
+                    // <Error
+                    //     loadingStatus={state.loading as LoadingType}
+                    //     error={state.error}
+                    //     category={state.category}
+                    //     auto={state.auto}
+                    //     onClickHandler={() =>
+                    //         setState({
+                    //             ...state,
+                    //             loading: null,
+                    //             error: null,
+                    //             submit: false,
+                    //         })
+                    //     }
+                    // />
+                    <Result
+                        title="Error"
+                        message={state.error.message}
                         onClickHandler={() =>
                             setState({
                                 ...state,
