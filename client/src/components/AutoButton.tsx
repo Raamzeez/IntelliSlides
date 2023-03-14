@@ -9,7 +9,7 @@ const AutoButton: FC<iProps> = ({ onClickHandler }) => {
     const { width } = useWindowDimensions()
 
     const [clicked, setClicked] = useState(
-        localStorage.getItem("random") === "true" ? true : false
+        localStorage.getItem("auto") === "true" ? true : false
     )
 
     // autoButton:active {
@@ -21,7 +21,7 @@ const AutoButton: FC<iProps> = ({ onClickHandler }) => {
 
     const onClick = () => {
         setClicked(!clicked)
-        localStorage.setItem("random", JSON.stringify(!clicked))
+        localStorage.setItem("auto", JSON.stringify(!clicked))
         onClickHandler()
     }
 
@@ -49,7 +49,7 @@ const AutoButton: FC<iProps> = ({ onClickHandler }) => {
             }}
             onClick={() => onClick()}
         >
-            Random
+            Auto
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import express from "express"
 import jwtDecode from "jwt-decode"
+import { DateTime } from "luxon"
 import { ObjectId } from "mongodb"
 import client from "../client"
 import dummyFacts from "../data/dummyFacts"
@@ -13,6 +14,7 @@ import errorChecks from "../hooks/errorChecks"
 import extractIDToken from "../hooks/extractIDToken"
 import subToObjectId from "../hooks/subToObjectId"
 import requireAuth from "../middleware/requireAuth"
+import slidesLimit from "../middleware/slidesLimit"
 import iSlideInfo from "../models/slideInfo"
 import iUserJWT from "../models/userJWT"
 import openai from "../openai"
@@ -37,38 +39,61 @@ presentationRouter.post("/category", async (req, res) => {
     return res.status(200).send(category)
 })
 
-presentationRouter.post("/slideTitles", async (req, res) => {
-    const { topic, category, slideCount, model } = req.body
-    console.log(`Fetching info about ${topic}...`)
-    const titles = await getTopics(openai, category, topic, slideCount, model)
-    console.log("Titles", titles)
-    return res.status(200).json(titles)
-    // console.log("Titles", dummyTitles)
-    // return res.status(200).json(dummyTitles)
-})
-
-presentationRouter.post("/slideDetails", async (req, res) => {
-    const {
-        topic,
-        category,
-        // title,
-        titles,
-    } = req.body
-    const slidesInfo: iSlideInfo[] = []
-    for (let i = 0; i < titles.length; i++) {
-        const facts = await getDetails(openai, category, titles[i], 5, topic)
-        slidesInfo.push({ title: titles[i], facts })
+presentationRouter.post(
+    "/slideTitles",
+    requireAuth,
+    slidesLimit,
+    async (req, res) => {
+        const { topic, category, slideCount, model } = req.body
+        console.log(`Fetching info about ${topic}...`)
+        const titles = await getTopics(
+            openai,
+            category,
+            topic,
+            slideCount,
+            model
+        )
+        console.log("Titles", titles)
+        return res.status(200).json(titles)
+        // console.log("Titles", dummyTitles)
+        // return res.status(200).json(dummyTitles)
     }
-    console.log("Gathered Data For Slides: \n")
-    console.log(slidesInfo)
-    return res.status(200).json(slidesInfo)
-    // console.log(dummyFacts)
-    // return res.status(200).json(dummyFacts)
-})
+)
+
+presentationRouter.post(
+    "/slideDetails",
+    requireAuth,
+    slidesLimit,
+    async (req, res) => {
+        const {
+            topic,
+            category,
+            // title,
+            titles,
+        } = req.body
+        const slidesInfo: iSlideInfo[] = []
+        for (let i = 0; i < titles.length; i++) {
+            const facts = await getDetails(
+                openai,
+                category,
+                titles[i],
+                5,
+                topic
+            )
+            slidesInfo.push({ title: titles[i], facts })
+        }
+        console.log("Gathered Data For Slides: \n")
+        console.log(slidesInfo)
+        return res.status(200).json(slidesInfo)
+        // console.log(dummyFacts)
+        // return res.status(200).json(dummyFacts)
+    }
+)
 
 presentationRouter.post(
     "/createPresentation",
     requireAuth,
+    slidesLimit,
     async (req, res) => {
         // console.log("req.body", JSON.stringify(req.body, null, 2));
         const parameters = req.body
@@ -101,6 +126,12 @@ presentationRouter.post(
             const foundUser = await userDB.findOneAndUpdate(
                 { _id },
                 {
+                    $set: {
+                        slidesInHour: {
+                            date: req.body.date,
+                            slideCount: req.body.totalSlideCount,
+                        },
+                    },
                     $push: {
                         presentations: presentation,
                     },

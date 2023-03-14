@@ -88,7 +88,7 @@ const controller = new AbortController()
 const topicTipMessage =
     'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company called "Tesla Motors" instead of something else, such as the life of the individual konwn as Nikola Tesla.'
 const categoryTipMessage =
-    'Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" may make the presentation discuss the events that unfolded. Select "Random" for a random category selection.'
+    'Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" may make the presentation discuss the events that unfolded. Select "Auto" if you want the program to choose what it believes is the most relevant category to the topic.'
 
 const App: FC = () => {
     const { height, width } = useWindowDimensions()
@@ -105,7 +105,7 @@ const App: FC = () => {
         settings: false,
         topic: "",
         category: "Event",
-        auto: localStorage.getItem("random") === "true" ? true : false,
+        auto: localStorage.getItem("auto") === "true" ? true : false,
         title: "",
         presentationId: "",
         subtitle: "",

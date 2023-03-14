@@ -205,7 +205,8 @@ const LoadingStatus: FC<iProps> = ({
             }}
             className="animate__animated animate__fadeInRight animate__fast"
         >
-            {width > 500 ? (
+            {width > 600 &&
+                height > 500 &&
                 loadingStatuses.map((status) => {
                     return (
                         <StatusElement
@@ -220,10 +221,7 @@ const LoadingStatus: FC<iProps> = ({
                             contentLoader={status.contentLoader}
                         />
                     )
-                })
-            ) : (
-                <></>
-            )}
+                })}
         </div>
     )
 }

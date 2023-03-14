@@ -83,10 +83,9 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     className="updates"
                 >
                     Here, you will find info about our latest release and the
-                    new features added with it. Expect new updates bi-weekly. We
-                    don't currently have any updates for you as this is our
-                    first update, but check in again soon when we release the
-                    next version!
+                    new features added with it. We don't currently have any
+                    updates for you as this is our first release, but check in
+                    again soon when we release the next version!
                 </p>
                 {/*
         <Pagination style={{ marginTop: 30, position: "absolute", bottom: 10 }}>
