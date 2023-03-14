@@ -13,7 +13,7 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
     console.log("ID Token: " + id_token)
     if (!id_token) {
         console.log("No ID Token")
-        return res.status(401).send("No ID Token")
+        return res.status(401).send("No ID Token Provided")
     }
 
     // Verify the JWT token to ensure that it is valid

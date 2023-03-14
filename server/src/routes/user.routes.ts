@@ -64,7 +64,11 @@ userRouter.get("/login", async (req, res) => {
         })
     } catch (err) {
         console.error(err)
-        return res.status(400).send("Error")
+        return res
+            .status(400)
+            .send(
+                "Unable to Login user. Our backend may be experiencing issues, please try again later."
+            )
     }
 })
 

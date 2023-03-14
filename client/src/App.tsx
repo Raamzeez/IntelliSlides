@@ -58,6 +58,7 @@ import iPresentation from "./models/presentation"
 import { TypeAnimation } from "react-type-animation"
 import isMobile from "./util/isMobile"
 import Result from "./components/Result"
+import { AxiosResponse } from "axios"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -126,8 +127,22 @@ const App: FC = () => {
         //     message: "Test",
         // },
     })
-    console.log(user)
-    console.log(state)
+
+    const errorHandler = (response: AxiosResponse, customState?: any) => {
+        if (response.status !== 200) {
+            if (response.status === 401 || response.status === 403) {
+                logout()
+                errorToast("Expired Session. Please login again.")
+                return
+            } else {
+                return setState({
+                    ...state,
+                    error: { status: response.status, message: response.data },
+                    ...customState,
+                })
+            }
+        }
+    }
 
     const fetchUser = async () => {
         // const rawToken = localStorage.getItem("id_token")
@@ -138,13 +153,12 @@ const App: FC = () => {
         //     setUser(null)
         //     return console.error("Failed to fetch user")
         // }
-        const rawData = jwtDecode(localStorage.getItem("id_token") as string)
-        console.log(rawData)
         const response = await api.get("/user/userInfo")
         setState({ ...state, profileLoading: false })
         if (response.status !== 200) {
             setUser(null)
-            return console.error("Failed to fetch user")
+            // errorToast("Session expired. Login again.")
+            return
         }
         setUser(response.data)
     }
@@ -169,14 +183,15 @@ const App: FC = () => {
                 "X-Requested-With": "XmlHttpRequest",
             },
         })
-        const id_token = response.data.id_token
-        const { name, email, picture } = jwtDecode(id_token) as iUser
         setState({ ...state, profileLoading: false })
-        setUser({ name, email, picture })
-        localStorage.setItem("id_token", id_token)
         if (response.status !== 200) {
+            setUser(null)
             return console.error(response.data)
         }
+        const id_token = response.data.id_token
+        const { name, email, picture } = jwtDecode(id_token) as iUser
+        setUser({ name, email, picture })
+        localStorage.setItem("id_token", id_token)
         return true
     }
 
@@ -210,7 +225,6 @@ const App: FC = () => {
 
     const errorToast = (message: string) => {
         toast.error(message, {
-            position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -236,104 +250,56 @@ const App: FC = () => {
             }
             return setState({ ...state, warning: message })
         }
-        const parametersResponse = await api.post(
-            "/presentation/validateParameters",
-            state,
-            {
-                signal: controller.signal,
-            }
-        )
-        if (parametersResponse.status === 401) {
-            logout()
-            return errorToast("Expired Session. Please login again.")
-        }
+        //######################################################################//
         setState({
             ...state,
+            error: null,
             submit: true,
             loading: "ValidateParameters",
         })
-        if (parametersResponse.status !== 200) {
-            return setState({
-                ...state,
-                loading: "ValidateParameters",
-                submit: true,
-                error: {
-                    message: parametersResponse.data,
-                    status: parametersResponse.status,
-                },
-            })
-        }
+        const parametersResponse = await api.post(
+            "/presentation/validateParameters",
+            state
+        )
+        errorHandler(parametersResponse, {
+            loading: "ValidateParameters",
+            submit: true,
+        })
         //######################################################################//
         setState({ ...state, submit: true, loading: "FetchingCategory" })
-        const categoryResponse = await api.post(
-            "/presentation/category",
-            state,
-            {
-                signal: controller.signal,
-            }
-        )
-        if (categoryResponse.status !== 200) {
-            return setState({
-                ...state,
-                loading: "FetchingCategory",
-                submit: true,
-                error: {
-                    message: "Cannot Determine Category",
-                    status: categoryResponse.status,
-                },
-            })
-        }
+        const categoryResponse = await api.post("/presentation/category", state)
+        errorHandler(categoryResponse, {
+            loading: "FetchingCategory",
+            submit: true,
+        })
+        //######################################################################//
         setState({
             ...state,
             submit: true,
             category: categoryResponse.data,
             loading: "SlideTitles",
         })
-        //######################################################################//
-        //######################################################################//
         const titlesResponse = await api.post(
             "/presentation/slideTitles",
-            state,
-            {
-                signal: controller.signal,
-            }
+            state
         )
-        if (titlesResponse.status !== 200) {
-            return setState({
-                ...state,
-                loading: "SlideTitles",
-                submit: true,
-                error: {
-                    message: "Cannot Get Titles for Each Slide",
-                    status: titlesResponse.status,
-                },
-            })
-        }
+        errorHandler(titlesResponse, { loading: "SlideTitles", submit: true })
+        //######################################################################//
         setState({
             ...state,
             submit: true,
             category: categoryResponse.data,
             loading: "SlideDetails",
         })
-        //######################################################################//
         const slideDetailsResponse = await api.post(
             "/presentation/slideDetails",
-            { ...state, titles: titlesResponse.data },
-            {
-                signal: controller.signal,
-            }
+            { ...state, titles: titlesResponse.data }
         )
-        if (slideDetailsResponse.status !== 200) {
-            return setState({
-                ...state,
-                loading: "SlideDetails",
-                submit: true,
-                error: {
-                    message: "Couldn't Gather Information",
-                    status: slideDetailsResponse.status,
-                },
-            })
-        }
+        errorHandler(slideDetailsResponse, {
+            loading: "SlideDetails",
+            submit: true,
+        })
+        //######################################################################//
         setState({
             ...state,
             submit: true,
@@ -350,17 +316,11 @@ const App: FC = () => {
             data
         )
         const presentationData = presentationResponse.data as iPresentation
-        if (presentationResponse.status !== 200) {
-            return setState({
-                ...state,
-                loading: "CreatePresentation",
-                submit: true,
-                error: {
-                    message: "Couldn't Create Presentation",
-                    status: presentationResponse.status,
-                },
-            })
-        }
+        errorHandler(presentationResponse, {
+            loading: "CreatePresentation",
+            submit: true,
+        })
+        //######################################################################//
         return setState({
             ...state,
             submit: true,

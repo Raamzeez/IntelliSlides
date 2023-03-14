@@ -28,7 +28,11 @@ const slidesLimit = async (req: Request, res: Response, next: NextFunction) => {
     const prevDate = DateTime.fromJSDate(foundUser.slidesInHour.date)
     const updatedSlideCount = prevSlideCount + req.body.parameters.slideCount
     if (prevDate.hasSame(now, "hour") && updatedSlideCount > max) {
-        return res.status(429).send("Exceeds slide count")
+        return res
+            .status(429)
+            .send(
+                "You have exceeded the number of generated slides per hour. Please try again later."
+            )
     } else {
         req.body.date = now.toJSDate()
         req.body.totalSlideCount = updatedSlideCount
