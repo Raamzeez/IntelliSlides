@@ -135,10 +135,12 @@ const App: FC = () => {
                 errorToast("Expired Session. Please login again.")
                 return
             } else {
+                console.log(response.status)
+                console.log("Error handling")
                 return setState({
                     ...state,
-                    error: { status: response.status, message: response.data },
                     ...customState,
+                    error: { status: response.status, message: response.data },
                 })
             }
         }
@@ -253,7 +255,6 @@ const App: FC = () => {
         //######################################################################//
         setState({
             ...state,
-            error: null,
             submit: true,
             loading: "ValidateParameters",
         })
@@ -345,13 +346,6 @@ const App: FC = () => {
         setState({ ...state, showVersion: true })
     }
 
-    const isLoading = () => {
-        if (state.submit && state.loading && !state.error && user) {
-            return true
-        }
-        return false
-    }
-
     const disable = () => {
         if (
             state.topic.length >= 2 &&
@@ -363,6 +357,8 @@ const App: FC = () => {
         }
         return true
     }
+
+    console.log(state)
 
     return (
         <>
@@ -441,9 +437,6 @@ const App: FC = () => {
                                 "Your Presentation on the Burj Khalifa", // Deletes 'One' and types 'Two'
                                 800, // Waits 2s
                                 "Your Presentation on Anything in Matters of Seconds", // Types 'Three' without deleting 'Two'
-                                () => {
-                                    console.log("Done typing!") // Place optional callbacks anywhere in the array
-                                },
                             ]}
                             wrapper="div"
                             cursor={true}
@@ -451,8 +444,6 @@ const App: FC = () => {
                             style={{
                                 fontSize: 15,
                                 color: "lightgrey",
-                                // position: "absolute",
-                                // top: state.showAlert ? 120 : 70,
                             }}
                             className="poppins"
                         />
@@ -667,7 +658,7 @@ const App: FC = () => {
                                 }
                             />
                         </div>
-                        <div style={{ marginBottom: 25 }}>
+                        <div style={{ marginBottom: 5 }}>
                             <NumberInput
                                 label="Slide Count: "
                                 value={state.slideCount}
@@ -682,6 +673,15 @@ const App: FC = () => {
                                 max={20}
                             />
                         </div>
+                        <p
+                            style={{
+                                fontSize: 11,
+                                marginBottom: 25,
+                                color: "red",
+                            }}
+                        >
+                            Limited to a total of 50 slides/hr
+                        </p>
                         <div>
                             <Button
                                 type={!user ? "secondary" : "success"}
@@ -738,16 +738,23 @@ const App: FC = () => {
                         />
                     </>
                 )}
-                {state.submit && !state.loading && !state.error && (
-                    <Result
-                        title="Success"
-                        message={`Your Presentation "${state.title}" Was Created!`}
-                        presentationId={state.presentationId}
-                        onClickHandler={() =>
-                            setState({ ...state, loading: null, submit: false })
-                        }
-                    />
-                )}
+                {state.submit &&
+                    !state.loading &&
+                    !state.error &&
+                    state.presentationId && (
+                        <Result
+                            title="Success"
+                            message={`Your Presentation "${state.title}" Was Created!`}
+                            presentationId={state.presentationId}
+                            onClickHandler={() =>
+                                setState({
+                                    ...state,
+                                    loading: null,
+                                    submit: false,
+                                })
+                            }
+                        />
+                    )}
                 {state.submit && state.error && (
                     <Result
                         title="Error"

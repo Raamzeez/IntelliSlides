@@ -207,9 +207,10 @@ const LoadingStatus: FC<iProps> = ({
         >
             {width > 600 &&
                 height > 500 &&
-                loadingStatuses.map((status) => {
+                loadingStatuses.map((status, index) => {
                     return (
                         <StatusElement
+                            key={index}
                             text={status.message}
                             loadingStatus={status.type}
                             category={category}

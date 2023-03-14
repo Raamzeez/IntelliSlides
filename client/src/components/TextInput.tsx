@@ -57,7 +57,12 @@ const TextInput: FC<iProps> = ({
             }}
         >
             <Col className="centerContainer" lg={1}>
-                {info && <InfoIcon onClickHandler={onTipClickHandler} />}
+                {info && (
+                    <InfoIcon
+                        onClickHandler={onTipClickHandler}
+                        style={{ position: "absolute" }}
+                    />
+                )}
             </Col>
             <Col className="centerContainer" lg={2}>
                 <p style={{ fontSize: 15, marginTop: 15 }}>{label}:</p>
