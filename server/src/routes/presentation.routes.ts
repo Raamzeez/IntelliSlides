@@ -22,22 +22,32 @@ import userDB from "../schemas/user"
 
 const presentationRouter = express.Router()
 
-presentationRouter.post("/validateParameters", (req, res) => {
-    const { topic, category, slideCount } = req.body
-    errorChecks(topic, slideCount, category, res)
-    return res.status(200).send("OK")
-})
-
-presentationRouter.post("/category", async (req, res) => {
-    const { topic, auto, category } = req.body
-    if (auto) {
-        const response = await getCategory(openai, topic)
-        console.log("Category:", response)
-        return res.status(200).send(response)
+presentationRouter.post(
+    "/validateParameters",
+    requireAuth,
+    slidesLimit,
+    (req, res) => {
+        const { topic, category, slideCount } = req.body
+        errorChecks(topic, slideCount, category, res)
+        return res.status(200).send("OK")
     }
-    console.log("Category:", category)
-    return res.status(200).send(category)
-})
+)
+
+presentationRouter.post(
+    "/category",
+    requireAuth,
+    slidesLimit,
+    async (req, res) => {
+        const { topic, auto, category } = req.body
+        if (auto) {
+            const response = await getCategory(openai, topic)
+            console.log("Category:", response)
+            return res.status(200).send(response)
+        }
+        console.log("Category:", category)
+        return res.status(200).send(category)
+    }
+)
 
 presentationRouter.post(
     "/slideTitles",

@@ -58,7 +58,7 @@ import iPresentation from "./models/presentation"
 import { TypeAnimation } from "react-type-animation"
 import isMobile from "./util/isMobile"
 import Result from "./components/Result"
-import { AxiosResponse } from "axios"
+import { AxiosError, AxiosResponse } from "axios"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -80,7 +80,7 @@ interface iState {
     submit: boolean
     profileLoading: boolean
     loading: LoadingType | null
-    warning: string
+    warning: string | null
     error: iError | null
 }
 
@@ -121,7 +121,7 @@ const App: FC = () => {
         // loading: "ValidateParameters",
         // profileLoading: true,
         profileLoading: true,
-        warning: "",
+        warning: null,
         error: null,
         // error: {
         //     message: "Test",
@@ -129,6 +129,13 @@ const App: FC = () => {
     })
 
     const errorHandler = (response: AxiosResponse, customState?: any) => {
+        console.log(customState)
+        const setStateObject = {
+            ...state,
+            ...customState,
+            error: { status: response.status, message: response.data },
+        }
+        console.log(setStateObject)
         if (response.status !== 200) {
             if (response.status === 401 || response.status === 403) {
                 logout()
@@ -137,24 +144,14 @@ const App: FC = () => {
             } else {
                 console.log(response.status)
                 console.log("Error handling")
-                return setState({
-                    ...state,
-                    ...customState,
-                    error: { status: response.status, message: response.data },
-                })
+                // setState(setStateObject)
+                return setStateObject
             }
         }
     }
 
     const fetchUser = async () => {
-        // const rawToken = localStorage.getItem("id_token")
-        // if (rawToken) {
-        //     const { name, picture, email } = jwtDecode(rawToken) as iUser
-        //     setUser({ name, picture, email })
-        // } else {
-        //     setUser(null)
-        //     return console.error("Failed to fetch user")
-        // }
+        // try {
         const response = await api.get("/user/userInfo")
         setState({ ...state, profileLoading: false })
         if (response.status !== 200) {
@@ -163,6 +160,9 @@ const App: FC = () => {
             return
         }
         setUser(response.data)
+        // } catch (err) {
+        //     errorToast((err as AxiosError).message)
+        // }
     }
 
     useEffect(() => {
@@ -178,7 +178,7 @@ const App: FC = () => {
         const URL =
             "http://localhost:4000/api/v1/user/login?" +
             new URLSearchParams(tokenResponse).toString()
-
+        // try {
         const response = await api.get(URL, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -195,6 +195,10 @@ const App: FC = () => {
         setUser({ name, email, picture })
         localStorage.setItem("id_token", id_token)
         return true
+        // } catch (err) {
+        //     console.log("Caught")
+        //     errorToast((err as AxiosError).message)
+        // }
     }
 
     const logout = async () => {
@@ -237,11 +241,14 @@ const App: FC = () => {
         })
     }
 
-    const onSubmitHandler = async () => {
+    const onSubmitHandler = async (confirm?: boolean) => {
+        // try {
+        console.log("onSubmitHandler")
         if (disable()) {
             return errorToast("Please fill out all required fields!")
         }
-        if (!state.title || !state.subtitle) {
+        console.log(confirm)
+        if ((!state.title || !state.subtitle) && !confirm) {
             let message = ""
             if (!state.subtitle && !state.title) {
                 message = "Your presentation will have no title and no subtitle"
@@ -257,17 +264,26 @@ const App: FC = () => {
             ...state,
             submit: true,
             loading: "ValidateParameters",
+            warning: null,
         })
         const parametersResponse = await api.post(
             "/presentation/validateParameters",
             state
         )
-        errorHandler(parametersResponse, {
+        console.log("We have finished with request")
+        const parametersError = errorHandler(parametersResponse, {
             loading: "ValidateParameters",
             submit: true,
         })
+        if (parametersError) {
+            return setState(parametersError)
+        }
         //######################################################################//
-        setState({ ...state, submit: true, loading: "FetchingCategory" })
+        setState({
+            ...state,
+            submit: true,
+            loading: "FetchingCategory",
+        })
         const categoryResponse = await api.post("/presentation/category", state)
         errorHandler(categoryResponse, {
             loading: "FetchingCategory",
@@ -284,7 +300,13 @@ const App: FC = () => {
             "/presentation/slideTitles",
             state
         )
-        errorHandler(titlesResponse, { loading: "SlideTitles", submit: true })
+        const titlesError = errorHandler(titlesResponse, {
+            loading: "SlideTitles",
+            submit: true,
+        })
+        if (titlesError) {
+            return setState(titlesError)
+        }
         //######################################################################//
         setState({
             ...state,
@@ -296,10 +318,13 @@ const App: FC = () => {
             "/presentation/slideDetails",
             { ...state, titles: titlesResponse.data }
         )
-        errorHandler(slideDetailsResponse, {
+        const slideDetailsError = errorHandler(slideDetailsResponse, {
             loading: "SlideDetails",
             submit: true,
         })
+        if (slideDetailsError) {
+            return setState(slideDetailsError)
+        }
         //######################################################################//
         setState({
             ...state,
@@ -317,10 +342,13 @@ const App: FC = () => {
             data
         )
         const presentationData = presentationResponse.data as iPresentation
-        errorHandler(presentationResponse, {
+        const presentationError = errorHandler(presentationResponse, {
             loading: "CreatePresentation",
             submit: true,
         })
+        if (presentationError) {
+            return setState(presentationError)
+        }
         //######################################################################//
         return setState({
             ...state,
@@ -329,6 +357,18 @@ const App: FC = () => {
             presentationId: presentationData.presentationId,
             error: null,
         })
+        // } catch (err) {
+        //     // errorToast((err as AxiosError).message)
+        //     setState({
+        //         ...state,
+        //         loading: "ValidateParameters",
+        //         submit: true,
+        //         error: {
+        //             message: (err as AxiosError).message,
+        //             status: (err as AxiosError).status,
+        //         },
+        //     })
+        // }
     }
 
     const onCancelHandler = () => {
@@ -378,7 +418,7 @@ const App: FC = () => {
                 />
                 {state.warning && (
                     <Warning
-                        onClickHandler={onSubmitHandler}
+                        onClickHandler={() => onSubmitHandler(true)}
                         onCloseHandler={() =>
                             setState({ ...state, warning: "" })
                         }
