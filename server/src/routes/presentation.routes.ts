@@ -30,6 +30,7 @@ presentationRouter.post(
         const { topic, category, slideCount } = req.body
         errorChecks(topic, slideCount, category, res)
         return res.status(200).send("OK")
+        // return res.status(400).send("FAIL")
     }
 )
 

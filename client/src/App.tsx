@@ -58,7 +58,7 @@ import iPresentation from "./models/presentation"
 import { TypeAnimation } from "react-type-animation"
 import isMobile from "./util/isMobile"
 import Result from "./components/Result"
-import { AxiosError, AxiosResponse } from "axios"
+import { Axios, AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "./components/SlideCountTip"
 // import SettingsModal from "./components/SettingsModal";
 
@@ -133,6 +133,7 @@ const App: FC = () => {
         const setStateObject = {
             ...state,
             ...customState,
+            warning: null,
             error: { status: response.status, message: response.data },
         }
         if (response.status !== 200) {
@@ -149,19 +150,35 @@ const App: FC = () => {
         }
     }
 
-    const fetchUser = async () => {
-        // try {
-        const response = await api.get("/user/userInfo")
-        setState({ ...state, profileLoading: false })
-        if (response.status !== 200) {
-            setUser(null)
-            // errorToast("Session expired. Login again.")
-            return
+    const errorMessage = (err: AxiosError) => {
+        let errorMessage = (err as AxiosError).message
+        if (errorMessage === "Network Error") {
+            errorMessage +=
+                " - Unable to Reach Our Servers. Please try again later."
         }
-        setUser(response.data)
-        // } catch (err) {
-        //     errorToast((err as AxiosError).message)
-        // }
+        return errorMessage
+    }
+
+    const fetchUser = async () => {
+        try {
+            if (localStorage.getItem("id_token")) {
+                const response = await api.get("/user/userInfo")
+                setState({ ...state, profileLoading: false })
+                if (response.status !== 200) {
+                    setUser(null)
+                    // errorToast("Session expired. Login again.")
+                    return
+                }
+                setUser(response.data)
+            } else {
+                setState({ ...state, profileLoading: false })
+                setUser(null)
+                return
+            }
+        } catch (err) {
+            console.error(err)
+            errorToast(errorMessage(err as AxiosError))
+        }
     }
 
     useEffect(() => {
@@ -174,30 +191,31 @@ const App: FC = () => {
             "error" | "error_description" | "error_uri"
         >
     ) => {
-        const URL =
-            "http://localhost:4000/api/v1/user/login?" +
-            new URLSearchParams(tokenResponse).toString()
-        // try {
-        const response = await api.get(URL, {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "X-Requested-With": "XmlHttpRequest",
-            },
-        })
-        setState({ ...state, profileLoading: false })
-        if (response.status !== 200) {
-            setUser(null)
-            return console.error(response.data)
+        try {
+            const URL =
+                "http://localhost:4000/api/v1/user/login?" +
+                new URLSearchParams(tokenResponse).toString()
+            // try {
+            const response = await api.get(URL, {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-Requested-With": "XmlHttpRequest",
+                },
+            })
+            setState({ ...state, profileLoading: false })
+            if (response.status !== 200) {
+                setUser(null)
+                return console.error(response.data)
+            }
+            const id_token = response.data.id_token
+            const { name, email, picture } = jwtDecode(id_token) as iUser
+            setUser({ name, email, picture })
+            localStorage.setItem("id_token", id_token)
+            return true
+        } catch (err) {
+            console.log("Caught error")
+            errorToast(errorMessage(err as AxiosError))
         }
-        const id_token = response.data.id_token
-        const { name, email, picture } = jwtDecode(id_token) as iUser
-        setUser({ name, email, picture })
-        localStorage.setItem("id_token", id_token)
-        return true
-        // } catch (err) {
-        //     console.log("Caught")
-        //     errorToast((err as AxiosError).message)
-        // }
     }
 
     const logout = async () => {
@@ -241,12 +259,13 @@ const App: FC = () => {
     }
 
     const onSubmitHandler = async (confirm: boolean) => {
-        // try {
-        console.log("Calling onSubmitHandler")
         if (disable()) {
             return errorToast("Please fill out all required fields!")
         }
-        console.log("Confirm: " + confirm)
+        if (confirm) {
+            console.log("We need to remove warning")
+            setState({ ...state, warning: null })
+        }
         if ((!state.title || !state.subtitle) && !confirm) {
             let message = ""
             if (!state.subtitle && !state.title) {
@@ -262,111 +281,122 @@ const App: FC = () => {
         setState({
             ...state,
             submit: true,
+            warning: null,
             loading: "ValidateParameters",
         })
-        const parametersResponse = await api.post(
-            "/presentation/validateParameters",
-            state
-        )
-        console.log("We have finished with request")
-        const parametersError = errorHandler(parametersResponse, {
-            loading: "ValidateParameters",
-            submit: true,
-        })
-        if (parametersError) {
-            return setState(parametersError)
+        try {
+            const parametersResponse = await api.post(
+                "/presentation/validateParameters",
+                state
+            )
+            console.log("We have finished with request")
+            const parametersError = errorHandler(parametersResponse, {
+                loading: "ValidateParameters",
+                submit: true,
+            })
+            if (parametersError) {
+                return setState(parametersError)
+            }
+            //######################################################################//
+            setState({
+                ...state,
+                submit: true,
+                loading: "FetchingCategory",
+                warning: null,
+            })
+            const categoryResponse = await api.post(
+                "/presentation/category",
+                state
+            )
+            errorHandler(categoryResponse, {
+                loading: "FetchingCategory",
+                submit: true,
+            })
+            //######################################################################//
+            setState({
+                ...state,
+                submit: true,
+                category: categoryResponse.data,
+                loading: "SlideTitles",
+                warning: null,
+            })
+            const titlesResponse = await api.post(
+                "/presentation/slideTitles",
+                state
+            )
+            const titlesError = errorHandler(titlesResponse, {
+                loading: "SlideTitles",
+                submit: true,
+            })
+            if (titlesError) {
+                return setState(titlesError)
+            }
+            //######################################################################//
+            setState({
+                ...state,
+                submit: true,
+                category: categoryResponse.data,
+                loading: "SlideDetails",
+                warning: null,
+            })
+            const slideDetailsResponse = await api.post(
+                "/presentation/slideDetails",
+                { ...state, titles: titlesResponse.data }
+            )
+            const slideDetailsError = errorHandler(slideDetailsResponse, {
+                loading: "SlideDetails",
+                submit: true,
+            })
+            if (slideDetailsError) {
+                return setState(slideDetailsError)
+            }
+            //######################################################################//
+            setState({
+                ...state,
+                submit: true,
+                category: categoryResponse.data,
+                warning: null,
+                loading: "CreatePresentation",
+            })
+            const data = {
+                slidesInfo: slideDetailsResponse.data,
+                accessToken: localStorage.getItem("access_token"),
+                ...state,
+            }
+            const presentationResponse = await api.post(
+                "/presentation/createPresentation",
+                data
+            )
+            const presentationData = presentationResponse.data as iPresentation
+            const presentationError = errorHandler(presentationResponse, {
+                loading: "CreatePresentation",
+                submit: true,
+            })
+            if (presentationError) {
+                return setState(presentationError)
+            }
+            //######################################################################//
+            return setState({
+                ...state,
+                submit: true,
+                warning: null,
+                loading: null,
+                presentationId: presentationData.presentationId,
+                error: null,
+            })
+        } catch (err) {
+            console.log("Caught error")
+            setState({
+                ...state,
+                // loading: "ValidateParameters",
+                submit: true,
+                warning: null,
+                error: {
+                    message: errorMessage(err as AxiosError),
+                    status: (err as AxiosError).status,
+                },
+            })
         }
-        //######################################################################//
-        setState({
-            ...state,
-            submit: true,
-            loading: "FetchingCategory",
-        })
-        const categoryResponse = await api.post("/presentation/category", state)
-        errorHandler(categoryResponse, {
-            loading: "FetchingCategory",
-            submit: true,
-        })
-        //######################################################################//
-        setState({
-            ...state,
-            submit: true,
-            category: categoryResponse.data,
-            loading: "SlideTitles",
-        })
-        const titlesResponse = await api.post(
-            "/presentation/slideTitles",
-            state
-        )
-        const titlesError = errorHandler(titlesResponse, {
-            loading: "SlideTitles",
-            submit: true,
-        })
-        if (titlesError) {
-            return setState(titlesError)
-        }
-        //######################################################################//
-        setState({
-            ...state,
-            submit: true,
-            category: categoryResponse.data,
-            loading: "SlideDetails",
-        })
-        const slideDetailsResponse = await api.post(
-            "/presentation/slideDetails",
-            { ...state, titles: titlesResponse.data }
-        )
-        const slideDetailsError = errorHandler(slideDetailsResponse, {
-            loading: "SlideDetails",
-            submit: true,
-        })
-        if (slideDetailsError) {
-            return setState(slideDetailsError)
-        }
-        //######################################################################//
-        setState({
-            ...state,
-            submit: true,
-            category: categoryResponse.data,
-            loading: "CreatePresentation",
-        })
-        const data = {
-            slidesInfo: slideDetailsResponse.data,
-            accessToken: localStorage.getItem("access_token"),
-            ...state,
-        }
-        const presentationResponse = await api.post(
-            "/presentation/createPresentation",
-            data
-        )
-        const presentationData = presentationResponse.data as iPresentation
-        const presentationError = errorHandler(presentationResponse, {
-            loading: "CreatePresentation",
-            submit: true,
-        })
-        if (presentationError) {
-            return setState(presentationError)
-        }
-        //######################################################################//
-        return setState({
-            ...state,
-            submit: true,
-            loading: null,
-            presentationId: presentationData.presentationId,
-            error: null,
-        })
-        // } catch (err) {
-        //     // errorToast((err as AxiosError).message)
-        //     setState({
-        //         ...state,
-        //         loading: "ValidateParameters",
-        //         submit: true,
-        //         error: {
-        //             message: (err as AxiosError).message,
-        //             status: (err as AxiosError).status,
-        //         },
-        //     })
-        // }
     }
 
     const onCancelHandler = () => {
@@ -397,11 +427,6 @@ const App: FC = () => {
         return true
     }
 
-    const onWarningContinue = () => {
-        setState({ ...state, warning: null })
-        onSubmitHandler(true)
-    }
-
     return (
         <>
             <Container fluid className="App">
@@ -420,7 +445,7 @@ const App: FC = () => {
                 />
                 {state.warning && (
                     <Warning
-                        onClickHandler={onWarningContinue}
+                        onClickHandler={() => onSubmitHandler(true)}
                         onCloseHandler={() =>
                             setState({ ...state, warning: null })
                         }
