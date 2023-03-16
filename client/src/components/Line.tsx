@@ -1,16 +1,16 @@
-import React, { FC } from "react";
+import React, { FC } from "react"
 
 const Line: FC = () => {
-  return (
-    <div
-      style={{
-        height: 2,
-        width: "100%",
-        backgroundColor: "red",
-        opacity: 0.5,
-      }}
-    />
-  );
-};
+    return (
+        <div
+            style={{
+                height: 3,
+                width: "100%",
+                backgroundColor: "#0095ff",
+                opacity: 0.7,
+            }}
+        />
+    )
+}
 
-export default Line;
+export default Line

@@ -10,11 +10,11 @@ import { theme } from "./style/theme"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
-    // <React.StrictMode>
-    <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">
-        <App />
-    </GoogleOAuthProvider>
-    // </React.StrictMode>
+    <React.StrictMode>
+        <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">
+            <App />
+        </GoogleOAuthProvider>
+    </React.StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function

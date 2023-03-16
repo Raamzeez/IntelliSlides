@@ -13,7 +13,9 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
     console.log("ID Token: " + id_token)
     if (!id_token) {
         console.log("No ID Token")
-        return res.status(401).send("No ID Token Provided")
+        return res
+            .status(401)
+            .send("Not Logged In. Please login on the home page.")
     }
 
     // Verify the JWT token to ensure that it is valid
@@ -30,7 +32,9 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
     } catch (err) {
         console.log("Unverified ID Token")
         console.error(err)
-        return res.status(403).send("Unverifiable ID Token")
+        return res
+            .status(403)
+            .send("Session Expired. Please login again on the home page.")
     }
 }
 

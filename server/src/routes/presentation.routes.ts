@@ -154,7 +154,7 @@ presentationRouter.post(
             return res.status(200).send(presentation)
         } catch (err) {
             console.error(err)
-            return res.status(400).send("FAIL")
+            return res.status(400).send("Unable to Create Presentation.")
         }
         // return res.status(200).send("OK")
     }

@@ -4,6 +4,7 @@ import { GridLoader, PacmanLoader, PropagateLoader } from "react-spinners"
 import iError from "../models/error"
 import Category from "../types/category"
 import LoadingType from "../types/loading"
+import estimatedTime from "../util/estimatedTime"
 import useWindowDimensions from "../util/useWindowDimensions"
 import LoadingStatus from "./LoadingStatus"
 // import Button from "./Button";
@@ -15,6 +16,7 @@ interface iProps {
     title: string
     category: Category
     auto: boolean
+    slideCount: number
     onClickHandler: () => void
 }
 
@@ -25,6 +27,7 @@ const Loading: FC<iProps> = ({
     title,
     category,
     auto,
+    slideCount,
     onClickHandler,
 }) => {
     const { height, width } = useWindowDimensions()
@@ -57,7 +60,7 @@ const Loading: FC<iProps> = ({
                     marginTop: 0,
                 }}
             >
-                This may several minutes...
+                Estimated time: {estimatedTime(slideCount)}
             </p>
             <LoadingStatus
                 loadingStatus={loadingStatus}

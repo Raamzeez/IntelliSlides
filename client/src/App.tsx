@@ -59,6 +59,7 @@ import { TypeAnimation } from "react-type-animation"
 import isMobile from "./util/isMobile"
 import Result from "./components/Result"
 import { AxiosError, AxiosResponse } from "axios"
+import SlideCountTip from "./components/SlideCountTip"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -129,24 +130,22 @@ const App: FC = () => {
     })
 
     const errorHandler = (response: AxiosResponse, customState?: any) => {
-        console.log(customState)
         const setStateObject = {
             ...state,
             ...customState,
             error: { status: response.status, message: response.data },
         }
-        console.log(setStateObject)
         if (response.status !== 200) {
-            if (response.status === 401 || response.status === 403) {
-                logout()
-                errorToast("Expired Session. Please login again.")
-                return
-            } else {
-                console.log(response.status)
-                console.log("Error handling")
-                // setState(setStateObject)
-                return setStateObject
-            }
+            // if (response.status === 401 || response.status === 403) {
+            //     logout()
+            //     errorToast("Expired Session. Please login again.")
+            //     return
+            // } else {
+            console.log(response.status)
+            console.log("Error handling")
+            // setState(setStateObject)
+            return setStateObject
+            // }
         }
     }
 
@@ -241,13 +240,13 @@ const App: FC = () => {
         })
     }
 
-    const onSubmitHandler = async (confirm?: boolean) => {
+    const onSubmitHandler = async (confirm: boolean) => {
         // try {
-        console.log("onSubmitHandler")
+        console.log("Calling onSubmitHandler")
         if (disable()) {
             return errorToast("Please fill out all required fields!")
         }
-        console.log(confirm)
+        console.log("Confirm: " + confirm)
         if ((!state.title || !state.subtitle) && !confirm) {
             let message = ""
             if (!state.subtitle && !state.title) {
@@ -264,7 +263,6 @@ const App: FC = () => {
             ...state,
             submit: true,
             loading: "ValidateParameters",
-            warning: null,
         })
         const parametersResponse = await api.post(
             "/presentation/validateParameters",
@@ -390,6 +388,7 @@ const App: FC = () => {
         if (
             state.topic.length >= 2 &&
             state.slideCount >= 1 &&
+            state.slideCount <= 20 &&
             categories.filter((category) => category === state.category)
                 .length === 1
         ) {
@@ -398,7 +397,10 @@ const App: FC = () => {
         return true
     }
 
-    console.log(state)
+    const onWarningContinue = () => {
+        setState({ ...state, warning: null })
+        onSubmitHandler(true)
+    }
 
     return (
         <>
@@ -418,9 +420,9 @@ const App: FC = () => {
                 />
                 {state.warning && (
                     <Warning
-                        onClickHandler={() => onSubmitHandler(true)}
+                        onClickHandler={onWarningContinue}
                         onCloseHandler={() =>
-                            setState({ ...state, warning: "" })
+                            setState({ ...state, warning: null })
                         }
                         message={state.warning}
                     />
@@ -713,15 +715,7 @@ const App: FC = () => {
                                 max={20}
                             />
                         </div>
-                        <p
-                            style={{
-                                fontSize: 11,
-                                marginBottom: 25,
-                                color: "red",
-                            }}
-                        >
-                            Limited to a total of 50 slides/hr
-                        </p>
+                        <SlideCountTip slideCount={state.slideCount} />
                         <div>
                             <Button
                                 type={!user ? "secondary" : "success"}
@@ -729,7 +723,9 @@ const App: FC = () => {
                                 // type={"success"}
                                 // value={"Submit"}
                                 onClickHandler={
-                                    !user ? onLogin : onSubmitHandler
+                                    !user
+                                        ? onLogin
+                                        : () => onSubmitHandler(false)
                                 }
                                 // onClickHandler={login}
                                 disabled={disable()}
@@ -774,6 +770,7 @@ const App: FC = () => {
                             title={state.title}
                             category={state.category}
                             auto={state.auto}
+                            slideCount={state.slideCount}
                             onClickHandler={onCancelHandler}
                         />
                     </>

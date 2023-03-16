@@ -25,7 +25,9 @@ userRouter.get("/login", async (req, res) => {
     try {
         //Google guidelines suggest we check and verify the header name and value
         if (req.headers["x-requested-with"] !== "XmlHttpRequest") {
-            return res.status(400).send("Invalid Headers")
+            return res
+                .status(400)
+                .send("Invalid Login Request. Please try again.")
         }
         //We retrieve the authorization code from the request
         const code = req.query.code as string
