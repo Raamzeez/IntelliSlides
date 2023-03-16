@@ -19,6 +19,32 @@ userRouter.get("/userInfo", requireAuth, (req, res) => {
     return res.status(200).send(responseObj)
 })
 
+userRouter.get("/delete", requireAuth, async (req, res) => {
+    const _id = new ObjectId(
+        subToObjectId((jwtDecode(extractIDToken(req)) as iUserJWT).sub)
+    )
+    const foundUser = await userDB.findOne({ _id })
+    if (!foundUser) {
+        console.log("Cannot find user with that id")
+        return res
+            .status(404)
+            .send("The user doesn't have any data in our database yet.")
+    }
+    try {
+        const deletedUser = await foundUser.delete()
+        console.log("Sucessfully deleted user: \n", deletedUser)
+        return res.status(200).send("Success!")
+    } catch (err) {
+        console.log("Could not internally delete user")
+        console.error(err)
+        return res
+            .status(500)
+            .send(
+                "Server/Internal Issue - Unable to Delete User. Please try again later."
+            )
+    }
+})
+
 userRouter.get("/login", async (req, res) => {
     console.log("Verifying Code")
     // console.log(req.headers);

@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import { Image } from "react-bootstrap"
 import useWindowDimensions from "../util/useWindowDimensions"
-import LogoutButton from "./LogoutButton"
+import ProfileButton from "./ProfileButton"
 
 interface iProps {
     imageURL: string
@@ -9,6 +9,7 @@ interface iProps {
     name: string
     showLogout: boolean
     onLogoutHandler: () => void
+    onDeleteHandler: () => void
 }
 
 const Profile: FC<iProps> = ({
@@ -17,6 +18,7 @@ const Profile: FC<iProps> = ({
     name,
     showLogout,
     onLogoutHandler,
+    onDeleteHandler,
 }) => {
     const { width } = useWindowDimensions()
 
@@ -27,9 +29,9 @@ const Profile: FC<iProps> = ({
 
     return (
         <div
-            className={showLogout ? (width > 800 ? "profile" : "") : ""}
+            className={showLogout ? (width > 992 ? "profile" : "") : ""}
             style={{
-                height: showLogout ? (width > 750 ? 157.5 : 130) : 100,
+                height: showLogout ? (width > 992 ? 197.5 : 170) : 100,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -41,11 +43,26 @@ const Profile: FC<iProps> = ({
                 src={imageURL}
                 height={50}
                 width={50}
-                style={{ borderRadius: 25, marginTop: 20 }}
+                style={{ borderRadius: 25, marginTop: 10 }}
                 className="shadow"
             />
-            {width > 750 && <p style={{ fontSize: 10, margin: 10 }}>{email}</p>}
-            {showLogout && <LogoutButton onClickHandler={onLogoutHandler} />}
+            {width > 992 && <p style={{ fontSize: 10, margin: 10 }}>{email}</p>}
+            {showLogout && (
+                <>
+                    <ProfileButton
+                        backgroundColor="orange"
+                        hoverBackgroundColor="darkorange"
+                        label="Logout"
+                        onClickHandler={onLogoutHandler}
+                    />
+                    <ProfileButton
+                        label="Delete"
+                        backgroundColor="#d60032"
+                        hoverBackgroundColor="darkred"
+                        onClickHandler={onDeleteHandler}
+                    />
+                </>
+            )}
         </div>
     )
 }

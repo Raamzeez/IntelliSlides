@@ -47,7 +47,7 @@ import useWindowDimensions from "./util/useWindowDimensions"
 import InfoIcon from "./components/InfoIcon"
 import Profile from "./components/Profile"
 import iUser from "./models/user"
-import LogoutButton from "./components/LogoutButton"
+import LogoutButton from "./components/ProfileButton"
 import LoginButton from "./components/LoginButton"
 // import ThemeButton from "./components/ThemeButton";
 import { CircleLoader } from "react-spinners"
@@ -137,16 +137,12 @@ const App: FC = () => {
             error: { status: response.status, message: response.data },
         }
         if (response.status !== 200) {
-            // if (response.status === 401 || response.status === 403) {
-            //     logout()
-            //     errorToast("Expired Session. Please login again.")
-            //     return
-            // } else {
             console.log(response.status)
             console.log("Error handling")
-            // setState(setStateObject)
+            if (response.status === 401 || response.status === 403) {
+                logout()
+            }
             return setStateObject
-            // }
         }
     }
 
@@ -224,6 +220,25 @@ const App: FC = () => {
         localStorage.removeItem("id_token")
     }
 
+    const onDeleteUser = async () => {
+        console.log(localStorage.getItem("id_token"))
+        setState({ ...state, profileLoading: true })
+        try {
+            const response = await api.get("/user/delete")
+            if (response.status !== 200) {
+                setState({ ...state, profileLoading: false })
+                errorToast(response.data)
+            } else {
+                logout()
+                successToast("Successfully deleted user!")
+            }
+            setState({ ...state, profileLoading: false })
+        } catch (err) {
+            setState({ ...state, profileLoading: false })
+            return errorToast(errorMessage(err as AxiosError))
+        }
+    }
+
     const onLogin = useGoogleLogin({
         onSuccess: (tokenResponse) => {
             login(tokenResponse)
@@ -247,18 +262,16 @@ const App: FC = () => {
     }
 
     const errorToast = (message: string) => {
-        toast.error(message, {
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-        })
+        toast.error(message)
+    }
+
+    const successToast = (message: string) => {
+        toast.success(message)
     }
 
     const onSubmitHandler = async (confirm: boolean) => {
+        console.log("Calling onSubmitHandler")
+        // console.log("id_token", localStorage.getItem("id_token"))
         if (disable()) {
             return errorToast("Please fill out all required fields!")
         }
@@ -544,6 +557,7 @@ const App: FC = () => {
                                                 name={user.name}
                                                 showLogout={true}
                                                 onLogoutHandler={logout}
+                                                onDeleteHandler={onDeleteUser}
                                             />
                                         </div>
                                     )}
@@ -786,6 +800,7 @@ const App: FC = () => {
                                 name={user.name}
                                 showLogout={false}
                                 onLogoutHandler={logout}
+                                onDeleteHandler={onDeleteUser}
                             />
                         </div>
                         <Loading
