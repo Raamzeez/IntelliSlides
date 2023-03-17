@@ -1,21 +1,21 @@
-import React, { FC } from "react";
+import React, { CSSProperties, FC, useState } from "react"
 
 interface iProps {
-  label: string;
-  value: boolean;
-  onChangeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    value: boolean
+    onChangeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void
+    style?: CSSProperties
 }
 
-const Checkmark: FC<iProps> = ({ label, value, onChangeHandler }) => {
-  return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      <label className="container" style={{ marginTop: 10 }}>
-        <input type="checkbox" checked={value} onChange={onChangeHandler} />
-        <span className="checkmark"></span>
-      </label>
-      <p style={{ fontSize: 14, marginTop: 13, marginLeft: 10 }}>{label}</p>
-    </div>
-  );
-};
+const Checkmark: FC<iProps> = ({ value, onChangeHandler, style }) => {
+    return (
+        <label
+            className="container animate__animated animate__fadeIn animate__faster"
+            style={style}
+        >
+            <input type="checkbox" checked={value} onChange={onChangeHandler} />
+            <span className="checkmark"></span>
+        </label>
+    )
+}
 
-export default Checkmark;
+export default Checkmark
