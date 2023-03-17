@@ -17,7 +17,7 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                 style={{
                     height: "70vh",
                     width: "80vw",
-                    backgroundColor: "rgb(70, 70, 90)",
+                    backgroundColor: "#414152",
                     overflowY: "auto",
                     display: "flex",
                     justifyContent: "left",
@@ -68,7 +68,8 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                         <span style={{ textDecoration: "underline" }}>
                             This is information that is stored on our backend
                             MongoDB database, and can be associated with a user
-                            given a valid user id
+                            given a valid id. All information is private and is
+                            not visible to the public.
                         </span>
                     </p>
                     <ul>
@@ -88,10 +89,47 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                         </ol>
                         <li>Date and Number of Slides</li>
                     </ul>
+                    <p style={{ fontSize: 15 }}>
+                        App Form Data -{" "}
+                        <span style={{ textDecoration: "underline" }}>
+                            This is information related to the text and number
+                            input fields. It is stored either in the browser
+                            with local and session storage, or on our MongoDB
+                            backend server.
+                        </span>
+                    </p>
+                    <ul>
+                        <li>Topic</li>
+                        <li>Category</li>
+                        <li>Auto</li>
+                        <li>Title</li>
+                        <li>Subtitle</li>
+                        <li>Slide Count</li>
+                    </ul>
                 </div>
+                <Line />
+                <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
+                    Third-Party Services:
+                    <p
+                        style={{
+                            marginLeft: "5%",
+                            width: "70%",
+                            marginTop: 20,
+                            fontSize: 12,
+                        }}
+                    >
+                        IntelliSlides utilizes 3 major third party services to
+                        enable it's powerful capabilities. We use Google
+                        Analytics to keep track of user behavior, such as page
+                        visits and mouse clicks. This is used to improve the
+                        UI/UX for the application. We use OpenAI to get the
+                        information for the presentation slides, and Google
+                        Slides to create the presentation for the user.
+                    </p>
+                </h5>
             </div>
             <Button
-                type="primary"
+                type="success"
                 value="Agree"
                 style={{ marginTop: 15 }}
                 onClickHandler={onAgreeHandler}

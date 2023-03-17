@@ -1,18 +1,23 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import {
+    Col,
     // Carousel,
     Image,
     Modal,
     Pagination,
+    Row,
 } from "react-bootstrap"
 import fetchVersion from "../util/fetchVersion"
 import Line from "./Line"
 
 interface iProps {
+    onShowPrivacyHandler: () => void
     onCloseHandler: () => void
 }
 
-const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
+const VersionModal: FC<iProps> = ({ onShowPrivacyHandler, onCloseHandler }) => {
+    const [hover, setHover] = useState(false)
+
     return (
         <Modal show={true} onHide={onCloseHandler}>
             <div
@@ -43,16 +48,44 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                 <h4 style={{ marginTop: 20, fontWeight: 400 }}>
                     {fetchVersion()}
                 </h4>
-                <p
-                    style={{
-                        fontSize: 12,
-                        color: "dodgerblue",
-                        marginTop: -10,
-                        fontWeight: "bold",
-                    }}
-                >
-                    Last Updated: 3/14/23
-                </p>
+                <Row style={{ width: "100%" }}>
+                    <Col
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        <p
+                            style={{
+                                fontSize: 12,
+                                color: "dodgerblue",
+                                fontWeight: "bold",
+                                marginTop: 5,
+                            }}
+                        >
+                            Last Updated: 3/14/23
+                        </p>
+                    </Col>
+                    <Col
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            fontSize: 12,
+                        }}
+                        onMouseOver={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}
+                    >
+                        <p
+                            className="pointer"
+                            style={{ textDecoration: hover ? "underline" : "" }}
+                            onClick={onShowPrivacyHandler}
+                        >
+                            Privacy Policy
+                        </p>
+                    </Col>
+                </Row>
                 <h1
                     style={{
                         marginTop: 30,

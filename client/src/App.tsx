@@ -430,12 +430,12 @@ const App: FC = () => {
     }
 
     const onShowVersion = () => {
-        localStorage.setItem("showVersion", "true")
+        // localStorage.setItem("showVersion", "true")
         setState({ ...state, showVersion: true })
     }
 
     const onAgreeHandler = () => {
-        setState({ ...state, showAgreement: false })
+        setState({ ...state, showAgreement: false, showVersion: false })
         localStorage.setItem("showAgreement", "false")
     }
 
@@ -490,7 +490,12 @@ const App: FC = () => {
                             />
                         )}
                         {state.showVersion && (
-                            <VersionModal onCloseHandler={onHideVersion} />
+                            <VersionModal
+                                onShowPrivacyHandler={() =>
+                                    setState({ ...state, showAgreement: true })
+                                }
+                                onCloseHandler={onHideVersion}
+                            />
                         )}
                         {state.showTopicTip && (
                             <InfoModal
