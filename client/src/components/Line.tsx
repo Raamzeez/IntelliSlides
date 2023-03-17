@@ -8,6 +8,7 @@ const Line: FC = () => {
                 width: "100%",
                 backgroundColor: "#0095ff",
                 opacity: 0.7,
+                margin: 5,
             }}
         />
     )
