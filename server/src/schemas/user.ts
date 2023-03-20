@@ -19,8 +19,10 @@ const schema = {
     },
     presentations: [
         {
+            topic: String,
             title: String,
             subtitle: String,
+            slideCount: Number,
             id: String,
             thumbnail: {
                 contentUrl: String,

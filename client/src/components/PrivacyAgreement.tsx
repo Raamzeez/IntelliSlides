@@ -49,7 +49,7 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                         fontSize: 13,
                     }}
                 >
-                    Last Updated: 3/16/23
+                    Last Updated: 3/27/23
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
                     Introduction:{" "}
@@ -84,8 +84,8 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                         <span style={{ textDecoration: "underline" }}>
                             This is information that is stored on our backend
                             MongoDB database, and can be associated with a user
-                            given a valid id. All information is private and is
-                            not visible to the public.
+                            given a valid id. All information is securely stored
+                            and private.
                         </span>
                     </p>
                     <ul>
@@ -106,21 +106,22 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                         <li>Date and Number of Slides</li>
                     </ul>
                     <p style={{ fontSize: 15 }}>
-                        App Form Data -{" "}
+                        Presentation Form Data -{" "}
                         <span style={{ textDecoration: "underline" }}>
                             This is information related to the text and number
-                            input fields. It is stored either in the browser
-                            with local and session storage, or on our MongoDB
-                            backend server.
+                            input fields that you fill out to create a
+                            presentation. All of these fields with the exception
+                            of "Category" are stored securely and privately in
+                            our MongoDB backend database when a presentation is
+                            created successfully.
                         </span>
                     </p>
                     <ul>
-                        <li>Topic</li>
+                        <li>Topic - Stored in database</li>
                         <li>Category</li>
-                        <li>Auto</li>
-                        <li>Title</li>
-                        <li>Subtitle</li>
-                        <li>Slide Count</li>
+                        <li>Title - Stored in database</li>
+                        <li>Subtitle - Stored in database</li>
+                        <li>Slide Count - Stored in database</li>
                     </ul>
                 </div>
                 <Line />
@@ -135,13 +136,91 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                         fontSize: 12,
                     }}
                 >
-                    IntelliSlides utilizes 3 major third party services to
-                    enable it's powerful capabilities. We use Google Analytics
-                    to keep track of user behavior, such as page visits and
-                    mouse clicks. This is used to improve the UI/UX for the
-                    application. We use OpenAI to get the information for the
-                    presentation slides, and Google Slides to create the
-                    presentation for the user.
+                    IntelliSlides utilizes a few major third party services to
+                    enable it's powerful capabilities.
+                    <ul style={{ marginTop: 20 }}>
+                        <li>
+                            <span style={{ fontWeight: "bold" }}>
+                                Google Analytics
+                            </span>{" "}
+                            - We use Google Analytics to collect data that will
+                            help us improve the UI/UX of the application, thus
+                            making it grow over time. Different data points that
+                            we collect with Google Analytics includes but is not
+                            limited to: Number of users who visit the site,
+                            countries from which users visit the site, the
+                            number of views, and the number of sessions
+                            involving the site. Monitoring this will allow us to
+                            see the impact our changes to the website has to our
+                            users, and to see if we need to improve or redact
+                            changes.
+                        </li>
+                        <li style={{ marginTop: 19 }}>
+                            <span style={{ fontWeight: "bold" }}>
+                                OpenAI API
+                            </span>{" "}
+                            - We use the official API provided by OpenAI to
+                            gather data regarding the slides. More specifically,
+                            we use the GPT3 language model to gather a certain
+                            number of important details given the topic of your
+                            presentation, and then get a certain number of even
+                            more specific details to put onto each slide.
+                        </li>
+                        <li style={{ marginTop: 10 }}>
+                            <span style={{ fontWeight: "bold" }}>
+                                Google Slides API
+                            </span>{" "}
+                            - We use the official API provided by Google Slides
+                            to create the presentation for the user given the
+                            information obtained for the slides with the OpenAI
+                            API.
+                        </li>
+                    </ul>
+                </p>
+                <Line />
+                <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
+                    Data Sharing:
+                </h5>
+                <p
+                    style={{
+                        marginLeft: "15%",
+                        width: "70%",
+                        marginTop: 20,
+                        fontSize: 12,
+                    }}
+                >
+                    IntelliSlides utilizes a strict data sharing policy to
+                    protect our users. We do not share any other data with third
+                    party services with the exception of Google Analytics,
+                    OpenAI, and Google Slides. How and what information we share
+                    with these services was discussed in the "Third-Party
+                    Services section of the privacy policy.We do not utilize any
+                    cookies, which means there will be no tracking of browsing
+                    activity which can be used for targeted advertisements like
+                    other websites do. No one outside of IntelliSlides and
+                    MongoDB has any access to our database.
+                </p>
+                <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Security</h5>
+                <p
+                    style={{
+                        marginLeft: "15%",
+                        width: "70%",
+                        marginTop: 20,
+                        fontSize: 12,
+                    }}
+                >
+                    IntelliSlides uses popular security techniques to ensure the
+                    protection of our user's data.
+                    <ol style={{ marginTop: 15 }}>
+                        <li>
+                            OAuth 2.0 Protocol - An industry standard protocol
+                            for authorization that uses JWT (JSON Web Tokens)
+                            for user authentication and authorization. This
+                            ensures that user data cannot be tampered with, and
+                            that authentication is required for actions to be
+                            done, such as creating a presentation.{" "}
+                        </li>
+                    </ol>
                 </p>
                 <Line />
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>User Rights</h5>
@@ -153,27 +232,34 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                         fontSize: 12,
                     }}
                 >
-                    An IntelliSlides user has the right to delete their data
-                    whenever they want to. Clicking the delete button when they
-                    are logged in from the app will remove their google id token
-                    credentials from the browser, and their record from our
-                    database.
-                </p>
-                <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
-                    Legal Compliance
-                </h5>
-                <p
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
-                    IntelliSlides complies with relevant data privacy
-                    regulations, including the General Data Protection
-                    Regulation (GDPR) and the California Consumer Privacy Act
-                    (CCPA).
+                    An IntelliSlides user has the right to add, update, and
+                    delete their data.
+                    <ul style={{ marginTop: 10 }}>
+                        <li style={{ fontSize: 17 }}>Add</li>
+                        <p>
+                            When a user logs into the application for the first
+                            time, the relevant data (explained more thoroughly
+                            in the "Types of Data Collected" section) is stored
+                            in our MongoDB database.
+                        </p>
+                        <li style={{ fontSize: 17 }}>Update</li>
+                        <p>
+                            If a user changes their personal information via
+                            their Google Account, such as their first name,
+                            IntelliSlides will get the updated information from
+                            Google on the next login by the user, thus updating
+                            the data in our database.
+                        </p>
+                        <li style={{ fontSize: 17 }}>Delete</li>
+                        <p>
+                            If a user is logged into the app, they can click the
+                            "Delete" button on their profile card. and their
+                            google id token is removed from the browser, and
+                            their corresponding data is entirely deleted from
+                            the MongoDB backend. This is not a reversible
+                            process.
+                        </p>
+                    </ul>
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Updates</h5>
                 <p

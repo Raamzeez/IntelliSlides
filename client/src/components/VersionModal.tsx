@@ -64,7 +64,7 @@ const VersionModal: FC<iProps> = ({ onShowPrivacyHandler, onCloseHandler }) => {
                                 marginTop: 5,
                             }}
                         >
-                            Last Updated: 3/14/23
+                            Last Updated: 3/27/23
                         </p>
                     </Col>
                     <Col
