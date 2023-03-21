@@ -7,12 +7,20 @@ import reportWebVitals from "./reportWebVitals"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { ThemeProvider } from "theme-ui"
 import { theme } from "./style/theme"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import PrivacyAgreement from "./components/PrivacyAgreement"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
     <React.StrictMode>
         <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">
-            <App />
+            <Router>
+                <Routes>
+                    <Route path="/" element={<App />} />
+                    <Route path="/home" element={<App />} />
+                    <Route path="/privacy" element={<PrivacyAgreement />} />
+                </Routes>
+            </Router>
         </GoogleOAuthProvider>
     </React.StrictMode>
 )

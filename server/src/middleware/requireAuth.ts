@@ -35,7 +35,9 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
         console.error(err)
         return res
             .status(403)
-            .send("Session Expired. Please login again on the home page.")
+            .send(
+                "Session Expired. Please refresh and login again on the home page."
+            )
     }
 }
 

@@ -1,18 +1,22 @@
 import React, { FC, useState } from "react"
-import { Col, Row } from "react-bootstrap"
+import { Col, Container, Row } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
 import Button from "./Button"
 import Checkmark from "./Checkmark"
 import Line from "./Line"
 
-interface iProps {
-    onAgreeHandler: () => void
-}
-
-const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
+const PrivacyAgreement: FC = () => {
     const [read, setRead] = useState(false)
 
+    const navigate = useNavigate()
+
+    const onContinueHandler = () => {
+        localStorage.setItem("showAgreement", "false")
+        navigate("/")
+    }
+
     return (
-        <>
+        <Container fluid className="App">
             <h2
                 style={{
                     color: "white",
@@ -194,11 +198,10 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                     party services with the exception of Google Analytics,
                     OpenAI, and Google Slides. How and what information we share
                     with these services was discussed in the "Third-Party
-                    Services section of the privacy policy.We do not utilize any
-                    cookies, which means there will be no tracking of browsing
-                    activity which can be used for targeted advertisements like
-                    other websites do. No one outside of IntelliSlides and
-                    MongoDB has any access to our database.
+                    Services section of the privacy policy. We do not utilize
+                    any cookies, which means there will be no tracking of
+                    browsing activity which can be used for targeted
+                    advertisements like other websites do.
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Security</h5>
                 <p
@@ -317,7 +320,7 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                         type="success"
                         value="Agree"
                         style={{ margin: 25 }}
-                        onClickHandler={onAgreeHandler}
+                        onClickHandler={onContinueHandler}
                         disabled={!read}
                     />
                 </>
@@ -327,11 +330,11 @@ const PrivacyAgreement: FC<iProps> = ({ onAgreeHandler }) => {
                         type="primary"
                         value="Continue"
                         style={{ margin: 25 }}
-                        onClickHandler={onAgreeHandler}
+                        onClickHandler={onContinueHandler}
                     />
                 </>
             )}
-        </>
+        </Container>
     )
 }
 

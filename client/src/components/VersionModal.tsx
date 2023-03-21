@@ -7,6 +7,7 @@ import {
     Pagination,
     Row,
 } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
 import fetchVersion from "../util/fetchVersion"
 import Line from "./Line"
 
@@ -17,6 +18,8 @@ interface iProps {
 
 const VersionModal: FC<iProps> = ({ onShowPrivacyHandler, onCloseHandler }) => {
     const [hover, setHover] = useState(false)
+
+    const navigate = useNavigate()
 
     return (
         <Modal show={true} onHide={onCloseHandler}>
@@ -80,7 +83,7 @@ const VersionModal: FC<iProps> = ({ onShowPrivacyHandler, onCloseHandler }) => {
                         <p
                             className="pointer"
                             style={{ textDecoration: hover ? "underline" : "" }}
-                            onClick={onShowPrivacyHandler}
+                            onClick={() => navigate("/privacy")}
                         >
                             Privacy Policy
                         </p>
