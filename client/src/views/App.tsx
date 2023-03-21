@@ -4,13 +4,14 @@ import {
     useGoogleLogin,
     // hasGrantedAllScopesGoogle,
     CodeResponse,
+    hasGrantedAllScopesGoogle,
 } from "@react-oauth/google"
-import "./style/App.css"
-import TextInput from "./components/TextInput"
+import "../style/App.css"
+import TextInput from "../components/TextInput"
 // import Checkmark from "./components/Checkmark";
-import Button from "./components/Button"
-import NumberInput from "./components/NumberInput"
-import api from "./api"
+import Button from "../components/Button"
+import NumberInput from "../components/NumberInput"
+import api from "../api"
 import {
     Col,
     Container,
@@ -20,49 +21,49 @@ import {
     Row,
 } from "react-bootstrap"
 import { toast, ToastContainer } from "react-toastify"
-import Loading from "./components/Loading"
-import iError from "./models/error"
-import Warning from "./components/Warning"
-import Limitations from "./components/Limitations"
-import AdvancedSettings from "./components/AdvancedSettings"
+import Loading from "../components/Loading"
+import iError from "../models/error"
+import Warning from "../components/Warning"
+import Limitations from "../components/Limitations"
+import AdvancedSettings from "../components/AdvancedSettings"
 
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import "./style//bootstrap.min.luxen.css";
 // import "./style/bootstrap.min.cerulean.css";
 // import "./style/bootstrap.min.cosmo.css";
-import "./style/bootstrap.min.quartz.css"
+import "../style/bootstrap.min.quartz.css"
 // import "./style/bootstrap.min.litera.css";
 // import "./style/bootstrap.min.cyborg.css";
 import "react-toastify/dist/ReactToastify.css"
-import Footer from "./components/Footer"
-import Alert from "./components/Alert"
-import VersionModal from "./components/VersionModal"
-import InfoModal from "./components/InfoModal"
-import Model from "./types/model"
-import AutoButton from "./components/AutoButton"
-import Category from "./types/category"
-import categories from "./data/categories"
-import LoadingType from "./types/loading"
-import useWindowDimensions from "./util/useWindowDimensions"
-import InfoIcon from "./components/InfoIcon"
-import Profile from "./components/Profile"
-import iUser from "./models/user"
-import LogoutButton from "./components/ProfileButton"
-import LoginButton from "./components/LoginButton"
+import Footer from "../components/Footer"
+import Alert from "../components/Alert"
+import VersionModal from "../components/VersionModal"
+import InfoModal from "../components/InfoModal"
+import Model from "../types/model"
+import AutoButton from "../components/AutoButton"
+import Category from "../types/category"
+import categories from "../data/categories"
+import LoadingType from "../types/loading"
+import useWindowDimensions from "../util/useWindowDimensions"
+import InfoIcon from "../components/InfoIcon"
+import Profile from "../components/Profile"
+import iUser from "../models/user"
+import LogoutButton from "../components/ProfileButton"
+import LoginButton from "../components/LoginButton"
 // import ThemeButton from "./components/ThemeButton";
 import { CircleLoader } from "react-spinners"
 import jwtDecode from "jwt-decode"
-import SettingsIcon from "./components/SettingsIcon"
-import SettingsModal from "./components/SettingsModal"
-import iPresentation from "./models/presentation"
+import SettingsIcon from "../components/SettingsIcon"
+import SettingsModal from "../components/SettingsModal"
+import iPresentation from "../models/presentation"
 import { TypeAnimation } from "react-type-animation"
-import isMobile from "./util/isMobile"
-import Result from "./components/Result"
+import isMobile from "../util/isMobile"
+import Result from "../components/Result"
 import { Axios, AxiosError, AxiosResponse } from "axios"
-import SlideCountTip from "./components/SlideCountTip"
-import PrivacyAgreement from "./components/PrivacyAgreement"
+import SlideCountTip from "../components/SlideCountTip"
+import PrivacyAgreement from "./PrivacyAgreement"
 import { useNavigate } from "react-router-dom"
-import DeleteModal from "./components/DeleteModal"
+import DeleteModal from "../components/DeleteModal"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -279,12 +280,6 @@ const App: FC = () => {
         flow: "auth-code",
         scope: "https://www.googleapis.com/auth/presentations",
     })
-
-    // const hasAccess = hasGrantedAllScopesGoogle(
-    //   tokenResponse,
-    //   "google-scope-1",
-    //   "google-scope-2"
-    // );
 
     const onHideAlert = () => {
         sessionStorage.setItem("showAlert", JSON.stringify(false))

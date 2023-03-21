@@ -2,6 +2,7 @@ import express from "express"
 import jwtDecode from "jwt-decode"
 import { ObjectId } from "mongodb"
 import client from "../client"
+import verifyAccessToken from "../functions/verifyAccessToken"
 import extractIDToken from "../hooks/extractIDToken"
 import subToObjectId from "../hooks/subToObjectId"
 import requireAuth from "../middleware/requireAuth"
@@ -59,8 +60,16 @@ userRouter.get("/login", async (req, res) => {
         const code = req.query.code as string
         //We use the built in Node JS OAuth2Client to get id and access token data
         const tokensResponse = await (await client.getToken(code)).tokens
-        const { id_token } = tokensResponse
+        const { id_token, access_token } = tokensResponse
         console.log(id_token)
+        const verify = await verifyAccessToken(access_token)
+        if (verify === "scopes") {
+            return res
+                .status(403)
+                .send(
+                    "Unable to Login because not all permissions have been granted. Please try again by granting all permissions."
+                )
+        }
         const userResponse: iUserJWT = jwtDecode(id_token)
         console.log("User Decoded JWT ID Token")
         console.log(userResponse)

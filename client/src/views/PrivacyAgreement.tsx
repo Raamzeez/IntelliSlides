@@ -1,12 +1,14 @@
 import React, { FC, useState } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import Button from "./Button"
-import Checkmark from "./Checkmark"
-import Line from "./Line"
+import Button from "../components/Button"
+import Checkmark from "../components/Checkmark"
+import Line from "../components/Line"
 
 const PrivacyAgreement: FC = () => {
     const [read, setRead] = useState(false)
+
+    const agreed = localStorage.getItem("showAgreement") === "false"
 
     const navigate = useNavigate()
 
@@ -54,6 +56,15 @@ const PrivacyAgreement: FC = () => {
                     }}
                 >
                     Last Updated: 3/27/23
+                </p>
+                <p
+                    style={{
+                        marginLeft: "10%",
+                        color: agreed ? "#02ed64" : "#ff3849",
+                        fontSize: 13,
+                    }}
+                >
+                    User Agreeent Status: {agreed ? "Accepted" : "Not Accepted"}
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
                     Introduction:{" "}
