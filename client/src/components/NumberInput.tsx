@@ -4,7 +4,6 @@ import useWindowDimensions from "../util/useWindowDimensions"
 interface iProps {
     value: number
     onChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void
-    label?: string
     disabled?: boolean
     min?: number
     max?: number
@@ -15,7 +14,6 @@ interface iProps {
 }
 
 const NumberInput: FC<iProps> = ({
-    label,
     value,
     onChangeHandler,
     disabled,
@@ -26,8 +24,6 @@ const NumberInput: FC<iProps> = ({
     pattern,
     required,
 }) => {
-    const { height } = useWindowDimensions()
-
     const [clicked, setClicked] = useState(false)
 
     return (
@@ -40,7 +36,10 @@ const NumberInput: FC<iProps> = ({
             }}
         >
             <p style={{ fontSize: 15, marginRight: 12, marginTop: 12 }}>
-                {label}
+                Slide Count{" "}
+                <span style={{ fontSize: 10, color: "lightgrey" }}>
+                    (excluding title slide)
+                </span>
             </p>
             <input
                 type="number"

@@ -12,11 +12,10 @@ import fetchVersion from "../util/fetchVersion"
 import Line from "./Line"
 
 interface iProps {
-    onShowPrivacyHandler: () => void
     onCloseHandler: () => void
 }
 
-const VersionModal: FC<iProps> = ({ onShowPrivacyHandler, onCloseHandler }) => {
+const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
     const [hover, setHover] = useState(false)
 
     const navigate = useNavigate()

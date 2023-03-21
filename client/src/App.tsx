@@ -62,6 +62,7 @@ import { Axios, AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "./components/SlideCountTip"
 import PrivacyAgreement from "./components/PrivacyAgreement"
 import { useNavigate } from "react-router-dom"
+import DeleteModal from "./components/DeleteModal"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -69,6 +70,7 @@ interface iState {
     showVersion: boolean
     showTopicTip: boolean
     showCategoryTip: boolean
+    showDeleteModal: boolean
     settings: boolean
     topic: string
     category: Category
@@ -82,7 +84,6 @@ interface iState {
     model: Model
     submit: boolean
     profileLoading: boolean
-    showAgreement: boolean
     loading: LoadingType | null
     warning: string | null
     error: iError | null
@@ -107,6 +108,7 @@ const App: FC = () => {
             localStorage.getItem("showVersion") === "true" ? true : false,
         showTopicTip: false,
         showCategoryTip: false,
+        showDeleteModal: false,
         settings: false,
         topic: "",
         category: "Event",
@@ -125,7 +127,6 @@ const App: FC = () => {
         // loading: "ValidateParameters",
         // profileLoading: true,
         profileLoading: true,
-        showAgreement: false,
         warning: null,
         error: null,
         // error: {
@@ -230,21 +231,40 @@ const App: FC = () => {
         localStorage.removeItem("id_token")
     }
 
-    const onDeleteUser = async () => {
+    const onDeleteHandler = () => {
+        setState({
+            ...state,
+            showDeleteModal: true,
+        })
+    }
+
+    const deleteUser = async () => {
         console.log(localStorage.getItem("id_token"))
         setState({ ...state, profileLoading: true })
         try {
             const response = await api.get("/user/delete")
             if (response.status !== 200) {
-                setState({ ...state, profileLoading: false })
+                setState({
+                    ...state,
+                    profileLoading: false,
+                    showDeleteModal: false,
+                })
                 errorToast(response.data)
             } else {
                 logout()
                 successToast("Successfully deleted user!")
             }
-            setState({ ...state, profileLoading: false })
+            setState({
+                ...state,
+                profileLoading: false,
+                showDeleteModal: false,
+            })
         } catch (err) {
-            setState({ ...state, profileLoading: false })
+            setState({
+                ...state,
+                profileLoading: false,
+                showDeleteModal: false,
+            })
             return errorToast(errorMessage(err as AxiosError))
         }
     }
@@ -437,11 +457,6 @@ const App: FC = () => {
         setState({ ...state, showVersion: true })
     }
 
-    const onAgreeHandler = () => {
-        setState({ ...state, showAgreement: false, showVersion: false })
-        localStorage.setItem("showAgreement", "false")
-    }
-
     const disable = () => {
         if (
             state.topic.length >= 2 &&
@@ -472,6 +487,14 @@ const App: FC = () => {
                     style={{ fontSize: 13 }}
                 />
                 <>
+                    {state.showDeleteModal && (
+                        <DeleteModal
+                            onCloseHandler={() =>
+                                setState({ ...state, showDeleteModal: false })
+                            }
+                            onConfirmHandler={deleteUser}
+                        />
+                    )}
                     {state.warning && (
                         <Warning
                             onClickHandler={() => onSubmitHandler(true)}
@@ -488,12 +511,7 @@ const App: FC = () => {
                         />
                     )}
                     {state.showVersion && (
-                        <VersionModal
-                            onShowPrivacyHandler={() =>
-                                setState({ ...state, showAgreement: true })
-                            }
-                            onCloseHandler={onHideVersion}
-                        />
+                        <VersionModal onCloseHandler={onHideVersion} />
                     )}
                     {state.showTopicTip && (
                         <InfoModal
@@ -585,7 +603,7 @@ const App: FC = () => {
                                                     showLogout={true}
                                                     onLogoutHandler={logout}
                                                     onDeleteHandler={
-                                                        onDeleteUser
+                                                        onDeleteHandler
                                                     }
                                                 />
                                             </div>
@@ -785,7 +803,6 @@ const App: FC = () => {
                             </div>
                             <div style={{ marginBottom: 5 }}>
                                 <NumberInput
-                                    label="Slide Count: "
                                     value={state.slideCount}
                                     onChangeHandler={(e) =>
                                         setState({
@@ -847,7 +864,7 @@ const App: FC = () => {
                                     name={user.name}
                                     showLogout={false}
                                     onLogoutHandler={logout}
-                                    onDeleteHandler={onDeleteUser}
+                                    onDeleteHandler={onDeleteHandler}
                                 />
                             </div>
                             <Loading
