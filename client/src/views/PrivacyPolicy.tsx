@@ -5,31 +5,15 @@ import Button from "../components/Button"
 import Checkmark from "../components/Checkmark"
 import Line from "../components/Line"
 
-const PrivacyAgreement: FC = () => {
-    const [read, setRead] = useState(false)
-
-    const agreed = localStorage.getItem("showAgreement") === "false"
-
+const PrivacyPolicy: FC = () => {
     const navigate = useNavigate()
 
     const onContinueHandler = () => {
-        localStorage.setItem("showAgreement", "false")
-        navigate("/")
+        navigate(-1)
     }
 
     return (
         <Container fluid className="App">
-            {/* <h2
-                style={{
-                    color: "white",
-                    fontWeight: 500,
-                    transition: "all 0.5s ease",
-                    marginTop: 30,
-                }}
-                className="animate__animated animate__fadeIn animate__slow"
-            >
-                IntelliSlides
-            </h2> */}
             <Image
                 src={require("../images/IntelliSlidesBannerTransparent.png")}
                 style={{
@@ -38,9 +22,7 @@ const PrivacyAgreement: FC = () => {
                 }}
                 className="animate__animated animate__fadeIn"
             />
-            <h5 style={{ color: "grey", marginBottom: 25 }}>
-                Privacy Agreement:
-            </h5>
+            <h5 style={{ color: "grey", marginBottom: 25 }}>Privacy Policy:</h5>
             <div
                 style={{
                     height: "60vh",
@@ -62,16 +44,6 @@ const PrivacyAgreement: FC = () => {
                     }}
                 >
                     Last Updated: 3/27/23
-                </p>
-                <p
-                    style={{
-                        marginLeft: "10%",
-                        color: agreed ? "#02ed64" : "#ff3849",
-                        fontSize: 13,
-                    }}
-                >
-                    User Agreement Status:{" "}
-                    {agreed ? "Accepted" : "Not Accepted"}
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 3 }}>
                     Introduction:{" "}
@@ -315,45 +287,14 @@ const PrivacyAgreement: FC = () => {
                     </span>
                 </p>
             </div>
-            {localStorage.getItem("showAgreement") !== "false" ? (
-                <>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            marginTop: 5,
-                        }}
-                    >
-                        <Checkmark
-                            value={read}
-                            onChangeHandler={(e) => setRead(!read)}
-                            style={{ marginTop: 20 }}
-                        />
-                        <p style={{ fontSize: 10, marginTop: 12 }}>
-                            I hereby attest that I have read and understood the
-                            privacy policy
-                        </p>
-                    </div>
-                    <Button
-                        type="success"
-                        value="Agree"
-                        style={{ margin: 25 }}
-                        onClickHandler={onContinueHandler}
-                        disabled={!read}
-                    />
-                </>
-            ) : (
-                <>
-                    <Button
-                        type="primary"
-                        value="Home"
-                        style={{ margin: 25 }}
-                        onClickHandler={onContinueHandler}
-                    />
-                </>
-            )}
+            <Button
+                type="secondary"
+                value="Back"
+                style={{ margin: 25 }}
+                onClickHandler={onContinueHandler}
+            />
         </Container>
     )
 }
 
-export default PrivacyAgreement
+export default PrivacyPolicy

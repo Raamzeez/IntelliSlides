@@ -4,14 +4,25 @@ html, body {
   /* background-color: #282c34; */
 }
 
+.Home {
+  overflow-x: none;
+    background-color: hsl(220, 13%, 18%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
 .App {
   overflow-x: none;
   background-color: hsl(220, 13%, 18%);
   min-height: 100vh;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -51,6 +62,7 @@ html, body {
     box-shadow: 0px 0px 6px rgb(255, 0, 72);
 }
 
+
 .shadow {
   box-shadow:
       0 1px 1px hsl(0deg 0% 0% / 0.075),
@@ -73,6 +85,7 @@ html, body {
       border-radius: 7px;
       box-shadow: 0 6px #656565;
 }
+
 
 .autoButton {
   background-color: white;
@@ -110,6 +123,15 @@ html, body {
 .alertBackground {
     background: linear-gradient(231deg, rgb(255, 80, 80) 0%, rgb(255, 70, 160) 100%);
 }
+
+.greyGradient {
+background: linear-gradient(121deg, rgba(57, 57, 57, 1) 45%, rgba(57, 57, 57, 1) 100%);
+}
+
+.logoBackground {
+  background: linear-gradient(40deg, rgb(20, 121, 203) 45%, rgb(21, 168, 158) 100%);
+}
+
 .pointer {
   cursor: pointer;
 }

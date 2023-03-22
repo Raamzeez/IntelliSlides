@@ -62,7 +62,7 @@ import isMobile from "../util/isMobile"
 import Result from "../components/Result"
 import { Axios, AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "../components/SlideCountTip"
-import PrivacyAgreement from "./PrivacyAgreement"
+import PrivacyPolicy from "./PrivacyPolicy"
 import { useNavigate } from "react-router-dom"
 import DeleteModal from "../components/DeleteModal"
 import GoogleButton from "react-google-button"
@@ -189,10 +189,6 @@ const App: FC = () => {
 
     useEffect(() => {
         fetchUser()
-        const showAgreement = localStorage.getItem("showAgreement")
-        if (showAgreement !== "false") {
-            navigate("/privacy")
-        }
     }, [])
 
     const login = async (
@@ -577,27 +573,6 @@ const App: FC = () => {
                                     marginTop: isMobile(height, width) ? 30 : 5,
                                 }}
                                 className="animate__animated animate__fadeIn"
-                            />
-                            <TypeAnimation
-                                sequence={[
-                                    "Your Presentation on WW2", // Types 'One'
-                                    800, // Waits 1s
-                                    "Your Presentation on Space X", // Deletes 'One' and types 'Two'
-                                    800, // Waits 2s
-                                    "Your Presentation on the iPhone", // Deletes 'One' and types 'Two'
-                                    800, // Waits 2s
-                                    "Your Presentation on the Burj Khalifa", // Deletes 'One' and types 'Two'
-                                    800, // Waits 2s
-                                    "Your Presentation on Anything in Matters of Seconds", // Types 'Three' without deleting 'Two'
-                                ]}
-                                wrapper="div"
-                                cursor={true}
-                                repeat={0}
-                                style={{
-                                    fontSize: 15,
-                                    color: "lightgrey",
-                                }}
-                                className="poppins"
                             />
                             <div
                                 style={{

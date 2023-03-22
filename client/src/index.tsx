@@ -8,8 +8,9 @@ import { GoogleOAuthProvider } from "@react-oauth/google"
 import { ThemeProvider } from "theme-ui"
 import { theme } from "./style/theme"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import PrivacyAgreement from "./views/PrivacyAgreement"
+import PrivacyPolicy from "./views/PrivacyPolicy"
 import NotFound from "./views/NotFound"
+import Home from "./views/Home"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
@@ -18,9 +19,10 @@ root.render(
             <Router>
                 <Routes>
                     <Route path="*" element={<NotFound />} />
-                    <Route path="/" element={<App />} />
-                    <Route path="/home" element={<App />} />
-                    <Route path="/privacy" element={<PrivacyAgreement />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/app" element={<App />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
                 </Routes>
             </Router>
         </GoogleOAuthProvider>
