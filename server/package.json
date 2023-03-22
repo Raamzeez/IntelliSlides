@@ -11,6 +11,7 @@
   "author": "Mohammed Raamiz Abbasi",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.15",
     "@types/express-rate-limit": "^6.0.0",
@@ -23,6 +24,7 @@
   },
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import jwtDecode from "jwt-decode"
 import { DateTime } from "luxon"
 import { ObjectId } from "mongodb"
+import idTokenToMongoID from "../functions/idTokenToMongoID"
 import extractIDToken from "../hooks/extractIDToken"
 import subToObjectId from "../hooks/subToObjectId"
 import iUserJWT from "../models/userJWT"
@@ -10,9 +11,7 @@ import userDB from "../schemas/user"
 const slidesLimit = async (req: Request, res: Response, next: NextFunction) => {
     console.log("Calling slidesLimit")
     const max = 50
-    const _id = new ObjectId(
-        subToObjectId((jwtDecode(extractIDToken(req)) as iUserJWT).sub)
-    )
+    const _id = idTokenToMongoID(req)
     const foundUser = await userDB.findOne({ _id })
     if (!foundUser) {
         console.log("No user found")

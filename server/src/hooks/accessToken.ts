@@ -8,27 +8,17 @@ const accessToken = async (id: ObjectId) => {
     if (!foundUser) {
         return null
     }
-    const accessToken = foundUser.googleOAuthCredentials.access_token
-    const verified = await verifyAccessToken(accessToken)
-    if (verified !== "success") {
-        if (verified === "scopes") {
-            return "invalid_scopes"
-        }
-        const refreshToken = foundUser.googleOAuthCredentials.refresh_token
-        client.setCredentials({
-            refresh_token: refreshToken,
-            access_token: accessToken,
-        })
-        const response = await client.refreshAccessToken()
-        const credentials = response.credentials
-        const updatedUser = await foundUser.update({
-            $set: { googleOAuthCredentials: credentials },
-        })
-        console.log("Updated User")
-        console.log(updatedUser)
-        return credentials.access_token
+    const refreshToken = foundUser.refreshToken
+    client.setCredentials({ refresh_token: refreshToken })
+    const response = await client.refreshAccessToken()
+    const { access_token } = response.credentials
+    const verified = await verifyAccessToken(access_token)
+    if (verified === "success") {
+        return access_token
+    } else if (verified === "scopes") {
+        return "invalid_scopes"
     }
-    return accessToken
+    return null
 }
 
 export default accessToken

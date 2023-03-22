@@ -6,7 +6,7 @@ interface iUserAccount {
     firstName: string
     lastName: string
     email: string
-    googleOAuthCredentials: Credentials
+    refreshToken: string
     slidesInHour: {
         date: Date
         slideCount: number

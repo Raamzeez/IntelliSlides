@@ -2,6 +2,7 @@ import express from "express"
 import jwtDecode from "jwt-decode"
 import { ObjectId } from "mongodb"
 import client from "../client"
+import idTokenToMongoID from "../functions/idTokenToMongoID"
 import verifyAccessToken from "../functions/verifyAccessToken"
 import extractIDToken from "../hooks/extractIDToken"
 import subToObjectId from "../hooks/subToObjectId"
@@ -21,9 +22,7 @@ userRouter.get("/userInfo", requireAuth, (req, res) => {
 })
 
 userRouter.get("/delete", requireAuth, async (req, res) => {
-    const _id = new ObjectId(
-        subToObjectId((jwtDecode(extractIDToken(req)) as iUserJWT).sub)
-    )
+    const _id = idTokenToMongoID(req)
     const foundUser = await userDB.findOne({ _id })
     if (!foundUser) {
         console.log("Cannot find user with that id")
@@ -58,17 +57,24 @@ userRouter.get("/login", async (req, res) => {
         }
         //We retrieve the authorization code from the request
         const code = req.query.code as string
+        console.log("Code", code)
         //We use the built in Node JS OAuth2Client to get id and access token data
+        console.log("Getting tokens")
         const tokensResponse = await (await client.getToken(code)).tokens
-        const { id_token, access_token } = tokensResponse
+        const { id_token, access_token, refresh_token } = tokensResponse
         console.log(id_token)
         const verify = await verifyAccessToken(access_token)
         if (verify === "scopes") {
+            console.log("Invalid Scopes")
             return res
                 .status(403)
                 .send(
                     "Unable to Login because not all permissions have been granted. Please try again by granting all permissions."
                 )
+        }
+        if (verify === "expired" || verify === "unverifiable") {
+            console.log("Expired or Unverifiable")
+            return res.status(403).send("Unable to Login. Please try again.")
         }
         const userResponse: iUserJWT = jwtDecode(id_token)
         console.log("User Decoded JWT ID Token")
@@ -90,7 +96,7 @@ userRouter.get("/login", async (req, res) => {
                 firstName: userResponse.given_name,
                 lastName: userResponse.family_name,
                 email: userResponse.email,
-                googleOAuthCredentials: tokensResponse,
+                refreshToken: refresh_token,
             },
             { upsert: true, new: true }
         )
@@ -100,6 +106,7 @@ userRouter.get("/login", async (req, res) => {
             id_token,
         })
     } catch (err) {
+        console.log("Failed")
         console.error(err)
         return res
             .status(400)

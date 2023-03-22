@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react"
-import { Col, Container, Row } from "react-bootstrap"
+import { Col, Container, Image, Row } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import Button from "../components/Button"
 import Checkmark from "../components/Checkmark"
@@ -19,7 +19,7 @@ const PrivacyAgreement: FC = () => {
 
     return (
         <Container fluid className="App">
-            <h2
+            {/* <h2
                 style={{
                     color: "white",
                     fontWeight: 500,
@@ -28,10 +28,16 @@ const PrivacyAgreement: FC = () => {
                 }}
                 className="animate__animated animate__fadeIn animate__slow"
             >
-                {/* GPT3 Presentations< */}
                 IntelliSlides
-            </h2>
-            {/* <h1>Welcome!</h1> */}
+            </h2> */}
+            <Image
+                src={require("../images/IntelliSlidesBannerTransparent.png")}
+                style={{
+                    height: 75,
+                    width: 280,
+                }}
+                className="animate__animated animate__fadeIn"
+            />
             <h5 style={{ color: "grey", marginBottom: 25 }}>
                 Privacy Agreement:
             </h5>
@@ -64,9 +70,10 @@ const PrivacyAgreement: FC = () => {
                         fontSize: 13,
                     }}
                 >
-                    User Agreeent Status: {agreed ? "Accepted" : "Not Accepted"}
+                    User Agreement Status:{" "}
+                    {agreed ? "Accepted" : "Not Accepted"}
                 </p>
-                <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
+                <h5 style={{ marginLeft: "10%", marginTop: 3 }}>
                     Introduction:{" "}
                 </h5>
                 <p

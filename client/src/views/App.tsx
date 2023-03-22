@@ -17,6 +17,7 @@ import {
     Container,
     Dropdown,
     DropdownButton,
+    Image,
     Pagination,
     Row,
 } from "react-bootstrap"
@@ -531,18 +532,50 @@ const App: FC = () => {
                     )}
                     {!state.submit && (
                         <>
-                            <h2
+                            {/* <Row>
+                                <Col>
+                                    <h2
+                                        style={{
+                                            color: "white",
+                                            fontWeight: 500,
+                                            transition: "all 0.5s ease",
+                                            marginTop: isMobile(height, width)
+                                                ? 30
+                                                : 0,
+                                        }}
+                                        className="animate__animated animate__fadeIn animate__slow"
+                                    >
+                                        IntelliSlides
+                                    </h2>
+                                </Col>
+                                <Col>
+                                    {width >= 208 && (
+                                        <Image
+                                            src={require("../images/IntelliSlidesLogoTransparent.png")}
+                                            style={{
+                                                height: 50,
+                                                width: 50,
+                                                marginLeft: -10,
+                                                marginTop: isMobile(
+                                                    height,
+                                                    width
+                                                )
+                                                    ? 24
+                                                    : -4,
+                                            }}
+                                        />
+                                    )}
+                                </Col>
+                            </Row> */}
+                            <Image
+                                src={require("../images/IntelliSlidesBannerTransparent.png")}
                                 style={{
-                                    color: "white",
-                                    fontWeight: 500,
-                                    transition: "all 0.5s ease",
-                                    marginTop: isMobile(height, width) ? 30 : 0,
+                                    height: 75,
+                                    width: 280,
+                                    marginTop: isMobile(height, width) ? 30 : 5,
                                 }}
-                                className="animate__animated animate__fadeIn animate__slow"
-                            >
-                                {/* GPT3 Presentations< */}
-                                IntelliSlides
-                            </h2>
+                                className="animate__animated animate__fadeIn"
+                            />
                             <TypeAnimation
                                 sequence={[
                                     "Your Presentation on WW2", // Types 'One'

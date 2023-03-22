@@ -1,4 +1,5 @@
 import express from "express"
+import { access } from "fs"
 import jwtDecode from "jwt-decode"
 import { DateTime } from "luxon"
 import { ObjectId } from "mongodb"
@@ -8,6 +9,7 @@ import dummyTitles from "../data/dummyTitles"
 import createPresentation from "../functions/createPresentation"
 import getDetails from "../functions/getDetails"
 import getTopics from "../functions/getTopics"
+import idTokenToMongoID from "../functions/idTokenToMongoID"
 import accessToken from "../hooks/accessToken"
 import getCategory from "../hooks/category"
 import errorChecks from "../hooks/errorChecks"
@@ -111,16 +113,19 @@ presentationRouter.post(
         parameters.images = false //For early version
         parameters.sources = false //For early version
         // const accessToken = parameters.accessToken;
-        const access_token = await accessToken(
-            new ObjectId(
-                subToObjectId((jwtDecode(extractIDToken(req)) as iUserJWT).sub)
-            )
-        )
+        const access_token = await accessToken(idTokenToMongoID(req))
         if (access_token === "invalid_scopes") {
             return res
                 .status(403)
                 .send(
                     "Permissions Not Granted to Access Google Slides. Please logout and login again while granting all permissions."
+                )
+        }
+        if (!access_token) {
+            return res
+                .status(401)
+                .send(
+                    "Unauthorized and unable to obtain authorization credentials. Please try again later."
                 )
         }
         console.log("Access Token", access_token)
@@ -138,9 +143,7 @@ presentationRouter.post(
                 process.env.GOOGLE_SEARCH_KEY,
                 process.env.CX
             )
-            const _id = new ObjectId(
-                subToObjectId((jwtDecode(extractIDToken(req)) as iUserJWT).sub)
-            )
+            const _id = idTokenToMongoID(req)
             const foundUser = await userDB.findOneAndUpdate(
                 { _id },
                 {
