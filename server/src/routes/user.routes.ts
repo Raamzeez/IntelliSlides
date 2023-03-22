@@ -2,6 +2,7 @@ import express from "express"
 import jwtDecode from "jwt-decode"
 import { ObjectId } from "mongodb"
 import client from "../client"
+import cryptr from "../cryptyr"
 import idTokenToMongoID from "../functions/idTokenToMongoID"
 import verifyAccessToken from "../functions/verifyAccessToken"
 import extractIDToken from "../hooks/extractIDToken"
@@ -96,7 +97,7 @@ userRouter.get("/login", async (req, res) => {
                 firstName: userResponse.given_name,
                 lastName: userResponse.family_name,
                 email: userResponse.email,
-                refreshToken: refresh_token,
+                refreshToken: cryptr.encrypt(refresh_token),
             },
             { upsert: true, new: true }
         )

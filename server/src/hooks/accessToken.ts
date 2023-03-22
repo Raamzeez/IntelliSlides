@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb"
 import client from "../client"
+import cryptr from "../cryptyr"
 import verifyAccessToken from "../functions/verifyAccessToken"
 import userDB from "../schemas/user"
 
@@ -8,7 +9,7 @@ const accessToken = async (id: ObjectId) => {
     if (!foundUser) {
         return null
     }
-    const refreshToken = foundUser.refreshToken
+    const refreshToken = cryptr.decrypt(foundUser.refreshToken)
     client.setCredentials({ refresh_token: refreshToken })
     const response = await client.refreshAccessToken()
     const { access_token } = response.credentials

@@ -65,6 +65,7 @@ import SlideCountTip from "../components/SlideCountTip"
 import PrivacyAgreement from "./PrivacyAgreement"
 import { useNavigate } from "react-router-dom"
 import DeleteModal from "../components/DeleteModal"
+import GoogleButton from "react-google-button"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -220,6 +221,7 @@ const App: FC = () => {
             const { name, email, picture } = jwtDecode(id_token) as iUser
             setUser({ name, email, picture })
             localStorage.setItem("id_token", id_token)
+            api.defaults.headers.Authorization = `Bearer ${id_token}`
             return true
         } catch (err) {
             console.log("Caught error")
@@ -600,15 +602,15 @@ const App: FC = () => {
                             <div
                                 style={{
                                     position:
-                                        width > 700 ? "absolute" : "relative",
-                                    right: width > 700 ? 30 : 0,
+                                        width > 800 ? "absolute" : "relative",
+                                    right: width > 800 ? 30 : 0,
                                     top:
-                                        width > 700
+                                        width > 800
                                             ? state.showAlert
                                                 ? 70
                                                 : 20
                                             : 0,
-                                    margin: width > 700 ? 0 : 20,
+                                    margin: width > 800 ? 0 : 20,
                                     transition: "all 0.5s ease",
                                 }}
                                 className={!user ? "shadow" : ""}
@@ -618,9 +620,10 @@ const App: FC = () => {
                                 ) : (
                                     <>
                                         {!user && (
-                                            <LoginButton
-                                                onClickHandler={onLogin}
-                                            />
+                                            // <LoginButton
+                                            //     onClickHandler={onLogin}
+                                            // />
+                                            <GoogleButton onClick={onLogin} />
                                         )}
                                         {user && (
                                             <div className="animate__animated animate__fadeInRight">

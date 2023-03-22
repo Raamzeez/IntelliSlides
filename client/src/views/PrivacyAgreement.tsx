@@ -346,7 +346,7 @@ const PrivacyAgreement: FC = () => {
                 <>
                     <Button
                         type="primary"
-                        value="Continue"
+                        value="Home"
                         style={{ margin: 25 }}
                         onClickHandler={onContinueHandler}
                     />

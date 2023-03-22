@@ -1,4 +1,5 @@
 import client from "../client"
+import cryptr from "../cryptyr"
 import userDB from "../schemas/user"
 
 const refreshToken = async (id: string) => {
@@ -6,7 +7,7 @@ const refreshToken = async (id: string) => {
     if (!foundUser) {
         return null
     }
-    const refreshToken = foundUser.refreshToken
+    const refreshToken = cryptr.decrypt(foundUser.refreshToken)
     let verified
     try {
         const tokenInfo = await client.getTokenInfo(refreshToken)
