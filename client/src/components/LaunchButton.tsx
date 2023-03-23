@@ -5,7 +5,7 @@ import useWindowDimensions from "../util/useWindowDimensions"
 const LaunchButton: FC = () => {
     const { width } = useWindowDimensions()
 
-    const threshold = 418
+    const threshold = 431
 
     const [hover, setHover] = useState(false)
 

@@ -66,6 +66,7 @@ import PrivacyPolicy from "./PrivacyPolicy"
 import { useNavigate } from "react-router-dom"
 import DeleteModal from "../components/DeleteModal"
 import GoogleButton from "react-google-button"
+import Header from "../components/Header"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -498,6 +499,7 @@ const App: FC = () => {
                             message={state.warning}
                         />
                     )}
+
                     {state.showAlert && (
                         <Alert
                             isLoading={state.submit}
@@ -572,7 +574,8 @@ const App: FC = () => {
                                     width: 280,
                                     marginTop: isMobile(height, width) ? 30 : 5,
                                 }}
-                                className="animate__animated animate__fadeIn"
+                                className="pointer animate__animated animate__fadeIn"
+                                onClick={() => navigate("/")}
                             />
                             <div
                                 style={{

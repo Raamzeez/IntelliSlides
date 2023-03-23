@@ -7,9 +7,10 @@ const HomeFooter: FC = () => {
             style={{
                 height: 100,
                 width: "100vw",
-                backgroundColor: "black",
+                backgroundColor: "rgb(40, 40, 40)",
             }}
         >
+            <Col></Col>
             <Col
                 style={{
                     display: "flex",
@@ -17,8 +18,11 @@ const HomeFooter: FC = () => {
                     alignItems: "center",
                 }}
             >
-                <h3>&copy; IntelliSlides | 2023</h3>
+                <p style={{ fontWeight: 300, fontSize: 17, marginTop: 10 }}>
+                    IntelliSlides 2023
+                </p>
             </Col>
+            <Col></Col>
         </Row>
     )
 }

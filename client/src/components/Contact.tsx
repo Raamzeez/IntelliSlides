@@ -10,6 +10,8 @@ const Contact: FC = () => {
                 width: "100vw",
                 backgroundColor: "grey",
             }}
+            id="contact"
+            className="skyhue"
         >
             <Col
                 style={{
@@ -20,7 +22,7 @@ const Contact: FC = () => {
                 }}
             >
                 <h2>Contact</h2>
-                <p style={{ fontSize: 15 }}>
+                <p style={{ fontSize: 15, marginTop: 20 }}>
                     Email:{" "}
                     <Link
                         to={
