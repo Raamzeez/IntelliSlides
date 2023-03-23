@@ -26,8 +26,8 @@ const LaunchButton: FC = () => {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          height: 30,
-                          width: 30,
+                          height: 40,
+                          width: 40,
                           borderRadius: 15,
                       }
             }

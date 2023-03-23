@@ -131,6 +131,10 @@ background: linear-gradient(121deg, rgba(57, 57, 57, 1) 45%, rgba(57, 57, 57, 1)
   background: linear-gradient(40deg, rgb(20, 121, 203) 45%, rgb(21, 168, 158) 100%);
 }
 
+.skyhue {
+  background: linear-gradient(90deg, rgba(255, 218, 101, 1) 0%, rgba(255, 148, 235, 1) 100%);
+}
+
 .pointer {
   cursor: pointer;
 }
