@@ -190,6 +190,7 @@ const App: FC = () => {
 
     useEffect(() => {
         fetchUser()
+        sessionStorage.setItem("visited", "true")
     }, [])
 
     const login = async (

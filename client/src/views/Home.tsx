@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { Col, Container, Image, Row } from "react-bootstrap"
 import { useNavigate, useNavigation } from "react-router-dom"
 import { TypeAnimation } from "react-type-animation"
@@ -10,6 +10,17 @@ import Jumbotron from "../components/Jumbotron"
 import features from "../data/features"
 
 const Home: FC = () => {
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (
+            localStorage.getItem("id_token") &&
+            sessionStorage.getItem("visited") !== "true"
+        ) {
+            navigate("/app")
+        }
+    }, [])
+
     return (
         <Container fluid className="Home">
             <Header />

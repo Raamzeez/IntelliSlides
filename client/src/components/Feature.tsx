@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 import { Col, Image, Row } from "react-bootstrap"
 import iFeature from "../models/feature"
+import useWindowDimensions from "../util/useWindowDimensions"
 
 interface iProps {
     feature: iFeature
@@ -65,8 +66,13 @@ const ImageContainer: FC<iImageContainerProps> = ({ image, layout }) => {
             }}
         >
             <Image
-                src={require("../images/IntelliSlidesLogo.png")}
-                style={{ height: 200, width: 200, borderRadius: 10 }}
+                src={image}
+                style={{
+                    height: 260,
+                    width: 260,
+                    borderRadius: 10,
+                    margin: 25,
+                }}
                 className="shadow"
             />
         </Col>
@@ -75,7 +81,12 @@ const ImageContainer: FC<iImageContainerProps> = ({ image, layout }) => {
 
 const Feature: FC<iProps> = ({ feature, layout }) => {
     return (
-        <Row style={{ height: 350, width: "100vw" }}>
+        <Row
+            style={{
+                minHeight: 350,
+                width: "100vw",
+            }}
+        >
             {layout === "left" ? (
                 <>
                     <TextContainer
@@ -83,11 +94,11 @@ const Feature: FC<iProps> = ({ feature, layout }) => {
                         body={feature.body}
                         layout={layout}
                     />
-                    <ImageContainer image="" layout={layout} />
+                    <ImageContainer image={feature.image} layout={layout} />
                 </>
             ) : (
                 <>
-                    <ImageContainer image="" layout={layout} />
+                    <ImageContainer image={feature.image} layout={layout} />
                     <TextContainer
                         heading={feature.heading}
                         body={feature.body}

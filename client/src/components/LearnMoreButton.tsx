@@ -1,14 +1,13 @@
 import React, { FC, useState } from "react"
+import { Nav } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
 const LearnMoreButton: FC = () => {
-    const navigate = useNavigate()
-
     const [hover, setHover] = useState(false)
 
     return (
-        <Link
+        <Nav.Link
             style={{
                 marginTop: 50,
                 height: 40,
@@ -23,7 +22,7 @@ const LearnMoreButton: FC = () => {
             onMouseOver={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             className="pointer shadow"
-            to={"#about"}
+            href="#about"
         >
             <p
                 style={{
@@ -35,7 +34,7 @@ const LearnMoreButton: FC = () => {
             >
                 Learn More
             </p>
-        </Link>
+        </Nav.Link>
     )
 }
 

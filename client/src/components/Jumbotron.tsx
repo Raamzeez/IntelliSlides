@@ -18,7 +18,10 @@ const Jumbotron: FC = () => {
                 alignItems: "center",
             }}
         >
-            <h2 className="animate__animated animate__fadeInDown">
+            <h2
+                className="animate__animated animate__fadeInDown"
+                style={{ margin: 20 }}
+            >
                 AI Generated Google Slides Presentations
             </h2>
             <TypeAnimation
@@ -39,7 +42,7 @@ const Jumbotron: FC = () => {
                 style={{
                     fontSize: 16,
                     color: "white",
-                    marginTop: 20,
+                    margin: 20,
                 }}
                 className="inter"
             />
