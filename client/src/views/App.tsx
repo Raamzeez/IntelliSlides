@@ -115,9 +115,13 @@ const App: FC = () => {
         showDeleteModal: false,
         settings: false,
         topic: "",
+        // topic: "Some really long string as a topic and hwo are we going to format accordingly everyone?",
+        // topic: "Space Shuttle Challenger Disaster",
         category: "Event",
         auto: localStorage.getItem("auto") === "true" ? true : false,
         title: "",
+        // title: "Some really long string as a topic and hwo are we going to format accordingly everyone?",
+        // title: "Space Shuttle Challengeer Disaster",
         presentationId: "",
         subtitle: "",
         slideCount: 5,
@@ -200,6 +204,7 @@ const App: FC = () => {
         >
     ) => {
         try {
+            setState({ ...state, profileLoading: true })
             const URL =
                 "http://localhost:4000/api/v1/user/login?" +
                 new URLSearchParams(tokenResponse).toString()
@@ -361,7 +366,8 @@ const App: FC = () => {
             })
             const titlesResponse = await api.post(
                 "/presentation/slideTitles",
-                state
+                state,
+                { timeout: 10000 }
             )
             const titlesError = errorHandler(titlesResponse, {
                 loading: "SlideTitles",
@@ -380,7 +386,8 @@ const App: FC = () => {
             })
             const slideDetailsResponse = await api.post(
                 "/presentation/slideDetails",
-                { ...state, titles: titlesResponse.data }
+                { ...state, titles: titlesResponse.data },
+                { timeout: 400000 }
             )
             const slideDetailsError = errorHandler(slideDetailsResponse, {
                 loading: "SlideDetails",
@@ -404,7 +411,8 @@ const App: FC = () => {
             }
             const presentationResponse = await api.post(
                 "/presentation/createPresentation",
-                data
+                data,
+                { timeout: 180000 }
             )
             const presentationData = presentationResponse.data as iPresentation
             const presentationError = errorHandler(presentationResponse, {

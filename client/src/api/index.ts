@@ -6,6 +6,7 @@ const api = axios.create({
     headers: {
         Authorization: `Bearer ${localStorage.getItem("id_token")}`,
     },
+    timeout: 10000,
 })
 
 export default api
