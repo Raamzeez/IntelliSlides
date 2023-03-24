@@ -12,8 +12,9 @@ const NotFound: FC = () => {
             <p style={{ fontWeight: 300, color: "grey", fontSize: 15 }}>404</p>
             <Button
                 type="success"
-                value="Back Home"
-                onClickHandler={() => navigate("/")}
+                value="Back"
+                // onClickHandler={() => navigate("/")}
+                onClickHandler={() => navigate(-1)}
                 style={{ marginTop: "5%" }}
             />
         </Container>

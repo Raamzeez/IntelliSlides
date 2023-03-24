@@ -31,7 +31,7 @@ const LaunchButton: FC = () => {
                           borderRadius: 15,
                       }
             }
-            className="pointer secondary shadow"
+            className={`pointer secondary ${hover && "shadow"}`}
             onMouseOver={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             onClick={() => navigate("/app")}

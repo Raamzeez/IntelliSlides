@@ -931,6 +931,7 @@ const App: FC = () => {
                     <Footer
                         isLoading={state.submit}
                         onClickHandler={onShowVersion}
+                        // onClickHandler={() => navigate("/versions")}
                     />
                 </>
             </Container>

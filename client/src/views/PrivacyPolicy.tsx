@@ -86,6 +86,7 @@ const PrivacyPolicy: FC = () => {
                         <li>Email</li>
                         <li>First Name</li>
                         <li>Last Name</li>
+                        <li>Refresh Token</li>
                         <li>Presentations</li>
                         <ol>
                             <li>Title</li>
@@ -212,6 +213,12 @@ const PrivacyPolicy: FC = () => {
                             ensures that user data cannot be tampered with, and
                             that authentication is required for actions to be
                             done, such as creating a presentation.{" "}
+                        </li>
+                        <li style={{ marginTop: 10 }}>
+                            Encryption - Encryption is used to store sensitive
+                            data in our database, specifically google refresh
+                            tokens, which can be used to obtain access to create
+                            Google Slides presentations for the user.
                         </li>
                     </ol>
                 </p>
