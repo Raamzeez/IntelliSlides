@@ -10,8 +10,11 @@ import cookieParser from "cookie-parser"
 import userRouter from "./routes/user.routes"
 import presentationRouter from "./routes/presentation.routes"
 import rateLimit from "express-rate-limit"
+import path from "path"
 
-const PORT = 4000
+const PORT = process.env.PORT || 4000
+const MONGODB_CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING
+
 const app = express()
 
 const limiter = rateLimit({
@@ -40,7 +43,7 @@ app.use("/api/v1/user", userRouter)
 app.use("/api/v1/presentation", presentationRouter)
 
 mongoose.connect(
-    "mongodb+srv://raamizabbasi:WdoauCvmccpX2x6h@cluster0.k2l4xfy.mongodb.net/?retryWrites=true&w=majority",
+    MONGODB_CONNECTION_STRING,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -52,6 +55,14 @@ mongoose.connect(
         console.log("Connected to MongoDB Successfully!")
     }
 )
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("../client/build"))
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+    })
+}
 
 app.listen(PORT, () => {
     console.log(`CORS-enabled web server listening on port ${PORT}`)

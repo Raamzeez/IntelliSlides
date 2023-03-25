@@ -184,9 +184,6 @@ const LoadingStatus: FC<iProps> = ({
     auto,
     style,
 }) => {
-    console.log("loadingStatus", loadingStatus)
-    console.log("error", error)
-
     const { height, width } = useWindowDimensions()
 
     return (

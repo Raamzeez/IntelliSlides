@@ -133,45 +133,41 @@ const PrivacyPolicy: FC = () => {
                 >
                     IntelliSlides utilizes a few major third party services to
                     enable it's powerful capabilities.
-                    <ul style={{ marginTop: 20 }}>
-                        <li>
-                            <span style={{ fontWeight: "bold" }}>
-                                Google Analytics
-                            </span>{" "}
-                            - We use Google Analytics to collect data that will
-                            help us improve the UI/UX of the application, thus
-                            making it grow over time. Different data points that
-                            we collect with Google Analytics includes but is not
-                            limited to: Number of users who visit the site,
-                            countries from which users visit the site, the
-                            number of views, and the number of sessions
-                            involving the site. Monitoring this will allow us to
-                            see the impact our changes to the website has to our
-                            users, and to see if we need to improve or redact
-                            changes.
-                        </li>
-                        <li style={{ marginTop: 19 }}>
-                            <span style={{ fontWeight: "bold" }}>
-                                OpenAI API
-                            </span>{" "}
-                            - We use the official API provided by OpenAI to
-                            gather data regarding the slides. More specifically,
-                            we use the GPT3 language model to gather a certain
-                            number of important details given the topic of your
-                            presentation, and then get a certain number of even
-                            more specific details to put onto each slide.
-                        </li>
-                        <li style={{ marginTop: 10 }}>
-                            <span style={{ fontWeight: "bold" }}>
-                                Google Slides API
-                            </span>{" "}
-                            - We use the official API provided by Google Slides
-                            to create the presentation for the user given the
-                            information obtained for the slides with the OpenAI
-                            API.
-                        </li>
-                    </ul>
                 </p>
+                <ul style={{ marginTop: 20 }}>
+                    <li>
+                        <span style={{ fontWeight: "bold" }}>
+                            Google Analytics
+                        </span>{" "}
+                        - We use Google Analytics to collect data that will help
+                        us improve the UI/UX of the application, thus making it
+                        grow over time. Different data points that we collect
+                        with Google Analytics includes but is not limited to:
+                        Number of users who visit the site, countries from which
+                        users visit the site, the number of views, and the
+                        number of sessions involving the site. Monitoring this
+                        will allow us to see the impact our changes to the
+                        website has to our users, and to see if we need to
+                        improve or redact changes.
+                    </li>
+                    <li style={{ marginTop: 19 }}>
+                        <span style={{ fontWeight: "bold" }}>OpenAI API</span> -
+                        We use the official API provided by OpenAI to gather
+                        data regarding the slides. More specifically, we use the
+                        GPT3 language model to gather a certain number of
+                        important details given the topic of your presentation,
+                        and then get a certain number of even more specific
+                        details to put onto each slide.
+                    </li>
+                    <li style={{ marginTop: 10 }}>
+                        <span style={{ fontWeight: "bold" }}>
+                            Google Slides API
+                        </span>{" "}
+                        - We use the official API provided by Google Slides to
+                        create the presentation for the user given the
+                        information obtained for the slides with the OpenAI API.
+                    </li>
+                </ul>
                 <Line />
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
                     Data Sharing:
@@ -205,23 +201,23 @@ const PrivacyPolicy: FC = () => {
                 >
                     IntelliSlides uses popular security techniques to ensure the
                     protection of our user's data.
-                    <ol style={{ marginTop: 15 }}>
-                        <li>
-                            OAuth 2.0 Protocol - An industry standard protocol
-                            for authorization that uses JWT (JSON Web Tokens)
-                            for user authentication and authorization. This
-                            ensures that user data cannot be tampered with, and
-                            that authentication is required for actions to be
-                            done, such as creating a presentation.{" "}
-                        </li>
-                        <li style={{ marginTop: 10 }}>
-                            Encryption - Encryption is used to store sensitive
-                            data in our database, specifically google refresh
-                            tokens, which can be used to obtain access to create
-                            Google Slides presentations for the user.
-                        </li>
-                    </ol>
                 </p>
+                <ol style={{ marginTop: 15 }}>
+                    <li>
+                        OAuth 2.0 Protocol - An industry standard protocol for
+                        authorization that uses JWT (JSON Web Tokens) for user
+                        authentication and authorization. This ensures that user
+                        data cannot be tampered with, and that authentication is
+                        required for actions to be done, such as creating a
+                        presentation.{" "}
+                    </li>
+                    <li style={{ marginTop: 10 }}>
+                        Encryption - Encryption is used to store sensitive data
+                        in our database, specifically google refresh tokens,
+                        which can be used to obtain access to create Google
+                        Slides presentations for the user.
+                    </li>
+                </ol>
                 <Line />
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>User Rights</h5>
                 <p
@@ -234,33 +230,32 @@ const PrivacyPolicy: FC = () => {
                 >
                     An IntelliSlides user has the right to add, update, and
                     delete their data.
-                    <ul style={{ marginTop: 10 }}>
-                        <li style={{ fontSize: 17 }}>Add</li>
-                        <p>
-                            When a user logs into the application for the first
-                            time, the relevant data (explained more thoroughly
-                            in the "Types of Data Collected" section) is stored
-                            in our MongoDB database.
-                        </p>
-                        <li style={{ fontSize: 17 }}>Update</li>
-                        <p>
-                            If a user changes their personal information via
-                            their Google Account, such as their first name,
-                            IntelliSlides will get the updated information from
-                            Google on the next login by the user, thus updating
-                            the data in our database.
-                        </p>
-                        <li style={{ fontSize: 17 }}>Delete</li>
-                        <p>
-                            If a user is logged into the app, they can click the
-                            "Delete" button on their profile card. and their
-                            google id token is removed from the browser, and
-                            their corresponding data is entirely deleted from
-                            the MongoDB backend. This is not a reversible
-                            process.
-                        </p>
-                    </ul>
                 </p>
+                <ul style={{ marginTop: 10 }}>
+                    <li style={{ fontSize: 17 }}>Add</li>
+                    <p>
+                        When a user logs into the application for the first
+                        time, the relevant data (explained more thoroughly in
+                        the "Types of Data Collected" section) is stored in our
+                        MongoDB database.
+                    </p>
+                    <li style={{ fontSize: 17 }}>Update</li>
+                    <p>
+                        If a user changes their personal information via their
+                        Google Account, such as their first name, IntelliSlides
+                        will get the updated information from Google on the next
+                        login by the user, thus updating the data in our
+                        database.
+                    </p>
+                    <li style={{ fontSize: 17 }}>Delete</li>
+                    <p>
+                        If a user is logged into the app, they can click the
+                        "Delete" button on their profile card. and their google
+                        id token is removed from the browser, and their
+                        corresponding data is entirely deleted from the MongoDB
+                        backend. This is not a reversible process.
+                    </p>
+                </ul>
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Updates</h5>
                 <p
                     style={{

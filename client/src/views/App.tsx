@@ -1,11 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
-import {
-    googleLogout,
-    useGoogleLogin,
-    // hasGrantedAllScopesGoogle,
-    CodeResponse,
-    hasGrantedAllScopesGoogle,
-} from "@react-oauth/google"
+import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
 import "../style/App.css"
 import TextInput from "../components/TextInput"
 // import Checkmark from "./components/Checkmark";
@@ -25,8 +19,6 @@ import { toast, ToastContainer } from "react-toastify"
 import Loading from "../components/Loading"
 import iError from "../models/error"
 import Warning from "../components/Warning"
-import Limitations from "../components/Limitations"
-import AdvancedSettings from "../components/AdvancedSettings"
 
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import "./style//bootstrap.min.luxen.css";
@@ -49,13 +41,11 @@ import useWindowDimensions from "../util/useWindowDimensions"
 import InfoIcon from "../components/InfoIcon"
 import Profile from "../components/Profile"
 import iUser from "../models/user"
-import LogoutButton from "../components/ProfileButton"
-import LoginButton from "../components/LoginButton"
+
 // import ThemeButton from "./components/ThemeButton";
 import { CircleLoader } from "react-spinners"
 import jwtDecode from "jwt-decode"
-import SettingsIcon from "../components/SettingsIcon"
-import SettingsModal from "../components/SettingsModal"
+
 import iPresentation from "../models/presentation"
 import { TypeAnimation } from "react-type-animation"
 import isMobile from "../util/isMobile"
@@ -152,8 +142,6 @@ const App: FC = () => {
             error: { status: response.status, message: response.data },
         }
         if (response.status !== 200) {
-            console.log(response.status)
-            console.log("Error handling")
             if (response.status === 401 || response.status === 403) {
                 logout()
             }
@@ -227,7 +215,6 @@ const App: FC = () => {
             api.defaults.headers.Authorization = `Bearer ${id_token}`
             return true
         } catch (err) {
-            console.log("Caught error")
             errorToast(errorMessage(err as AxiosError))
         }
     }
@@ -246,7 +233,6 @@ const App: FC = () => {
     }
 
     const deleteUser = async () => {
-        console.log(localStorage.getItem("id_token"))
         setState({ ...state, profileLoading: true })
         try {
             const response = await api.get("/user/delete")
@@ -301,13 +287,10 @@ const App: FC = () => {
     }
 
     const onSubmitHandler = async (confirm: boolean) => {
-        console.log("Calling onSubmitHandler")
-        // console.log("id_token", localStorage.getItem("id_token"))
         if (disable()) {
             return errorToast("Please fill out all required fields!")
         }
         if (confirm) {
-            console.log("We need to remove warning")
             setState({ ...state, warning: null })
         }
         if ((!state.title || !state.subtitle) && !confirm) {
@@ -333,7 +316,6 @@ const App: FC = () => {
                 "/presentation/validateParameters",
                 state
             )
-            console.log("We have finished with request")
             const parametersError = errorHandler(parametersResponse, {
                 loading: "ValidateParameters",
                 submit: true,
@@ -432,7 +414,6 @@ const App: FC = () => {
                 error: null,
             })
         } catch (err) {
-            console.log("Caught error")
             setState({
                 ...state,
                 // loading: "ValidateParameters",

@@ -5,8 +5,6 @@ const verifyAccessToken = async (token: string): Promise<VerifyResponse> => {
     const response = await axios.get(
         "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + token
     )
-    console.log("Verifying Access Token")
-    console.log(response.data)
     if (response.status !== 200) {
         return "unverifiable"
     }

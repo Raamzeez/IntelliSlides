@@ -26,11 +26,6 @@ async function createPresentation(
                 title: parameters.title,
             },
         })
-        console.log(
-            `Created presentation with ID: ${presentation.data.presentationId}`
-        )
-        // console.log(JSON.stringify(presentation.data.slides, null, 3));
-        // console.log("\n");
         const titleSlide = presentation.data.slides[0]
         const titleID = titleSlide.pageElements[0].objectId
         const subtitleID = titleSlide.pageElements[1].objectId
@@ -45,7 +40,6 @@ async function createPresentation(
             })
         }
         if (parameters.sources) {
-            console.log("Adding sources slide")
             requests.push({
                 createSlide: {
                     slideLayoutReference: {
@@ -74,12 +68,9 @@ async function createPresentation(
                 requests,
             },
         })
-        console.log("Added title slide and populated with correct info!")
-        // console.log(JSON.stringify(titleSlideResponse, null, 3));
         requests.length = 0
         const imageSources: string[] = []
         for (let i = 0; i < slidesInfo.length; i++) {
-            // console.log(titleSlideResponse.data.replies[i]);
             const slideObjectId =
                 titleSlideResponse.data.replies[i].createSlide.objectId
             const slideObjectIds = await service.presentations.pages.get({
@@ -95,7 +86,6 @@ async function createPresentation(
                 },
             })
             if (parameters.images) {
-                console.log(`Finding Image for ${slidesInfo[i].title}...`)
                 const imageResponse = await getImage(
                     getPrompts(
                         "image",
@@ -107,14 +97,10 @@ async function createPresentation(
                     key,
                     cx
                 )
-                console.log(imageResponse)
                 if (imageResponse.items) {
                     const imageURL = imageResponse.items[0].link
                     const imageSource = imageResponse.items[0].image.contextLink
                     imageSources.push(imageSource)
-                    console.log(
-                        `Found image with url of ${imageURL} from ${imageSource}!`
-                    )
                     const emu4M = {
                         magnitude: 4000000,
                         unit: "EMU",
@@ -154,17 +140,6 @@ async function createPresentation(
             })
         }
         if (parameters.sources) {
-            console.log("Populating with source info")
-            // console.log(JSON.stringify(titleSlideResponse, null, 3));
-            // console.log("titleSlideResponse.data", titleSlideResponse.data);
-            // console.log(
-            //   "titleSlidesResponse.data.replies",
-            //   titleSlideResponse.data.replies
-            // );
-            // console.log(
-            //   "titleSlidesResponse.data.replies[slidesInfo.length]",
-            //   titleSlideResponse.data.replies[slidesInfo.length]
-            // );
             const slideObjectId =
                 titleSlideResponse.data.replies[slidesInfo.length].createSlide
                     .objectId
@@ -211,7 +186,6 @@ async function createPresentation(
             presentationId: presentation.data.presentationId,
             pageObjectId: presentation.data.slides[0].objectId,
         })
-        console.log("Added slides to presentation and populated with info!")
         const presentationId = presentation.data.presentationId
         const title = parameters.title
         const subtitle = parameters.subtitle

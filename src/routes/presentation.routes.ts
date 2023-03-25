@@ -44,10 +44,8 @@ presentationRouter.post(
         const { topic, auto, category } = req.body
         if (auto) {
             const response = await getCategory(openai, topic)
-            console.log("Category:", response)
             return res.status(200).send(response)
         }
-        console.log("Category:", category)
         return res.status(200).send(category)
     }
 )
@@ -58,7 +56,6 @@ presentationRouter.post(
     slidesLimit,
     async (req, res) => {
         const { topic, category, slideCount, model } = req.body
-        console.log(`Fetching info about ${topic}...`)
         const titles = await getTopics(
             openai,
             category,
@@ -66,7 +63,6 @@ presentationRouter.post(
             slideCount,
             model
         )
-        console.log("Titles", titles)
         return res.status(200).json(titles)
         // console.log("Titles", dummyTitles)
         // return res.status(200).json(dummyTitles)
@@ -95,8 +91,6 @@ presentationRouter.post(
             )
             slidesInfo.push({ title: titles[i], facts })
         }
-        console.log("Gathered Data For Slides: \n")
-        console.log(slidesInfo)
         return res.status(200).json(slidesInfo)
         // console.log(dummyFacts)
         // return res.status(200).json(dummyFacts)
@@ -128,14 +122,11 @@ presentationRouter.post(
                     "Unauthorized and unable to obtain authorization credentials. Please try again later."
                 )
         }
-        console.log("Access Token", access_token)
         try {
-            console.log("Authorizing...")
             // const client = await authorize();
             client.setCredentials({
                 access_token,
             })
-            console.log("Creating presentation...")
             const presentation = await createPresentation(
                 parameters,
                 client,
@@ -161,7 +152,6 @@ presentationRouter.post(
                     new: true,
                 }
             )
-            console.log("Found user", foundUser)
             return res.status(200).send(presentation)
         } catch (err) {
             console.error(err)

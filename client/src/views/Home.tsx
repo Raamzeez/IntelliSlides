@@ -29,6 +29,7 @@ const Home: FC = () => {
                 {features.map((feature, index) => {
                     return (
                         <Feature
+                            key={index}
                             feature={feature}
                             layout={index % 2 === 0 ? "left" : "right"}
                         />

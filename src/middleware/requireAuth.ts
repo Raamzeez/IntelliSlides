@@ -7,13 +7,9 @@ import subToObjectId from "../hooks/subToObjectId"
 
 const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
     // Get the JWT token from the HttpOnly cookie
-    console.log(req.headers)
-    console.log("Calling requireAuth Middleware")
     const id_token = extractIDToken(req)
     // If the JWT token is not present, redirect the user to the login page
-    console.log("ID Token: " + id_token)
     if (!id_token || id_token === "null" || id_token === "undefined") {
-        console.log("No ID Token")
         return res
             .status(401)
             .send("Not Logged In. Please login on the home page.")
@@ -26,12 +22,8 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
             audience: process.env.GOOGLE_WEB_CLIENT_ID,
         })
         const payload = ticket.getPayload()
-        console.log("Payload")
-        console.log(payload)
-        console.log("Verified ID Token")
         next()
     } catch (err) {
-        console.log("Unverified ID Token")
         console.error(err)
         return res
             .status(403)

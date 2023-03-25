@@ -11,7 +11,6 @@ const refreshToken = async (id: string) => {
     let verified
     try {
         const tokenInfo = await client.getTokenInfo(refreshToken)
-        console.log(tokenInfo)
         verified = true
     } catch (err) {
         verified = false
