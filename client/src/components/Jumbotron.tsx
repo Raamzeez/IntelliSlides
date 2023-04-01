@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC } from "react"
 import { TypeAnimation } from "react-type-animation"
 import LearnMoreButton from "./LearnMoreButton"
 
@@ -35,10 +35,11 @@ const Jumbotron: FC = () => {
                     "Your Presentation on the Burj Khalifa", // Deletes 'One' and types 'Two'
                     800, // Waits 2s
                     "Your Presentation on Anything in Matters of Seconds", // Types 'Three' without deleting 'Two'
+                    15000,
                 ]}
                 wrapper="div"
                 cursor={true}
-                repeat={0}
+                repeat={Infinity}
                 style={{
                     fontSize: 16,
                     color: "white",

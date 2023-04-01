@@ -132,12 +132,59 @@ background: linear-gradient(121deg, rgba(57, 57, 57, 1) 45%, rgba(57, 57, 57, 1)
   background: linear-gradient(40deg, rgb(20, 121, 203) 45%, rgb(21, 168, 158) 100%);
 }
 
-.skyhue {
-  background: linear-gradient(90deg, rgb(180, 122, 22) 0%, rgb(201, 51, 173) 100%);
-}
-
 .pointer {
   cursor: pointer;
+}
+
+.skyhue {
+  background: linear-gradient(200deg, #cc8e23, #d138b5);
+  background-size: 400% 400%;
+
+  -webkit-animation: SkyHueAnimation 30s ease infinite;
+  -moz-animation: SkyHueAnimation 30s ease infinite;
+  animation: SkyHueAnimation 30s ease infinite;
+}
+
+@-webkit-keyframes SkyHueAnimation {
+  0% {
+    background-position: 0% 50%
+  }
+
+  50% {
+    background-position: 100% 50%
+  }
+
+  100% {
+    background-position: 0% 50%
+  }
+}
+
+@-moz-keyframes SkyHueAnimation {
+  0% {
+    background-position: 0% 50%
+  }
+
+  50% {
+    background-position: 100% 50%
+  }
+
+  100% {
+    background-position: 0% 50%
+  }
+}
+
+@keyframes SkyHueAnimation {
+  0% {
+    background-position: 0% 50%
+  }
+
+  50% {
+    background-position: 100% 50%
+  }
+
+  100% {
+    background-position: 0% 50%
+  }
 }
 
 

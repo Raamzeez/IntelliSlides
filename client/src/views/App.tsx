@@ -47,16 +47,13 @@ import { CircleLoader } from "react-spinners"
 import jwtDecode from "jwt-decode"
 
 import iPresentation from "../models/presentation"
-import { TypeAnimation } from "react-type-animation"
 import isMobile from "../util/isMobile"
 import Result from "../components/Result"
-import { Axios, AxiosError, AxiosResponse } from "axios"
+import { AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "../components/SlideCountTip"
-import PrivacyPolicy from "./PrivacyPolicy"
 import { useNavigate } from "react-router-dom"
 import DeleteModal from "../components/DeleteModal"
 import GoogleButton from "react-google-button"
-import Header from "../components/Header"
 // import SettingsModal from "./components/SettingsModal";
 
 interface iState {
@@ -83,7 +80,7 @@ interface iState {
     error: iError | null
 }
 
-const controller = new AbortController()
+// const controller = new AbortController()
 
 const topicTipMessage =
     'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company called "Tesla Motors" instead of something else, such as the life of the individual konwn as Nikola Tesla.'
@@ -158,29 +155,29 @@ const App: FC = () => {
         return errorMessage
     }
 
-    const fetchUser = async () => {
-        try {
-            if (localStorage.getItem("id_token")) {
-                const response = await api.get("/user/userInfo")
-                setState({ ...state, profileLoading: false })
-                if (response.status !== 200) {
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                if (localStorage.getItem("id_token")) {
+                    const response = await api.get("/user/userInfo")
+                    setState({ ...state, profileLoading: false })
+                    if (response.status !== 200) {
+                        setUser(null)
+                        // errorToast("Session expired. Login again.")
+                        return
+                    }
+                    setUser(response.data)
+                } else {
+                    setState({ ...state, profileLoading: false })
                     setUser(null)
-                    // errorToast("Session expired. Login again.")
                     return
                 }
-                setUser(response.data)
-            } else {
-                setState({ ...state, profileLoading: false })
-                setUser(null)
-                return
+            } catch (err) {
+                // console.error(err)
+                errorToast(errorMessage(err as AxiosError))
             }
-        } catch (err) {
-            console.error(err)
-            errorToast(errorMessage(err as AxiosError))
         }
-    }
 
-    useEffect(() => {
         fetchUser()
         sessionStorage.setItem("visited", "true")
     }, [])
@@ -206,7 +203,8 @@ const App: FC = () => {
             setState({ ...state, profileLoading: false })
             if (response.status !== 200) {
                 setUser(null)
-                return console.error(response.data)
+                return
+                // return console.error(response.data)
             }
             const id_token = response.data.id_token
             const { name, email, picture } = jwtDecode(id_token) as iUser

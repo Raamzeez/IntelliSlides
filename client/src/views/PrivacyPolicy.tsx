@@ -1,8 +1,7 @@
-import React, { FC, useState } from "react"
-import { Col, Container, Image, Row } from "react-bootstrap"
+import React, { FC } from "react"
+import { Container, Image } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import Button from "../components/Button"
-import Checkmark from "../components/Checkmark"
 import Line from "../components/Line"
 
 const PrivacyPolicy: FC = () => {
@@ -43,7 +42,7 @@ const PrivacyPolicy: FC = () => {
                         fontSize: 13,
                     }}
                 >
-                    Last Updated: 3/27/23
+                    Last Updated: 4/1/23
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 3 }}>
                     Introduction:{" "}
@@ -134,7 +133,14 @@ const PrivacyPolicy: FC = () => {
                     IntelliSlides utilizes a few major third party services to
                     enable it's powerful capabilities.
                 </p>
-                <ul style={{ marginTop: 20 }}>
+                <ul
+                    style={{
+                        marginTop: 10,
+                        marginLeft: "15%",
+                        width: "70%",
+                        fontSize: 12,
+                    }}
+                >
                     <li>
                         <span style={{ fontWeight: "bold" }}>
                             Google Analytics
@@ -150,7 +156,7 @@ const PrivacyPolicy: FC = () => {
                         website has to our users, and to see if we need to
                         improve or redact changes.
                     </li>
-                    <li style={{ marginTop: 19 }}>
+                    <li style={{ marginTop: 10 }}>
                         <span style={{ fontWeight: "bold" }}>OpenAI API</span> -
                         We use the official API provided by OpenAI to gather
                         data regarding the slides. More specifically, we use the
@@ -202,7 +208,14 @@ const PrivacyPolicy: FC = () => {
                     IntelliSlides uses popular security techniques to ensure the
                     protection of our user's data.
                 </p>
-                <ol style={{ marginTop: 15 }}>
+                <ol
+                    style={{
+                        marginTop: 15,
+                        marginLeft: "15%",
+                        width: "70%",
+                        fontSize: 12,
+                    }}
+                >
                     <li>
                         OAuth 2.0 Protocol - An industry standard protocol for
                         authorization that uses JWT (JSON Web Tokens) for user
@@ -231,7 +244,14 @@ const PrivacyPolicy: FC = () => {
                     An IntelliSlides user has the right to add, update, and
                     delete their data.
                 </p>
-                <ul style={{ marginTop: 10 }}>
+                <ul
+                    style={{
+                        marginTop: 10,
+                        marginLeft: "15%",
+                        width: "70%",
+                        fontSize: 12,
+                    }}
+                >
                     <li style={{ fontSize: 17 }}>Add</li>
                     <p>
                         When a user logs into the application for the first
