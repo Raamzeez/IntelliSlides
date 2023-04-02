@@ -102,13 +102,9 @@ const App: FC = () => {
         showDeleteModal: false,
         settings: false,
         topic: "",
-        // topic: "Some really long string as a topic and hwo are we going to format accordingly everyone?",
-        // topic: "Space Shuttle Challenger Disaster",
         category: "Event",
         auto: localStorage.getItem("auto") === "true" ? true : false,
         title: "",
-        // title: "Some really long string as a topic and hwo are we going to format accordingly everyone?",
-        // title: "Space Shuttle Challengeer Disaster",
         presentationId: "",
         subtitle: "",
         slideCount: 5,
@@ -116,17 +112,10 @@ const App: FC = () => {
         sources: false,
         model: "text-davinci-003",
         submit: false,
-        // loading: "FetchingCategory",
         loading: null,
-        // submit: true,
-        // loading: "ValidateParameters",
-        // profileLoading: true,
         profileLoading: true,
         warning: null,
         error: null,
-        // error: {
-        //     message: "Test",
-        // },
     })
 
     const navigate = useNavigate()

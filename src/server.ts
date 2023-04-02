@@ -25,10 +25,9 @@ const limiter = rateLimit({
 })
 
 const corsOptions = {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-    credentials: true, //access-control-allow-credentials:true
-    optionSuccessStatus: 200,
+    // methods: ["GET", "POST"],
+    // credentials: true, //access-control-allow-credentials:true
+    // optionSuccessStatus: 200,
 }
 
 app.use(limiter)
@@ -56,8 +55,10 @@ mongoose.connect(
     }
 )
 
+//Serve static assets
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static("../client/build"))
+    //Set static folder
+    app.use(express.static("client/build"))
 
     app.get("*", (req, res) => {
         res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
