@@ -1,11 +1,6 @@
 import { NextFunction, Request, Response } from "express"
-import jwtDecode from "jwt-decode"
 import { DateTime } from "luxon"
-import { ObjectId } from "mongodb"
 import idTokenToMongoID from "../functions/idTokenToMongoID"
-import extractIDToken from "../hooks/extractIDToken"
-import subToObjectId from "../hooks/subToObjectId"
-import iUserJWT from "../models/userJWT"
 import userDB from "../schemas/user"
 
 const slidesLimit = async (req: Request, res: Response, next: NextFunction) => {

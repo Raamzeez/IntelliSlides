@@ -5,8 +5,6 @@ import { google } from "googleapis"
 import iSlideInfo from "../models/slideInfo"
 import getImage from "./getImage"
 import getPrompts from "../hooks/prompts"
-import iPresentationResponse from "../models/presentationResponse"
-import iPresentation from "../models/presentation"
 
 /**
  * Creates a Google Slide presentation.

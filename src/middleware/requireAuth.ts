@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from "express"
-import jwtDecode from "jwt-decode"
 import client from "../client"
-import iUserJWT from "../models/userJWT"
 import extractIDToken from "../hooks/extractIDToken"
-import subToObjectId from "../hooks/subToObjectId"
 
 const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
     // Get the JWT token from the HttpOnly cookie
