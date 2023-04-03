@@ -1,5 +1,5 @@
 node_modules
 .env
-build
+dist
 token.json
 credentials.json

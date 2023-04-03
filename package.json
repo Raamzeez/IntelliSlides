@@ -6,11 +6,10 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start:dev": "npx nodemon",
-        "start": "node src/server.js",
+        "start": "tsc --esModuleInterop --outDir dist src/server.ts && node dist/server.js",
         "development": "ts-node src/server.ts",
         "build": "cd client && npm run build",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
-        "postinstall": "tsc"
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
     },
     "author": "Mohammed Raamiz Abbasi",
     "license": "ISC",
