@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
 import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
-import "../public/style/App.css"
 import TextInput from "../components/TextInput"
 // import Checkmark from "./components/Checkmark";
 import Button from "../components/Button"
@@ -11,23 +10,15 @@ import {
     Container,
     Dropdown,
     DropdownButton,
-    Image,
     Pagination,
     Row,
 } from "react-bootstrap"
+import Image from "next/image"
 import { toast, ToastContainer } from "react-toastify"
 import Loading from "../components/Loading"
 import iError from "../lib/frontend/models/error"
 import Warning from "../components/Warning"
 
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "./style//bootstrap.min.luxen.css";
-// import "./style/bootstrap.min.cerulean.css";
-// import "./style/bootstrap.min.cosmo.css";
-import "../public/style/bootstrap.min.quartz.css"
-// import "./style/bootstrap.min.litera.css";
-// import "./style/bootstrap.min.cyborg.css";
-import "react-toastify/dist/ReactToastify.css"
 import Footer from "../components/Footer"
 import Alert from "../components/Alert"
 import VersionModal from "../components/VersionModal"
@@ -42,7 +33,6 @@ import InfoIcon from "../components/InfoIcon"
 import Profile from "../components/Profile"
 import iUser from "../lib/frontend/models/user"
 
-// import ThemeButton from "./components/ThemeButton";
 import { CircleLoader } from "react-spinners"
 import jwtDecode from "jwt-decode"
 
@@ -53,7 +43,6 @@ import { AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
 import GoogleButton from "react-google-button"
-// import SettingsModal from "./components/SettingsModal";
 
 interface iState {
     showAlert: boolean
@@ -78,8 +67,6 @@ interface iState {
     warning: string | null
     error: iError | null
 }
-
-// const controller = new AbortController()
 
 const topicTipMessage =
     'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company called "Tesla Motors" instead of something else, such as the life of the individual konwn as Nikola Tesla.'
@@ -554,6 +541,7 @@ const App: FC = () => {
                                 </Col>
                             </Row> */}
                             <Image
+                                alt="IntelliSlides Banner Logo"
                                 src={require("../public/images/IntelliSlidesBannerTransparent.png")}
                                 style={{
                                     height: 75,

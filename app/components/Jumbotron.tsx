@@ -10,7 +10,7 @@ const Jumbotron: FC = () => {
                 height: "88.5vh",
                 backgroundColor: "white",
                 width: "100vw",
-                backgroundImage: `url(${JumbotronBackground})`,
+                backgroundImage: `url(${JumbotronBackground.src})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 display: "flex",

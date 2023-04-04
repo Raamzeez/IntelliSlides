@@ -1,5 +1,6 @@
 import React, { FC } from "react"
-import { Container, Image } from "react-bootstrap"
+import Image from "next/image"
+import { Container } from "react-bootstrap"
 import Button from "../components/Button"
 import Line from "../components/Line"
 
@@ -11,7 +12,8 @@ const PrivacyPolicy: FC = () => {
     return (
         <Container fluid className="App">
             <Image
-                src={require("../images/IntelliSlidesBannerTransparent.png")}
+                alt="IntelliSlides Banner Logo"
+                src={require("../public/images/IntelliSlidesBannerTransparent.png")}
                 style={{
                     height: 75,
                     width: 280,

@@ -7,10 +7,9 @@ import morgan from "morgan"
 import helmet from "helmet"
 import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
-import userRouter from "./routes/user.routes"
-import presentationRouter from "./routes/presentation.routes"
+import userRouter from "../lib/backend/routes/user.routes"
+import presentationRouter from "../lib/backend/routes/presentation.routes"
 import rateLimit from "express-rate-limit"
-import path from "path"
 
 const PORT = process.env.PORT || 4000
 const MONGODB_CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING
@@ -42,7 +41,7 @@ app.use("/api/v1/user", userRouter)
 app.use("/api/v1/presentation", presentationRouter)
 
 mongoose.connect(
-    MONGODB_CONNECTION_STRING,
+    MONGODB_CONNECTION_STRING as string,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -54,15 +53,6 @@ mongoose.connect(
         console.log("Connected to MongoDB Successfully!")
     }
 )
-
-//Serve static assets
-if (process.env.NODE_ENV === "production") {
-    //Set static folder
-    app.use(express.static("client/build"))
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-    })
-}
 
 app.listen(PORT, () => {
     console.log(`CORS-enabled web server listening on port ${PORT}`)

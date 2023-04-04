@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react"
-import { Col, Image, Row } from "react-bootstrap"
+import { Col, Row } from "react-bootstrap"
+import Image from "next/image"
 import fetchVersion from "../lib/frontend/util/fetchVersion"
 import isMobile from "../lib/frontend/util/isMobile"
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
@@ -34,6 +35,7 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                 }}
             >
                 <Image
+                    alt="OpenAI Logo"
                     src={require("../public/images/OpenAILogo.png")}
                     height={30}
                     width={120}
@@ -70,6 +72,7 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                 }}
             >
                 <Image
+                    alt="Google Slides Logo"
                     src={require("../public/images/GoogleSlidesLogo.png")}
                     height={75}
                     width={200}

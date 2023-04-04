@@ -1,5 +1,6 @@
 import React, { FC } from "react"
-import { Col, Image, Row } from "react-bootstrap"
+import { Col, Row } from "react-bootstrap"
+import Image from "next/image"
 import iFeature from "../lib/frontend/models/feature"
 
 interface iProps {
@@ -15,6 +16,7 @@ interface iTextContainerProps {
 
 interface iImageContainerProps {
     image: string
+    alt: string
     layout: "left" | "right"
 }
 
@@ -45,7 +47,7 @@ const TextContainer: FC<iTextContainerProps> = ({ heading, body, layout }) => {
     )
 }
 
-const ImageContainer: FC<iImageContainerProps> = ({ image, layout }) => {
+const ImageContainer: FC<iImageContainerProps> = ({ image, alt, layout }) => {
     return (
         <Col
             className={`animate__animated ${
@@ -65,6 +67,7 @@ const ImageContainer: FC<iImageContainerProps> = ({ image, layout }) => {
             }}
         >
             <Image
+                alt=""
                 src={image}
                 style={{
                     height: 260,
@@ -93,11 +96,19 @@ const Feature: FC<iProps> = ({ feature, layout }) => {
                         body={feature.body}
                         layout={layout}
                     />
-                    <ImageContainer image={feature.image} layout={layout} />
+                    <ImageContainer
+                        image={feature.image}
+                        alt={feature.alt}
+                        layout={layout}
+                    />
                 </>
             ) : (
                 <>
-                    <ImageContainer image={feature.image} layout={layout} />
+                    <ImageContainer
+                        image={feature.image}
+                        alt={feature.alt}
+                        layout={layout}
+                    />
                     <TextContainer
                         heading={feature.heading}
                         body={feature.body}

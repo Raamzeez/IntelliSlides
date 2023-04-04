@@ -1,5 +1,6 @@
 import React, { FC } from "react"
 import { Container, Nav, Navbar } from "react-bootstrap"
+import Image from "next/image"
 import LaunchButton from "./LaunchButton"
 
 const Header: FC = () => {
@@ -19,7 +20,7 @@ const Header: FC = () => {
                         className="d-inline-block align-top"
                         alt="React Bootstrap logo"
                     /> */}
-                    <img
+                    <Image
                         src={require("../public/images/IntelliSlidesBannerTransparent.png")}
                         height={50}
                         width={187.5}
@@ -37,7 +38,9 @@ const Header: FC = () => {
                     </Nav>
                 </Navbar.Collapse>
                 <Nav className="mr-auto">
-                    <LaunchButton />
+                    <Nav.Link href="/app">
+                        <LaunchButton />
+                    </Nav.Link>
                 </Nav>
             </Container>
         </Navbar>

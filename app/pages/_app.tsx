@@ -2,6 +2,11 @@ import React from "react"
 import Head from "next/head"
 import { AppProps } from "next/app"
 import { GoogleOAuthProvider } from "@react-oauth/google"
+import "../public/style/index.css"
+import "../public/style/fonts.css"
+import "../public/style/App.css"
+import "../public/style/bootstrap.min.quartz.css"
+import "react-toastify/dist/ReactToastify.css"
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
