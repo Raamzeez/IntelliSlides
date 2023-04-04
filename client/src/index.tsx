@@ -20,7 +20,6 @@ root.render(
                     <Route path="/" element={<Home />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/app" element={<App />} />
-                    {/* <Route path="/versions" element={<Versions />} /> */}
                     <Route path="/privacy" element={<PrivacyPolicy />} />
                 </Routes>
             </Router>
