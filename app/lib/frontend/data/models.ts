@@ -1,4 +1,4 @@
-import Model from "../../lib/types/model"
+import Model from "../types/model"
 
 const models: Model[] = [
     "text-davinci-003",

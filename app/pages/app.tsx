@@ -5,7 +5,7 @@ import TextInput from "../components/TextInput"
 // import Checkmark from "./components/Checkmark";
 import Button from "../components/Button"
 import NumberInput from "../components/NumberInput"
-import api from "../lib/axios"
+import api from "../lib/frontend/axios"
 import {
     Col,
     Container,
@@ -17,7 +17,7 @@ import {
 } from "react-bootstrap"
 import { toast, ToastContainer } from "react-toastify"
 import Loading from "../components/Loading"
-import iError from "../lib/models/error"
+import iError from "../lib/frontend/models/error"
 import Warning from "../components/Warning"
 
 // import "bootstrap/dist/css/bootstrap.min.css";
@@ -32,22 +32,22 @@ import Footer from "../components/Footer"
 import Alert from "../components/Alert"
 import VersionModal from "../components/VersionModal"
 import InfoModal from "../components/InfoModal"
-import Model from "../lib/types/model"
+import Model from "../lib/frontend/types/model"
 import AutoButton from "../components/AutoButton"
-import Category from "../lib/types/category"
-import categories from "../lib/data/categories"
-import LoadingType from "../lib/types/loading"
-import useWindowDimensions from "../lib/util/useWindowDimensions"
+import Category from "../lib/frontend/types/category"
+import categories from "../lib/frontend/data/categories"
+import LoadingType from "../lib/frontend/types/loading"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import InfoIcon from "../components/InfoIcon"
 import Profile from "../components/Profile"
-import iUser from "../lib/models/user"
+import iUser from "../lib/frontend/models/user"
 
 // import ThemeButton from "./components/ThemeButton";
 import { CircleLoader } from "react-spinners"
 import jwtDecode from "jwt-decode"
 
-import iPresentation from "../lib/models/presentation"
-import isMobile from "../lib/util/isMobile"
+import iPresentation from "../lib/frontend/models/presentation"
+import isMobile from "../lib/frontend/util/isMobile"
 import Result from "../components/Result"
 import { AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "../components/SlideCountTip"
@@ -203,7 +203,7 @@ const App: FC = () => {
             const id_token = response.data.id_token
             const { name, email, picture } = jwtDecode(id_token) as iUser
             setUser({ name, email, picture })
-            if (typeof window !== "undefined") {
+            if (typeof localStorage !== "undefined") {
                 localStorage.setItem("id_token", id_token)
             }
             api.defaults.headers.Authorization = `Bearer ${id_token}`
@@ -216,7 +216,7 @@ const App: FC = () => {
     const logout = async () => {
         googleLogout()
         setUser(null)
-        if (typeof window !== "undefined") {
+        if (typeof localStorage !== "undefined") {
             localStorage.removeItem("id_token")
         }
     }
@@ -385,7 +385,7 @@ const App: FC = () => {
             const data = {
                 slidesInfo: slideDetailsResponse.data,
                 accessToken:
-                    typeof window !== "undefined" &&
+                    typeof localStorage !== "undefined" &&
                     localStorage.getItem("access_token"),
                 ...state,
             }
@@ -431,7 +431,7 @@ const App: FC = () => {
     }
 
     const onHideVersion = () => {
-        if (typeof window !== "undefined") {
+        if (typeof localStorage !== "undefined") {
             localStorage.setItem("showVersion", "false")
         }
         setState({ ...state, showVersion: false })

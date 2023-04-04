@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
-import useWindowDimensions from "../lib/util/useWindowDimensions"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 
 interface iProps {
     onClickHandler: () => void

@@ -1,4 +1,4 @@
-import Theme from "../../lib/types/theme"
+import Theme from "../types/theme"
 
 const themes: Theme[] = [
     "Simple Light",

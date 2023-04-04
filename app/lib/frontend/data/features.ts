@@ -1,4 +1,4 @@
-import iFeature from "../../lib/models/feature"
+import iFeature from "../models/feature"
 
 const features: iFeature[] = [
     {

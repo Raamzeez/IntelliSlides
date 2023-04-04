@@ -6,7 +6,7 @@ import Feature from "../components/Feature"
 import Header from "../components/Header"
 import HomeFooter from "../components/HomeFooter"
 import Jumbotron from "../components/Jumbotron"
-import features from "../lib/data/features"
+import features from "../lib/frontend/data/features"
 
 const Home: FC = () => {
     const navigate = useNavigate()

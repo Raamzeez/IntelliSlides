@@ -1,5 +1,5 @@
 import axios from "axios"
-import VerifyResponse from "../types/verifyResponse"
+import VerifyResponse from "../../app/lib/backend/types/verifyResponse"
 
 const verifyAccessToken = async (token: string): Promise<VerifyResponse> => {
     const response = await axios.get(
