@@ -1,11 +1,8 @@
 import React, { FC } from "react"
 import { Container } from "react-bootstrap"
-import { useNavigate } from "react-router-dom"
 import Button from "../components/Button"
 
 const NotFound: FC = () => {
-    const navigate = useNavigate()
-
     return (
         <Container fluid className="App">
             <h1>Page Not Found</h1>
@@ -14,7 +11,8 @@ const NotFound: FC = () => {
                 type="success"
                 value="Back"
                 // onClickHandler={() => navigate("/")}
-                onClickHandler={() => navigate(-1)}
+                // onClickHandler={() => navigate(-1)}
+                onClickHandler={() => console.log("Navigate")}
                 style={{ marginTop: "5%" }}
             />
         </Container>

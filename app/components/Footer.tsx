@@ -34,7 +34,7 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                 }}
             >
                 <Image
-                    src={require("../images/OpenAILogo.png")}
+                    src={require("../public/images/OpenAILogo.png")}
                     height={30}
                     width={120}
                 />
@@ -70,7 +70,7 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                 }}
             >
                 <Image
-                    src={require("../images/GoogleSlidesLogo.png")}
+                    src={require("../public/images/GoogleSlidesLogo.png")}
                     height={75}
                     width={200}
                 />

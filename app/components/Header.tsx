@@ -20,7 +20,7 @@ const Header: FC = () => {
                         alt="React Bootstrap logo"
                     /> */}
                     <img
-                        src={require("../images/IntelliSlidesBannerTransparent.png")}
+                        src={require("../public/images/IntelliSlidesBannerTransparent.png")}
                         height={50}
                         width={187.5}
                         style={{ marginTop: 5 }}

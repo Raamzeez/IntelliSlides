@@ -1,14 +1,11 @@
 import React, { FC } from "react"
 import { Container, Image } from "react-bootstrap"
-import { useNavigate } from "react-router-dom"
 import Button from "../components/Button"
 import Line from "../components/Line"
 
 const PrivacyPolicy: FC = () => {
-    const navigate = useNavigate()
-
     const onContinueHandler = () => {
-        navigate(-1)
+        // navigate(-1)
     }
 
     return (

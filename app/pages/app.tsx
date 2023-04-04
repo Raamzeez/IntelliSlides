@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react"
 import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
-import "../style/App.css"
+import "../public/style/App.css"
 import TextInput from "../components/TextInput"
 // import Checkmark from "./components/Checkmark";
 import Button from "../components/Button"
@@ -24,7 +24,7 @@ import Warning from "../components/Warning"
 // import "./style//bootstrap.min.luxen.css";
 // import "./style/bootstrap.min.cerulean.css";
 // import "./style/bootstrap.min.cosmo.css";
-import "../style/bootstrap.min.quartz.css"
+import "../public/style/bootstrap.min.quartz.css"
 // import "./style/bootstrap.min.litera.css";
 // import "./style/bootstrap.min.cyborg.css";
 import "react-toastify/dist/ReactToastify.css"
@@ -51,7 +51,6 @@ import isMobile from "../lib/frontend/util/isMobile"
 import Result from "../components/Result"
 import { AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "../components/SlideCountTip"
-import { useNavigate } from "react-router-dom"
 import DeleteModal from "../components/DeleteModal"
 import GoogleButton from "react-google-button"
 // import SettingsModal from "./components/SettingsModal";
@@ -115,8 +114,6 @@ const App: FC = () => {
         warning: null,
         error: null,
     })
-
-    const navigate = useNavigate()
 
     const errorHandler = (response: AxiosResponse, customState?: any) => {
         const setStateObject = {
@@ -557,14 +554,14 @@ const App: FC = () => {
                                 </Col>
                             </Row> */}
                             <Image
-                                src={require("../images/IntelliSlidesBannerTransparent.png")}
+                                src={require("../public/images/IntelliSlidesBannerTransparent.png")}
                                 style={{
                                     height: 75,
                                     width: 280,
                                     marginTop: isMobile(height, width) ? 30 : 5,
                                 }}
                                 className="pointer animate__animated animate__fadeIn"
-                                onClick={() => navigate("/")}
+                                // onClick={() => navigate("/")}
                             />
                             <div
                                 style={{

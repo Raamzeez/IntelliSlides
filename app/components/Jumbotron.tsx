@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import { TypeAnimation } from "react-type-animation"
 import LearnMoreButton from "./LearnMoreButton"
-import JumbotronBackground from "../images/JumbotronBackground.png"
+import JumbotronBackground from "../public/images/JumbotronBackground.png"
 
 const Jumbotron: FC = () => {
     return (

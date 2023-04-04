@@ -1,9 +1,8 @@
 import React, { FC, useState } from "react"
 import { Col, Modal, Row } from "react-bootstrap"
-import { useNavigate } from "react-router-dom"
 import fetchVersion from "../lib/frontend/util/fetchVersion"
 import Image from "next/image"
-import RotatingStructures from "../images/RotatingStructures.png"
+import RotatingStructures from "../public/images/RotatingStructures.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faX } from "@fortawesome/free-solid-svg-icons"
 
@@ -13,8 +12,6 @@ interface iProps {
 
 const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
     const [hover, setHover] = useState(false)
-
-    const navigate = useNavigate()
 
     return (
         <Modal show={true} onHide={onCloseHandler}>
@@ -79,7 +76,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                         <p
                             className="pointer"
                             style={{ textDecoration: hover ? "underline" : "" }}
-                            onClick={() => navigate("/privacy")}
+                            // onClick={() => navigate("/privacy")}
                         >
                             Privacy Policy
                         </p>
