@@ -1,6 +1,6 @@
 import React, { FC } from "react"
-import isMobile from "../util/isMobile"
-import useWindowDimensions from "../util/useWindowDimensions"
+import isMobile from "../lib/frontend/util/isMobile"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faX } from "@fortawesome/free-solid-svg-icons"
 

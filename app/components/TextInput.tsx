@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, useState } from "react"
 import { Col, Row } from "react-bootstrap"
-import useWindowDimensions from "../util/useWindowDimensions"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import InfoIcon from "./InfoIcon"
 
 interface iProps {

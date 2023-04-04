@@ -1,11 +1,11 @@
 import React, { FC } from "react"
 // import { ProgressBar } from "react-bootstrap";
 import { GridLoader } from "react-spinners"
-import iError from "../models/error"
-import Category from "../types/category"
-import LoadingType from "../types/loading"
-import estimatedTime from "../util/estimatedTime"
-import useWindowDimensions from "../util/useWindowDimensions"
+import iError from "../lib/frontend/models/error"
+import Category from "../lib/frontend/types/category"
+import LoadingType from "../lib/frontend/types/loading"
+import estimatedTime from "../lib/frontend/util/estimatedTime"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import LoadingStatus from "./LoadingStatus"
 // import Button from "./Button";
 

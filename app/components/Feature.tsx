@@ -1,6 +1,6 @@
 import React, { FC } from "react"
 import { Col, Image, Row } from "react-bootstrap"
-import iFeature from "../models/feature"
+import iFeature from "../lib/frontend/models/feature"
 
 interface iProps {
     feature: iFeature

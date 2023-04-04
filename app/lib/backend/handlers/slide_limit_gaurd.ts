@@ -1,7 +1,7 @@
 import { DateTime } from "luxon"
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next/types"
-import idTokenToMongoID from "./functions/idTokenToMongoID"
-import userDB from "./schemas/user"
+import idTokenToMongoID from "../functions/idTokenToMongoID"
+import userDB from "../schemas/user"
 
 export function slideLimitHandler(handler: NextApiHandler) {
     return async (req: NextApiRequest, res: NextApiResponse) => {

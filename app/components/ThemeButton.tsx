@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC } from "react"
-import AppTheme from "../types/appTheme"
+import AppTheme from "../lib/frontend/types/appTheme"
 
 interface iProps {
     theme: AppTheme

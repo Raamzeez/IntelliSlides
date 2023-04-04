@@ -1,13 +1,8 @@
 import React, { FC, useState } from "react"
-import {
-    Col,
-    // Carousel,
-    Image,
-    Modal,
-    Row,
-} from "react-bootstrap"
+import { Col, Modal, Row } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import fetchVersion from "../util/fetchVersion"
+import fetchVersion from "../lib/frontend/util/fetchVersion"
+import Image from "next/image"
 import RotatingStructures from "../images/RotatingStructures.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faX } from "@fortawesome/free-solid-svg-icons"
@@ -103,6 +98,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     Welcome!
                 </h1>
                 <Image
+                    alt="Abstract Structures"
                     src={RotatingStructures}
                     style={{
                         height: "40%",
@@ -124,14 +120,6 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     updates for you as this is our first release, but check in
                     again soon when we release the next version!
                 </p>
-                {/*
-        <Pagination style={{ marginTop: 30, position: "absolute", bottom: 10 }}>
-          <Pagination.Item>1</Pagination.Item>
-          <Pagination.Item>2</Pagination.Item>
-          <Pagination.Item>3</Pagination.Item>
-          <Pagination.Item>4</Pagination.Item>
-          <Pagination.Item>5</Pagination.Item>
-        </Pagination> */}
             </div>
         </Modal>
     )

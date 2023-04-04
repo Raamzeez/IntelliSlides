@@ -8,12 +8,12 @@ import React, { CSSProperties, FC } from "react"
 import { Col, Row } from "react-bootstrap"
 import ContentLoader from "react-content-loader"
 import { ClipLoader } from "react-spinners"
-import loadingStatuses from "../../public/data/loadingStatuses"
-import iError from "../models/error"
-import Category from "../types/category"
-import IconStatus from "../types/iconStatus"
-import LoadingType from "../types/loading"
-import useWindowDimensions from "../util/useWindowDimensions"
+import loadingStatuses from "../lib/frontend/data/loadingStatuses"
+import iError from "../lib/frontend/models/error"
+import Category from "../lib/frontend/types/category"
+import IconStatus from "../lib/frontend/types/iconStatus"
+import LoadingType from "../lib/frontend/types/loading"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 
 interface iProps {
     loadingStatus: LoadingType

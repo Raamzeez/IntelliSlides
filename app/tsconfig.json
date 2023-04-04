@@ -16,5 +16,11 @@
         "noEmit": true,
         "jsx": "react-jsx"
     },
-    "include": ["src", "public/data", "components", "lib/frontend/util"]
+    "include": [
+        "src",
+        "public/data",
+        "components",
+        "lib/frontend/util",
+        ".d.ts"
+    ]
 }

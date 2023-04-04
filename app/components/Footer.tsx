@@ -1,8 +1,8 @@
 import React, { FC, useState } from "react"
 import { Col, Image, Row } from "react-bootstrap"
-import fetchVersion from "../util/fetchVersion"
-import isMobile from "../util/isMobile"
-import useWindowDimensions from "../util/useWindowDimensions"
+import fetchVersion from "../lib/frontend/util/fetchVersion"
+import isMobile from "../lib/frontend/util/isMobile"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 
 interface iProps {
     isLoading: boolean

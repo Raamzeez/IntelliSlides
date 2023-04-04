@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import useWindowDimensions from "../util/useWindowDimensions"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faRocket } from "@fortawesome/free-solid-svg-icons"
 

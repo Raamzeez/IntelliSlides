@@ -1,6 +1,6 @@
 import React, { FC } from "react"
 import { Image } from "react-bootstrap"
-import useWindowDimensions from "../util/useWindowDimensions"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import ProfileButton from "./ProfileButton"
 
 interface iProps {
