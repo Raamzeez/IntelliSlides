@@ -1,4 +1,4 @@
-import LoadingType from "../types/loading"
+import LoadingType from "../../lib/types/loading"
 
 const loadingStatuses: {
     type: LoadingType

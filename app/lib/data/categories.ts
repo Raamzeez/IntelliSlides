@@ -1,4 +1,4 @@
-import Category from "../types/category"
+import Category from "../../lib/types/category"
 
 const categories: Category[] = [
     "Event",

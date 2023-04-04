@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useState } from "react"
 import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
 import "../style/App.css"
-import TextInput from "../../components/TextInput"
+import TextInput from "../components/TextInput"
 // import Checkmark from "./components/Checkmark";
-import Button from "../../components/Button"
-import NumberInput from "../../components/NumberInput"
-import api from "../api"
+import Button from "../components/Button"
+import NumberInput from "../components/NumberInput"
+import api from "../lib/axios"
 import {
     Col,
     Container,
@@ -16,9 +16,9 @@ import {
     Row,
 } from "react-bootstrap"
 import { toast, ToastContainer } from "react-toastify"
-import Loading from "../../components/Loading"
-import iError from "../models/error"
-import Warning from "../../components/Warning"
+import Loading from "../components/Loading"
+import iError from "../lib/models/error"
+import Warning from "../components/Warning"
 
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import "./style//bootstrap.min.luxen.css";
@@ -28,31 +28,31 @@ import "../style/bootstrap.min.quartz.css"
 // import "./style/bootstrap.min.litera.css";
 // import "./style/bootstrap.min.cyborg.css";
 import "react-toastify/dist/ReactToastify.css"
-import Footer from "../../components/Footer"
-import Alert from "../../components/Alert"
-import VersionModal from "../../components/VersionModal"
-import InfoModal from "../../components/InfoModal"
-import Model from "../types/model"
-import AutoButton from "../../components/AutoButton"
-import Category from "../types/category"
-import categories from "../../public/data/categories"
-import LoadingType from "../types/loading"
-import useWindowDimensions from "../../lib/util/useWindowDimensions"
-import InfoIcon from "../../components/InfoIcon"
-import Profile from "../../components/Profile"
-import iUser from "../models/user"
+import Footer from "../components/Footer"
+import Alert from "../components/Alert"
+import VersionModal from "../components/VersionModal"
+import InfoModal from "../components/InfoModal"
+import Model from "../lib/types/model"
+import AutoButton from "../components/AutoButton"
+import Category from "../lib/types/category"
+import categories from "../lib/data/categories"
+import LoadingType from "../lib/types/loading"
+import useWindowDimensions from "../lib/util/useWindowDimensions"
+import InfoIcon from "../components/InfoIcon"
+import Profile from "../components/Profile"
+import iUser from "../lib/models/user"
 
 // import ThemeButton from "./components/ThemeButton";
 import { CircleLoader } from "react-spinners"
 import jwtDecode from "jwt-decode"
 
-import iPresentation from "../models/presentation"
-import isMobile from "../../lib/util/isMobile"
-import Result from "../../components/Result"
+import iPresentation from "../lib/models/presentation"
+import isMobile from "../lib/util/isMobile"
+import Result from "../components/Result"
 import { AxiosError, AxiosResponse } from "axios"
-import SlideCountTip from "../../components/SlideCountTip"
+import SlideCountTip from "../components/SlideCountTip"
 import { useNavigate } from "react-router-dom"
-import DeleteModal from "../../components/DeleteModal"
+import DeleteModal from "../components/DeleteModal"
 import GoogleButton from "react-google-button"
 // import SettingsModal from "./components/SettingsModal";
 
@@ -93,17 +93,15 @@ const App: FC = () => {
     const [user, setUser] = useState<iUser | null>(null)
 
     const [state, setState] = useState<iState>({
-        showAlert:
-            sessionStorage.getItem("showAlert") === "false" ? false : true,
-        showVersion:
-            localStorage.getItem("showVersion") === "true" ? true : false,
+        showAlert: false,
+        showVersion: false,
         showTopicTip: false,
         showCategoryTip: false,
         showDeleteModal: false,
         settings: false,
         topic: "",
         category: "Event",
-        auto: localStorage.getItem("auto") === "true" ? true : false,
+        auto: false,
         title: "",
         presentationId: "",
         subtitle: "",
@@ -145,6 +143,15 @@ const App: FC = () => {
     }
 
     useEffect(() => {
+        if (sessionStorage.getItem("showAlert") !== "false") {
+            setState({ ...state, showAlert: true })
+        }
+        if (localStorage.getItem("showVersion") === "true") {
+            setState({ ...state, showVersion: true })
+        }
+        if (localStorage.getItem("auto") === "true") {
+            setState({ ...state, auto: true })
+        }
         const fetchUser = async () => {
             try {
                 if (localStorage.getItem("id_token")) {
@@ -166,7 +173,6 @@ const App: FC = () => {
                 errorToast(errorMessage(err as AxiosError))
             }
         }
-
         fetchUser()
         sessionStorage.setItem("visited", "true")
     }, [])
@@ -197,7 +203,9 @@ const App: FC = () => {
             const id_token = response.data.id_token
             const { name, email, picture } = jwtDecode(id_token) as iUser
             setUser({ name, email, picture })
-            localStorage.setItem("id_token", id_token)
+            if (typeof window !== "undefined") {
+                localStorage.setItem("id_token", id_token)
+            }
             api.defaults.headers.Authorization = `Bearer ${id_token}`
             return true
         } catch (err) {
@@ -208,7 +216,9 @@ const App: FC = () => {
     const logout = async () => {
         googleLogout()
         setUser(null)
-        localStorage.removeItem("id_token")
+        if (typeof window !== "undefined") {
+            localStorage.removeItem("id_token")
+        }
     }
 
     const onDeleteHandler = () => {
@@ -374,7 +384,9 @@ const App: FC = () => {
             })
             const data = {
                 slidesInfo: slideDetailsResponse.data,
-                accessToken: localStorage.getItem("access_token"),
+                accessToken:
+                    typeof window !== "undefined" &&
+                    localStorage.getItem("access_token"),
                 ...state,
             }
             const presentationResponse = await api.post(
@@ -419,12 +431,13 @@ const App: FC = () => {
     }
 
     const onHideVersion = () => {
-        localStorage.setItem("showVersion", "false")
+        if (typeof window !== "undefined") {
+            localStorage.setItem("showVersion", "false")
+        }
         setState({ ...state, showVersion: false })
     }
 
     const onShowVersion = () => {
-        // localStorage.setItem("showVersion", "true")
         setState({ ...state, showVersion: true })
     }
 

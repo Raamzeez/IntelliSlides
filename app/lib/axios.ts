@@ -7,7 +7,9 @@ const api = axios.create({
             : "/api/v1",
     validateStatus: (s) => s >= 200 && s <= 500,
     headers: {
-        Authorization: `Bearer ${localStorage.getItem("id_token")}`,
+        Authorization: `Bearer ${
+            typeof window !== "undefined" && localStorage.getItem("id_token")
+        }`,
     },
     timeout: 10000,
 })

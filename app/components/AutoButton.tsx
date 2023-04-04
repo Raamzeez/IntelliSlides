@@ -1,5 +1,5 @@
-import React, { FC, useState } from "react"
-import useWindowDimensions from "../util/useWindowDimensions"
+import React, { FC, useEffect, useState } from "react"
+import useWindowDimensions from "../lib/util/useWindowDimensions"
 
 interface iProps {
     onClickHandler: () => void
@@ -8,16 +8,13 @@ interface iProps {
 const AutoButton: FC<iProps> = ({ onClickHandler }) => {
     const { width } = useWindowDimensions()
 
-    const [clicked, setClicked] = useState(
-        localStorage.getItem("auto") === "true" ? true : false
-    )
+    const [clicked, setClicked] = useState(false)
 
-    // autoButton:active {
-    //     background-color: #008CBA;
-    //     color: white;
-    //     box-shadow: 0 4px #656565;
-    //     transform: translateY(3px);
-    // }
+    useEffect(() => {
+        if (localStorage.getItem("auto") === "true") {
+            setClicked(true)
+        }
+    }, [])
 
     const onClick = () => {
         setClicked(!clicked)
