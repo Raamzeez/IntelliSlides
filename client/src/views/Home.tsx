@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from "react"
 import { Container } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import Contact from "../components/Contact"
-import Feature from "../components/Feature"
-import Header from "../components/Header"
-import HomeFooter from "../components/HomeFooter"
-import Jumbotron from "../components/Jumbotron"
-import features from "../data/features"
+import Contact from "../../components/Contact"
+import Feature from "../../components/Feature"
+import Header from "../../components/Header"
+import HomeFooter from "../../components/HomeFooter"
+import Jumbotron from "../../components/Jumbotron"
+import features from "../../public/data/features"
 
 const Home: FC = () => {
     const navigate = useNavigate()

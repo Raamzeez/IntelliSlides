@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import { Container } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import Button from "../components/Button"
+import Button from "../../components/Button"
 
 const NotFound: FC = () => {
     const navigate = useNavigate()

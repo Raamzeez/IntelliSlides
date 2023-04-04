@@ -1,0 +1,52 @@
+import React from "react"
+import Document, { Head, Main, NextScript, Html } from "next/document"
+import Script from "next/script"
+
+class MyDocument extends Document {
+    render() {
+        return (
+            <Html lang="en">
+                <Head>
+                    <Script
+                        async
+                        src="https://www.googletagmanager.com/gtag/js?id=G-GYT5YBMLYB"
+                    />
+                    <Script>
+                        {`
+                        window.dataLayer = window.dataLayer || [] function
+                        gtag() {dataLayer.push(arguments)}
+                        gtag("js", new Date()) gtag("config", "G-GYT5YBMLYB")
+                        `}
+                    </Script>
+                    <meta charSet="utf-8" />
+                    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1"
+                    />
+                    <meta name="theme-color" content="#000000" />
+                    <meta
+                        name="description"
+                        content="Web site created using create-react-app"
+                    />
+                    <link
+                        rel="apple-touch-icon"
+                        href="%PUBLIC_URL%/logo192.png"
+                    />
+                    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+                    <link
+                        rel="stylesheet"
+                        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+                    />
+                    <title>IntelliSlides</title>
+                </Head>
+                <body>
+                    <Main />
+                    <NextScript />
+                </body>
+            </Html>
+        )
+    }
+}
+
+export default MyDocument
