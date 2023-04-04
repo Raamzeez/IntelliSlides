@@ -1,3 +1,9 @@
+import {
+    faCircleCheck,
+    faCircleMinus,
+    faCircleXmark,
+} from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { CSSProperties, FC } from "react"
 import { Col, Row } from "react-bootstrap"
 import ContentLoader from "react-content-loader"
@@ -98,12 +104,13 @@ const StatusElement: FC<StatusElementProps> = ({
                 {status === "success" &&
                     loadingStatus !== "FetchingCategory" && (
                         <>
-                            <i
+                            <FontAwesomeIcon
+                                icon={faCircleCheck}
                                 style={{
                                     fontSize: 16,
                                     color: "#00d173",
                                 }}
-                                className="fa-solid fa-circle-check animate__animated animate__fadeIn"
+                                className="animate__animated animate__fadeIn"
                             />
                         </>
                     )}
@@ -122,18 +129,16 @@ const StatusElement: FC<StatusElementProps> = ({
                     )}
                 {status === "hold" && (
                     <>
-                        <i
-                            style={{
-                                fontSize: 16,
-                                color: "grey",
-                            }}
-                            className="fa-solid fa-circle-minus"
+                        <FontAwesomeIcon
+                            icon={faCircleMinus}
+                            style={{ fontSize: 16, color: "grey" }}
                         />
                     </>
                 )}
                 {status === "error" && (
                     <>
-                        <i
+                        <FontAwesomeIcon
+                            icon={faCircleXmark}
                             style={{
                                 fontSize: 16,
                                 color: "red",
@@ -141,7 +146,6 @@ const StatusElement: FC<StatusElementProps> = ({
                                 right: "5vw",
                                 top: -2.5,
                             }}
-                            className="fa-solid fa-circle-xmark"
                         />
                     </>
                 )}

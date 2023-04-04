@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FC, useState } from "react"
-import useWindowDimensions from "../util/useWindowDimensions"
 
 interface iProps {
     value: number

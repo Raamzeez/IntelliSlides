@@ -1,11 +1,8 @@
 import React, { FC } from "react"
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap"
-import { Link, useNavigate } from "react-router-dom"
+import { Container, Nav, Navbar } from "react-bootstrap"
 import LaunchButton from "./LaunchButton"
 
 const Header: FC = () => {
-    const navigate = useNavigate()
-
     return (
         <Navbar
             variant="dark"

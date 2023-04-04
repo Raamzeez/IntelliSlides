@@ -1,7 +1,8 @@
 import React, { FC } from "react"
-import { Col, Row } from "react-bootstrap"
 import isMobile from "../util/isMobile"
 import useWindowDimensions from "../util/useWindowDimensions"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faX } from "@fortawesome/free-solid-svg-icons"
 
 interface iProps {
     isLoading: boolean
@@ -54,7 +55,6 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
             }}
             className="shadow animate__animated animate__fadeInDown alertBackground"
         >
-            {/* <Col> */}
             <p
                 style={{
                     fontSize: alertStyling().fontSize,
@@ -65,10 +65,9 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
                 This is a Public Beta Release - Please be aware that there may
                 be bugs and issues! We are actively working on improvements.
             </p>
-            {/* </Col> */}
-            {/* <Col> */}
-            <i
-                className="fa-solid fa-x pointer"
+            <FontAwesomeIcon
+                icon={faX}
+                className="pointer"
                 style={{
                     color: "white",
                     position: "absolute",
@@ -76,7 +75,6 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
                 }}
                 onClick={onCloseHandler}
             />
-            {/* </Col> */}
         </div>
     )
 }

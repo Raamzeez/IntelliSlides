@@ -22,11 +22,6 @@ const Profile: FC<iProps> = ({
 }) => {
     const { width } = useWindowDimensions()
 
-    const rightPosition = {
-        position: "absolute",
-        right: -30,
-    }
-
     return (
         <div
             className={showLogout ? (width > 992 ? "profile" : "") : ""}

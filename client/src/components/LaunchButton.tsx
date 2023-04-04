@@ -1,6 +1,8 @@
 import React, { FC, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useWindowDimensions from "../util/useWindowDimensions"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faRocket } from "@fortawesome/free-solid-svg-icons"
 
 const LaunchButton: FC = () => {
     const { width } = useWindowDimensions()
@@ -50,8 +52,8 @@ const LaunchButton: FC = () => {
                 <></>
             )}
             {(width > threshold || width < 380) && (
-                <i
-                    className="fa-solid fa-rocket"
+                <FontAwesomeIcon
+                    icon={faRocket}
                     style={{
                         // position: "absolute",
                         right: 15,

@@ -1,5 +1,3 @@
-import useWindowDimensions from "./useWindowDimensions"
-
 const isMobile = (height: number, width: number, loggedIn?: boolean) => {
     const maxHeight = 730
     const maxWidth = 600

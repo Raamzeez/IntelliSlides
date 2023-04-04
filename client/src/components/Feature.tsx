@@ -1,7 +1,6 @@
 import React, { FC } from "react"
 import { Col, Image, Row } from "react-bootstrap"
 import iFeature from "../models/feature"
-import useWindowDimensions from "../util/useWindowDimensions"
 
 interface iProps {
     feature: iFeature

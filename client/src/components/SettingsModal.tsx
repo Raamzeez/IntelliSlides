@@ -1,3 +1,5 @@
+import { faX } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { FC } from "react"
 import { Col, Dropdown, DropdownButton, Modal, Row } from "react-bootstrap"
 import Line from "./Line"
@@ -20,8 +22,9 @@ const SettingsModal: FC<iProps> = ({ onCloseHandler }) => {
                     alignItems: "center",
                 }}
             >
-                <i
-                    className="fa-solid fa-x pointer"
+                <FontAwesomeIcon
+                    icon={faX}
+                    className="pointer"
                     style={{
                         color: "white",
                         fontSize: 20,

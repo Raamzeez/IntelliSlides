@@ -4,12 +4,13 @@ import {
     // Carousel,
     Image,
     Modal,
-    Pagination,
     Row,
 } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import fetchVersion from "../util/fetchVersion"
-import Line from "./Line"
+import RotatingStructures from "../images/RotatingStructures.png"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faX } from "@fortawesome/free-solid-svg-icons"
 
 interface iProps {
     onCloseHandler: () => void
@@ -36,8 +37,9 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     // backgroundSize: "cover",
                 }}
             >
-                <i
-                    className="fa-solid fa-x pointer"
+                <FontAwesomeIcon
+                    icon={faX}
+                    className="pointer"
                     style={{
                         color: "white",
                         fontSize: 20,
@@ -101,7 +103,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     Welcome!
                 </h1>
                 <Image
-                    src="https://media.giphy.com/media/JWaTMiH8Fo1zkG6WP9/giphy.gif"
+                    src={RotatingStructures}
                     style={{
                         height: "40%",
                         width: "100%",

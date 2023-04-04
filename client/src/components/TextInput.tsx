@@ -34,19 +34,6 @@ const TextInput: FC<iProps> = ({
 
     const [clicked, setClicked] = useState(false)
 
-    const iconLeft = () => {
-        if (width <= 300) {
-            return "10%"
-        } else if (width <= 400) {
-            return "7%"
-        } else if (width <= 550) {
-            return "4%"
-        } else if (width <= 1200) {
-            return "3%"
-        }
-        return 0
-    }
-
     return (
         <Row
             style={{

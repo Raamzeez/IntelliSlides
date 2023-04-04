@@ -1,3 +1,5 @@
+import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { FC } from "react"
 import { Row } from "react-bootstrap"
 import Button from "./Button"
@@ -17,14 +19,13 @@ const Result: FC<iProps> = ({
 }) => {
     return (
         <>
-            <i
+            <FontAwesomeIcon
+                icon={presentationId ? faCircleCheck : faCircleXmark}
                 style={{
                     fontSize: 130,
                     color: presentationId ? "#00d173" : "#eb2149",
                 }}
-                className={`animate__animated animate__fadeInDown fa-solid fa-circle-${
-                    presentationId ? "check" : "xmark"
-                }`}
+                className="animate__animated animate__fadeInDown"
             />
             <h1 style={{ marginTop: 15 }}>{title}</h1>
             <h5 style={{ marginTop: 25, fontWeight: 500 }}>{message}</h5>

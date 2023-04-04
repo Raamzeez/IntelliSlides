@@ -5,13 +5,10 @@ import "./style/fonts.css"
 import App from "./views/App"
 import reportWebVitals from "./reportWebVitals"
 import { GoogleOAuthProvider } from "@react-oauth/google"
-import { ThemeProvider } from "theme-ui"
-import { theme } from "./style/theme"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import PrivacyPolicy from "./views/PrivacyPolicy"
 import NotFound from "./views/NotFound"
 import Home from "./views/Home"
-import Versions from "./views/Versions"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(

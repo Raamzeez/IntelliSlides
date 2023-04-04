@@ -1,6 +1,6 @@
 import React, { FC } from "react"
 // import { ProgressBar } from "react-bootstrap";
-import { GridLoader, PacmanLoader, PropagateLoader } from "react-spinners"
+import { GridLoader } from "react-spinners"
 import iError from "../models/error"
 import Category from "../types/category"
 import LoadingType from "../types/loading"
@@ -30,7 +30,7 @@ const Loading: FC<iProps> = ({
     slideCount,
     onClickHandler,
 }) => {
-    const { height, width } = useWindowDimensions()
+    const { height } = useWindowDimensions()
 
     const loaderSize = () => {
         const adjustedSize = height * 0.05

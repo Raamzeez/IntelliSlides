@@ -180,8 +180,7 @@ const App: FC = () => {
         try {
             setState({ ...state, profileLoading: true })
             const URL =
-                "http://localhost:4000/api/v1/user/login?" +
-                new URLSearchParams(tokenResponse).toString()
+                "/user/login?" + new URLSearchParams(tokenResponse).toString()
             // try {
             const response = await api.get(URL, {
                 headers: {

@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 import { TypeAnimation } from "react-type-animation"
 import LearnMoreButton from "./LearnMoreButton"
+import JumbotronBackground from "../images/JumbotronBackground.png"
 
 const Jumbotron: FC = () => {
     return (
@@ -9,7 +10,7 @@ const Jumbotron: FC = () => {
                 height: "88.5vh",
                 backgroundColor: "white",
                 width: "100vw",
-                backgroundImage: `url("https://images.pexels.com/photos/1229861/pexels-photo-1229861.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")`,
+                backgroundImage: `url(${JumbotronBackground})`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 display: "flex",

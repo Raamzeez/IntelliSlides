@@ -1,6 +1,8 @@
 import React, { FC } from "react"
 import { Modal } from "react-bootstrap"
 import Button from "./Button"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faX, faCircleExclamation } from "@fortawesome/free-solid-svg-icons"
 
 interface iProps {
     onCloseHandler: () => void
@@ -22,8 +24,9 @@ const DeleteModal: FC<iProps> = ({ onCloseHandler, onConfirmHandler }) => {
                 }}
             >
                 {" "}
-                <i
-                    className="fa-solid fa-x pointer"
+                <FontAwesomeIcon
+                    icon={faX}
+                    className="pointer"
                     style={{
                         color: "white",
                         fontSize: 20,
@@ -33,8 +36,8 @@ const DeleteModal: FC<iProps> = ({ onCloseHandler, onConfirmHandler }) => {
                     }}
                     onClick={onCloseHandler}
                 />
-                <i
-                    className="fa-solid fa-circle-exclamation"
+                <FontAwesomeIcon
+                    icon={faCircleExclamation}
                     style={{ fontSize: 75, color: "orange", marginTop: 20 }}
                 />
                 <h5 style={{ marginTop: 20, color: "white" }}>
