@@ -1,46 +1,17 @@
-import express from "express"
 import jwtDecode from "jwt-decode"
 import { ObjectId } from "mongodb"
-import client from "../client"
-import cryptr from "../cryptyr"
-import idTokenToMongoID from "../functions/idTokenToMongoID"
-import verifyAccessToken from "../functions/verifyAccessToken"
-import extractIDToken from "../hooks/extractIDToken"
-import subToObjectId from "../hooks/subToObjectId"
-import requireAuth from "../middleware/requireAuth"
-import iUserJWT from "../models/userJWT"
-import userDB from "../schemas/user"
+import { NextApiRequest, NextApiResponse } from "next/types"
+import client from "../../../../lib/backend/client"
+import cryptr from "../../../../lib/backend/cryptyr"
+import verifyAccessToken from "../../../../lib/backend/functions/verifyAccessToken"
+import subToObjectId from "../../../../lib/backend/hooks/subToObjectId"
+import iUserJWT from "../../../../lib/backend/models/userJWT"
+import userDB from "../../../../lib/backend/schemas/user"
 
-const userRouter = express.Router()
-
-userRouter.get("/userInfo", requireAuth, (req, res) => {
-    const id_token = extractIDToken(req)
-    const { name, picture, email }: iUserJWT = jwtDecode(id_token)
-    const responseObj = { name, picture, email }
-    return res.status(200).send(responseObj)
-})
-
-userRouter.get("/delete", requireAuth, async (req, res) => {
-    const _id = idTokenToMongoID(req)
-    const foundUser = await userDB.findOne({ _id })
-    if (!foundUser) {
-        return res
-            .status(404)
-            .send("The user doesn't have any data in our database yet.")
-    }
-    try {
-        const deletedUser = await foundUser.delete()
-        return res.status(200).send("Success!")
-    } catch (err) {
-        return res
-            .status(500)
-            .send(
-                "Server/Internal Issue - Unable to Delete User. Please try again later."
-            )
-    }
-})
-
-userRouter.get("/login", async (req, res) => {
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
     // console.log(req.headers);
     try {
         //Google guidelines suggest we check and verify the header name and value
@@ -54,6 +25,13 @@ userRouter.get("/login", async (req, res) => {
         //We use the built in Node JS OAuth2Client to get id and access token data
         const tokensResponse = await (await client.getToken(code)).tokens
         const { id_token, access_token, refresh_token } = tokensResponse
+        if (!access_token || !id_token || !refresh_token) {
+            return res
+                .status(401)
+                .send(
+                    "Unable to get authorization credentials. Please try again"
+                )
+        }
         const verify = await verifyAccessToken(access_token)
         if (verify === "scopes") {
             return res
@@ -96,6 +74,4 @@ userRouter.get("/login", async (req, res) => {
                 "Unable to Login user. Our backend may be experiencing issues, please try again later."
             )
     }
-})
-
-export default userRouter
+}

@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next/types"
 import idTokenToMongoID from "../../../../lib/backend/functions/idTokenToMongoID"
 import userDB from "../../../../lib/backend/schemas/user"
+import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-) {
+export default authenticatedHandler(async (req, res) => {
     const _id = idTokenToMongoID(req)
     const foundUser = await userDB.findOne({ _id })
     if (!foundUser) {
@@ -23,4 +21,4 @@ export default async function handler(
                 "Server/Internal Issue - Unable to Delete User. Please try again later."
             )
     }
-}
+})
