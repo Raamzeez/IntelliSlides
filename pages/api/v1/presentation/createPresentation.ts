@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next/types"
 import client from "../../../../lib/backend/client"
-import createPresentation from "../../../../lib/backend/functions/createPresentation"
-import idTokenToMongoID from "../../../../lib/backend/functions/idTokenToMongoID"
-import accessToken from "../../../../lib/backend/hooks/accessToken"
+import createPresentation from "../../../../lib/backend/util/createPresentation"
+import idTokenToMongoID from "../../../../lib/backend/util/idTokenToMongoID"
+import accessToken from "../../../../lib/backend/util/accessToken"
 import userDB from "../../../../lib/backend/schemas/user"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
 import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_gaurd"
@@ -38,8 +38,8 @@ export default authenticatedHandler(
                 parameters,
                 client,
                 parameters.slidesInfo,
-                process.env.GOOGLE_SEARCH_KEY,
-                process.env.CX
+                process.env.GOOGLE_SEARCH_KEY as string,
+                process.env.CX as string
             )
             const _id = idTokenToMongoID(req)
             const foundUser = await userDB.findOneAndUpdate(

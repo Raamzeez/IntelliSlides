@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next/types"
-import idTokenToMongoID from "../../../../lib/backend/functions/idTokenToMongoID"
+import idTokenToMongoID from "../../../../lib/backend/util/idTokenToMongoID"
 import userDB from "../../../../lib/backend/schemas/user"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
 

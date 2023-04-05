@@ -4,7 +4,7 @@ import iParameters from "../models/parameters"
 import { google } from "googleapis"
 import iSlideInfo from "../models/slideInfo"
 import getImage from "./getImage"
-import getPrompts from "../hooks/prompts"
+import getPrompts from "./prompts"
 
 /**
  * Creates a Google Slide presentation.
@@ -24,10 +24,10 @@ async function createPresentation(
                 title: parameters.title,
             },
         })
-        const titleSlide = presentation.data.slides[0]
-        const titleID = titleSlide.pageElements[0].objectId
-        const subtitleID = titleSlide.pageElements[1].objectId
-        const requests = []
+        const titleSlide = presentation.data.slides![0]
+        const titleID = titleSlide.pageElements![0].objectId
+        const subtitleID = titleSlide.pageElements![1].objectId
+        const requests: any[] = []
         for (let i = 0; i < parameters.slideCount; i++) {
             requests.push({
                 createSlide: {
@@ -61,7 +61,7 @@ async function createPresentation(
             },
         })
         const titleSlideResponse = await service.presentations.batchUpdate({
-            presentationId: presentation.data.presentationId,
+            presentationId: presentation.data.presentationId!,
             requestBody: {
                 requests,
             },
@@ -70,13 +70,13 @@ async function createPresentation(
         const imageSources: string[] = []
         for (let i = 0; i < slidesInfo.length; i++) {
             const slideObjectId =
-                titleSlideResponse.data.replies[i].createSlide.objectId
+                titleSlideResponse.data.replies![i].createSlide!.objectId
             const slideObjectIds = await service.presentations.pages.get({
-                presentationId: presentation.data.presentationId,
-                pageObjectId: slideObjectId,
+                presentationId: presentation.data.presentationId!,
+                pageObjectId: slideObjectId!,
             })
-            const headingId = slideObjectIds.data.pageElements[0].objectId
-            const bodyId = slideObjectIds.data.pageElements[1].objectId
+            const headingId = slideObjectIds.data.pageElements![0].objectId
+            const bodyId = slideObjectIds.data.pageElements![1].objectId
             requests.push({
                 insertText: {
                     objectId: headingId,
@@ -139,17 +139,18 @@ async function createPresentation(
         }
         if (parameters.sources) {
             const slideObjectId =
-                titleSlideResponse.data.replies[slidesInfo.length].createSlide
+                titleSlideResponse.data.replies![slidesInfo.length].createSlide!
                     .objectId
             const slideObjectIds = await service.presentations.pages.get({
-                presentationId: presentation.data.presentationId,
-                pageObjectId: slideObjectId,
+                presentationId: presentation.data.presentationId!,
+                pageObjectId: slideObjectId!,
             })
-            const headingId = slideObjectIds.data.pageElements[0].objectId
-            const firstBodyId = slideObjectIds.data.pageElements[1].objectId
+            const headingId = slideObjectIds.data.pageElements![0].objectId
+            const firstBodyId = slideObjectIds.data.pageElements![1].objectId
             let secondBodyId: string | null = null
             if (parameters.images) {
-                secondBodyId = slideObjectIds.data.pageElements[2].objectId
+                secondBodyId = slideObjectIds.data.pageElements![2]
+                    .objectId as string
             }
             requests.push({
                 insertText: {
@@ -175,14 +176,14 @@ async function createPresentation(
             }
         }
         const addedSlidesResponse = await service.presentations.batchUpdate({
-            presentationId: presentation.data.presentationId,
+            presentationId: presentation.data.presentationId!,
             requestBody: {
                 requests,
             },
         })
         const response = await service.presentations.pages.getThumbnail({
-            presentationId: presentation.data.presentationId,
-            pageObjectId: presentation.data.slides[0].objectId,
+            presentationId: presentation.data.presentationId!,
+            pageObjectId: presentation.data.slides![0].objectId!,
         })
         const presentationId = presentation.data.presentationId
         const title = parameters.title

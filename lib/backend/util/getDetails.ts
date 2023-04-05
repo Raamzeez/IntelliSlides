@@ -1,6 +1,6 @@
 import { OpenAIApi } from "openai"
-import parseList from "../hooks/topics"
-import getPrompts from "../hooks/prompts"
+import parseList from "./topics"
+import getPrompts from "./prompts"
 import Category from "../types/category"
 
 const getDetails = async (

@@ -7,8 +7,8 @@ const fetchOAuthTokens = async (
 ): Promise<iTokenResponse | null> => {
     const URL = "https://oauth2.googleapis.com/token"
     const payload: iTokenPayload = {
-        client_id: process.env.GOOGLE_WEB_CLIENT_ID,
-        client_secret: process.env.GOOGLE_WEB_CLIENT_SECRET,
+        client_id: process.env.GOOGLE_WEB_CLIENT_ID!,
+        client_secret: process.env.GOOGLE_WEB_CLIENT_SECRET!,
         code: code as string,
         grant_type: "authorization_code",
         redirect_uri: "postmessage",

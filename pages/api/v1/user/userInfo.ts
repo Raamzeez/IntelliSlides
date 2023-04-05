@@ -1,5 +1,5 @@
 import jwtDecode from "jwt-decode"
-import extractIDToken from "../../../../lib/backend/hooks/extractIDToken"
+import extractIDToken from "../../../../lib/backend/util/extractIDToken"
 import iUserJWT from "../../../../lib/backend/models/userJWT"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
 

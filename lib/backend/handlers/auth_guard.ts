@@ -1,6 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next/types"
 import client from "../client"
-import extractIDToken from "../hooks/extractIDToken"
+import extractIDToken from "../util/extractIDToken"
 
 export function authenticatedHandler(handler: NextApiHandler) {
     return async (req: NextApiRequest, res: NextApiResponse) => {

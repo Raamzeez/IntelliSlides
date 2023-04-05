@@ -31,3 +31,17 @@ if (process.env.NODE_ENV === "development") {
 // Export a module-scoped MongoClient promise. By doing this in a
 // separate module, the client can be shared across functions.
 export default clientPromise
+
+// mongoose.connect(
+//     MONGODB_CONNECTION_STRING as string,
+//     {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//     } as mongoose.ConnectOptions,
+//     (err) => {
+//         if (err) {
+//             throw new Error(`could not connect to mongodb: ${err}`)
+//         }
+//         console.log("Connected to MongoDB Successfully!")
+//     }
+// )

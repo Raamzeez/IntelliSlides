@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next/types"
-import getDetails from "../../../../lib/backend/functions/getDetails"
+import getDetails from "../../../../lib/backend/util/getDetails"
 import iSlideInfo from "../../../../lib/backend/models/slideInfo"
 import openai from "../../../../lib/backend/openai"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"

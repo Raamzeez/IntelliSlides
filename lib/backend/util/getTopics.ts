@@ -1,6 +1,6 @@
 import { OpenAIApi } from "openai"
-import parseList from "../hooks/topics"
-import getPrompts from "../hooks/prompts"
+import parseList from "./topics"
+import getPrompts from "./prompts"
 import Category from "../types/category"
 
 const getTopics = async (
@@ -23,9 +23,9 @@ const getTopics = async (
         })
         const response = completion.data.choices[0].text
         if (slideCount > 1) {
-            return parseList(response)
+            return parseList(response!)
         }
-        return [response.trim()]
+        return [response!.trim()]
     } catch (err) {
         console.error(err.response.data)
     }

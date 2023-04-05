@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next/types"
-import getCategory from "../../../../lib/backend/hooks/category"
+import getCategory from "../../../../lib/backend/util/category"
 import openai from "../../../../lib/backend/openai"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
 import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_gaurd"

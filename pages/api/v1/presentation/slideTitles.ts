@@ -1,4 +1,4 @@
-import getTopics from "../../../../lib/backend/functions/getTopics"
+import getTopics from "../../../../lib/backend/util/getTopics"
 import openai from "../../../../lib/backend/openai"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
 import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_gaurd"
