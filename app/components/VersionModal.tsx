@@ -5,6 +5,7 @@ import Image from "next/image"
 import RotatingStructures from "../public/images/RotatingStructures.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faX } from "@fortawesome/free-solid-svg-icons"
+import { useRouter } from "next/router"
 
 interface iProps {
     onCloseHandler: () => void
@@ -12,6 +13,8 @@ interface iProps {
 
 const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
     const [hover, setHover] = useState(false)
+
+    const router = useRouter()
 
     return (
         <Modal show={true} onHide={onCloseHandler}>
@@ -76,7 +79,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                         <p
                             className="pointer"
                             style={{ textDecoration: hover ? "underline" : "" }}
-                            // onClick={() => navigate("/privacy")}
+                            onClick={() => router.push("/privacy")}
                         >
                             Privacy Policy
                         </p>

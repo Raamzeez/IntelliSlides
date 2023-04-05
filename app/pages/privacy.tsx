@@ -1,25 +1,21 @@
 import React, { FC } from "react"
 import Image from "next/image"
+import { useRouter } from "next/router"
 import { Container } from "react-bootstrap"
 import Button from "../components/Button"
 import Line from "../components/Line"
+import BannerLogo from "../components/BannerLogo"
 
 const PrivacyPolicy: FC = () => {
+    const router = useRouter()
+
     const onContinueHandler = () => {
-        // navigate(-1)
+        router.back()
     }
 
     return (
         <Container fluid className="App">
-            <Image
-                alt="IntelliSlides Banner Logo"
-                src={require("../public/images/IntelliSlidesBannerTransparent.png")}
-                style={{
-                    height: 75,
-                    width: 280,
-                }}
-                className="animate__animated animate__fadeIn"
-            />
+            <BannerLogo />
             <h5 style={{ color: "grey", marginBottom: 25 }}>Privacy Policy:</h5>
             <div
                 style={{

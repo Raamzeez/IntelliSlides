@@ -10,18 +10,26 @@ import "react-toastify/dist/ReactToastify.css"
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
-        <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">
-            <Head>
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
-                <title>IntelliSlides</title>
-            </Head>
-            <main>
-                <Component {...pageProps} />
-            </main>
-        </GoogleOAuthProvider>
+        <React.StrictMode>
+            <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">
+                <Head>
+                    <meta charSet="utf-8" />
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1"
+                    />
+                    <meta name="theme-color" content="#000000" />
+                    <meta
+                        name="description"
+                        content="Web site created using create-react-app"
+                    />
+                    <title>IntelliSlides</title>
+                </Head>
+                <main>
+                    <Component {...pageProps} />
+                </main>
+            </GoogleOAuthProvider>
+        </React.StrictMode>
     )
 }
 

@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react"
 import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
 import TextInput from "../components/TextInput"
 // import Checkmark from "./components/Checkmark";
+import BannerLogo from "../components/BannerLogo"
 import Button from "../components/Button"
 import NumberInput from "../components/NumberInput"
 import api from "../lib/frontend/axios"
@@ -79,7 +80,7 @@ const App: FC = () => {
     const [user, setUser] = useState<iUser | null>(null)
 
     const [state, setState] = useState<iState>({
-        showAlert: false,
+        showAlert: true,
         showVersion: false,
         showTopicTip: false,
         showCategoryTip: false,
@@ -127,8 +128,8 @@ const App: FC = () => {
     }
 
     useEffect(() => {
-        if (sessionStorage.getItem("showAlert") !== "false") {
-            setState({ ...state, showAlert: true })
+        if (sessionStorage.getItem("showAlert") === "false") {
+            setState({ ...state, showAlert: false })
         }
         if (localStorage.getItem("showVersion") === "true") {
             setState({ ...state, showVersion: true })
@@ -540,16 +541,10 @@ const App: FC = () => {
                                     )}
                                 </Col>
                             </Row> */}
-                            <Image
-                                alt="IntelliSlides Banner Logo"
-                                src={require("../public/images/IntelliSlidesBannerTransparent.png")}
-                                style={{
-                                    height: 75,
-                                    width: 280,
-                                    marginTop: isMobile(height, width) ? 30 : 5,
-                                }}
-                                className="pointer animate__animated animate__fadeIn"
-                                // onClick={() => navigate("/")}
+                            <BannerLogo
+                                adaptiveStyling={true}
+                                height={height}
+                                width={width}
                             />
                             <div
                                 style={{
