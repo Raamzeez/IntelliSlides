@@ -2,9 +2,11 @@ import { DateTime } from "luxon"
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next/types"
 import idTokenToMongoID from "../util/idTokenToMongoID"
 import userDB from "../schemas/user"
+import dbConnect from "../util/dbConnect"
 
 export function slideLimitHandler(handler: NextApiHandler) {
     return async (req: NextApiRequest, res: NextApiResponse) => {
+        await dbConnect()
         const max = 50
         const _id = idTokenToMongoID(req)
         const foundUser = await userDB.findOne({ _id })

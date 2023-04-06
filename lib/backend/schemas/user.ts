@@ -28,6 +28,7 @@ const schema = {
 
 const userSchema = new Schema(schema)
 
-const userDB = mongoose.model<iUserAccount>("users", userSchema)
+const userDB =
+    mongoose.models.users || mongoose.model<iUserAccount>("users", userSchema)
 
 export default userDB

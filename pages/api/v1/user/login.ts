@@ -7,6 +7,7 @@ import verifyAccessToken from "../../../../lib/backend/util/verifyAccessToken"
 import subToObjectId from "../../../../lib/backend/util/subToObjectId"
 import iUserJWT from "../../../../lib/backend/models/userJWT"
 import userDB from "../../../../lib/backend/schemas/user"
+import dbConnect from "../../../../lib/backend/util/dbConnect"
 
 export default async function handler(
     req: NextApiRequest,
@@ -14,6 +15,7 @@ export default async function handler(
 ) {
     // console.log(req.headers);
     try {
+        await dbConnect()
         //Google guidelines suggest we check and verify the header name and value
         if (req.headers["x-requested-with"] !== "XmlHttpRequest") {
             return res
@@ -23,8 +25,12 @@ export default async function handler(
         //We retrieve the authorization code from the request
         const code = req.query.code as string
         //We use the built in Node JS OAuth2Client to get id and access token data
-        const tokensResponse = await (await client.getToken(code)).tokens
-        const { id_token, access_token, refresh_token } = tokensResponse
+        console.log("Code", code)
+        console.log(client)
+        const tokensResponse = await client.getToken(code)
+        console.log("Got token response")
+        const tokens = tokensResponse.tokens
+        const { id_token, access_token, refresh_token } = tokens
         if (!access_token || !id_token || !refresh_token) {
             return res
                 .status(401)
@@ -33,6 +39,7 @@ export default async function handler(
                 )
         }
         const verify = await verifyAccessToken(access_token)
+        console.log("Veriifed Access Token")
         if (verify === "scopes") {
             return res
                 .status(403)
@@ -68,6 +75,7 @@ export default async function handler(
             id_token,
         })
     } catch (err) {
+        console.error(err)
         return res
             .status(400)
             .send(

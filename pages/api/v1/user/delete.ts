@@ -2,8 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next/types"
 import idTokenToMongoID from "../../../../lib/backend/util/idTokenToMongoID"
 import userDB from "../../../../lib/backend/schemas/user"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
+import dbConnect from "../../../../lib/backend/util/dbConnect"
 
 export default authenticatedHandler(async (req, res) => {
+    await dbConnect()
     const _id = idTokenToMongoID(req)
     const foundUser = await userDB.findOne({ _id })
     if (!foundUser) {

@@ -6,9 +6,11 @@ import accessToken from "../../../../lib/backend/util/accessToken"
 import userDB from "../../../../lib/backend/schemas/user"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
 import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_gaurd"
+import dbConnect from "../../../../lib/backend/util/dbConnect"
 
 export default authenticatedHandler(
     slideLimitHandler(async (req, res) => {
+        await dbConnect()
         // console.log("req.body", JSON.stringify(req.body, null, 2));
         const parameters = req.body
         parameters.images = false //For early version
