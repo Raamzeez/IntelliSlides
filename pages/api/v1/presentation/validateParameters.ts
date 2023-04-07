@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next/types"
-import errorChecks from "../../../../lib/backend/hooks/errorChecks"
+import errorChecks from "../../../../lib/backend/util/errorChecks"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
 import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_gaurd"
 

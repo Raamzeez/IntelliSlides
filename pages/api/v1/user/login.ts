@@ -15,9 +15,12 @@ export default async function handler(
 ) {
     // console.log(req.headers);
     try {
+        console.log("Login request received")
         await dbConnect()
+        console.log("Connected with MongoDB")
         //Google guidelines suggest we check and verify the header name and value
         if (req.headers["x-requested-with"] !== "XmlHttpRequest") {
+            console.log("Invalid Request Header")
             return res
                 .status(400)
                 .send("Invalid Login Request. Please try again.")

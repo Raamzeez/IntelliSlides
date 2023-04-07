@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next/types"
 import getDetails from "../../../../lib/backend/util/getDetails"
 import iSlideInfo from "../../../../lib/backend/models/slideInfo"
 import openai from "../../../../lib/backend/openai"

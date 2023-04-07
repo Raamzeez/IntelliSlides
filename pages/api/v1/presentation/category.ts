@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next/types"
 import getCategory from "../../../../lib/backend/util/category"
 import openai from "../../../../lib/backend/openai"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"

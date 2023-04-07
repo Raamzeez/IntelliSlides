@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { Image } from "react-bootstrap"
+import Image from "next/image"
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import ProfileButton from "./ProfileButton"
 
@@ -22,7 +22,9 @@ const Profile: FC<iProps> = ({
 }) => {
     const { width } = useWindowDimensions()
 
-    return (
+    //https://lh3.googleusercontent.com/a/AGNmyxYqPF3P3hCjsq0lcWTgXmal2fHj-vfSyKHnEHbX9w=s96-c
+
+    https: return (
         <div
             className={showLogout ? (width > 992 ? "profile" : "") : ""}
             style={{
@@ -35,6 +37,7 @@ const Profile: FC<iProps> = ({
             }}
         >
             <Image
+                alt="Google Profile Picture"
                 src={imageURL}
                 height={50}
                 width={50}

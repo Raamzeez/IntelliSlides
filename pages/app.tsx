@@ -204,6 +204,7 @@ const App: FC = () => {
         if (typeof localStorage !== "undefined") {
             localStorage.removeItem("id_token")
         }
+        successToast("Successfully logged out user!")
     }
 
     const onDeleteHandler = () => {

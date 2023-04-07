@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next/types"
 import client from "../../../../lib/backend/client"
 import createPresentation from "../../../../lib/backend/util/createPresentation"
 import idTokenToMongoID from "../../../../lib/backend/util/idTokenToMongoID"
