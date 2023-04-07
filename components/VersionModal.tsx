@@ -1,20 +1,43 @@
 import React, { FC, useState } from "react"
-import { Col, Modal, Row } from "react-bootstrap"
+import { Carousel, Col, Modal, Row } from "react-bootstrap"
 import fetchVersion from "../lib/frontend/util/fetchVersion"
 import Image from "next/image"
-import RotatingStructures from "../public/images/RotatingStructures.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faX } from "@fortawesome/free-solid-svg-icons"
+import { faBugSlash, faMobile, faX } from "@fortawesome/free-solid-svg-icons"
 import { useRouter } from "next/router"
+import iUpdate from "../lib/frontend/models/update"
 
 interface iProps {
     onCloseHandler: () => void
 }
 
 const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
+    const [index, setIndex] = useState(0)
     const [hover, setHover] = useState(false)
 
+    const updates: iUpdate[] = [
+        {
+            title: "Favicon",
+            description:
+                "Fixed an issue where the favicon would not render for the site.",
+        },
+        {
+            title: "Bug Fixed",
+            description:
+                "Fixed a bug where users would not be able to create presentations due to an error of 504 status code.",
+        },
+        {
+            title: "Mobile UI",
+            description:
+                "Fixed some portions of the site so that it is more responsive, specifically when creating a presentation.",
+        },
+    ]
+
     const router = useRouter()
+
+    const handleSelect = (selectedIndex, e) => {
+        setIndex(selectedIndex)
+    }
 
     return (
         <Modal show={true} onHide={onCloseHandler}>
@@ -63,7 +86,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                                 marginTop: 5,
                             }}
                         >
-                            Last Updated: 4/6/23
+                            Last Updated: 4/12/23
                         </p>
                     </Col>
                     <Col
@@ -85,41 +108,90 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                         </p>
                     </Col>
                 </Row>
-                <h1
-                    style={{
-                        marginTop: 30,
-                        position: "absolute",
-                        top: "25%",
-                        padding: 5,
-                        color: "white",
-                    }}
-                    className="poppins"
-                >
-                    Welcome!
-                </h1>
-                <Image
-                    alt="Abstract Structures"
-                    src={RotatingStructures}
+                <Carousel
                     style={{
                         height: "40%",
                         width: "100%",
                         borderRadius: 10,
                     }}
-                    className="shadow"
-                />
-                <p
-                    style={{
-                        marginTop: "15%",
-                        width: "90%",
-                        fontSize: 15,
-                    }}
-                    className="updates"
+                    activeIndex={index}
+                    onSelect={handleSelect}
+                    className="shadow updatesBackground"
                 >
-                    Here, you will find info about our latest release and the
-                    new features added with it. We don't currently have any
-                    updates for you as this is our first release, but check in
-                    again soon when we release the next version!
-                </p>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <Image
+                                alt="IntelliSlides Logo"
+                                src={require("../public/images/IntelliSlidesLogo.png")}
+                                style={{
+                                    height: 100,
+                                    width: 100,
+                                    borderRadius: 50,
+                                    marginTop: "10%",
+                                }}
+                            />
+                        </div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <FontAwesomeIcon
+                                icon={faBugSlash}
+                                style={{ marginTop: "16.5%" }}
+                                size="3x"
+                            />
+                        </div>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <FontAwesomeIcon
+                                icon={faMobile}
+                                style={{ marginTop: "16.5%" }}
+                                size="3x"
+                            />
+                        </div>
+                    </Carousel.Item>
+                </Carousel>
+                <Row>
+                    <Col>
+                        <h5
+                            style={{
+                                marginTop: 30,
+                            }}
+                            className="updates"
+                        >
+                            {updates[index].title}
+                        </h5>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <p
+                            style={{
+                                marginTop: 50,
+                                width: "90%",
+                                marginLeft: "5%",
+                            }}
+                            className="updates"
+                        >
+                            {updates[index].description}
+                        </p>
+                    </Col>
+                </Row>
             </div>
         </Modal>
     )

@@ -18,12 +18,11 @@ class MyDocument extends Document {
                         gtag("js", new Date()) gtag("config", "G-GYT5YBMLYB")
                         `}
                     </Script>
-                    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+                    <link rel="icon" href="favicon.ico" />
                     <link
                         rel="apple-touch-icon"
                         href="%PUBLIC_URL%/logo192.png"
                     />
-                    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
                     <link
                         rel="stylesheet"
                         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"

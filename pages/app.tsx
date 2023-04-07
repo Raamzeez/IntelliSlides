@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from "react"
 import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
 import TextInput from "../components/TextInput"
-// import Checkmark from "./components/Checkmark";
 import BannerLogo from "../components/BannerLogo"
 import Button from "../components/Button"
 import NumberInput from "../components/NumberInput"
@@ -14,7 +13,6 @@ import {
     Pagination,
     Row,
 } from "react-bootstrap"
-import Image from "next/image"
 import { toast, ToastContainer } from "react-toastify"
 import Loading from "../components/Loading"
 import iError from "../lib/frontend/models/error"
@@ -38,12 +36,12 @@ import { CircleLoader } from "react-spinners"
 import jwtDecode from "jwt-decode"
 
 import iPresentation from "../lib/frontend/models/presentation"
-import isMobile from "../lib/frontend/util/isMobile"
 import Result from "../components/Result"
 import { AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
 import GoogleButton from "react-google-button"
+import iSlideInfo from "../lib/shared/models/slideInfo"
 
 interface iState {
     showAlert: boolean
@@ -268,6 +266,26 @@ const App: FC = () => {
         toast.success(message)
     }
 
+    const fetchSlideInfo = async (titles: string[]) => {
+        const slidesInfo: iSlideInfo[] = []
+        for (const title of titles) {
+            const slideDetailsResponse = await api.post(
+                "/presentation/slideDetails",
+                { ...state, title },
+                { timeout: 400000 }
+            )
+            const slideDetailsError = errorHandler(slideDetailsResponse, {
+                loading: "SlideDetails",
+                submit: true,
+            })
+            if (slideDetailsError) {
+                return setState(slideDetailsError)
+            }
+            slidesInfo.push({ title, facts: slideDetailsResponse.data })
+        }
+        return slidesInfo
+    }
+
     const onSubmitHandler = async (confirm: boolean) => {
         if (disable()) {
             return errorToast("Please fill out all required fields!")
@@ -348,18 +366,7 @@ const App: FC = () => {
                 loading: "SlideDetails",
                 warning: null,
             })
-            const slideDetailsResponse = await api.post(
-                "/presentation/slideDetails",
-                { ...state, titles: titlesResponse.data },
-                { timeout: 400000 }
-            )
-            const slideDetailsError = errorHandler(slideDetailsResponse, {
-                loading: "SlideDetails",
-                submit: true,
-            })
-            if (slideDetailsError) {
-                return setState(slideDetailsError)
-            }
+            const slidesInfo = await fetchSlideInfo(titlesResponse.data)
             //######################################################################//
             setState({
                 ...state,
@@ -369,7 +376,7 @@ const App: FC = () => {
                 loading: "CreatePresentation",
             })
             const data = {
-                slidesInfo: slideDetailsResponse.data,
+                slidesInfo,
                 accessToken:
                     typeof localStorage !== "undefined" &&
                     localStorage.getItem("access_token"),
@@ -507,41 +514,6 @@ const App: FC = () => {
                     )}
                     {!state.submit && (
                         <>
-                            {/* <Row>
-                                <Col>
-                                    <h2
-                                        style={{
-                                            color: "white",
-                                            fontWeight: 500,
-                                            transition: "all 0.5s ease",
-                                            marginTop: isMobile(height, width)
-                                                ? 30
-                                                : 0,
-                                        }}
-                                        className="animate__animated animate__fadeIn animate__slow"
-                                    >
-                                        IntelliSlides
-                                    </h2>
-                                </Col>
-                                <Col>
-                                    {width >= 208 && (
-                                        <Image
-                                            src={require("../images/IntelliSlidesLogoTransparent.png")}
-                                            style={{
-                                                height: 50,
-                                                width: 50,
-                                                marginLeft: -10,
-                                                marginTop: isMobile(
-                                                    height,
-                                                    width
-                                                )
-                                                    ? 24
-                                                    : -4,
-                                            }}
-                                        />
-                                    )}
-                                </Col>
-                            </Row> */}
                             <BannerLogo
                                 adaptiveStyling={true}
                                 height={height}

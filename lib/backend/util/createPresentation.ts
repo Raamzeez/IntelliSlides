@@ -2,7 +2,7 @@ import { OAuth2Client } from "google-auth-library"
 import { JSONClient } from "google-auth-library/build/src/auth/googleauth"
 import iParameters from "../models/parameters"
 import { google } from "googleapis"
-import iSlideInfo from "../models/slideInfo"
+import iSlideInfo from "../../shared/models/slideInfo"
 import getImage from "./getImage"
 import getPrompts from "./prompts"
 

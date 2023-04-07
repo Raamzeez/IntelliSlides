@@ -1,5 +1,5 @@
 const fetchVersion = () => {
-  return "Version 1.0.0 - BETA";
-};
+    return "Version 1.0.1 - BETA"
+}
 
-export default fetchVersion;
+export default fetchVersion
