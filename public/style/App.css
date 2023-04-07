@@ -1,7 +1,9 @@
 html, body {
   height: 100%;
-  /* min-height: 100vh; */
-  /* background-color: #282c34; */
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
 }
 
 .Home {

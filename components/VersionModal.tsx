@@ -70,42 +70,35 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                 <h4 style={{ marginTop: 20, fontWeight: 400 }}>
                     {fetchVersion()}
                 </h4>
-                <Row style={{ width: "100%" }}>
-                    <Col
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                    >
+                <Row style={{ width: "100%", margin: 10 }}>
+                    <Col style={{ display: "flex", justifyContent: "center" }}>
                         <p
                             style={{
                                 fontSize: 12,
                                 color: "dodgerblue",
                                 fontWeight: "bold",
-                                marginTop: 5,
                             }}
                         >
                             Last Updated: 4/12/23
                         </p>
                     </Col>
-                    <Col
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            fontSize: 12,
-                        }}
-                        onMouseOver={() => setHover(true)}
-                        onMouseLeave={() => setHover(false)}
-                    >
-                        <p
+                    <Col style={{ display: "flex", justifyContent: "center" }}>
+                        <a
                             className="pointer"
-                            style={{ textDecoration: hover ? "underline" : "" }}
+                            style={{ fontSize: 12 }}
+                            onClick={() => router.push("/versions")}
+                        >
+                            Show All Versions
+                        </a>
+                    </Col>
+                    <Col style={{ display: "flex", justifyContent: "center" }}>
+                        <a
+                            className="pointer"
+                            style={{ fontSize: 12 }}
                             onClick={() => router.push("/privacy")}
                         >
                             Privacy Policy
-                        </p>
+                        </a>
                     </Col>
                 </Row>
                 <Carousel
