@@ -1,8 +1,23 @@
 import React, { FC } from "react"
 import { Col, Row } from "react-bootstrap"
 import iVersion from "../lib/frontend/models/version"
+import iUpdate from "../lib/frontend/models/update"
 
-const VersionOption: FC<iVersion> = ({ version, isBeta, date }) => {
+interface iProps {
+    version: string
+    isBeta: boolean
+    date: string
+    data: iUpdate[]
+    onClickHandler: (version: iVersion) => void
+}
+
+const VersionOption: FC<iProps> = ({
+    version,
+    isBeta,
+    date,
+    data,
+    onClickHandler,
+}) => {
     return (
         <Row
             style={{
@@ -10,6 +25,7 @@ const VersionOption: FC<iVersion> = ({ version, isBeta, date }) => {
                 borderBottom: "2px solid dodgerblue",
             }}
             className="pointer"
+            onClick={() => onClickHandler({ version, isBeta, date, data })}
         >
             <Col
                 lg={8}

@@ -4,6 +4,7 @@ import Image from "next/image"
 import fetchVersion from "../lib/frontend/util/fetchVersion"
 import isMobile from "../lib/frontend/util/isMobile"
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
+import versions from "../lib/frontend/data/versions"
 
 interface iProps {
     isLoading: boolean
@@ -61,7 +62,11 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                     onClick={onClickHandler}
                     className="pointer"
                 >
-                    {fetchVersion()}
+                    {`Version ${fetchVersion()} ${
+                        versions.filter(
+                            (version) => version.version === fetchVersion()
+                        )[0].isBeta && "- BETA"
+                    }`}
                 </p>
             </Col>
             <Col

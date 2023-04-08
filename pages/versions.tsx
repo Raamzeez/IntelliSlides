@@ -1,35 +1,33 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { Carousel, Col, Container, Row } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLeftLong } from "@fortawesome/free-solid-svg-icons"
 import { useRouter } from "next/router"
-import VersionSelector from "../components/VersionSelector"
+import iVersion from "../lib/frontend/models/version"
+import iUpdate from "../lib/frontend/models/update"
+import versions from "../lib/frontend/data/versions"
+import VersionOption from "../components/VersionOption"
+import BackArrow from "../components/BackArrow"
 
 const Versions: FC = () => {
+    const [version, setVersion] = useState<iVersion | null>(null)
+    const [index, setIndex] = useState(0)
+
     const router = useRouter()
+
+    const handleSelect = (selectedIndex, e) => {
+        setIndex(selectedIndex)
+    }
+
+    const onClickHandler = (version) => {
+        setVersion(version)
+        setIndex(0)
+    }
 
     return (
         <Container fluid className="Home">
             <Row>
                 <Col>
-                    <div
-                        style={{
-                            height: 50,
-                            width: 50,
-                            backgroundColor: "dodgerblue",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: 25,
-                            position: "absolute",
-                            left: 30,
-                            top: 23,
-                        }}
-                        className="shadow pointer"
-                        onClick={() => router.back()}
-                    >
-                        <FontAwesomeIcon icon={faLeftLong} />
-                    </div>
+                    <BackArrow />
                 </Col>
             </Row>
             <Row>
@@ -39,44 +37,97 @@ const Versions: FC = () => {
             </Row>
             <Row style={{ width: "100%" }}>
                 <Col lg={4}>
-                    <VersionSelector />
+                    <div
+                        style={{
+                            height: "80vh",
+                            width: "100%",
+                            backgroundColor: "black",
+                            overflowY: "auto",
+                            margin: 10,
+                        }}
+                        className="shadow purpleBlueBackground animate__animated animate__fadeInLeft animate__fast"
+                    >
+                        {versions.map(({ version, isBeta, date, data }) => {
+                            return (
+                                <VersionOption
+                                    version={version}
+                                    isBeta={isBeta}
+                                    date={date}
+                                    data={data}
+                                    onClickHandler={onClickHandler}
+                                />
+                            )
+                        })}
+                    </div>
                 </Col>
                 <Col lg={8}>
-                    <Carousel
+                    <div
                         style={{
                             height: "80vh",
                             width: "100%",
                             borderRadius: 10,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            margin: 10,
                         }}
-                        // activeIndex={index}
-                        // onSelect={handleSelect}
-                        className="shadow updatesBackground"
+                        className="shadow updatesBackground animate__animated animate__fadeIn"
                     >
-                        <Carousel.Item>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            ></div>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            ></div>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            ></div>
-                        </Carousel.Item>
-                    </Carousel>
+                        {!version ? (
+                            <h1>
+                                Select A Version On The Left To See Features
+                            </h1>
+                        ) : (
+                            <>
+                                <Carousel
+                                    style={{ height: "80vh", width: "100%" }}
+                                    activeIndex={index}
+                                    onSelect={handleSelect}
+                                    controls={!(version.data.length < 2)}
+                                >
+                                    {version.data.map((update: iUpdate) => {
+                                        return (
+                                            <Carousel.Item>
+                                                <div
+                                                    style={{
+                                                        height: "80vh",
+                                                        display: "flex",
+                                                        justifyContent:
+                                                            "center",
+                                                        alignItems: "center",
+                                                        flexDirection: "column",
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={update.icon}
+                                                        size="3x"
+                                                    />
+                                                    <div
+                                                        style={{
+                                                            position:
+                                                                "absolute",
+                                                            bottom: 50,
+                                                            margin: 20,
+                                                        }}
+                                                        className="updates"
+                                                    >
+                                                        <h3>{update.title}</h3>
+                                                        <p
+                                                            style={{
+                                                                fontSize: 17,
+                                                            }}
+                                                        >
+                                                            {update.description}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </Carousel.Item>
+                                        )
+                                    })}
+                                </Carousel>
+                            </>
+                        )}
+                    </div>
                 </Col>
             </Row>
         </Container>

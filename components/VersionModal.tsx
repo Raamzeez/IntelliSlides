@@ -3,9 +3,15 @@ import { Carousel, Col, Modal, Row } from "react-bootstrap"
 import fetchVersion from "../lib/frontend/util/fetchVersion"
 import Image from "next/image"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faBugSlash, faMobile, faX } from "@fortawesome/free-solid-svg-icons"
+import {
+    faBugSlash,
+    faInfoCircle,
+    faMobile,
+    faX,
+} from "@fortawesome/free-solid-svg-icons"
 import { useRouter } from "next/router"
 import iUpdate from "../lib/frontend/models/update"
+import versions from "../lib/frontend/data/versions"
 
 interface iProps {
     onCloseHandler: () => void
@@ -13,31 +19,16 @@ interface iProps {
 
 const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
     const [index, setIndex] = useState(0)
-    const [hover, setHover] = useState(false)
-
-    const updates: iUpdate[] = [
-        {
-            title: "Favicon",
-            description:
-                "Fixed an issue where the favicon would not render for the site.",
-        },
-        {
-            title: "Bug Fixed",
-            description:
-                "Fixed a bug where users would not be able to create presentations due to an error of 504 status code.",
-        },
-        {
-            title: "Mobile UI",
-            description:
-                "Fixed some portions of the site so that it is more responsive, specifically when creating a presentation.",
-        },
-    ]
 
     const router = useRouter()
 
     const handleSelect = (selectedIndex, e) => {
         setIndex(selectedIndex)
     }
+
+    const version = versions.filter(
+        (version) => version.version === fetchVersion()
+    )[0]
 
     return (
         <Modal show={true} onHide={onCloseHandler}>
@@ -68,7 +59,11 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     onClick={onCloseHandler}
                 />
                 <h4 style={{ marginTop: 20, fontWeight: 400 }}>
-                    {fetchVersion()}
+                    {`Version ${fetchVersion()} ${
+                        versions.filter(
+                            (version) => version.version === fetchVersion()
+                        )[0].isBeta && "- BETA"
+                    }`}
                 </h4>
                 <Row style={{ width: "100%", margin: 10 }}>
                     <Col style={{ display: "flex", justifyContent: "center" }}>
@@ -111,63 +106,38 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     onSelect={handleSelect}
                     className="shadow updatesBackground"
                 >
-                    <Carousel.Item>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <Image
-                                alt="IntelliSlides Logo"
-                                src={require("../public/images/IntelliSlidesLogo.png")}
-                                style={{
-                                    height: 100,
-                                    width: 100,
-                                    borderRadius: 50,
-                                    marginTop: "10%",
-                                }}
-                            />
-                        </div>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <FontAwesomeIcon
-                                icon={faBugSlash}
-                                style={{ marginTop: "16.5%" }}
-                                size="3x"
-                            />
-                        </div>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <FontAwesomeIcon
-                                icon={faMobile}
-                                style={{ marginTop: "16.5%" }}
-                                size="3x"
-                            />
-                        </div>
-                    </Carousel.Item>
+                    {version.data.map((update: iUpdate) => {
+                        return (
+                            <Carousel.Item>
+                                <div
+                                    style={{
+                                        height: "40%",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        flexDirection: "column",
+                                    }}
+                                >
+                                    <FontAwesomeIcon
+                                        icon={update.icon}
+                                        size="3x"
+                                        style={{ marginTop: "17%" }}
+                                    />
+                                </div>
+                            </Carousel.Item>
+                        )
+                    })}
                 </Carousel>
                 <Row>
                     <Col>
                         <h5
                             style={{
                                 marginTop: 30,
+                                margin: 20,
                             }}
                             className="updates"
                         >
-                            {updates[index].title}
+                            {version.data[index].title}
                         </h5>
                     </Col>
                 </Row>
@@ -175,13 +145,12 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     <Col>
                         <p
                             style={{
-                                marginTop: 50,
-                                width: "90%",
-                                marginLeft: "5%",
+                                marginTop: 30,
+                                margin: 20,
                             }}
                             className="updates"
                         >
-                            {updates[index].description}
+                            {version.data[index].description}
                         </p>
                     </Col>
                 </Row>
