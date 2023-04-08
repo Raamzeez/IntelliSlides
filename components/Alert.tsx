@@ -6,10 +6,19 @@ import { faX } from "@fortawesome/free-solid-svg-icons"
 
 interface iProps {
     isLoading: boolean
+    text: string
+    className: string
     onCloseHandler: () => void
+    onClickHandler?: () => void
 }
 
-const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
+const Alert: FC<iProps> = ({
+    isLoading,
+    text,
+    className,
+    onCloseHandler,
+    onClickHandler,
+}) => {
     const { height, width } = useWindowDimensions()
 
     const alertStyling = (): {
@@ -53,7 +62,10 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
                 justifyContent: "center",
                 alignItems: "center",
             }}
-            className="shadow animate__animated animate__fadeInDown alertBackground"
+            className={`shadow animate__animated animate__fadeInDown ${className} ${
+                onClickHandler && "pointer"
+            }`}
+            onClick={onClickHandler}
         >
             <p
                 style={{
@@ -62,8 +74,7 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
                     ...widthStyle(),
                 }}
             >
-                This is a Public Beta Release - Please be aware that there may
-                be bugs and issues! We are actively working on improvements.
+                {text}
             </p>
             <FontAwesomeIcon
                 icon={faX}

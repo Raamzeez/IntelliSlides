@@ -42,6 +42,7 @@ import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
 import GoogleButton from "react-google-button"
 import iSlideInfo from "../lib/shared/models/slideInfo"
+import { useRouter } from "next/router"
 
 interface iState {
     showAlert: boolean
@@ -100,6 +101,8 @@ const App: FC = () => {
         warning: null,
         error: null,
     })
+
+    const router = useRouter()
 
     const errorHandler = (response: AxiosResponse, customState?: any) => {
         const setStateObject = {
@@ -483,9 +486,19 @@ const App: FC = () => {
                     )}
 
                     {state.showAlert && (
+                        //         <Alert
+                        //             text="This is a Public Beta Release - Please be aware that there may
+                        // be bugs and issues! We are actively working on improvements."
+                        //             className="betaAlertBackground"
+                        //             isLoading={state.submit}
+                        //             onCloseHandler={() => onHideAlert()}
+                        //         />
                         <Alert
+                            text="We have made changes to our privacy policy! Click here to see them."
+                            className="privacyAlertBackground"
                             isLoading={state.submit}
                             onCloseHandler={() => onHideAlert()}
+                            onClickHandler={() => router.push("/privacy")}
                         />
                     )}
                     {state.showVersion && (

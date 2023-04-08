@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { Col, Row } from "react-bootstrap"
 import iVersion from "../lib/frontend/models/version"
 import iUpdate from "../lib/frontend/models/update"
@@ -8,6 +8,7 @@ interface iProps {
     isBeta: boolean
     date: string
     data: iUpdate[]
+    clicked: boolean
     onClickHandler: (version: iVersion) => void
 }
 
@@ -16,16 +17,30 @@ const VersionOption: FC<iProps> = ({
     isBeta,
     date,
     data,
+    clicked,
     onClickHandler,
 }) => {
+    const [hover, setHover] = useState(false)
+
+    const hoverStyle =
+        hover || clicked
+            ? {
+                  backgroundColor: "#0462bf",
+              }
+            : {}
+
     return (
         <Row
             style={{
                 height: 70,
-                borderBottom: "2px solid dodgerblue",
+                borderBottom: "2px solid #0462bf",
+                transition: "all 0.3s ease",
+                ...hoverStyle,
             }}
-            className="pointer"
+            className={`pointer`}
             onClick={() => onClickHandler({ version, isBeta, date, data })}
+            onMouseOver={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
         >
             <Col
                 lg={8}

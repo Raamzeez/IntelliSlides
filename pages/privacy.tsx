@@ -191,6 +191,35 @@ const PrivacyPolicy: FC = () => {
                     browsing activity which can be used for targeted
                     advertisements like other websites do.
                 </p>
+                <p
+                    style={{
+                        marginLeft: "15%",
+                        width: "70%",
+                        marginTop: 20,
+                        fontSize: 14,
+                        color: "white",
+                    }}
+                >
+                    Disclosure: IntelliSlides use and transfer to any other app
+                    of information received from Google APIs will adhere to
+                    <span
+                        style={{
+                            color: "dodgerblue",
+                            textDecoration: "underline",
+                            marginLeft: 5,
+                        }}
+                        className="pointer"
+                        onClick={() =>
+                            window.open(
+                                "https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes",
+                                "_blank"
+                            )
+                        }
+                    >
+                        Google API Services User Data Policy
+                    </span>
+                    , including the Limited Use requirements.
+                </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Security</h5>
                 <p
                     style={{

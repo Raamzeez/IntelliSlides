@@ -31,7 +31,7 @@ export function authenticatedHandler(handler: NextApiHandler) {
                     )
             }
         } catch (err) {
-            console.error(err)
+            // console.error(err)
         }
     }
 }

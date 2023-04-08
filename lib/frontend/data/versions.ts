@@ -1,8 +1,10 @@
 import {
     faBugSlash,
     faDoorOpen,
+    faFileContract,
     faInfoCircle,
     faMobile,
+    faPager,
 } from "@fortawesome/free-solid-svg-icons"
 import iVersion from "../models/version"
 
@@ -29,6 +31,18 @@ const versions: iVersion[] = [
                 title: "Mobile UI",
                 description:
                     "Fixed some portions of the site so that it is more responsive, specifically when creating a presentation.",
+            },
+            {
+                icon: faPager,
+                title: "Versions Webpage",
+                description:
+                    "Added a new webpage that shows all versions released for IntelliSlides, as well as the features associated with each",
+            },
+            {
+                icon: faFileContract,
+                title: "Privacy Policy Update",
+                description:
+                    "Added a disclosure to the privacy agreement stating to the user that IntelliSlides complies with Google API Services User Data Policy",
             },
         ],
     },

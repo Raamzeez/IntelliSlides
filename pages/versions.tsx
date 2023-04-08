@@ -9,7 +9,7 @@ import VersionOption from "../components/VersionOption"
 import BackArrow from "../components/BackArrow"
 
 const Versions: FC = () => {
-    const [version, setVersion] = useState<iVersion | null>(null)
+    const [activeVersion, setActiveVersion] = useState<iVersion | null>(null)
     const [index, setIndex] = useState(0)
 
     const router = useRouter()
@@ -19,7 +19,7 @@ const Versions: FC = () => {
     }
 
     const onClickHandler = (version) => {
-        setVersion(version)
+        setActiveVersion(version)
         setIndex(0)
     }
 
@@ -54,6 +54,7 @@ const Versions: FC = () => {
                                     isBeta={isBeta}
                                     date={date}
                                     data={data}
+                                    clicked={activeVersion?.version === version}
                                     onClickHandler={onClickHandler}
                                 />
                             )
@@ -73,7 +74,7 @@ const Versions: FC = () => {
                         }}
                         className="shadow updatesBackground animate__animated animate__fadeIn"
                     >
-                        {!version ? (
+                        {!activeVersion ? (
                             <h1>
                                 Select A Version On The Left To See Features
                             </h1>
@@ -83,47 +84,55 @@ const Versions: FC = () => {
                                     style={{ height: "80vh", width: "100%" }}
                                     activeIndex={index}
                                     onSelect={handleSelect}
-                                    controls={!(version.data.length < 2)}
+                                    controls={!(activeVersion.data.length < 2)}
                                 >
-                                    {version.data.map((update: iUpdate) => {
-                                        return (
-                                            <Carousel.Item>
-                                                <div
-                                                    style={{
-                                                        height: "80vh",
-                                                        display: "flex",
-                                                        justifyContent:
-                                                            "center",
-                                                        alignItems: "center",
-                                                        flexDirection: "column",
-                                                    }}
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={update.icon}
-                                                        size="3x"
-                                                    />
+                                    {activeVersion.data.map(
+                                        (update: iUpdate) => {
+                                            return (
+                                                <Carousel.Item>
                                                     <div
                                                         style={{
-                                                            position:
-                                                                "absolute",
-                                                            bottom: 50,
-                                                            margin: 20,
+                                                            height: "80vh",
+                                                            display: "flex",
+                                                            justifyContent:
+                                                                "center",
+                                                            alignItems:
+                                                                "center",
+                                                            flexDirection:
+                                                                "column",
                                                         }}
-                                                        className="updates"
                                                     >
-                                                        <h3>{update.title}</h3>
-                                                        <p
+                                                        <FontAwesomeIcon
+                                                            icon={update.icon}
+                                                            size="3x"
+                                                        />
+                                                        <div
                                                             style={{
-                                                                fontSize: 17,
+                                                                position:
+                                                                    "absolute",
+                                                                bottom: 50,
+                                                                margin: 20,
                                                             }}
+                                                            className="updates"
                                                         >
-                                                            {update.description}
-                                                        </p>
+                                                            <h3>
+                                                                {update.title}
+                                                            </h3>
+                                                            <p
+                                                                style={{
+                                                                    fontSize: 17,
+                                                                }}
+                                                            >
+                                                                {
+                                                                    update.description
+                                                                }
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </Carousel.Item>
-                                        )
-                                    })}
+                                                </Carousel.Item>
+                                            )
+                                        }
+                                    )}
                                 </Carousel>
                             </>
                         )}
