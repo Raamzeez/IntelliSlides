@@ -23,7 +23,6 @@ export function authenticatedHandler(handler: NextApiHandler) {
                 const payload = ticket.getPayload()
                 return handler(req, res)
             } catch (err) {
-                console.error(err)
                 return res
                     .status(403)
                     .send(
@@ -31,7 +30,7 @@ export function authenticatedHandler(handler: NextApiHandler) {
                     )
             }
         } catch (err) {
-            // console.error(err)
+            console.error(err)
         }
     }
 }

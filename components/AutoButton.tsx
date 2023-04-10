@@ -18,7 +18,9 @@ const AutoButton: FC<iProps> = ({ onClickHandler }) => {
 
     const onClick = () => {
         setClicked(!clicked)
-        localStorage.setItem("auto", JSON.stringify(!clicked))
+        if (typeof window !== "undefined" && window.localStorage) {
+            localStorage.setItem("auto", JSON.stringify(!clicked))
+        }
         onClickHandler()
     }
 

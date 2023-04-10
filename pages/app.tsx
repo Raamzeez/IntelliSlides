@@ -1,10 +1,5 @@
+//Libraries
 import React, { FC, useEffect, useState } from "react"
-import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
-import TextInput from "../components/TextInput"
-import BannerLogo from "../components/BannerLogo"
-import Button from "../components/Button"
-import NumberInput from "../components/NumberInput"
-import api from "../lib/frontend/axios"
 import {
     Col,
     Container,
@@ -13,38 +8,59 @@ import {
     Pagination,
     Row,
 } from "react-bootstrap"
+import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
 import { toast, ToastContainer } from "react-toastify"
-import Loading from "../components/Loading"
-import iError from "../lib/frontend/models/error"
-import Warning from "../components/Warning"
+import { CircleLoader } from "react-spinners"
+import { AxiosError } from "axios"
+import { useRouter } from "next/router"
+import { DateTime } from "luxon"
 
+import jwtDecode from "jwt-decode"
+import GoogleButton from "react-google-button"
+
+//Axios
+import api from "../lib/frontend/axios"
+
+//Custom Utilities
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
+import showPolicyUpdate from "../lib/frontend/util/showPolicyUpdate"
+import showBetaAlert from "../lib/frontend/util/showBetaAlert"
+import errorMessage from "../lib/frontend/util/errorMessage"
+import errorHandler from "../lib/frontend/util/errorHandler"
+
+//Models
+import iError from "../lib/frontend/models/error"
+import iUser from "../lib/frontend/models/user"
+import iPresentation from "../lib/frontend/models/presentation"
+import iSlideInfo from "../lib/shared/models/slideInfo"
+
+//Types
+import Model from "../lib/frontend/types/model"
+import Category from "../lib/frontend/types/category"
+import LoadingType from "../lib/frontend/types/loading"
+
+//Static Data
+import categories from "../lib/frontend/data/categories"
+
+//Custom Components
+import TextInput from "../components/TextInput"
+import BannerLogo from "../components/BannerLogo"
+import Button from "../components/Button"
+import NumberInput from "../components/NumberInput"
+import Loading from "../components/Loading"
+import Warning from "../components/Warning"
 import Footer from "../components/Footer"
 import Alert from "../components/Alert"
 import VersionModal from "../components/VersionModal"
 import InfoModal from "../components/InfoModal"
-import Model from "../lib/frontend/types/model"
 import AutoButton from "../components/AutoButton"
-import Category from "../lib/frontend/types/category"
-import categories from "../lib/frontend/data/categories"
-import LoadingType from "../lib/frontend/types/loading"
-import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import InfoIcon from "../components/InfoIcon"
 import Profile from "../components/Profile"
-import iUser from "../lib/frontend/models/user"
-
-import { CircleLoader } from "react-spinners"
-import jwtDecode from "jwt-decode"
-
-import iPresentation from "../lib/frontend/models/presentation"
 import Result from "../components/Result"
-import { AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
-import GoogleButton from "react-google-button"
-import iSlideInfo from "../lib/shared/models/slideInfo"
-import { useRouter } from "next/router"
-import showPolicyUpdate from "../lib/frontend/util/showPolicyUpdate"
 
+//State Object Interface
 interface iState {
     showBetaAlert: boolean
     showPrivacyAlert: boolean
@@ -70,6 +86,7 @@ interface iState {
     error: iError | null
 }
 
+//Static Variables
 const topicTipMessage =
     'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company called "Tesla Motors" instead of something else, such as the life of the individual known as Nikola Tesla.'
 const categoryTipMessage =
@@ -81,8 +98,8 @@ const App: FC = () => {
     const [user, setUser] = useState<iUser | null>(null)
 
     const [state, setState] = useState<iState>({
-        showBetaAlert: true,
-        showPrivacyAlert: true,
+        showBetaAlert: false,
+        showPrivacyAlert: false,
         showVersion: false,
         showTopicTip: false,
         showCategoryTip: false,
@@ -107,41 +124,14 @@ const App: FC = () => {
 
     const router = useRouter()
 
-    const errorHandler = (response: AxiosResponse, customState?: any) => {
-        const setStateObject = {
-            ...state,
-            ...customState,
-            warning: null,
-            error: { status: response.status, message: response.data },
-        }
-        if (response.status !== 200) {
-            if (response.status === 401 || response.status === 403) {
-                logout()
-            }
-            return setStateObject
-        }
-    }
-
-    const errorMessage = (err: AxiosError) => {
-        let errorMessage = (err as AxiosError).message
-        if (errorMessage === "Network Error") {
-            errorMessage +=
-                " - Unable to Reach Our Servers. Please try again later."
-        }
-        return errorMessage
-    }
-
     useEffect(() => {
-        localStorage.setItem("visited", JSON.stringify(new Date()))
-        const viewedPrivacy = showPolicyUpdate()
-        if (!viewedPrivacy) {
-            setState({ ...state, showPrivacyAlert: false })
+        localStorage.setItem("visited", DateTime.now().toISO() as string)
+        //Fix state setting issues in useEffect
+        if (showBetaAlert()) {
+            setState({ ...state, showBetaAlert: true })
         }
-        if (sessionStorage.getItem("showBetaAlert") === "false") {
-            setState({ ...state, showBetaAlert: false })
-        }
-        if (localStorage.getItem("showVersion") === "true") {
-            setState({ ...state, showVersion: true })
+        if (showPolicyUpdate()) {
+            setState({ ...state, showPrivacyAlert: true })
         }
         if (localStorage.getItem("auto") === "true") {
             setState({ ...state, auto: true })
@@ -163,8 +153,7 @@ const App: FC = () => {
                     return
                 }
             } catch (err) {
-                // console.error(err)
-                errorToast(errorMessage(err as AxiosError))
+                toast.error(errorMessage(err as AxiosError))
             }
         }
         fetchUser()
@@ -180,7 +169,6 @@ const App: FC = () => {
             setState({ ...state, profileLoading: true })
             const URL =
                 "/user/login?" + new URLSearchParams(tokenResponse).toString()
-            // try {
             const response = await api.get(URL, {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -191,28 +179,27 @@ const App: FC = () => {
             if (response.status !== 200) {
                 setUser(null)
                 return
-                // return console.error(response.data)
             }
             const id_token = response.data.id_token
             const { name, email, picture } = jwtDecode(id_token) as iUser
             setUser({ name, email, picture })
-            if (typeof localStorage !== "undefined") {
+            if (typeof window !== "undefined" && window.localStorage) {
                 localStorage.setItem("id_token", id_token)
             }
             api.defaults.headers.Authorization = `Bearer ${id_token}`
             return true
         } catch (err) {
-            errorToast(errorMessage(err as AxiosError))
+            toast.error(errorMessage(err as AxiosError))
         }
     }
 
     const logout = async () => {
         googleLogout()
         setUser(null)
-        if (typeof localStorage !== "undefined") {
+        if (typeof window !== "undefined" && window.localStorage) {
             localStorage.removeItem("id_token")
         }
-        successToast("Successfully logged out user!")
+        toast.success("Successfully logged out user!")
     }
 
     const onDeleteHandler = () => {
@@ -232,10 +219,10 @@ const App: FC = () => {
                     profileLoading: false,
                     showDeleteModal: false,
                 })
-                errorToast(response.data)
+                toast.error(response.data)
             } else {
                 logout()
-                successToast("Successfully deleted user!")
+                toast.success("Successfully deleted user!")
             }
             setState({
                 ...state,
@@ -248,15 +235,13 @@ const App: FC = () => {
                 profileLoading: false,
                 showDeleteModal: false,
             })
-            return errorToast(errorMessage(err as AxiosError))
+            return toast.error(errorMessage(err as AxiosError))
         }
     }
 
     const onLogin = useGoogleLogin({
         onSuccess: (tokenResponse) => {
             login(tokenResponse)
-            // onSubmitHandler();
-            // credentialStorage(tokenResponse);
         },
         ux_mode: "popup",
         flow: "auth-code",
@@ -264,16 +249,10 @@ const App: FC = () => {
     })
 
     const onHideAlert = () => {
-        sessionStorage.setItem("showAlert", JSON.stringify(false))
-        setState({ ...state, showBetaAlert: false })
-    }
-
-    const errorToast = (message: string) => {
-        toast.error(message)
-    }
-
-    const successToast = (message: string) => {
-        toast.success(message)
+        if (typeof window !== "undefined" && window.sessionStorage) {
+            sessionStorage.setItem("showAlert", JSON.stringify(false))
+            setState({ ...state, showBetaAlert: false })
+        }
     }
 
     const fetchSlideInfo = async (titles: string[]) => {
@@ -284,10 +263,15 @@ const App: FC = () => {
                 { ...state, title },
                 { timeout: 400000 }
             )
-            const slideDetailsError = errorHandler(slideDetailsResponse, {
-                loading: "SlideDetails",
-                submit: true,
-            })
+            const slideDetailsError = errorHandler(
+                slideDetailsResponse,
+                state,
+                logout,
+                {
+                    loading: "SlideDetails",
+                    submit: true,
+                }
+            )
             if (slideDetailsError) {
                 return setState(slideDetailsError)
             }
@@ -298,7 +282,7 @@ const App: FC = () => {
 
     const onSubmitHandler = async (confirm: boolean) => {
         if (disable()) {
-            return errorToast("Please fill out all required fields!")
+            return toast.error("Please fill out all required fields!")
         }
         if (confirm) {
             setState({ ...state, warning: null })
@@ -326,10 +310,15 @@ const App: FC = () => {
                 "/presentation/validateParameters",
                 state
             )
-            const parametersError = errorHandler(parametersResponse, {
-                loading: "ValidateParameters",
-                submit: true,
-            })
+            const parametersError = errorHandler(
+                parametersResponse,
+                state,
+                logout,
+                {
+                    loading: "ValidateParameters",
+                    submit: true,
+                }
+            )
             if (parametersError) {
                 return setState(parametersError)
             }
@@ -344,7 +333,7 @@ const App: FC = () => {
                 "/presentation/category",
                 state
             )
-            errorHandler(categoryResponse, {
+            errorHandler(categoryResponse, state, logout, {
                 loading: "FetchingCategory",
                 submit: true,
             })
@@ -361,7 +350,7 @@ const App: FC = () => {
                 state,
                 { timeout: 10000 }
             )
-            const titlesError = errorHandler(titlesResponse, {
+            const titlesError = errorHandler(titlesResponse, state, logout, {
                 loading: "SlideTitles",
                 submit: true,
             })
@@ -388,7 +377,8 @@ const App: FC = () => {
             const data = {
                 slidesInfo,
                 accessToken:
-                    typeof localStorage !== "undefined" &&
+                    typeof window !== "undefined" &&
+                    window.localStorage &&
                     localStorage.getItem("access_token"),
                 ...state,
             }
@@ -398,10 +388,15 @@ const App: FC = () => {
                 { timeout: 180000 }
             )
             const presentationData = presentationResponse.data as iPresentation
-            const presentationError = errorHandler(presentationResponse, {
-                loading: "CreatePresentation",
-                submit: true,
-            })
+            const presentationError = errorHandler(
+                presentationResponse,
+                state,
+                logout,
+                {
+                    loading: "CreatePresentation",
+                    submit: true,
+                }
+            )
             if (presentationError) {
                 return setState(presentationError)
             }
@@ -417,7 +412,6 @@ const App: FC = () => {
         } catch (err) {
             setState({
                 ...state,
-                // loading: "ValidateParameters",
                 submit: true,
                 warning: null,
                 error: {
@@ -430,11 +424,11 @@ const App: FC = () => {
 
     const onCancelHandler = () => {
         setState({ ...state, submit: false })
-        errorToast("Presentation generation was cancelled!")
+        toast.error("Presentation generation was cancelled!")
     }
 
     const onHideVersion = () => {
-        if (typeof localStorage !== "undefined") {
+        if (typeof window !== "undefined" && window.localStorage) {
             localStorage.setItem("showVersion", "false")
         }
         setState({ ...state, showVersion: false })

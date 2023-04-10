@@ -51,18 +51,26 @@ const Versions: FC = () => {
                         }}
                         className="shadow purpleBlueBackground animate__animated animate__fadeInLeft animate__fast"
                     >
-                        {versions.map(({ version, isBeta, date, data }) => {
-                            return (
-                                <VersionOption
-                                    version={version}
-                                    isBeta={isBeta}
-                                    date={date}
-                                    data={data}
-                                    clicked={activeVersion?.version === version}
-                                    onClickHandler={onClickHandler}
-                                />
-                            )
-                        })}
+                        {versions.map(
+                            (
+                                { version, isBeta, date, data },
+                                index: number
+                            ) => {
+                                return (
+                                    <VersionOption
+                                        key={index}
+                                        version={version}
+                                        isBeta={isBeta}
+                                        date={date}
+                                        data={data}
+                                        clicked={
+                                            activeVersion?.version === version
+                                        }
+                                        onClickHandler={onClickHandler}
+                                    />
+                                )
+                            }
+                        )}
                     </div>
                 </Col>
                 <Col lg={8}>
@@ -91,9 +99,9 @@ const Versions: FC = () => {
                                     controls={!(activeVersion.data.length < 2)}
                                 >
                                     {activeVersion.data.map(
-                                        (update: iUpdate) => {
+                                        (update: iUpdate, index: number) => {
                                             return (
-                                                <Carousel.Item>
+                                                <Carousel.Item key={index}>
                                                     <div
                                                         style={{
                                                             height: "80vh",

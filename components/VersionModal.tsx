@@ -107,9 +107,9 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     onSelect={handleSelect}
                     className="shadow updatesBackground"
                 >
-                    {version.data.map((update: iUpdate) => {
+                    {version.data.map((update: iUpdate, index: number) => {
                         return (
-                            <Carousel.Item>
+                            <Carousel.Item key={index}>
                                 <div
                                     style={{
                                         height: "40%",

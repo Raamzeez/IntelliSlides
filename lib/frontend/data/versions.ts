@@ -12,7 +12,7 @@ const versions: iVersion[] = [
     {
         version: "1.0.1",
         isBeta: true,
-        date: new Date("2023-4-12"),
+        date: new Date("2023-4-9"),
         data: [
             {
                 icon: faInfoCircle,
@@ -22,9 +22,21 @@ const versions: iVersion[] = [
             },
             {
                 icon: faBugSlash,
-                title: "Bug Fixed",
+                title: "Creating Presentation Error",
                 description:
                     "Fixed a bug where users would not be able to create presentations due to an error of 504 status code.",
+            },
+            {
+                icon: faBugSlash,
+                title: "Category Incorrectly Disabled",
+                description:
+                    "Fixed a bug where users would not be able to choose a category even if the 'Auto' button was not enabled.",
+            },
+            {
+                icon: faBugSlash,
+                title: "Banner Not Disappearing",
+                description:
+                    "Fixed a bug where the banner on the app page would return upon page refresh.",
             },
             {
                 icon: faMobile,

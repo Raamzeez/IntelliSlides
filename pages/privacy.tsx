@@ -5,6 +5,7 @@ import { Container } from "react-bootstrap"
 import Button from "../components/Button"
 import Line from "../components/Line"
 import BannerLogo from "../components/BannerLogo"
+import { DateTime } from "luxon"
 
 const PrivacyPolicy: FC = () => {
     const router = useRouter()
@@ -16,7 +17,10 @@ const PrivacyPolicy: FC = () => {
     }
 
     useEffect(() => {
-        localStorage.setItem("privacy_visited", JSON.stringify(new Date()))
+        localStorage.setItem(
+            "privacy_visited",
+            DateTime.now().toISO() as string
+        )
         if (router.asPath === "/privacy#disclosure") {
             setHighlighted(true)
             setTimeout(() => {
