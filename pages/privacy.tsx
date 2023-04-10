@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { Container } from "react-bootstrap"
@@ -9,8 +9,24 @@ import BannerLogo from "../components/BannerLogo"
 const PrivacyPolicy: FC = () => {
     const router = useRouter()
 
+    const [highlighted, setHighlighted] = useState(false)
+
     const onContinueHandler = () => {
         router.back()
+    }
+
+    useEffect(() => {
+        localStorage.setItem("privacy_visited", JSON.stringify(new Date()))
+        if (router.asPath === "/privacy#disclosure") {
+            setHighlighted(true)
+            setTimeout(() => {
+                setHighlighted(false)
+            }, 2000)
+        }
+    }, [])
+
+    const highlightedStyle = {
+        backgroundColor: highlighted ? "#05349c" : "",
     }
 
     return (
@@ -197,8 +213,10 @@ const PrivacyPolicy: FC = () => {
                         width: "70%",
                         marginTop: 20,
                         fontSize: 14,
-                        color: "white",
+                        transition: "0.3s ease",
+                        ...highlightedStyle,
                     }}
+                    id="disclosure"
                 >
                     Disclosure: IntelliSlides use and transfer to any other app
                     of information received from Google APIs will adhere to

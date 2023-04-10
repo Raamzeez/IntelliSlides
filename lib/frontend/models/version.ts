@@ -3,8 +3,9 @@ import iUpdate from "./update"
 interface iVersion {
     version: string
     isBeta: boolean
-    date: string
+    date: Date
     data: iUpdate[]
+    policyChange?: boolean
 }
 
 export default iVersion

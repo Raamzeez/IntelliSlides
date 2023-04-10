@@ -6,7 +6,7 @@ import iUpdate from "../lib/frontend/models/update"
 interface iProps {
     version: string
     isBeta: boolean
-    date: string
+    date: Date
     data: iUpdate[]
     clicked: boolean
     onClickHandler: (version: iVersion) => void
@@ -62,7 +62,9 @@ const VersionOption: FC<iProps> = ({
                     alignItems: "center",
                 }}
             >
-                <h6 style={{ marginTop: 15 }}>{date}</h6>
+                <h6 style={{ marginTop: 15 }}>
+                    {date.toLocaleString().split(",")[0]}
+                </h6>
             </Col>
         </Row>
     )

@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react"
 import { Carousel, Col, Modal, Row } from "react-bootstrap"
-import fetchVersion from "../lib/frontend/util/fetchVersion"
+import fetchCurrentVersion from "../lib/frontend/util/fetchCurrentVersion"
 import Image from "next/image"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -27,7 +27,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
     }
 
     const version = versions.filter(
-        (version) => version.version === fetchVersion()
+        (version) => version.version === fetchCurrentVersion()
     )[0]
 
     return (
@@ -59,9 +59,10 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     onClick={onCloseHandler}
                 />
                 <h4 style={{ marginTop: 20, fontWeight: 400 }}>
-                    {`Version ${fetchVersion()} ${
+                    {`Version ${fetchCurrentVersion()} ${
                         versions.filter(
-                            (version) => version.version === fetchVersion()
+                            (version) =>
+                                version.version === fetchCurrentVersion()
                         )[0].isBeta && "- BETA"
                     }`}
                 </h4>

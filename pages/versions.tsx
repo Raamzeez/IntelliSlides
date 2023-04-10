@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react"
-import { Carousel, Col, Container, Row } from "react-bootstrap"
+import { Carousel, Col, Container, Nav, Row } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useRouter } from "next/router"
 import iVersion from "../lib/frontend/models/version"
@@ -27,12 +27,16 @@ const Versions: FC = () => {
         <Container fluid className="Home">
             <Row>
                 <Col>
-                    <BackArrow />
+                    <Nav>
+                        <Nav.Link>
+                            <BackArrow />
+                        </Nav.Link>
+                    </Nav>
                 </Col>
             </Row>
             <Row>
                 <Col>
-                    <h1 style={{ marginTop: 30 }}>Versions</h1>
+                    <h1 style={{ marginTop: 30, fontWeight: 300 }}>Versions</h1>
                 </Col>
             </Row>
             <Row style={{ width: "100%" }}>
@@ -75,9 +79,9 @@ const Versions: FC = () => {
                         className="shadow updatesBackground animate__animated animate__fadeIn"
                     >
                         {!activeVersion ? (
-                            <h1>
+                            <h2>
                                 Select A Version On The Left To See Features
-                            </h1>
+                            </h2>
                         ) : (
                             <>
                                 <Carousel

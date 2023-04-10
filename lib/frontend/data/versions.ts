@@ -12,7 +12,7 @@ const versions: iVersion[] = [
     {
         version: "1.0.1",
         isBeta: true,
-        date: "4/12/23",
+        date: new Date("2023-4-12"),
         data: [
             {
                 icon: faInfoCircle,
@@ -45,11 +45,12 @@ const versions: iVersion[] = [
                     "Added a disclosure to the privacy agreement stating to the user that IntelliSlides complies with Google API Services User Data Policy",
             },
         ],
+        policyChange: true,
     },
     {
         version: "1.0.0",
         isBeta: true,
-        date: "4/6/23",
+        date: new Date("2023-4-6"),
         data: [
             {
                 icon: faDoorOpen,

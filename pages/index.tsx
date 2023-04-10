@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react"
+import React, { FC } from "react"
 import { Container } from "react-bootstrap"
 import Contact from "../components/Contact"
 import Feature from "../components/Feature"
@@ -8,15 +8,6 @@ import Jumbotron from "../components/Jumbotron"
 import features from "../lib/frontend/data/features"
 
 const Home: FC = () => {
-    useEffect(() => {
-        if (
-            localStorage.getItem("id_token") &&
-            sessionStorage.getItem("visited") !== "true"
-        ) {
-            // navigate("/app")
-        }
-    }, [])
-
     return (
         <Container fluid className="Home">
             <Header />

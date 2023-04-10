@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react"
 import { Col, Row } from "react-bootstrap"
 import Image from "next/image"
-import fetchVersion from "../lib/frontend/util/fetchVersion"
+import fetchCurrentVersion from "../lib/frontend/util/fetchCurrentVersion"
 import isMobile from "../lib/frontend/util/isMobile"
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import versions from "../lib/frontend/data/versions"
@@ -62,9 +62,10 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                     onClick={onClickHandler}
                     className="pointer"
                 >
-                    {`Version ${fetchVersion()} ${
+                    {`Version ${fetchCurrentVersion()} ${
                         versions.filter(
-                            (version) => version.version === fetchVersion()
+                            (version) =>
+                                version.version === fetchCurrentVersion()
                         )[0].isBeta && "- BETA"
                     }`}
                 </p>

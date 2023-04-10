@@ -43,9 +43,11 @@ import DeleteModal from "../components/DeleteModal"
 import GoogleButton from "react-google-button"
 import iSlideInfo from "../lib/shared/models/slideInfo"
 import { useRouter } from "next/router"
+import showPolicyUpdate from "../lib/frontend/util/showPolicyUpdate"
 
 interface iState {
-    showAlert: boolean
+    showBetaAlert: boolean
+    showPrivacyAlert: boolean
     showVersion: boolean
     showTopicTip: boolean
     showCategoryTip: boolean
@@ -79,7 +81,8 @@ const App: FC = () => {
     const [user, setUser] = useState<iUser | null>(null)
 
     const [state, setState] = useState<iState>({
-        showAlert: true,
+        showBetaAlert: true,
+        showPrivacyAlert: true,
         showVersion: false,
         showTopicTip: false,
         showCategoryTip: false,
@@ -129,8 +132,13 @@ const App: FC = () => {
     }
 
     useEffect(() => {
-        if (sessionStorage.getItem("showAlert") === "false") {
-            setState({ ...state, showAlert: false })
+        localStorage.setItem("visited", JSON.stringify(new Date()))
+        const viewedPrivacy = showPolicyUpdate()
+        if (!viewedPrivacy) {
+            setState({ ...state, showPrivacyAlert: false })
+        }
+        if (sessionStorage.getItem("showBetaAlert") === "false") {
+            setState({ ...state, showBetaAlert: false })
         }
         if (localStorage.getItem("showVersion") === "true") {
             setState({ ...state, showVersion: true })
@@ -160,7 +168,6 @@ const App: FC = () => {
             }
         }
         fetchUser()
-        sessionStorage.setItem("visited", "true")
     }, [])
 
     const login = async (
@@ -258,7 +265,7 @@ const App: FC = () => {
 
     const onHideAlert = () => {
         sessionStorage.setItem("showAlert", JSON.stringify(false))
-        setState({ ...state, showAlert: false })
+        setState({ ...state, showBetaAlert: false })
     }
 
     const errorToast = (message: string) => {
@@ -484,22 +491,29 @@ const App: FC = () => {
                             message={state.warning}
                         />
                     )}
-
-                    {state.showAlert && (
-                        //         <Alert
-                        //             text="This is a Public Beta Release - Please be aware that there may
-                        // be bugs and issues! We are actively working on improvements."
-                        //             className="betaAlertBackground"
-                        //             isLoading={state.submit}
-                        //             onCloseHandler={() => onHideAlert()}
-                        //         />
-                        <Alert
-                            text="We have made changes to our privacy policy! Click here to see them."
-                            className="privacyAlertBackground"
-                            isLoading={state.submit}
-                            onCloseHandler={() => onHideAlert()}
-                            onClickHandler={() => router.push("/privacy")}
-                        />
+                    {state.showBetaAlert && !state.showPrivacyAlert && (
+                        <>
+                            <Alert
+                                text="This is a Public Beta Release - Please be aware that there may
+                        be bugs and issues! We are actively working on improvements."
+                                className="betaAlertBackground"
+                                isLoading={state.submit}
+                                onCloseHandler={() => onHideAlert()}
+                            />
+                        </>
+                    )}
+                    {state.showPrivacyAlert && (
+                        <>
+                            <Alert
+                                text="We have made changes to our privacy policy! Click here to see them."
+                                className="privacyAlertBackground"
+                                isLoading={state.submit}
+                                onCloseHandler={() => onHideAlert()}
+                                onClickHandler={() =>
+                                    router.push("/privacy#disclosure")
+                                }
+                            />
+                        </>
                     )}
                     {state.showVersion && (
                         <VersionModal onCloseHandler={onHideVersion} />
@@ -539,7 +553,8 @@ const App: FC = () => {
                                     right: width > 800 ? 30 : 0,
                                     top:
                                         width > 800
-                                            ? state.showAlert
+                                            ? state.showBetaAlert ||
+                                              state.showPrivacyAlert
                                                 ? 70
                                                 : 20
                                             : 0,
@@ -815,7 +830,8 @@ const App: FC = () => {
                                     left: width > 600 ? 30 : 0,
                                     top:
                                         width > 600
-                                            ? state.showAlert
+                                            ? state.showBetaAlert ||
+                                              state.showPrivacyAlert
                                                 ? "9vh"
                                                 : 20
                                             : 0,

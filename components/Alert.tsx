@@ -62,10 +62,7 @@ const Alert: FC<iProps> = ({
                 justifyContent: "center",
                 alignItems: "center",
             }}
-            className={`shadow animate__animated animate__fadeInDown ${className} ${
-                onClickHandler && "pointer"
-            }`}
-            onClick={onClickHandler}
+            className={`shadow animate__animated animate__fadeInDown ${className}`}
         >
             <p
                 style={{
@@ -73,6 +70,8 @@ const Alert: FC<iProps> = ({
                     marginTop: 10,
                     ...widthStyle(),
                 }}
+                className={`${onClickHandler && "pointer"}`}
+                onClick={onClickHandler}
             >
                 {text}
             </p>
