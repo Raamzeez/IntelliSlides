@@ -128,9 +128,11 @@ const App: FC = () => {
         localStorage.setItem("visited", DateTime.now().toISO() as string)
         //Fix state setting issues in useEffect
         if (showBetaAlert()) {
+            console.log("Show Beta Alert")
             setState({ ...state, showBetaAlert: true })
         }
         if (showPolicyUpdate()) {
+            console.log("Show Policy Update Alert")
             setState({ ...state, showPrivacyAlert: true })
         }
         if (localStorage.getItem("auto") === "true") {

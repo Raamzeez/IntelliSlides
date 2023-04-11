@@ -1,10 +1,11 @@
-import React, { FC, useState } from "react"
+import React, { FC } from "react"
 import { Col, Row } from "react-bootstrap"
 import Image from "next/image"
 import fetchCurrentVersion from "../lib/frontend/util/fetchCurrentVersion"
 import isMobile from "../lib/frontend/util/isMobile"
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import versions from "../lib/frontend/data/versions"
+import getVersion from "../lib/frontend/util/getVersion"
 
 interface iProps {
     isLoading: boolean
@@ -13,8 +14,6 @@ interface iProps {
 
 const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
     const { height, width } = useWindowDimensions()
-
-    const [hoverText, setHoverText] = useState(false)
 
     return (
         <Row
@@ -49,24 +48,9 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                     alignItems: "center",
                 }}
             >
-                <p
-                    style={{
-                        fontSize: 15,
-                        fontWeight: 200,
-                        marginTop: 22,
-                        textDecoration: hoverText ? "underline" : "",
-                        opacity: hoverText ? 1 : 0.75,
-                    }}
-                    onMouseOver={() => setHoverText(true)}
-                    onMouseLeave={() => setHoverText(false)}
-                    onClick={onClickHandler}
-                    className="pointer"
-                >
+                <p onClick={onClickHandler} className="versionFooter pointer">
                     {`Version ${fetchCurrentVersion()} ${
-                        versions.filter(
-                            (version) =>
-                                version.version === fetchCurrentVersion()
-                        )[0].isBeta && "- BETA"
+                        getVersion(fetchCurrentVersion()).isBeta && "- BETA"
                     }`}
                 </p>
             </Col>

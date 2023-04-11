@@ -4,17 +4,18 @@ html, body {
   margin: 0px;
   padding: 0px;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .Home {
   overflow-x: none;
-    background-color: hsl(220, 13%, 18%);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+  background-color: hsl(220, 13%, 18%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
 }
 
 .App {
@@ -25,7 +26,6 @@ html, body {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
@@ -150,6 +150,18 @@ background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 1
 
 .pointer {
   cursor: pointer;
+}
+
+.versionFooter {
+  font-size: 15px;
+  font-weight: 200;
+  margin-top: 22px;
+  opacity: 0.75;
+}
+
+.versionFooter:hover {
+  text-decoration: underline;
+  opacity: 1;
 }
 
 .skyhue {
@@ -282,19 +294,7 @@ background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 1
 }
 
 .footerBackground {
-  /* background: linear-gradient(270deg, #008bd9, #2c40df); */
-  /* background: linear-gradient(270deg, #008bd9, #016ec1); */
   background: linear-gradient(270deg, #3c24c7, #0066b4);
-  /* background: linear-gradient(270deg, #0093a3, #017bc1); */
-  /* background: linear-gradient(270deg, #0036d9, #016ec1); */
-  /* background-size: 400% 400%; */
-
-  /* -webkit-animation: FooterBackground 15s ease infinite;
-  -moz-animation: FooterBackground 15s ease infinite;
-  animation: FooterBackground 15s ease infinite; */
-    /* -webkit-animation: FooterBackground 20s ease infinite;
-      -moz-animation: FooterBackground 20s ease infinite;
-      animation: FooterBackground 20s ease infinite; */
 }
 
 @-webkit-keyframes FooterBackground {
