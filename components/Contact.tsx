@@ -3,23 +3,8 @@ import { Col, Row } from "react-bootstrap"
 
 const Contact: FC = () => {
     return (
-        <Row
-            style={{
-                height: "40vh",
-                width: "100vw",
-                backgroundColor: "grey",
-            }}
-            id="contact"
-            className="skyhue"
-        >
-            <Col
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+        <Row id="contact" className="contact skyhue">
+            <Col className="center-column">
                 <h2>Contact</h2>
                 <p style={{ fontSize: 15, marginTop: 20 }}>
                     Email:{" "}

@@ -1,12 +1,22 @@
-import React from "react"
-import Head from "next/head"
+//Libraries
 import { AppProps } from "next/app"
 import { GoogleOAuthProvider } from "@react-oauth/google"
+import { SSRProvider } from "react-bootstrap"
+
+import React from "react"
+import Head from "next/head"
+
+//Library CSS
+import "react-toastify/dist/ReactToastify.css"
+
+//Custom CSS
 import "../public/style/fonts.css"
 import "../public/style/App.css"
 import "../public/style/bootstrap.min.quartz.css"
-import "react-toastify/dist/ReactToastify.css"
-import { SSRProvider } from "react-bootstrap"
+
+import "../public/style/home.css"
+import "../public/style/privacy.css"
+import "../public/style/versions.css"
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (

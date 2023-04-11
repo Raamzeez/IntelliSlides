@@ -41,14 +41,8 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                     width={120}
                 />
             </Col>
-            <Col
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
-                <p onClick={onClickHandler} className="versionFooter pointer">
+            <Col className="center-container">
+                <p onClick={onClickHandler} className="version-footer pointer">
                     {`Version ${fetchCurrentVersion()} ${
                         getVersion(fetchCurrentVersion()).isBeta && "- BETA"
                     }`}

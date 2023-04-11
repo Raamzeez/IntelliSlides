@@ -40,12 +40,18 @@ html, body {
   }
 }
 
-.centerContainer {
+.center-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.center-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .App-link {
   color: #61dafb;
@@ -66,6 +72,15 @@ html, body {
 
 
 .shadow {
+  box-shadow:
+      0 1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
+}
+
+.shadowHover:hover {
   box-shadow:
       0 1px 1px hsl(0deg 0% 0% / 0.075),
       0 2px 2px hsl(0deg 0% 0% / 0.075),
@@ -152,14 +167,22 @@ background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 1
   cursor: pointer;
 }
 
-.versionFooter {
+.underline:hover {
+  text-decoration: underline;
+}
+
+.version-modal-link {
+  font-size: 12px;
+
+}
+.version-footer {
   font-size: 15px;
   font-weight: 200;
   margin-top: 22px;
   opacity: 0.75;
 }
 
-.versionFooter:hover {
+.version-footer:hover {
   text-decoration: underline;
   opacity: 1;
 }

@@ -37,18 +37,7 @@ const PrivacyPolicy: FC = () => {
         <Container fluid className="App">
             <BannerLogo />
             <h5 style={{ color: "grey", marginBottom: 25 }}>Privacy Policy:</h5>
-            <div
-                style={{
-                    height: "60vh",
-                    width: "80vw",
-                    backgroundColor: "#414152",
-                    overflowY: "auto",
-                    display: "flex",
-                    justifyContent: "left",
-                    flexDirection: "column",
-                }}
-                className="shadow"
-            >
+            <div className="privacy shadow">
                 <p
                     style={{
                         marginLeft: "10%",
@@ -62,14 +51,7 @@ const PrivacyPolicy: FC = () => {
                 <h5 style={{ marginLeft: "10%", marginTop: 3 }}>
                     Introduction:{" "}
                 </h5>
-                <p
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
+                <p className="privacy-one-tab-text">
                     Intellislides is committed to protecting the privacy of our
                     users. This privacy policy describes what, how, and where we
                     we collect, use, and protect the personal information of our
@@ -79,14 +61,7 @@ const PrivacyPolicy: FC = () => {
                 <h5 style={{ marginLeft: "10%", marginTop: 20 }}>
                     Types of Data Collected:
                 </h5>
-                <div
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
+                <div className="privacy-one-tab-text">
                     <p style={{ fontSize: 15 }}>
                         User ID -{" "}
                         <span style={{ textDecoration: "underline" }}>
@@ -134,9 +109,7 @@ const PrivacyPolicy: FC = () => {
                     </ul>
                 </div>
                 <Line />
-                <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
-                    Third-Party Services:
-                </h5>
+                <h5 className="privacy-heading">Third-Party Services:</h5>
                 <p
                     style={{
                         marginLeft: "15%",
@@ -193,14 +166,7 @@ const PrivacyPolicy: FC = () => {
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
                     Data Sharing:
                 </h5>
-                <p
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
+                <p className="privacy-one-tab-text">
                     IntelliSlides utilizes a strict data sharing policy to
                     protect our users. We do not share any other data with third
                     party services with the exception of Google Analytics,
@@ -212,10 +178,8 @@ const PrivacyPolicy: FC = () => {
                     advertisements like other websites do.
                 </p>
                 <p
+                    className="privacy-one-tab-text"
                     style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
                         fontSize: 14,
                         transition: "0.3s ease",
                         ...highlightedStyle,
@@ -243,14 +207,7 @@ const PrivacyPolicy: FC = () => {
                     , including the Limited Use requirements.
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Security</h5>
-                <p
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
+                <p className="privacy-one-tab-text">
                     IntelliSlides uses popular security techniques to ensure the
                     protection of our user's data.
                 </p>
@@ -323,14 +280,7 @@ const PrivacyPolicy: FC = () => {
                     </p>
                 </ul>
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Updates</h5>
-                <p
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
+                <p className="privacy-one-tab-text">
                     We may update this Privacy Policy from time to time, and any
                     updates will be posted on our website. We'll let you know
                     with a notification that will pop up the next time you visit

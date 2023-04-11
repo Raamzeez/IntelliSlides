@@ -1,0 +1,24 @@
+.version-selector {
+    height: 80vh;
+    width: 100%;
+    background-color: black;
+    overflow-y: auto;
+    margin: 10px;
+}
+
+.version-showcase {
+    height: 80vh;
+    width: 100%;
+    border-radius: 10px;
+    margin: 10px
+}
+
+.version-carousel-item {
+    height: 80vh;
+}
+
+.version-text-container {
+    position: absolute;
+    bottom: 50px;
+    margin: 20px;
+}

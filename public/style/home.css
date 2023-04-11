@@ -1,0 +1,94 @@
+.launch-button {
+    display: flex;
+    align-items: center;
+    transition: 0.3s ease;
+}
+
+.launch-text {
+    font-size: 16px;
+    margin-top: 15px;
+    margin: 10px;
+}
+
+.launch-button-sm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 15px;
+}
+
+.jumbotron {
+    height: 88.5vh;
+    background-color: white;
+    width: 100vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.typewriter-text {
+    font-size: 16px;
+    color: white;
+    margin: 20;
+}
+
+.learn-more-button {
+    margin-top: 50px;
+    height: 40px;
+    width: 150px;
+    border-radius: 20px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease;
+}
+
+.learn-more-button:hover {
+    background-color: lightgrey;
+}
+
+.learn-more-text {
+    font-size: 15px;
+    color: black;
+    margin-top: 14px;
+}
+
+.feature-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.feature-image {
+    height: 260px;
+    width: 260px;
+    border-radius: 10px;
+    margin: 25px;
+}
+
+.contact {
+    height: 40vh;
+    width: 100vw;
+    background-color: grey;
+}
+
+.home-footer {
+    height: 100px;
+    width: 100vw;
+    background-color: rgb(40, 40, 40);
+}
+
+.home-footer-text {
+    font-weight: 300px;
+    font-size: 17px;
+    margin-top: 10px;
+}

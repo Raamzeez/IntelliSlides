@@ -27,19 +27,10 @@ const TextContainer: FC<iTextContainerProps> = ({ heading, body, layout }) => {
                 layout === "left"
                     ? "animate__fadeInLeft"
                     : "animate__fadeInRight"
-            }`}
+            } feature-column`}
             lg={8}
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                // backgroundColor: "#3a83f7",
-                border: "none",
-                margin: 0,
-                padding: 0,
-            }}
         >
-            <h3 className="updates" style={{ margin: 25 }}>
+            <h3 className="manrope" style={{ margin: 25 }}>
                 {heading}
             </h3>
             <p style={{ fontSize: 17, margin: 25 }}>{body}</p>
@@ -54,29 +45,10 @@ const ImageContainer: FC<iImageContainerProps> = ({ image, alt, layout }) => {
                 layout === "right"
                     ? "animate__fadeInLeft"
                     : "animate__fadeInRight"
-            }`}
+            } feature-column`}
             lg={4}
-            style={{
-                // backgroundColor: "#3a83f7",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                border: "none",
-                margin: 0,
-                padding: 0,
-            }}
         >
-            <Image
-                alt=""
-                src={image}
-                style={{
-                    height: 260,
-                    width: 260,
-                    borderRadius: 10,
-                    margin: 25,
-                }}
-                className="shadow"
-            />
+            <Image alt="" src={image} className="feature-image shadow" />
         </Col>
     )
 }

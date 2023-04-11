@@ -79,22 +79,20 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                         </p>
                     </Col>
                     <Col style={{ display: "flex", justifyContent: "center" }}>
-                        <a
-                            className="pointer"
-                            style={{ fontSize: 12 }}
+                        <p
+                            className="pointer underline version-modal-link"
                             onClick={() => router.push("/versions")}
                         >
                             Show All Versions
-                        </a>
+                        </p>
                     </Col>
                     <Col style={{ display: "flex", justifyContent: "center" }}>
-                        <a
-                            className="pointer"
-                            style={{ fontSize: 12 }}
+                        <p
+                            className="pointer underline version-modal-link"
                             onClick={() => router.push("/privacy")}
                         >
                             Privacy Policy
-                        </a>
+                        </p>
                     </Col>
                 </Row>
                 <Carousel
@@ -136,7 +134,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                                 marginTop: 30,
                                 margin: 20,
                             }}
-                            className="updates"
+                            className="manrope"
                         >
                             {version.data[index].title}
                         </h5>
@@ -149,7 +147,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                                 marginTop: 30,
                                 margin: 20,
                             }}
-                            className="updates"
+                            className="manrope"
                         >
                             {version.data[index].description}
                         </p>

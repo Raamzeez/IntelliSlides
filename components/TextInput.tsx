@@ -43,7 +43,7 @@ const TextInput: FC<iProps> = ({
                 width: width > 991 ? "40vw" : "80vw",
             }}
         >
-            <Col className="centerContainer" lg={1}>
+            <Col className="center-container" lg={1}>
                 {info && (
                     <InfoIcon
                         onClickHandler={onTipClickHandler}
@@ -53,10 +53,10 @@ const TextInput: FC<iProps> = ({
                     />
                 )}
             </Col>
-            <Col className="centerContainer" lg={2}>
+            <Col className="center-container" lg={2}>
                 <p style={{ fontSize: 15, marginTop: 15 }}>{label}:</p>
             </Col>
-            <Col className="centerContainer" lg={9}>
+            <Col className="center-container" lg={9}>
                 <input
                     type="text"
                     value={value}
