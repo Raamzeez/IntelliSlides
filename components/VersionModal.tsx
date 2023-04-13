@@ -32,22 +32,10 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
 
     return (
         <Modal show={true} onHide={onCloseHandler}>
-            <div
-                style={{
-                    height: 550,
-                    width: "100%",
-                    backgroundColor: "#282c34",
-                    display: "flex",
-                    flexDirection: "column",
-                    //   justifyContent: "center",
-                    alignItems: "center",
-                    // backgroundImage: `url("https://media.giphy.com/media/ITRemFlr5tS39AzQUL/giphy.gif")`,
-                    // backgroundRepeat: "no-repeat",
-                    // backgroundSize: "cover",
-                }}
-            >
+            <div className="version-modal">
                 <FontAwesomeIcon
                     icon={faX}
+                    size="sm"
                     className="pointer x-icon"
                     onClick={onCloseHandler}
                 />

@@ -27,13 +27,7 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
             }}
             className="footerBackground"
         >
-            <Col
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <Col className="center-container">
                 <Image
                     alt="OpenAI Logo"
                     src={require("../public/images/OpenAILogo.png")}
@@ -48,16 +42,11 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                     }`}
                 </p>
             </Col>
-            <Col
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <Col className="center-container">
                 <Image
                     alt="Google Slides Logo"
                     src={require("../public/images/GoogleSlidesLogo.png")}
+                    priority={true}
                     height={75}
                     width={200}
                 />

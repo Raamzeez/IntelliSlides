@@ -15,6 +15,7 @@ const BannerLogo: FC<iProps> = ({ adaptiveStyling, height, width }) => {
     return (
         <Image
             alt="IntelliSlides Banner Logo"
+            priority={true}
             src={require("../public/images/IntelliSlidesBannerTransparent.png")}
             style={{
                 height: 75,

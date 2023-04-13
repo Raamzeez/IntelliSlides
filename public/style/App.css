@@ -6,6 +6,19 @@
     margin: 5px;
 }
 
+.info-icon {
+    height: 22px;
+    width: 22px;
+    border-radius: 11px;
+    background-color: #0352fc;
+}
+
+.button {
+    height: 45px;
+    width: 120px;
+    border-radius: 10px; 
+}
+
 .profile-button {
     height: 30px;
     width: 100px;
@@ -173,6 +186,20 @@
     color: grey;
     font-size: 20px;
     font-style: italic;
+}
+
+.info-modal {
+    width: 100%;
+    background-color: #282c43;
+}
+
+.version-modal {
+    height: 550px;
+    width: 100%;
+    background-color: #282c43;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .version-modal-link {

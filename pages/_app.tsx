@@ -1,4 +1,5 @@
 //Libraries
+import { config } from "@fortawesome/fontawesome-svg-core"
 import { AppProps } from "next/app"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import { SSRProvider } from "react-bootstrap"
@@ -8,6 +9,7 @@ import Head from "next/head"
 
 //Library CSS
 import "react-toastify/dist/ReactToastify.css"
+import "@fortawesome/fontawesome-svg-core/styles.css"
 
 //Custom CSS
 import "../public/style/fonts.css"
@@ -19,6 +21,8 @@ import "../public/style/home.css"
 import "../public/style/app.css"
 import "../public/style/privacy.css"
 import "../public/style/versions.css"
+
+config.autoAddCss = false
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (

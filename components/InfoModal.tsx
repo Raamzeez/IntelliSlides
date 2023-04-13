@@ -12,16 +12,7 @@ interface iProps {
 const InfoModal: FC<iProps> = ({ title, message, onCloseHandler }) => {
     return (
         <Modal show={true} onHide={onCloseHandler}>
-            <div
-                style={{
-                    width: "100%",
-                    backgroundColor: "#282c34",
-                    display: "flex",
-                    flexDirection: "column",
-                    //   justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <div className="center-container info-modal">
                 <FontAwesomeIcon
                     icon={faX}
                     className="pointer x-icon"

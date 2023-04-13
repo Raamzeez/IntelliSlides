@@ -21,7 +21,7 @@ const Button: FC<iProps> = ({
 }) => {
     return (
         <div
-            className={`${
+            className={`center-container button ${
                 type === "success"
                     ? "submit"
                     : type === "danger"
@@ -31,12 +31,6 @@ const Button: FC<iProps> = ({
                     : "secondary"
             } ${disabled ? "" : "pointer"} ${className}`}
             style={{
-                height: 45,
-                width: 120,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 10,
                 opacity: disabled ? 0.35 : 1,
                 ...style,
             }}

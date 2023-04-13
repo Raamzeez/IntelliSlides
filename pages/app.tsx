@@ -8,7 +8,12 @@ import {
     Pagination,
     Row,
 } from "react-bootstrap"
-import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
+import {
+    googleLogout,
+    useGoogleLogin,
+    CodeResponse,
+    GoogleLogin,
+} from "@react-oauth/google"
 import { toast, ToastContainer } from "react-toastify"
 import { CircleLoader } from "react-spinners"
 import { AxiosError } from "axios"
@@ -128,11 +133,11 @@ const App: FC = () => {
         localStorage.setItem("visited", DateTime.now().toISO() as string)
         //Fix state setting issues in useEffect
         if (showBetaAlert()) {
-            console.log("Show Beta Alert")
+            // console.log("Show Beta Alert")
             setState({ ...state, showBetaAlert: true })
         }
         if (showPolicyUpdate()) {
-            console.log("Show Policy Update Alert")
+            // console.log("Show Policy Update Alert")
             setState({ ...state, showPrivacyAlert: true })
         }
         if (localStorage.getItem("auto") === "true") {
@@ -629,14 +634,7 @@ const App: FC = () => {
                                             })
                                         }
                                     />
-                                    <Col
-                                        style={{
-                                            // backgroundColor: "blue",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                        }}
-                                    >
+                                    <Col className="center-container">
                                         <p
                                             style={{
                                                 fontSize: 15,
@@ -646,14 +644,7 @@ const App: FC = () => {
                                             Category:
                                         </p>
                                     </Col>
-                                    <Col
-                                        style={{
-                                            // backgroundColor: "red",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                        }}
-                                    >
+                                    <Col className="center-container">
                                         {width <= 2000 ? (
                                             <DropdownButton
                                                 key={"primary"}
@@ -735,14 +726,7 @@ const App: FC = () => {
                                             </Pagination>
                                         )}
                                     </Col>
-                                    <Col
-                                        style={{
-                                            // backgroundColor: "green",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                        }}
-                                    >
+                                    <Col className="center-container">
                                         <AutoButton
                                             onClickHandler={() =>
                                                 setState({

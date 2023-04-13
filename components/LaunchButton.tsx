@@ -22,15 +22,7 @@ const LaunchButton: FC = () => {
                 <></>
             )}
             {(width > threshold || width < 380) && (
-                <FontAwesomeIcon
-                    icon={faRocket}
-                    style={{
-                        right: 15,
-                        fontSize: 17,
-                        marginRight: 10,
-                        marginLeft: 10,
-                    }}
-                />
+                <FontAwesomeIcon className="launch-icon" icon={faRocket} />
             )}
         </div>
     )

@@ -10,6 +10,13 @@
     margin: 10px;
 }
 
+.launch-icon {
+    right: 15px;
+    font-size: 17px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
 .launch-button-sm {
     display: flex;
     align-items: center;

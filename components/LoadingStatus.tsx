@@ -14,6 +14,7 @@ import Category from "../lib/frontend/types/category"
 import IconStatus from "../lib/frontend/types/iconStatus"
 import LoadingType from "../lib/frontend/types/loading"
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
+import getStatus from "../lib/frontend/util/getStatus"
 
 interface iProps {
     loadingStatus: LoadingType
@@ -154,33 +155,6 @@ const StatusElement: FC<StatusElementProps> = ({
     )
 }
 
-const getStatus = (
-    status: LoadingType,
-    loadingStatus: LoadingType,
-    error: iError | null
-) => {
-    if (error && loadingStatus === status) {
-        return "error"
-    }
-    if (loadingStatus === status) {
-        return "loading"
-    }
-    let loadingStatusIndex = 0
-    let statusIndex = 0
-    loadingStatuses.forEach((obj, index) => {
-        if (obj.type === loadingStatus) {
-            loadingStatusIndex = index
-        }
-        if (obj.type === status) {
-            statusIndex = index
-        }
-    })
-    if (loadingStatusIndex > statusIndex) {
-        return "success"
-    }
-    return "hold"
-}
-
 const LoadingStatus: FC<iProps> = ({
     loadingStatus,
     error,
@@ -197,14 +171,10 @@ const LoadingStatus: FC<iProps> = ({
                 position: width < 850 || height < 600 ? "relative" : "absolute",
                 right: width < 850 || height < 600 ? 0 : 50,
                 border: "none",
-                // backgroundColor: "red",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
                 flexDirection: width < 850 || height < 600 ? "row" : "column",
                 ...style,
             }}
-            className="animate__animated animate__fadeInRight animate__fast"
+            className="center-container animate__animated animate__fadeInRight animate__fast"
         >
             {width > 600 &&
                 height > 500 &&
