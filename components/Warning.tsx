@@ -20,20 +20,12 @@ const Warning: FC<iProps> = ({ onCloseHandler, onClickHandler, message }) => {
                     backgroundColor: "#282c34",
                     display: "flex",
                     flexDirection: "column",
-                    //   justifyContent: "center",
                     alignItems: "center",
                 }}
             >
                 <FontAwesomeIcon
                     icon={faX}
-                    className="pointer"
-                    style={{
-                        color: "white",
-                        fontSize: 20,
-                        position: "absolute",
-                        top: 15,
-                        right: 15,
-                    }}
+                    className="pointer x-icon"
                     onClick={onCloseHandler}
                 />
                 <FontAwesomeIcon

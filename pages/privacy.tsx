@@ -3,7 +3,6 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import { Container } from "react-bootstrap"
 import Button from "../components/Button"
-import Line from "../components/Line"
 import BannerLogo from "../components/BannerLogo"
 import { DateTime } from "luxon"
 
@@ -46,7 +45,7 @@ const PrivacyPolicy: FC = () => {
                         fontSize: 13,
                     }}
                 >
-                    Last Updated: 4/12/23
+                    Last Updated: 4/26/23
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 3 }}>
                     Introduction:{" "}
@@ -57,7 +56,7 @@ const PrivacyPolicy: FC = () => {
                     we collect, use, and protect the personal information of our
                     users when they use our app.
                 </p>
-                <Line />
+                <div className="line" />
                 <h5 style={{ marginLeft: "10%", marginTop: 20 }}>
                     Types of Data Collected:
                 </h5>
@@ -108,7 +107,7 @@ const PrivacyPolicy: FC = () => {
                         <li>Slide Count - Stored in database</li>
                     </ul>
                 </div>
-                <Line />
+                <div className="line" />
                 <h5 className="privacy-heading">Third-Party Services:</h5>
                 <p
                     style={{
@@ -162,7 +161,7 @@ const PrivacyPolicy: FC = () => {
                         information obtained for the slides with the OpenAI API.
                     </li>
                 </ul>
-                <Line />
+                <div className="line" />
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
                     Data Sharing:
                 </h5>
@@ -234,7 +233,7 @@ const PrivacyPolicy: FC = () => {
                         Slides presentations for the user.
                     </li>
                 </ol>
-                <Line />
+                <div className="line" />
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>User Rights</h5>
                 <p
                     style={{

@@ -1,0 +1,103 @@
+.submit {
+    background: linear-gradient(121deg, rgb(3, 202, 139) 0%, rgba(0, 199, 101, 1) 100%);
+}
+
+.cancel {
+    background: linear-gradient(121deg, rgb(202, 3, 3) 0%, rgb(199, 0, 66) 100%);
+}
+
+.primary {
+    background: linear-gradient(121deg, #1da2e5 0%, rgb(27, 188, 185) 100%);
+}
+
+.secondary {
+    background: linear-gradient(90deg, rgba(109, 65, 238, 1) 0%, rgba(154, 79, 255, 1) 100%);
+}
+
+.profile {
+    background: linear-gradient(231deg, rgb(0, 91, 171) 0%, rgb(0, 170, 167) 100%);
+    border-radius: 15px;
+}
+
+.betaAlertBackground {
+    background: linear-gradient(231deg, rgb(255, 80, 80) 0%, rgb(255, 70, 160) 100%);
+}
+
+.privacyAlertBackground {
+    background: linear-gradient(231deg, rgba(1, 195, 53, 1) 0%, rgba(1, 199, 130, 1) 100%);
+}
+
+.greyGradient {
+    background: linear-gradient(121deg, rgba(57, 57, 57, 1) 45%, rgba(57, 57, 57, 1) 100%);
+}
+
+.logoBackground {
+    background: linear-gradient(40deg, rgb(20, 121, 203) 45%, rgb(21, 168, 158) 100%);
+}
+
+.updatesBackground {
+    background: linear-gradient(231deg, rgba(80, 5, 157, 1) 0%, rgba(144, 0, 28, 1) 100%);
+}
+
+.gooeyBackground {
+    background: linear-gradient(90deg, rgba(135, 117, 0, 1) 0%, rgba(1, 56, 119, 1) 100%);
+}
+
+.purpleBlueBackground {
+    background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 100%);
+}
+
+.footerBackground {
+    background: linear-gradient(270deg, #3c24c7, #0066b4);
+}
+
+.skyhue {
+    background: linear-gradient(200deg, #cc8e23, #d138b5);
+    background-size: 400% 400%;
+
+    -webkit-animation: SkyHueAnimation 30s ease infinite;
+    -moz-animation: SkyHueAnimation 30s ease infinite;
+    animation: SkyHueAnimation 30s ease infinite;
+}
+
+@-webkit-keyframes SkyHueAnimation {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-moz-keyframes SkyHueAnimation {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@keyframes SkyHueAnimation {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}

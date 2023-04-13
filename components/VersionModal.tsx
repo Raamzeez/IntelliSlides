@@ -48,14 +48,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
             >
                 <FontAwesomeIcon
                     icon={faX}
-                    className="pointer"
-                    style={{
-                        color: "white",
-                        fontSize: 20,
-                        position: "absolute",
-                        top: 15,
-                        right: 15,
-                    }}
+                    className="pointer x-icon"
                     onClick={onCloseHandler}
                 />
                 <h4 style={{ marginTop: 20, fontWeight: 400 }}>
@@ -67,18 +60,17 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     }`}
                 </h4>
                 <Row style={{ width: "100%", margin: 10 }}>
-                    <Col style={{ display: "flex", justifyContent: "center" }}>
+                    <Col className="center-container">
                         <p
                             style={{
                                 fontSize: 12,
-                                color: "dodgerblue",
-                                fontWeight: "bold",
+                                color: "skyblue",
                             }}
                         >
-                            Last Updated: 4/12/23
+                            Last Updated: 4/26/23
                         </p>
                     </Col>
-                    <Col style={{ display: "flex", justifyContent: "center" }}>
+                    <Col className="center-container">
                         <p
                             className="pointer underline version-modal-link"
                             onClick={() => router.push("/versions")}
@@ -86,7 +78,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                             Show All Versions
                         </p>
                     </Col>
-                    <Col style={{ display: "flex", justifyContent: "center" }}>
+                    <Col className="center-container">
                         <p
                             className="pointer underline version-modal-link"
                             onClick={() => router.push("/privacy")}

@@ -20,48 +20,19 @@ const VersionOption: FC<iProps> = ({
     clicked,
     onClickHandler,
 }) => {
-    const [hover, setHover] = useState(false)
-
-    const hoverStyle =
-        hover || clicked
-            ? {
-                  backgroundColor: "#0462bf",
-              }
-            : {}
-
     return (
         <Row
-            style={{
-                height: 70,
-                borderBottom: "2px solid #0462bf",
-                transition: "all 0.3s ease",
-                ...hoverStyle,
-            }}
-            className={`pointer`}
+            className={`pointer version-option ${
+                clicked && "version-option-active"
+            }`}
             onClick={() => onClickHandler({ version, isBeta, date, data })}
-            onMouseOver={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
         >
-            <Col
-                lg={8}
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <Col lg={8} className="center-container">
                 <h6 style={{ marginTop: 15 }}>{`Version ${version} ${
                     isBeta && "- BETA"
                 }`}</h6>
             </Col>
-            <Col
-                lg={4}
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <Col lg={4} className="center-container">
                 <h6 style={{ marginTop: 15 }}>
                     {date.toLocaleString().split(",")[0]}
                 </h6>

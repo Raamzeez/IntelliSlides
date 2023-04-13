@@ -45,7 +45,7 @@ const ImageContainer: FC<iImageContainerProps> = ({ image, alt, layout }) => {
                 layout === "right"
                     ? "animate__fadeInLeft"
                     : "animate__fadeInRight"
-            } feature-column`}
+            } feature-column align-column-center`}
             lg={4}
         >
             <Image alt="" src={image} className="feature-image shadow" />

@@ -68,6 +68,10 @@
     padding: 0px;
 }
 
+.align-column-center {
+    align-items: center;
+}
+
 .feature-image {
     height: 260px;
     width: 260px;

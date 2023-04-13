@@ -11,10 +11,12 @@ import "react-toastify/dist/ReactToastify.css"
 
 //Custom CSS
 import "../public/style/fonts.css"
-import "../public/style/App.css"
+import "../public/style/index.css"
 import "../public/style/bootstrap.min.quartz.css"
 
+import "../public/style/backgrounds.css"
 import "../public/style/home.css"
+import "../public/style/app.css"
 import "../public/style/privacy.css"
 import "../public/style/versions.css"
 

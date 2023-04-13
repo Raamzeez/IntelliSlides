@@ -54,24 +54,14 @@ const TextInput: FC<iProps> = ({
                 )}
             </Col>
             <Col className="center-container" lg={2}>
-                <p style={{ fontSize: 15, marginTop: 15 }}>{label}:</p>
+                <p className="text-input-label">{label}:</p>
             </Col>
             <Col className="center-container" lg={9}>
                 <input
                     type="text"
                     value={value}
                     onChange={onChangeHandler}
-                    className={clicked ? "input" : "shadow"}
-                    style={{
-                        height: 35,
-                        width: "100%",
-                        borderRadius: 8,
-                        border: "none",
-                        backgroundColor: "rgb(64, 65, 78)",
-                        color: "white",
-                        paddingLeft: 10,
-                        fontSize: 15,
-                    }}
+                    className={`text-input ${clicked ? "input" : "shadow"}`}
                     placeholder={placeholder}
                     disabled={disabled}
                     maxLength={maxLength}

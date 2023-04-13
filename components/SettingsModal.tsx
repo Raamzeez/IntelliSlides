@@ -2,7 +2,6 @@ import { faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { FC } from "react"
 import { Col, Dropdown, DropdownButton, Modal, Row } from "react-bootstrap"
-import Line from "./Line"
 
 interface iProps {
     onCloseHandler: () => void
@@ -24,14 +23,7 @@ const SettingsModal: FC<iProps> = ({ onCloseHandler }) => {
             >
                 <FontAwesomeIcon
                     icon={faX}
-                    className="pointer"
-                    style={{
-                        color: "white",
-                        fontSize: 20,
-                        position: "absolute",
-                        top: 15,
-                        right: 15,
-                    }}
+                    className="pointer x-icon"
                     onClick={onCloseHandler}
                 />
                 <h4 style={{ marginTop: 20 }}>Settings</h4>
@@ -45,7 +37,7 @@ const SettingsModal: FC<iProps> = ({ onCloseHandler }) => {
                 >
                     Apply To Browser
                 </p>
-                <Line />
+                <div className="line" />
                 <Row style={{ marginTop: 20 }}>
                     <Col
                         style={{

@@ -26,14 +26,7 @@ const DeleteModal: FC<iProps> = ({ onCloseHandler, onConfirmHandler }) => {
                 {" "}
                 <FontAwesomeIcon
                     icon={faX}
-                    className="pointer"
-                    style={{
-                        color: "white",
-                        fontSize: 20,
-                        position: "absolute",
-                        top: 15,
-                        right: 15,
-                    }}
+                    className="pointer x-icon"
                     onClick={onCloseHandler}
                 />
                 <FontAwesomeIcon

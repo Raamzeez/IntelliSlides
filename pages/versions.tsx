@@ -22,15 +22,7 @@ const Versions: FC = () => {
 
     return (
         <Container fluid className="Home">
-            <Row>
-                <Col>
-                    <Nav>
-                        <Nav.Link>
-                            <BackArrow />
-                        </Nav.Link>
-                    </Nav>
-                </Col>
-            </Row>
+            <BackArrow />
             <Row>
                 <Col>
                     <h1 style={{ marginTop: 30, fontWeight: 300 }}>Versions</h1>
@@ -62,7 +54,7 @@ const Versions: FC = () => {
                     </div>
                 </Col>
                 <Col lg={8}>
-                    <div className="version-showcase center-container shadow updatesBackground animate__animated animate__fadeIn">
+                    <div className="version-carousel-container center-container shadow updatesBackground animate__animated animate__fadeIn">
                         {!activeVersion ? (
                             <h2>
                                 Select A Version On The Left To See Features
@@ -70,7 +62,7 @@ const Versions: FC = () => {
                         ) : (
                             <>
                                 <Carousel
-                                    style={{ height: "80vh", width: "100%" }}
+                                    className="version-carousel"
                                     activeIndex={index}
                                     onSelect={handleSelect}
                                     controls={!(activeVersion.data.length < 2)}
@@ -82,7 +74,7 @@ const Versions: FC = () => {
                                                     <div className="version-carousel-item center-column">
                                                         <FontAwesomeIcon
                                                             icon={update.icon}
-                                                            size="3x"
+                                                            size="4x"
                                                         />
                                                         <div className="version-text-container manrope">
                                                             <h3>

@@ -48,15 +48,13 @@ const Profile: FC<iProps> = ({
             {showLogout && (
                 <>
                     <ProfileButton
-                        backgroundColor="orange"
-                        hoverBackgroundColor="darkorange"
                         label="Logout"
+                        className="logout"
                         onClickHandler={onLogoutHandler}
                     />
                     <ProfileButton
                         label="Delete"
-                        backgroundColor="#d60032"
-                        hoverBackgroundColor="darkred"
+                        className="delete"
                         onClickHandler={onDeleteHandler}
                     />
                 </>

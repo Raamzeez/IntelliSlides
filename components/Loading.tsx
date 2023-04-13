@@ -49,19 +49,8 @@ const Loading: FC<iProps> = ({
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />
-            {/* <h4 style={{ marginTop: "8vh", width: "40%" }}>
-                Researching {topic} And Creating "{title}"
-            </h4> */}
             <h4 style={{ marginTop: "8vh" }}>We're Working On It...</h4>
-            <p
-                style={{
-                    color: "grey",
-                    fontSize: 20,
-                    fontStyle: "italic",
-                    // marginTop: 50,
-                    marginTop: 0,
-                }}
-            >
+            <p className="estimated-time-text">
                 Estimated time: {estimatedTime(slideCount)}
             </p>
             <LoadingStatus
@@ -70,14 +59,6 @@ const Loading: FC<iProps> = ({
                 category={category}
                 auto={auto}
             />
-            {/* <ProgressBar now={45} style={{ width: 230, marginTop: 35 }} /> */}
-            {/* <div style={{ marginLeft: 52, marginTop: 100 }}>
-        <Button
-          type="danger"
-          value={"Cancel"}
-          onClickHandler={onClickHandler}
-        />
-      </div> */}
         </>
     )
 }

@@ -8,22 +8,10 @@ const BackArrow: FC = () => {
 
     return (
         <div
-            style={{
-                height: 40,
-                width: 40,
-                backgroundColor: "grey",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 25,
-                position: "absolute",
-                left: 30,
-                top: 23,
-            }}
-            className="shadow pointer"
+            className="shadow pointer back-arrow"
             onClick={() => router.back()}
         >
-            <FontAwesomeIcon icon={faLeftLong} size="xs" />
+            <FontAwesomeIcon icon={faLeftLong} size="1x" />
         </div>
     )
 }
