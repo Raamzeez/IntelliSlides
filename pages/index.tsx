@@ -12,6 +12,9 @@ const Home: FC = () => {
             <Header />
             <Jumbotron />
             <div id="about">
+                <div className="center-container">
+                    <h2 className="about-text">About</h2>
+                </div>
                 {features.map((feature, index) => {
                     return (
                         <Feature

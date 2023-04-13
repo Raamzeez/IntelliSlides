@@ -66,6 +66,11 @@
     margin-top: 14px;
 }
 
+.about-text {
+    margin-top: 20px;
+    margin-bottom: -10px;
+}
+
 .feature-column {
     display: flex;
     flex-direction: column;

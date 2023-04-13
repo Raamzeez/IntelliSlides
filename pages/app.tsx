@@ -58,7 +58,6 @@ import Footer from "../components/Footer"
 import Alert from "../components/Alert"
 import VersionModal from "../components/VersionModal"
 import InfoModal from "../components/InfoModal"
-import AutoButton from "../components/AutoButton"
 import InfoIcon from "../components/InfoIcon"
 import Profile from "../components/Profile"
 import Result from "../components/Result"
@@ -140,6 +139,7 @@ const App: FC = () => {
             // console.log("Show Policy Update Alert")
             setState({ ...state, showPrivacyAlert: true })
         }
+        // console.log(localStorage.getItem("auto"))
         if (localStorage.getItem("auto") === "true") {
             setState({ ...state, auto: true })
         }
@@ -244,6 +244,26 @@ const App: FC = () => {
             })
             return toast.error(errorMessage(err as AxiosError))
         }
+    }
+
+    const onAutoClick = () => {
+        const activeStatus = !state.auto
+        setState({ ...state, auto: activeStatus })
+        if (typeof window !== "undefined" && window.localStorage) {
+            localStorage.setItem("auto", JSON.stringify(activeStatus))
+        }
+    }
+
+    const autoClickedStyle = () => {
+        if (state.auto) {
+            return {
+                backgroundColor: "#008CBA",
+                color: "white",
+                boxShadow: "0 4px #656565",
+                transform: "translateY(3px)",
+            }
+        }
+        return {}
     }
 
     const onLogin = useGoogleLogin({
@@ -727,14 +747,18 @@ const App: FC = () => {
                                         )}
                                     </Col>
                                     <Col className="center-container">
-                                        <AutoButton
-                                            onClickHandler={() =>
-                                                setState({
-                                                    ...state,
-                                                    auto: !state.auto,
-                                                })
-                                            }
-                                        />
+                                        <div
+                                            className="auto autoButton"
+                                            style={{
+                                                position: "relative",
+                                                bottom: 4,
+                                                left: width > 400 ? 7 : 0,
+                                                ...autoClickedStyle(),
+                                            }}
+                                            onClick={onAutoClick}
+                                        >
+                                            Auto
+                                        </div>
                                     </Col>
                                 </Row>
                                 <TextInput

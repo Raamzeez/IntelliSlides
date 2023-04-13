@@ -12,7 +12,7 @@ interface iProps {
 const InfoModal: FC<iProps> = ({ title, message, onCloseHandler }) => {
     return (
         <Modal show={true} onHide={onCloseHandler}>
-            <div className="center-container info-modal">
+            <div className="center-column info-modal">
                 <FontAwesomeIcon
                     icon={faX}
                     className="pointer x-icon"
