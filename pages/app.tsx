@@ -29,7 +29,6 @@ import api from "../lib/frontend/axios"
 //Custom Utilities
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import showPolicyUpdate from "../lib/frontend/util/showPolicyUpdate"
-import showBetaAlert from "../lib/frontend/util/showBetaAlert"
 import errorMessage from "../lib/frontend/util/errorMessage"
 import errorHandler from "../lib/frontend/util/errorHandler"
 
@@ -130,32 +129,58 @@ const App: FC = () => {
 
     useEffect(() => {
         localStorage.setItem("visited", DateTime.now().toISO() as string)
+        let showBetaAlert = false
+        let showPrivacyAlert = false
+        let auto = false
         //Fix state setting issues in useEffect
-        if (showBetaAlert()) {
-            // console.log("Show Beta Alert")
-            setState({ ...state, showBetaAlert: true })
+        if (sessionStorage.getItem("showAlert") !== "false") {
+            showBetaAlert = true
         }
         if (showPolicyUpdate()) {
-            // console.log("Show Policy Update Alert")
-            setState({ ...state, showPrivacyAlert: true })
+            showPrivacyAlert = true
         }
-        // console.log(localStorage.getItem("auto"))
         if (localStorage.getItem("auto") === "true") {
-            setState({ ...state, auto: true })
+            auto = true
         }
         const fetchUser = async () => {
             try {
                 if (localStorage.getItem("id_token")) {
+                    // setState({
+                    //     ...state,
+                    //     showBetaAlert,
+                    //     showPrivacyAlert,
+                    //     auto,
+                    // })
                     const response = await api.get("/user/userInfo")
                     setState({ ...state, profileLoading: false })
                     if (response.status !== 200) {
+                        setState({
+                            ...state,
+                            showBetaAlert,
+                            showPrivacyAlert,
+                            auto,
+                            profileLoading: false,
+                        })
                         setUser(null)
                         // errorToast("Session expired. Login again.")
                         return
                     }
+                    setState({
+                        ...state,
+                        showBetaAlert,
+                        showPrivacyAlert,
+                        auto,
+                        profileLoading: false,
+                    })
                     setUser(response.data)
                 } else {
-                    setState({ ...state, profileLoading: false })
+                    setState({
+                        ...state,
+                        showBetaAlert,
+                        showPrivacyAlert,
+                        auto,
+                        profileLoading: false,
+                    })
                     setUser(null)
                     return
                 }

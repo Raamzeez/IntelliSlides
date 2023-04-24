@@ -6,7 +6,6 @@ import {
     faMobile,
     faPager,
 } from "@fortawesome/free-solid-svg-icons"
-import { faGoogle } from "@fortawesome/free-brands-svg-icons"
 import iVersion from "../models/version"
 
 const versions: iVersion[] = [
@@ -20,12 +19,6 @@ const versions: iVersion[] = [
                 title: "Favicon",
                 description:
                     "Fixed an issue where the favicon would not render for the site.",
-            },
-            {
-                icon: faGoogle,
-                title: "Login Button",
-                description:
-                    "Changed login button to attempt to comply with Google brand standards",
             },
             {
                 icon: faBugSlash,
