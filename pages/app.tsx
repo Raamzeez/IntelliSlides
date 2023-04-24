@@ -300,10 +300,14 @@ const App: FC = () => {
         scope: "https://www.googleapis.com/auth/presentations",
     })
 
-    const onHideAlert = () => {
+    const onHideAlert = (type: "beta" | "privacy") => {
         if (typeof window !== "undefined" && window.sessionStorage) {
-            sessionStorage.setItem("showAlert", JSON.stringify(false))
-            setState({ ...state, showBetaAlert: false })
+            if (type === "beta") {
+                sessionStorage.setItem("showAlert", JSON.stringify(false))
+                setState({ ...state, showBetaAlert: false })
+            } else {
+                setState({ ...state, showPrivacyAlert: false })
+            }
         }
     }
 
@@ -544,7 +548,7 @@ const App: FC = () => {
                         be bugs and issues! We are actively working on improvements."
                                 className="betaAlertBackground"
                                 isLoading={state.submit}
-                                onCloseHandler={() => onHideAlert()}
+                                onCloseHandler={() => onHideAlert("beta")}
                             />
                         </>
                     )}
@@ -554,7 +558,7 @@ const App: FC = () => {
                                 text="We have made changes to our privacy policy! Click here to see them."
                                 className="privacyAlertBackground"
                                 isLoading={state.submit}
-                                onCloseHandler={() => onHideAlert()}
+                                onCloseHandler={() => onHideAlert("privacy")}
                                 onClickHandler={() =>
                                     router.push("/privacy#disclosure")
                                 }
