@@ -50,12 +50,24 @@
     justify-content: center;
     align-items: center;
     border-radius: 25px;
-    position: absolute;
-    left: 30px;
-    top: 23px;
     transition: 0.2s ease;
 }
 
 .back-arrow:hover {
     background-color: rgb(96, 96, 96);
+}
+
+@media (min-width: 992px) {
+    .back-arrow {
+        position: absolute;
+        left: 30px;
+        top: 25.5px;
+    }
+}
+
+@media (max-width: 991px) {
+    .back-arrow {
+        position: relative;
+        top: 20px;
+    }
 }

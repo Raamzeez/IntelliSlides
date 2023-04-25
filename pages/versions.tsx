@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react"
 import { Carousel, Col, Container, Nav, Row } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import iVersion from "../lib/frontend/models/version"
 import iUpdate from "../lib/frontend/models/update"
 import versions from "../lib/frontend/data/versions"
@@ -8,6 +9,8 @@ import VersionOption from "../components/VersionOption"
 import BackArrow from "../components/BackArrow"
 
 const Versions: FC = () => {
+    const { width } = useWindowDimensions()
+
     const [activeVersion, setActiveVersion] = useState<iVersion | null>(null)
     const [index, setIndex] = useState(0)
 
@@ -56,8 +59,9 @@ const Versions: FC = () => {
                 <Col lg={8}>
                     <div className="version-carousel-container center-container shadow updatesBackground animate__animated animate__fadeIn">
                         {!activeVersion ? (
-                            <h2>
-                                Select A Version On The Left To See Features
+                            <h2 style={{ margin: 20 }}>
+                                Select A Version On The{" "}
+                                {width > 991 ? "Left" : "Top"} To See Features
                             </h2>
                         ) : (
                             <>
