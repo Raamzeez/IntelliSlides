@@ -74,6 +74,7 @@
         "@types/next": "^9.0.0",
         "@types/react-content-loader": "^4.0.0",
         "@types/react-toastify": "^4.1.0",
-        "@types/react-type-animation": "^1.1.1"
+        "@types/react-type-animation": "^1.1.1",
+        "eslint": "^8.39.0"
     }
 }

@@ -45,7 +45,7 @@ const PrivacyPolicy: FC = () => {
                         fontSize: 13,
                     }}
                 >
-                    Last Updated: 4/26/23
+                    Last Updated: 4/27/23
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 3 }}>
                     Introduction:{" "}

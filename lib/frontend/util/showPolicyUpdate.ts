@@ -5,7 +5,7 @@ import fetchCurrentVersion from "./fetchCurrentVersion"
 const showPolicyUpdate = () => {
     if (typeof window !== "undefined" && window.localStorage) {
         if (!localStorage.getItem("privacy_visited")) {
-            return false
+            return true
         }
         const visitedDate = DateTime.fromISO(
             localStorage.getItem("privacy_visited")
