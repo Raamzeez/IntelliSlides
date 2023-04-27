@@ -28,12 +28,12 @@ const VersionOption: FC<iProps> = ({
             onClick={() => onClickHandler({ version, isBeta, date, data })}
         >
             <Col lg={8} className="center-container">
-                <p style={{ margin: 0 }}>{`Version ${version} ${
+                <p className="no-margin">{`Version ${version} ${
                     isBeta && "- BETA"
                 }`}</p>
             </Col>
             <Col lg={4} className="center-container">
-                <p style={{ margin: 0 }}>
+                <p className="no-margin">
                     {date.toLocaleString().split(",")[0]}
                 </p>
             </Col>

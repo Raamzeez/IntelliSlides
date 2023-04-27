@@ -8,12 +8,7 @@ import {
     Pagination,
     Row,
 } from "react-bootstrap"
-import {
-    googleLogout,
-    useGoogleLogin,
-    CodeResponse,
-    GoogleLogin,
-} from "@react-oauth/google"
+import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
 import { toast, ToastContainer } from "react-toastify"
 import { CircleLoader } from "react-spinners"
 import { AxiosError } from "axios"

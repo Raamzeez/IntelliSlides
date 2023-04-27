@@ -9,7 +9,7 @@ import VersionOption from "../components/VersionOption"
 import BackArrow from "../components/BackArrow"
 
 const Versions: FC = () => {
-    const { width } = useWindowDimensions()
+    const { height, width } = useWindowDimensions()
 
     const [activeVersion, setActiveVersion] = useState<iVersion | null>(null)
     const [index, setIndex] = useState(0)
@@ -21,6 +21,27 @@ const Versions: FC = () => {
     const onClickHandler = (version) => {
         setActiveVersion(version)
         setIndex(0)
+    }
+
+    const useSmallStyling = () => {
+        if (width > 992) {
+            if (height < 600) {
+                return true
+            }
+        } else {
+            if (height < 600) {
+                return true
+            }
+        }
+        return false
+    }
+
+    const marginTopStyle = () => {
+        if (useSmallStyling()) {
+            const marginTop = -135 + height / 2
+            return { marginTop }
+        }
+        return {}
     }
 
     return (
@@ -74,26 +95,36 @@ const Versions: FC = () => {
                                     {activeVersion.data.map(
                                         (update: iUpdate, index: number) => {
                                             return (
-                                                <Carousel.Item key={index}>
-                                                    <div className="version-carousel-item center-column">
+                                                <Carousel.Item
+                                                    key={index}
+                                                    className="version-carousel-item"
+                                                >
+                                                    <div
+                                                        className={`fill-parent ${
+                                                            !useSmallStyling()
+                                                                ? "center-column"
+                                                                : "justify-container"
+                                                        }`}
+                                                        style={marginTopStyle()}
+                                                    >
                                                         <FontAwesomeIcon
                                                             icon={update.icon}
                                                             size="4x"
                                                         />
-                                                        <div className="version-text-container manrope">
-                                                            <h3>
+                                                        <Carousel.Caption className="manrope">
+                                                            <h4>
                                                                 {update.title}
-                                                            </h3>
+                                                            </h4>
                                                             <p
                                                                 style={{
-                                                                    fontSize: 17,
+                                                                    fontSize: 15,
                                                                 }}
                                                             >
                                                                 {
                                                                     update.description
                                                                 }
                                                             </p>
-                                                        </div>
+                                                        </Carousel.Caption>
                                                     </div>
                                                 </Carousel.Item>
                                             )

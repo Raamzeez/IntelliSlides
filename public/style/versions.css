@@ -36,10 +36,9 @@
     height: 80vh;
 }
 
-.version-text-container {
-    position: absolute;
-    bottom: 50px;
-    margin: 20px;
+.small-screen-icon {
+    display: flex;
+    justify-content: center;
 }
 
 .back-arrow {
