@@ -12,7 +12,7 @@ const versions: iVersion[] = [
     {
         version: "1.0.1",
         isBeta: true,
-        date: new Date("2023-4-27"),
+        date: new Date("2023-04-27T18:13:00"),
         data: [
             {
                 icon: faInfoCircle,
@@ -62,7 +62,7 @@ const versions: iVersion[] = [
     {
         version: "1.0.0",
         isBeta: true,
-        date: new Date("2023-4-6"),
+        date: new Date("2023-04-06T23:01:00"),
         data: [
             {
                 icon: faDoorOpen,

@@ -7,14 +7,15 @@ import { SSRProvider } from "react-bootstrap"
 import React from "react"
 import Head from "next/head"
 
-//Library CSS
+// //Library CSS
 import "react-toastify/dist/ReactToastify.css"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 
-//Bootstrap CSS
+// //Bootstrap CSS
 import "../styles/bootstrap.min.quartz.css"
+// import "bootstrap/dist/css/bootstrap.min.css"
 
-//Custom CSS
+// //Custom CSS
 import "../styles/index.css"
 import "../styles/fonts.css"
 import "../styles/backgrounds.css"

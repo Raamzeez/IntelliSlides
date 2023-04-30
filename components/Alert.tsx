@@ -25,13 +25,18 @@ const Alert: FC<iProps> = ({
         fontSize: number
         icon: { fontSize: number; top: number; right: number }
     } => {
-        if (width <= 300) {
+        if (width <= 320) {
+            return {
+                fontSize: 8,
+                icon: { fontSize: 10, top: 18, right: 10 },
+            }
+        } else if (width <= 400) {
             return { fontSize: 8, icon: { fontSize: 13, top: 18, right: 10 } }
         } else if (width <= 480) {
             return { fontSize: 10, icon: { fontSize: 13, top: 18, right: 10 } }
         } else if (width <= 550) {
             return { fontSize: 12, icon: { fontSize: 15, top: 18, right: 15 } }
-        } else if (width <= 600) {
+        } else if (width <= 650) {
             return {
                 fontSize: 14,
                 icon: { fontSize: 17.5, top: 15, right: 30 },
@@ -39,13 +44,6 @@ const Alert: FC<iProps> = ({
         } else {
             return { fontSize: 16, icon: { fontSize: 20, top: 15, right: 30 } }
         }
-    }
-
-    const widthStyle = () => {
-        if (width > 1220) {
-            return {}
-        }
-        return { width: "80%" }
     }
 
     return (
@@ -68,7 +66,6 @@ const Alert: FC<iProps> = ({
                 style={{
                     fontSize: alertStyling().fontSize,
                     marginTop: 10,
-                    ...widthStyle(),
                 }}
                 className={`${onClickHandler && "pointer"}`}
                 onClick={onClickHandler}
