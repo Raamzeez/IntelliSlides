@@ -26,14 +26,15 @@ const Profile: FC<iProps> = ({
 
     https: return (
         <div
-            className={showLogout ? (width > 992 ? "profile" : "") : ""}
+            className={
+                showLogout
+                    ? width > 992
+                        ? "profile center-column"
+                        : "center-column"
+                    : "center-column"
+            }
             style={{
                 height: showLogout ? (width > 992 ? 197.5 : 170) : 100,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                // ...rightPosition
             }}
         >
             <Image

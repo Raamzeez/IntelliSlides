@@ -25,12 +25,7 @@ const Alert: FC<iProps> = ({
         fontSize: number
         icon: { fontSize: number; top: number; right: number }
     } => {
-        if (width <= 320) {
-            return {
-                fontSize: 8,
-                icon: { fontSize: 10, top: 18, right: 10 },
-            }
-        } else if (width <= 400) {
+        if (width <= 400) {
             return { fontSize: 8, icon: { fontSize: 13, top: 18, right: 10 } }
         } else if (width <= 480) {
             return { fontSize: 10, icon: { fontSize: 13, top: 18, right: 10 } }
@@ -56,16 +51,13 @@ const Alert: FC<iProps> = ({
                 top: 0,
                 height: 50,
                 width: "100vw",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
             }}
-            className={`shadow animate__animated animate__fadeInDown ${className}`}
+            className={`center-container shadow animate__animated animate__fadeInDown ${className}`}
         >
             <p
                 style={{
                     fontSize: alertStyling().fontSize,
-                    marginTop: 10,
+                    margin: 10,
                 }}
                 className={`${onClickHandler && "pointer"}`}
                 onClick={onClickHandler}
@@ -77,8 +69,9 @@ const Alert: FC<iProps> = ({
                 className="pointer"
                 style={{
                     color: "white",
-                    position: "absolute",
+                    position: width <= 1000 ? "static" : "absolute",
                     ...alertStyling().icon,
+                    margin: width <= 1000 ? 20 : 0,
                 }}
                 onClick={onCloseHandler}
             />

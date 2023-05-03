@@ -1,5 +1,5 @@
 import { NextApiResponse } from "next/types"
-import categories from "../data/categories"
+import categories from "../constants/categories"
 import Category from "../types/category"
 
 const errorChecks = (

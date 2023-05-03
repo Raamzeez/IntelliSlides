@@ -30,7 +30,7 @@ const versions: iVersion[] = [
                 icon: faBugSlash,
                 title: "Category Incorrectly Disabled",
                 description:
-                    "Fixed a bug where users would not be able to choose a category even if the 'Auto' button was not enabled.",
+                    "Fixed a bug where users would not be able to choose a category even if the 'Auto' button was disabled.",
             },
             {
                 icon: faBugSlash,

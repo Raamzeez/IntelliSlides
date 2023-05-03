@@ -10,7 +10,6 @@ const api = axios.create({
             localStorage.getItem("id_token")
         }`,
     },
-    timeout: 10000,
 })
 
 export default api

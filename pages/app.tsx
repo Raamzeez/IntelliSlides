@@ -140,12 +140,6 @@ const App: FC = () => {
         const fetchUser = async () => {
             try {
                 if (localStorage.getItem("id_token")) {
-                    // setState({
-                    //     ...state,
-                    //     showBetaAlert,
-                    //     showPrivacyAlert,
-                    //     auto,
-                    // })
                     const response = await api.get("/user/userInfo")
                     setState({ ...state, profileLoading: false })
                     if (response.status !== 200) {
@@ -311,8 +305,7 @@ const App: FC = () => {
         for (const title of titles) {
             const slideDetailsResponse = await api.post(
                 "/presentation/slideDetails",
-                { ...state, title },
-                { timeout: 400000 }
+                { ...state, title }
             )
             const slideDetailsError = errorHandler(
                 slideDetailsResponse,
@@ -398,8 +391,7 @@ const App: FC = () => {
             })
             const titlesResponse = await api.post(
                 "/presentation/slideTitles",
-                state,
-                { timeout: 10000 }
+                state
             )
             const titlesError = errorHandler(titlesResponse, state, logout, {
                 loading: "SlideTitles",
@@ -435,8 +427,7 @@ const App: FC = () => {
             }
             const presentationResponse = await api.post(
                 "/presentation/createPresentation",
-                data,
-                { timeout: 180000 }
+                data
             )
             const presentationData = presentationResponse.data as iPresentation
             const presentationError = errorHandler(
@@ -593,29 +584,23 @@ const App: FC = () => {
                             />
                             <div
                                 style={{
-                                    position:
-                                        width > 800 ? "absolute" : "relative",
-                                    right: width > 800 ? 30 : 0,
                                     top:
-                                        width > 800
+                                        width >= 850
                                             ? state.showBetaAlert ||
                                               state.showPrivacyAlert
                                                 ? 70
                                                 : 20
                                             : 0,
-                                    margin: width > 800 ? 0 : 20,
-                                    transition: "all 0.5s ease",
                                 }}
-                                className={!user ? "shadow" : ""}
+                                className={`top-right-container ${
+                                    !user && "shadow"
+                                }`}
                             >
                                 {state.profileLoading ? (
                                     <CircleLoader size={50} color={"#36d7b7"} />
                                 ) : (
                                     <>
                                         {!user && (
-                                            // <LoginButton
-                                            //     onClickHandler={onLogin}
-                                            // />
                                             <GoogleButton onClick={onLogin} />
                                         )}
                                         {user && (
@@ -658,7 +643,7 @@ const App: FC = () => {
                                         })
                                     }
                                 />
-                                <Row style={{}}>
+                                <Row>
                                     <InfoIcon
                                         style={{
                                             marginTop: width > 2000 ? 18 : 10,
@@ -921,7 +906,6 @@ const App: FC = () => {
                     <Footer
                         isLoading={state.submit}
                         onClickHandler={onShowVersion}
-                        // onClickHandler={() => navigate("/versions")}
                     />
                 </>
             </Container>
