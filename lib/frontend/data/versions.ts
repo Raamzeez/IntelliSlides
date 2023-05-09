@@ -1,8 +1,8 @@
 import {
+    faBolt,
     faBugSlash,
     faDoorOpen,
     faFileContract,
-    faInfoCircle,
     faMobile,
     faPager,
 } from "@fortawesome/free-solid-svg-icons"
@@ -12,11 +12,11 @@ const versions: iVersion[] = [
     {
         version: "1.0.1",
         isBeta: true,
-        date: new Date("2023-04-27T18:13:00"),
+        date: new Date("2023-05-10T18:00:00"),
         data: [
             {
-                icon: faInfoCircle,
-                title: "Favicon",
+                icon: faBugSlash,
+                title: "Favicon Render",
                 description:
                     "Fixed an issue where the favicon would not render for the site.",
             },
@@ -37,6 +37,12 @@ const versions: iVersion[] = [
                 title: "Banner Not Disappearing",
                 description:
                     "Fixed a bug where the banner on the app page would return upon page refresh.",
+            },
+            {
+                icon: faBolt,
+                title: "Faster Processing",
+                description:
+                    "Changed text model so that the creation process is substantially quicker",
             },
             {
                 icon: faMobile,

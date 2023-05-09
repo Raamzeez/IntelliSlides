@@ -107,13 +107,13 @@
 }
 
 
-.autoButton {
+.auto-button {
     background-color: white;
     color: black;
     border: 2px solid #008CBA;
 }
 
-.autoButton:active {
+.auto-button:active {
     background-color: #008CBA;
     color: white;
     box-shadow: 0 4px #656565;

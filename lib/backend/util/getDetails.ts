@@ -19,7 +19,7 @@ const getDetails = async (
             title
         )
         const completion = await openai.createCompletion({
-            model: "text-davinci-003",
+            model: "text-davinci-002",
             prompt: question,
             max_tokens: 300,
         })

@@ -34,7 +34,6 @@ import iPresentation from "../lib/frontend/models/presentation"
 import iSlideInfo from "../lib/shared/models/slideInfo"
 
 //Types
-import Model from "../lib/frontend/types/model"
 import Category from "../lib/frontend/types/category"
 import LoadingType from "../lib/frontend/types/loading"
 
@@ -76,7 +75,6 @@ interface iState {
     slideCount: number
     images: boolean
     sources: boolean
-    model: Model
     submit: boolean
     profileLoading: boolean
     loading: LoadingType | null
@@ -112,7 +110,6 @@ const App: FC = () => {
         slideCount: 5,
         images: false,
         sources: false,
-        model: "text-davinci-003",
         submit: false,
         loading: null,
         profileLoading: true,
@@ -757,7 +754,7 @@ const App: FC = () => {
                                     </Col>
                                     <Col className="center-container">
                                         <div
-                                            className="auto autoButton"
+                                            className="auto auto-button prevent-select"
                                             style={{
                                                 position: "relative",
                                                 bottom: 4,
