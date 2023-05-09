@@ -21,6 +21,7 @@
 }
 
 .version-carousel-container {
+    min-height: 400px;
     height: 80vh;
     width: 100%;
     border-radius: 10px;
@@ -28,6 +29,7 @@
 }
 
 .version-carousel {
+    min-height: 400px;
     height: 80vh;
     width: 100%;
 }

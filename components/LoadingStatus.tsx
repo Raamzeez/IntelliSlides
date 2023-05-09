@@ -165,36 +165,40 @@ const LoadingStatus: FC<iProps> = ({
     const { height, width } = useWindowDimensions()
 
     return (
-        <div
-            style={{
-                borderRadius: 20,
-                position: width < 850 || height < 600 ? "relative" : "absolute",
-                right: width < 850 || height < 600 ? 0 : 50,
-                border: "none",
-                flexDirection: width < 850 || height < 600 ? "row" : "column",
-                ...style,
-            }}
-            className="center-container animate__animated animate__fadeInRight animate__fast"
-        >
-            {width > 600 &&
-                height > 500 &&
-                loadingStatuses.map((status, index) => {
-                    return (
-                        <StatusElement
-                            key={index}
-                            text={status.message}
-                            loadingStatus={status.type}
-                            category={category}
-                            status={getStatus(
-                                status.type,
-                                loadingStatus,
-                                error
-                            )}
-                            contentLoader={status.contentLoader}
-                        />
-                    )
-                })}
-        </div>
+        <>
+            <div
+                style={{
+                    borderRadius: 20,
+                    position:
+                        width < 850 || height < 600 ? "relative" : "absolute",
+                    right: width < 850 || height < 600 ? 0 : 50,
+                    border: "none",
+                    flexDirection:
+                        width < 850 || height < 600 ? "row" : "column",
+                    ...style,
+                }}
+                className="center-container animate__animated animate__fadeInRight animate__fast"
+            >
+                {width > 600 &&
+                    height > 500 &&
+                    loadingStatuses.map((status, index) => {
+                        return (
+                            <StatusElement
+                                key={index}
+                                text={status.message}
+                                loadingStatus={status.type}
+                                category={category}
+                                status={getStatus(
+                                    status.type,
+                                    loadingStatus,
+                                    error
+                                )}
+                                contentLoader={status.contentLoader}
+                            />
+                        )
+                    })}
+            </div>
+        </>
     )
 }
 

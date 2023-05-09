@@ -112,6 +112,8 @@ const App: FC = () => {
         sources: false,
         submit: false,
         loading: null,
+        // submit: true,
+        // loading: "CreatePresentation",
         profileLoading: true,
         warning: null,
         error: null,
@@ -217,7 +219,7 @@ const App: FC = () => {
         if (typeof window !== "undefined" && window.localStorage) {
             localStorage.removeItem("id_token")
         }
-        toast.success("Successfully logged out user!")
+        // toast.success("Successfully logged out user!")
     }
 
     const onDeleteHandler = () => {

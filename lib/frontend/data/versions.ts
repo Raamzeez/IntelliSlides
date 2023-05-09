@@ -42,7 +42,7 @@ const versions: iVersion[] = [
                 icon: faBolt,
                 title: "Faster Processing",
                 description:
-                    "Changed text model so that the creation process is substantially quicker",
+                    "Changed text model so that the creation process is substantially quicker, with about a 35% improvement!",
             },
             {
                 icon: faMobile,

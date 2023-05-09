@@ -25,11 +25,11 @@ const Versions: FC = () => {
 
     const useSmallStyling = () => {
         if (width > 992) {
-            if (height < 600) {
+            if (height < 700) {
                 return true
             }
         } else {
-            if (height < 600) {
+            if (height < 700) {
                 return true
             }
         }
@@ -117,7 +117,12 @@ const Versions: FC = () => {
                                                             </h4>
                                                             <p
                                                                 style={{
-                                                                    fontSize: 15,
+                                                                    fontSize:
+                                                                        width >
+                                                                        600
+                                                                            ? 15
+                                                                            : width /
+                                                                              50,
                                                                 }}
                                                             >
                                                                 {
