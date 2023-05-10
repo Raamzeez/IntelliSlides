@@ -1,5 +1,8 @@
 .presentation-card {
-    height: 150px;
-    width: 150px;
-    background-color: white;
+    background-color: black;
+    opacity: 0;
+}
+
+.presentation-card:hover {
+    opacity: 0.5;
 }

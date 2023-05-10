@@ -8,7 +8,8 @@ export default authenticatedHandler(async (req, res) => {
         await dbConnect()
         const _id = idTokenToMongoID(req)
         const foundUser = await userDB.findOne({ _id })
-        return foundUser.presentations
+        console.log(JSON.stringify(foundUser.presentations))
+        return res.status(200).send(foundUser.presentations)
     } catch (err) {
         console.error(err)
         return res
