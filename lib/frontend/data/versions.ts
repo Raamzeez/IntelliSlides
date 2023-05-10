@@ -12,7 +12,7 @@ const versions: iVersion[] = [
     {
         version: "1.0.1",
         isBeta: true,
-        date: new Date("2023-05-09T23:00:00"),
+        date: new Date("2023-05-09T22:00:00"),
         data: [
             {
                 icon: faBugSlash,
