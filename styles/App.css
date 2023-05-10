@@ -231,3 +231,20 @@
     right: 15px;
 }
 
+.sidebar {
+    height: 85vh;
+    width: 100px;
+    background-color: rgba(169, 169, 169, 0.278) ;
+    position: absolute;
+    left: 0px;
+    top: 50px;
+}
+
+.sidebar-option {
+    height: 60px;
+    width: 60px;
+    border-radius: 15px;
+    background-color: black;
+    margin: 20px;
+}
+

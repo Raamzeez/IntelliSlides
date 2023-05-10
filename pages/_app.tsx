@@ -24,6 +24,7 @@ import "../styles/App.css"
 import "../styles/home.css"
 import "../styles/privacy.css"
 import "../styles/versions.css"
+import "../styles/presentations.css"
 
 config.autoAddCss = false
 

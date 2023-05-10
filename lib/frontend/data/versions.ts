@@ -10,6 +10,12 @@ import iVersion from "../models/version"
 
 const versions: iVersion[] = [
     {
+        version: "1.0.2",
+        isBeta: true,
+        date: new Date("2023-05-16T12:00:00"),
+        data: [],
+    },
+    {
         version: "1.0.1",
         isBeta: true,
         date: new Date("2023-05-09T22:00:00"),

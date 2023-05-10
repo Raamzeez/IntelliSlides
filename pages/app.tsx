@@ -56,6 +56,7 @@ import Profile from "../components/Profile"
 import Result from "../components/Result"
 import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
+import Sidebar from "../components/Sidebar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 
@@ -535,7 +536,10 @@ const App: FC = () => {
                     {state.showDeleteModal && (
                         <DeleteModal
                             onCloseHandler={() =>
-                                setState({ ...state, showDeleteModal: false })
+                                setState({
+                                    ...state,
+                                    showDeleteModal: false,
+                                })
                             }
                             onConfirmHandler={deleteUser}
                         />
@@ -601,6 +605,7 @@ const App: FC = () => {
                     )}
                     {!state.submit && (
                         <>
+                            <Sidebar />
                             <BannerLogo
                                 adaptiveStyling={true}
                                 height={height}

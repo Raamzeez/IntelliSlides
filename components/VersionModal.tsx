@@ -55,7 +55,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                                 color: "skyblue",
                             }}
                         >
-                            Last Updated: 5/9/23
+                            Last Updated: 5/16/23
                         </p>
                     </Col>
                     <Col className="center-container">
