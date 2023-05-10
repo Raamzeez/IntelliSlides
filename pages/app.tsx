@@ -56,6 +56,8 @@ import Profile from "../components/Profile"
 import Result from "../components/Result"
 import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUser } from "@fortawesome/free-solid-svg-icons"
 
 //State Object Interface
 interface iState {
@@ -121,12 +123,20 @@ const App: FC = () => {
 
     const router = useRouter()
 
+    // const handleRefresh = () => {
+    //     console.log("handle refresh")
+    //     if (state.loading && typeof window !== "undefined") {
+    //         const newURL =
+    //             window.location.pathname + "?refreshed_on_loading=true"
+    //         window.history.replaceState(null, "", newURL)
+    //     }
+    // }
+
     useEffect(() => {
         localStorage.setItem("visited", DateTime.now().toISO() as string)
         let showBetaAlert = false
         let showPrivacyAlert = false
         let auto = false
-        //Fix state setting issues in useEffect
         if (sessionStorage.getItem("showAlert") !== "false") {
             showBetaAlert = true
         }
@@ -177,6 +187,12 @@ const App: FC = () => {
             }
         }
         fetchUser()
+
+        // window.addEventListener("beforeunload", handleRefresh)
+
+        // return () => {
+        //     window.removeEventListener("beforeunload", handleRefresh)
+        // }
     }, [])
 
     const login = async (
@@ -492,6 +508,13 @@ const App: FC = () => {
         return true
     }
 
+    const showFooter = () => {
+        if (state.loading || (!state.loading && state.submit)) {
+            return false
+        }
+        return true
+    }
+
     return (
         <>
             <Container fluid className="App">
@@ -526,18 +549,20 @@ const App: FC = () => {
                             message={state.warning}
                         />
                     )}
-                    {state.showBetaAlert && !state.showPrivacyAlert && (
-                        <>
-                            <Alert
-                                text="This is a Public Beta Release - Please be aware that there may
+                    {state.showBetaAlert &&
+                        !state.showPrivacyAlert &&
+                        showFooter() && (
+                            <>
+                                <Alert
+                                    text="This is a Public Beta Release - Please be aware that there may
                         be bugs and issues! We are actively working on improvements."
-                                className="betaAlertBackground"
-                                isLoading={state.submit}
-                                onCloseHandler={() => onHideAlert("beta")}
-                            />
-                        </>
-                    )}
-                    {state.showPrivacyAlert && (
+                                    className="betaAlertBackground"
+                                    isLoading={state.submit}
+                                    onCloseHandler={() => onHideAlert("beta")}
+                                />
+                            </>
+                        )}
+                    {state.showPrivacyAlert && showFooter() && (
                         <>
                             <Alert
                                 text="We have made changes to our privacy policy! Click here to see them."
@@ -813,62 +838,87 @@ const App: FC = () => {
                                 <Button
                                     type={!user ? "secondary" : "success"}
                                     value={!user ? "Sign In" : "Submit"}
-                                    // type={"success"}
-                                    // value={"Submit"}
                                     onClickHandler={
                                         !user
                                             ? onLogin
                                             : () => onSubmitHandler(false)
                                     }
-                                    // onClickHandler={login}
                                     disabled={disable()}
                                     style={{
                                         marginTop: height > 800 ? 30 : 0,
                                         marginBottom: 30,
                                     }}
                                     textStyle={{ fontSize: 17 }}
-                                    // textStyle={{ fontSize: 17 }}
                                 />
                             </div>
                         </>
                     )}
-                    {/* {state.submit && state.loading && !state.error && ( */}
-                    {state.submit && state.loading && !state.error && user && (
+                    {state.submit && state.loading && !state.error && (
                         <>
-                            <div
-                                style={{
-                                    position:
-                                        width > 600 ? "absolute" : "relative",
-                                    left: width > 600 ? 30 : 0,
-                                    top:
-                                        width > 600
-                                            ? state.showBetaAlert ||
-                                              state.showPrivacyAlert
-                                                ? "9vh"
-                                                : 20
-                                            : 0,
-                                    transition: "all 0.5s ease",
-                                }}
-                            >
-                                <Profile
-                                    imageURL={user.picture}
-                                    email={user.email}
-                                    name={user.name}
-                                    showLogout={false}
-                                    onLogoutHandler={logout}
-                                    onDeleteHandler={onDeleteHandler}
-                                />
-                            </div>
-                            <Loading
-                                loadingStatus={state.loading}
-                                error={state.error}
-                                topic={state.topic}
-                                title={state.title}
-                                category={state.category}
-                                auto={state.auto}
-                                slideCount={state.slideCount}
-                                onClickHandler={onCancelHandler}
-                            />
+                            {user ? (
+                                <>
+                                    <div
+                                        style={{
+                                            position:
+                                                width > 600
+                                                    ? "absolute"
+                                                    : "relative",
+                                            left: width > 600 ? 30 : 0,
+                                            top:
+                                                width > 600
+                                                    ? state.showBetaAlert ||
+                                                      state.showPrivacyAlert
+                                                        ? "9vh"
+                                                        : 20
+                                                    : 0,
+                                            transition: "all 0.5s ease",
+                                        }}
+                                    >
+                                        <Profile
+                                            imageURL={user.picture}
+                                            email={user.email}
+                                            name={user.name}
+                                            showLogout={false}
+                                            onLogoutHandler={logout}
+                                            onDeleteHandler={onDeleteHandler}
+                                        />
+                                    </div>
+                                    <Loading
+                                        loadingStatus={state.loading}
+                                        error={state.error}
+                                        topic={state.topic}
+                                        title={state.title}
+                                        category={state.category}
+                                        auto={state.auto}
+                                        slideCount={state.slideCount}
+                                        onClickHandler={onCancelHandler}
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <FontAwesomeIcon
+                                        icon={faUser}
+                                        size="4x"
+                                        className="shadow"
+                                        color="dodgerblue"
+                                    />
+                                    <h4 style={{ marginTop: 30 }}>
+                                        User Authentication Required
+                                    </h4>
+                                    <Button
+                                        style={{ marginTop: 50 }}
+                                        type="secondary"
+                                        value="Home"
+                                        onClickHandler={() =>
+                                            setState({
+                                                ...state,
+                                                submit: false,
+                                                loading: null,
+                                            })
+                                        }
+                                    />
+                                </>
+                            )}
                         </>
                     )}
                     {state.submit &&
@@ -902,10 +952,12 @@ const App: FC = () => {
                             }
                         />
                     )}
-                    <Footer
-                        isLoading={state.submit}
-                        onClickHandler={onShowVersion}
-                    />
+                    {showFooter() && (
+                        <Footer
+                            isLoading={state.submit}
+                            onClickHandler={onShowVersion}
+                        />
+                    )}
                 </>
             </Container>
         </>
