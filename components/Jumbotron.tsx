@@ -1,22 +1,14 @@
 import React, { FC } from "react"
 import { TypeAnimation } from "react-type-animation"
-import LearnMoreButton from "./LearnMoreButton"
 import JumbotronBackground from "../public/images/JumbotronBackground.png"
+import { Nav } from "react-bootstrap"
 
 const Jumbotron: FC = () => {
     return (
         <div
+            className="jumbotron"
             style={{
-                height: "88.5vh",
-                backgroundColor: "white",
-                width: "100vw",
                 backgroundImage: `url(${JumbotronBackground.src})`,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
             }}
         >
             <h2
@@ -41,14 +33,14 @@ const Jumbotron: FC = () => {
                 wrapper="div"
                 cursor={true}
                 repeat={Infinity}
-                style={{
-                    fontSize: 16,
-                    color: "white",
-                    margin: 20,
-                }}
-                className="inter"
+                className="typewriter-text inter"
             />
-            <LearnMoreButton />
+            <Nav.Link
+                className="learn-more-button pointer shadow"
+                href="#about"
+            >
+                <p className="learn-more-text poppins">Learn More</p>
+            </Nav.Link>
         </div>
     )
 }

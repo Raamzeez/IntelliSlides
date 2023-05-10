@@ -1,34 +1,42 @@
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { Container } from "react-bootstrap"
 import Button from "../components/Button"
-import Line from "../components/Line"
 import BannerLogo from "../components/BannerLogo"
+import { DateTime } from "luxon"
 
 const PrivacyPolicy: FC = () => {
     const router = useRouter()
 
+    const [highlighted, setHighlighted] = useState(false)
+
     const onContinueHandler = () => {
         router.back()
+    }
+
+    useEffect(() => {
+        localStorage.setItem(
+            "privacy_visited",
+            DateTime.now().toISO() as string
+        )
+        if (router.asPath === "/privacy#disclosure") {
+            setHighlighted(true)
+            setTimeout(() => {
+                setHighlighted(false)
+            }, 2000)
+        }
+    }, [])
+
+    const highlightedStyle = {
+        backgroundColor: highlighted ? "#05349c" : "",
     }
 
     return (
         <Container fluid className="App">
             <BannerLogo />
             <h5 style={{ color: "grey", marginBottom: 25 }}>Privacy Policy:</h5>
-            <div
-                style={{
-                    height: "60vh",
-                    width: "80vw",
-                    backgroundColor: "#414152",
-                    overflowY: "auto",
-                    display: "flex",
-                    justifyContent: "left",
-                    flexDirection: "column",
-                }}
-                className="shadow"
-            >
+            <div className="privacy shadow">
                 <p
                     style={{
                         marginLeft: "10%",
@@ -37,36 +45,22 @@ const PrivacyPolicy: FC = () => {
                         fontSize: 13,
                     }}
                 >
-                    Last Updated: 4/6/23
+                    Last Updated: 5/9/23
                 </p>
                 <h5 style={{ marginLeft: "10%", marginTop: 3 }}>
                     Introduction:{" "}
                 </h5>
-                <p
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
+                <p className="privacy-one-tab-text">
                     Intellislides is committed to protecting the privacy of our
                     users. This privacy policy describes what, how, and where we
                     we collect, use, and protect the personal information of our
                     users when they use our app.
                 </p>
-                <Line />
+                <div className="line" />
                 <h5 style={{ marginLeft: "10%", marginTop: 20 }}>
                     Types of Data Collected:
                 </h5>
-                <div
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
+                <div className="privacy-one-tab-text">
                     <p style={{ fontSize: 15 }}>
                         User ID -{" "}
                         <span style={{ textDecoration: "underline" }}>
@@ -113,10 +107,8 @@ const PrivacyPolicy: FC = () => {
                         <li>Slide Count - Stored in database</li>
                     </ul>
                 </div>
-                <Line />
-                <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
-                    Third-Party Services:
-                </h5>
+                <div className="line" />
+                <h5 className="privacy-heading">Third-Party Services:</h5>
                 <p
                     style={{
                         marginLeft: "15%",
@@ -169,18 +161,11 @@ const PrivacyPolicy: FC = () => {
                         information obtained for the slides with the OpenAI API.
                     </li>
                 </ul>
-                <Line />
+                <div className="line" />
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>
                     Data Sharing:
                 </h5>
-                <p
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
+                <p className="privacy-one-tab-text">
                     IntelliSlides utilizes a strict data sharing policy to
                     protect our users. We do not share any other data with third
                     party services with the exception of Google Analytics,
@@ -191,15 +176,37 @@ const PrivacyPolicy: FC = () => {
                     browsing activity which can be used for targeted
                     advertisements like other websites do.
                 </p>
-                <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Security</h5>
                 <p
+                    className="privacy-one-tab-text"
                     style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
+                        fontSize: 14,
+                        transition: "0.3s ease",
+                        ...highlightedStyle,
                     }}
+                    id="disclosure"
                 >
+                    Disclosure: IntelliSlides use and transfer to any other app
+                    of information received from Google APIs will adhere to
+                    <span
+                        style={{
+                            color: "dodgerblue",
+                            textDecoration: "underline",
+                            marginLeft: 5,
+                        }}
+                        className="pointer"
+                        onClick={() =>
+                            window.open(
+                                "https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes",
+                                "_blank"
+                            )
+                        }
+                    >
+                        Google API Services User Data Policy
+                    </span>
+                    , including the Limited Use requirements.
+                </p>
+                <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Security</h5>
+                <p className="privacy-one-tab-text">
                     IntelliSlides uses popular security techniques to ensure the
                     protection of our user's data.
                 </p>
@@ -226,7 +233,7 @@ const PrivacyPolicy: FC = () => {
                         Slides presentations for the user.
                     </li>
                 </ol>
-                <Line />
+                <div className="line" />
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>User Rights</h5>
                 <p
                     style={{
@@ -272,14 +279,7 @@ const PrivacyPolicy: FC = () => {
                     </p>
                 </ul>
                 <h5 style={{ marginLeft: "10%", marginTop: 5 }}>Updates</h5>
-                <p
-                    style={{
-                        marginLeft: "15%",
-                        width: "70%",
-                        marginTop: 20,
-                        fontSize: 12,
-                    }}
-                >
+                <p className="privacy-one-tab-text">
                     We may update this Privacy Policy from time to time, and any
                     updates will be posted on our website. We'll let you know
                     with a notification that will pop up the next time you visit

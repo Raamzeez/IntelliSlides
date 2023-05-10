@@ -1,13 +1,31 @@
-import React from "react"
-import Head from "next/head"
+//Libraries
+import { config } from "@fortawesome/fontawesome-svg-core"
 import { AppProps } from "next/app"
 import { GoogleOAuthProvider } from "@react-oauth/google"
-import "../public/style/index.css"
-import "../public/style/fonts.css"
-import "../public/style/App.css"
-import "../public/style/bootstrap.min.quartz.css"
-import "react-toastify/dist/ReactToastify.css"
 import { SSRProvider } from "react-bootstrap"
+
+import React from "react"
+import Head from "next/head"
+
+// //Library CSS
+import "react-toastify/dist/ReactToastify.css"
+import "@fortawesome/fontawesome-svg-core/styles.css"
+
+// //Bootstrap CSS
+import "../styles/bootstrap.min.quartz.css"
+// import "bootstrap/dist/css/bootstrap.min.css"
+
+// //Custom CSS
+import "../styles/index.css"
+import "../styles/fonts.css"
+import "../styles/backgrounds.css"
+
+import "../styles/App.css"
+import "../styles/home.css"
+import "../styles/privacy.css"
+import "../styles/versions.css"
+
+config.autoAddCss = false
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (

@@ -7,17 +7,12 @@ const getTopics = async (
     openai: OpenAIApi,
     category: Category,
     topic: string,
-    slideCount: number,
-    model:
-        | "text-davinci-003"
-        | "text-curie-001"
-        | "text-babbage-001"
-        | "text-ada-001"
+    slideCount: number
 ) => {
     try {
         const question = getPrompts("topic", category, slideCount, topic)
         const completion = await openai.createCompletion({
-            model,
+            model: "text-davinci-002",
             prompt: question,
             max_tokens: 300,
         })

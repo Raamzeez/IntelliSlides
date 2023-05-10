@@ -1,0 +1,105 @@
+.Home {
+  overflow-x: none;
+  background-color: hsl(220, 13%, 18%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.App {
+  overflow-x: none;
+  background-color: hsl(220, 13%, 18%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.justify-container {
+  display: flex;
+  justify-content: center;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.shadow {
+  box-shadow:
+      0 1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
+}
+
+.shadowHover:hover {
+  box-shadow:
+      0 1px 1px hsl(0deg 0% 0% / 0.075),
+      0 2px 2px hsl(0deg 0% 0% / 0.075),
+      0 4px 4px hsl(0deg 0% 0% / 0.075),
+      0 8px 8px hsl(0deg 0% 0% / 0.075),
+      0 16px 16px hsl(0deg 0% 0% / 0.075);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.underline:hover {
+  text-decoration: underline;
+}
+
+.line {
+  height: 3px;
+  width: 100%;
+  background-color: #0095ff;
+  opacity: 0.7;
+  margin: 5px;
+}
+
+.ease {
+  transition: 0.25s ease;
+}
+
+.no-margin {
+  margin: 0
+}
+
+.no-padding {
+  padding: 0
+}
+
+.fill-parent {
+  height: 100%;
+  width: 100%;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+}

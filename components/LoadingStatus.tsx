@@ -14,6 +14,7 @@ import Category from "../lib/frontend/types/category"
 import IconStatus from "../lib/frontend/types/iconStatus"
 import LoadingType from "../lib/frontend/types/loading"
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
+import getStatus from "../lib/frontend/util/getStatus"
 
 interface iProps {
     loadingStatus: LoadingType
@@ -154,33 +155,6 @@ const StatusElement: FC<StatusElementProps> = ({
     )
 }
 
-const getStatus = (
-    status: LoadingType,
-    loadingStatus: LoadingType,
-    error: iError | null
-) => {
-    if (error && loadingStatus === status) {
-        return "error"
-    }
-    if (loadingStatus === status) {
-        return "loading"
-    }
-    let loadingStatusIndex = 0
-    let statusIndex = 0
-    loadingStatuses.forEach((obj, index) => {
-        if (obj.type === loadingStatus) {
-            loadingStatusIndex = index
-        }
-        if (obj.type === status) {
-            statusIndex = index
-        }
-    })
-    if (loadingStatusIndex > statusIndex) {
-        return "success"
-    }
-    return "hold"
-}
-
 const LoadingStatus: FC<iProps> = ({
     loadingStatus,
     error,
@@ -191,40 +165,40 @@ const LoadingStatus: FC<iProps> = ({
     const { height, width } = useWindowDimensions()
 
     return (
-        <div
-            style={{
-                borderRadius: 20,
-                position: width < 850 || height < 600 ? "relative" : "absolute",
-                right: width < 850 || height < 600 ? 0 : 50,
-                border: "none",
-                // backgroundColor: "red",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: width < 850 || height < 600 ? "row" : "column",
-                ...style,
-            }}
-            className="animate__animated animate__fadeInRight animate__fast"
-        >
-            {width > 600 &&
-                height > 500 &&
-                loadingStatuses.map((status, index) => {
-                    return (
-                        <StatusElement
-                            key={index}
-                            text={status.message}
-                            loadingStatus={status.type}
-                            category={category}
-                            status={getStatus(
-                                status.type,
-                                loadingStatus,
-                                error
-                            )}
-                            contentLoader={status.contentLoader}
-                        />
-                    )
-                })}
-        </div>
+        <>
+            <div
+                style={{
+                    borderRadius: 20,
+                    position:
+                        width < 850 || height < 600 ? "relative" : "absolute",
+                    right: width < 850 || height < 600 ? 0 : 50,
+                    border: "none",
+                    flexDirection:
+                        width < 850 || height < 600 ? "row" : "column",
+                    ...style,
+                }}
+                className="center-container animate__animated animate__fadeInRight animate__fast"
+            >
+                {width > 600 &&
+                    height > 500 &&
+                    loadingStatuses.map((status, index) => {
+                        return (
+                            <StatusElement
+                                key={index}
+                                text={status.message}
+                                loadingStatus={status.type}
+                                category={category}
+                                status={getStatus(
+                                    status.type,
+                                    loadingStatus,
+                                    error
+                                )}
+                                contentLoader={status.contentLoader}
+                            />
+                        )
+                    })}
+            </div>
+        </>
     )
 }
 

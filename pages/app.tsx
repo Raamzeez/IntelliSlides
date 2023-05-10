@@ -1,11 +1,5 @@
+//Libraries
 import React, { FC, useEffect, useState } from "react"
-import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
-import TextInput from "../components/TextInput"
-// import Checkmark from "./components/Checkmark";
-import BannerLogo from "../components/BannerLogo"
-import Button from "../components/Button"
-import NumberInput from "../components/NumberInput"
-import api from "../lib/frontend/axios"
 import {
     Col,
     Container,
@@ -14,39 +8,61 @@ import {
     Pagination,
     Row,
 } from "react-bootstrap"
-import Image from "next/image"
+import { googleLogout, useGoogleLogin, CodeResponse } from "@react-oauth/google"
 import { toast, ToastContainer } from "react-toastify"
-import Loading from "../components/Loading"
-import iError from "../lib/frontend/models/error"
-import Warning from "../components/Warning"
+import { CircleLoader } from "react-spinners"
+import { AxiosError } from "axios"
+import { useRouter } from "next/router"
+import { DateTime } from "luxon"
 
+import jwtDecode from "jwt-decode"
+import GoogleButton from "react-google-button"
+
+//Axios
+import api from "../lib/frontend/axios"
+
+//Custom Utilities
+import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
+import showPolicyUpdate from "../lib/frontend/util/showPolicyUpdate"
+import errorMessage from "../lib/frontend/util/errorMessage"
+import errorHandler from "../lib/frontend/util/errorHandler"
+
+//Models
+import iError from "../lib/frontend/models/error"
+import iUser from "../lib/frontend/models/user"
+import iPresentation from "../lib/frontend/models/presentation"
+import iSlideInfo from "../lib/shared/models/slideInfo"
+
+//Types
+import Category from "../lib/frontend/types/category"
+import LoadingType from "../lib/frontend/types/loading"
+
+//Static Data
+import categories from "../lib/frontend/data/categories"
+
+//Custom Components
+import TextInput from "../components/TextInput"
+import BannerLogo from "../components/BannerLogo"
+import Button from "../components/Button"
+import NumberInput from "../components/NumberInput"
+import Loading from "../components/Loading"
+import Warning from "../components/Warning"
 import Footer from "../components/Footer"
 import Alert from "../components/Alert"
 import VersionModal from "../components/VersionModal"
 import InfoModal from "../components/InfoModal"
-import Model from "../lib/frontend/types/model"
-import AutoButton from "../components/AutoButton"
-import Category from "../lib/frontend/types/category"
-import categories from "../lib/frontend/data/categories"
-import LoadingType from "../lib/frontend/types/loading"
-import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import InfoIcon from "../components/InfoIcon"
 import Profile from "../components/Profile"
-import iUser from "../lib/frontend/models/user"
-
-import { CircleLoader } from "react-spinners"
-import jwtDecode from "jwt-decode"
-
-import iPresentation from "../lib/frontend/models/presentation"
-import isMobile from "../lib/frontend/util/isMobile"
 import Result from "../components/Result"
-import { AxiosError, AxiosResponse } from "axios"
 import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
-import GoogleButton from "react-google-button"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faUser } from "@fortawesome/free-solid-svg-icons"
 
+//State Object Interface
 interface iState {
-    showAlert: boolean
+    showBetaAlert: boolean
+    showPrivacyAlert: boolean
     showVersion: boolean
     showTopicTip: boolean
     showCategoryTip: boolean
@@ -61,7 +77,6 @@ interface iState {
     slideCount: number
     images: boolean
     sources: boolean
-    model: Model
     submit: boolean
     profileLoading: boolean
     loading: LoadingType | null
@@ -69,8 +84,9 @@ interface iState {
     error: iError | null
 }
 
+//Static Variables
 const topicTipMessage =
-    'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company called "Tesla Motors" instead of something else, such as the life of the individual konwn as Nikola Tesla.'
+    'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company called "Tesla Motors" instead of something else, such as the life of the individual known as Nikola Tesla.'
 const categoryTipMessage =
     'Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" may make the presentation discuss the events that unfolded. Select "Auto" if you want the program to choose what it believes is the most relevant category to the topic.'
 
@@ -80,7 +96,8 @@ const App: FC = () => {
     const [user, setUser] = useState<iUser | null>(null)
 
     const [state, setState] = useState<iState>({
-        showAlert: true,
+        showBetaAlert: false,
+        showPrivacyAlert: false,
         showVersion: false,
         showTopicTip: false,
         showCategoryTip: false,
@@ -95,47 +112,39 @@ const App: FC = () => {
         slideCount: 5,
         images: false,
         sources: false,
-        model: "text-davinci-003",
         submit: false,
         loading: null,
+        // submit: true,
+        // loading: "CreatePresentation",
         profileLoading: true,
         warning: null,
         error: null,
     })
 
-    const errorHandler = (response: AxiosResponse, customState?: any) => {
-        const setStateObject = {
-            ...state,
-            ...customState,
-            warning: null,
-            error: { status: response.status, message: response.data },
-        }
-        if (response.status !== 200) {
-            if (response.status === 401 || response.status === 403) {
-                logout()
-            }
-            return setStateObject
-        }
-    }
+    const router = useRouter()
 
-    const errorMessage = (err: AxiosError) => {
-        let errorMessage = (err as AxiosError).message
-        if (errorMessage === "Network Error") {
-            errorMessage +=
-                " - Unable to Reach Our Servers. Please try again later."
-        }
-        return errorMessage
-    }
+    // const handleRefresh = () => {
+    //     console.log("handle refresh")
+    //     if (state.loading && typeof window !== "undefined") {
+    //         const newURL =
+    //             window.location.pathname + "?refreshed_on_loading=true"
+    //         window.history.replaceState(null, "", newURL)
+    //     }
+    // }
 
     useEffect(() => {
-        if (sessionStorage.getItem("showAlert") === "false") {
-            setState({ ...state, showAlert: false })
+        localStorage.setItem("visited", DateTime.now().toISO() as string)
+        let showBetaAlert = false
+        let showPrivacyAlert = false
+        let auto = false
+        if (sessionStorage.getItem("showAlert") !== "false") {
+            showBetaAlert = true
         }
-        if (localStorage.getItem("showVersion") === "true") {
-            setState({ ...state, showVersion: true })
+        if (showPolicyUpdate()) {
+            showPrivacyAlert = true
         }
         if (localStorage.getItem("auto") === "true") {
-            setState({ ...state, auto: true })
+            auto = true
         }
         const fetchUser = async () => {
             try {
@@ -143,23 +152,47 @@ const App: FC = () => {
                     const response = await api.get("/user/userInfo")
                     setState({ ...state, profileLoading: false })
                     if (response.status !== 200) {
+                        setState({
+                            ...state,
+                            showBetaAlert,
+                            showPrivacyAlert,
+                            auto,
+                            profileLoading: false,
+                        })
                         setUser(null)
                         // errorToast("Session expired. Login again.")
                         return
                     }
+                    setState({
+                        ...state,
+                        showBetaAlert,
+                        showPrivacyAlert,
+                        auto,
+                        profileLoading: false,
+                    })
                     setUser(response.data)
                 } else {
-                    setState({ ...state, profileLoading: false })
+                    setState({
+                        ...state,
+                        showBetaAlert,
+                        showPrivacyAlert,
+                        auto,
+                        profileLoading: false,
+                    })
                     setUser(null)
                     return
                 }
             } catch (err) {
-                // console.error(err)
-                errorToast(errorMessage(err as AxiosError))
+                toast.error(errorMessage(err as AxiosError))
             }
         }
         fetchUser()
-        sessionStorage.setItem("visited", "true")
+
+        // window.addEventListener("beforeunload", handleRefresh)
+
+        // return () => {
+        //     window.removeEventListener("beforeunload", handleRefresh)
+        // }
     }, [])
 
     const login = async (
@@ -172,7 +205,6 @@ const App: FC = () => {
             setState({ ...state, profileLoading: true })
             const URL =
                 "/user/login?" + new URLSearchParams(tokenResponse).toString()
-            // try {
             const response = await api.get(URL, {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -183,28 +215,27 @@ const App: FC = () => {
             if (response.status !== 200) {
                 setUser(null)
                 return
-                // return console.error(response.data)
             }
             const id_token = response.data.id_token
             const { name, email, picture } = jwtDecode(id_token) as iUser
             setUser({ name, email, picture })
-            if (typeof localStorage !== "undefined") {
+            if (typeof window !== "undefined" && window.localStorage) {
                 localStorage.setItem("id_token", id_token)
             }
             api.defaults.headers.Authorization = `Bearer ${id_token}`
             return true
         } catch (err) {
-            errorToast(errorMessage(err as AxiosError))
+            toast.error(errorMessage(err as AxiosError))
         }
     }
 
     const logout = async () => {
         googleLogout()
         setUser(null)
-        if (typeof localStorage !== "undefined") {
+        if (typeof window !== "undefined" && window.localStorage) {
             localStorage.removeItem("id_token")
         }
-        successToast("Successfully logged out user!")
+        // toast.success("Successfully logged out user!")
     }
 
     const onDeleteHandler = () => {
@@ -224,10 +255,10 @@ const App: FC = () => {
                     profileLoading: false,
                     showDeleteModal: false,
                 })
-                errorToast(response.data)
+                toast.error(response.data)
             } else {
                 logout()
-                successToast("Successfully deleted user!")
+                toast.success("Successfully deleted user!")
             }
             setState({
                 ...state,
@@ -240,37 +271,77 @@ const App: FC = () => {
                 profileLoading: false,
                 showDeleteModal: false,
             })
-            return errorToast(errorMessage(err as AxiosError))
+            return toast.error(errorMessage(err as AxiosError))
         }
+    }
+
+    const onAutoClick = () => {
+        const activeStatus = !state.auto
+        setState({ ...state, auto: activeStatus })
+        if (typeof window !== "undefined" && window.localStorage) {
+            localStorage.setItem("auto", JSON.stringify(activeStatus))
+        }
+    }
+
+    const autoClickedStyle = () => {
+        if (state.auto) {
+            return {
+                backgroundColor: "#008CBA",
+                color: "white",
+                boxShadow: "0 4px #656565",
+                transform: "translateY(3px)",
+            }
+        }
+        return {}
     }
 
     const onLogin = useGoogleLogin({
         onSuccess: (tokenResponse) => {
             login(tokenResponse)
-            // onSubmitHandler();
-            // credentialStorage(tokenResponse);
         },
         ux_mode: "popup",
         flow: "auth-code",
         scope: "https://www.googleapis.com/auth/presentations",
     })
 
-    const onHideAlert = () => {
-        sessionStorage.setItem("showAlert", JSON.stringify(false))
-        setState({ ...state, showAlert: false })
+    const onHideAlert = (type: "beta" | "privacy") => {
+        if (typeof window !== "undefined" && window.sessionStorage) {
+            if (type === "beta") {
+                sessionStorage.setItem("showAlert", JSON.stringify(false))
+                setState({ ...state, showBetaAlert: false })
+            } else {
+                setState({ ...state, showPrivacyAlert: false })
+            }
+        }
     }
 
-    const errorToast = (message: string) => {
-        toast.error(message)
-    }
-
-    const successToast = (message: string) => {
-        toast.success(message)
+    const fetchSlideInfo = async (titles: string[]) => {
+        const slidesInfo: iSlideInfo[] = []
+        for (const title of titles) {
+            const slideDetailsResponse = await api.post(
+                "/presentation/slideDetails",
+                { ...state, title }
+            )
+            const slideDetailsError = errorHandler(
+                slideDetailsResponse,
+                state,
+                logout,
+                {
+                    loading: "SlideDetails",
+                    submit: true,
+                }
+            )
+            if (slideDetailsError) {
+                return setState(slideDetailsError)
+            }
+            slidesInfo.push({ title, facts: slideDetailsResponse.data })
+        }
+        return slidesInfo
     }
 
     const onSubmitHandler = async (confirm: boolean) => {
         if (disable()) {
-            return errorToast("Please fill out all required fields!")
+            return toast.error("Please fill out all required fields!")
         }
         if (confirm) {
             setState({ ...state, warning: null })
@@ -298,10 +369,15 @@ const App: FC = () => {
                 "/presentation/validateParameters",
                 state
             )
-            const parametersError = errorHandler(parametersResponse, {
-                loading: "ValidateParameters",
-                submit: true,
-            })
+            const parametersError = errorHandler(
+                parametersResponse,
+                state,
+                logout,
+                {
+                    loading: "ValidateParameters",
+                    submit: true,
+                }
+            )
             if (parametersError) {
                 return setState(parametersError)
             }
@@ -316,7 +392,7 @@ const App: FC = () => {
                 "/presentation/category",
                 state
             )
-            errorHandler(categoryResponse, {
+            errorHandler(categoryResponse, state, logout, {
                 loading: "FetchingCategory",
                 submit: true,
             })
@@ -330,10 +406,9 @@ const App: FC = () => {
             })
             const titlesResponse = await api.post(
                 "/presentation/slideTitles",
-                state,
-                { timeout: 10000 }
+                state
             )
-            const titlesError = errorHandler(titlesResponse, {
+            const titlesError = errorHandler(titlesResponse, state, logout, {
                 loading: "SlideTitles",
                 submit: true,
             })
@@ -348,18 +423,7 @@ const App: FC = () => {
                 loading: "SlideDetails",
                 warning: null,
             })
-            const slideDetailsResponse = await api.post(
-                "/presentation/slideDetails",
-                { ...state, titles: titlesResponse.data },
-                { timeout: 400000 }
-            )
-            const slideDetailsError = errorHandler(slideDetailsResponse, {
-                loading: "SlideDetails",
-                submit: true,
-            })
-            if (slideDetailsError) {
-                return setState(slideDetailsError)
-            }
+            const slidesInfo = await fetchSlideInfo(titlesResponse.data)
             //######################################################################//
             setState({
                 ...state,
@@ -369,22 +433,27 @@ const App: FC = () => {
                 loading: "CreatePresentation",
             })
             const data = {
-                slidesInfo: slideDetailsResponse.data,
+                slidesInfo,
                 accessToken:
-                    typeof localStorage !== "undefined" &&
+                    typeof window !== "undefined" &&
+                    window.localStorage &&
                     localStorage.getItem("access_token"),
                 ...state,
             }
             const presentationResponse = await api.post(
                 "/presentation/createPresentation",
-                data,
-                { timeout: 180000 }
+                data
             )
             const presentationData = presentationResponse.data as iPresentation
-            const presentationError = errorHandler(presentationResponse, {
-                loading: "CreatePresentation",
-                submit: true,
-            })
+            const presentationError = errorHandler(
+                presentationResponse,
+                state,
+                logout,
+                {
+                    loading: "CreatePresentation",
+                    submit: true,
+                }
+            )
             if (presentationError) {
                 return setState(presentationError)
             }
@@ -400,7 +469,6 @@ const App: FC = () => {
         } catch (err) {
             setState({
                 ...state,
-                // loading: "ValidateParameters",
                 submit: true,
                 warning: null,
                 error: {
@@ -413,11 +481,11 @@ const App: FC = () => {
 
     const onCancelHandler = () => {
         setState({ ...state, submit: false })
-        errorToast("Presentation generation was cancelled!")
+        toast.error("Presentation generation was cancelled!")
     }
 
     const onHideVersion = () => {
-        if (typeof localStorage !== "undefined") {
+        if (typeof window !== "undefined" && window.localStorage) {
             localStorage.setItem("showVersion", "false")
         }
         setState({ ...state, showVersion: false })
@@ -435,6 +503,13 @@ const App: FC = () => {
             categories.filter((category) => category === state.category)
                 .length === 1
         ) {
+            return false
+        }
+        return true
+    }
+
+    const showFooter = () => {
+        if (state.loading || (!state.loading && state.submit)) {
             return false
         }
         return true
@@ -474,12 +549,31 @@ const App: FC = () => {
                             message={state.warning}
                         />
                     )}
-
-                    {state.showAlert && (
-                        <Alert
-                            isLoading={state.submit}
-                            onCloseHandler={() => onHideAlert()}
-                        />
+                    {state.showBetaAlert &&
+                        !state.showPrivacyAlert &&
+                        showFooter() && (
+                            <>
+                                <Alert
+                                    text="This is a Public Beta Release - Please be aware that there may
+                        be bugs and issues! We are actively working on improvements."
+                                    className="betaAlertBackground"
+                                    isLoading={state.submit}
+                                    onCloseHandler={() => onHideAlert("beta")}
+                                />
+                            </>
+                        )}
+                    {state.showPrivacyAlert && showFooter() && (
+                        <>
+                            <Alert
+                                text="We have made changes to our privacy policy! Click here to see them."
+                                className="privacyAlertBackground"
+                                isLoading={state.submit}
+                                onCloseHandler={() => onHideAlert("privacy")}
+                                onClickHandler={() =>
+                                    router.push("/privacy#disclosure")
+                                }
+                            />
+                        </>
                     )}
                     {state.showVersion && (
                         <VersionModal onCloseHandler={onHideVersion} />
@@ -507,41 +601,6 @@ const App: FC = () => {
                     )}
                     {!state.submit && (
                         <>
-                            {/* <Row>
-                                <Col>
-                                    <h2
-                                        style={{
-                                            color: "white",
-                                            fontWeight: 500,
-                                            transition: "all 0.5s ease",
-                                            marginTop: isMobile(height, width)
-                                                ? 30
-                                                : 0,
-                                        }}
-                                        className="animate__animated animate__fadeIn animate__slow"
-                                    >
-                                        IntelliSlides
-                                    </h2>
-                                </Col>
-                                <Col>
-                                    {width >= 208 && (
-                                        <Image
-                                            src={require("../images/IntelliSlidesLogoTransparent.png")}
-                                            style={{
-                                                height: 50,
-                                                width: 50,
-                                                marginLeft: -10,
-                                                marginTop: isMobile(
-                                                    height,
-                                                    width
-                                                )
-                                                    ? 24
-                                                    : -4,
-                                            }}
-                                        />
-                                    )}
-                                </Col>
-                            </Row> */}
                             <BannerLogo
                                 adaptiveStyling={true}
                                 height={height}
@@ -549,28 +608,23 @@ const App: FC = () => {
                             />
                             <div
                                 style={{
-                                    position:
-                                        width > 800 ? "absolute" : "relative",
-                                    right: width > 800 ? 30 : 0,
                                     top:
-                                        width > 800
-                                            ? state.showAlert
+                                        width >= 850
+                                            ? state.showBetaAlert ||
+                                              state.showPrivacyAlert
                                                 ? 70
                                                 : 20
                                             : 0,
-                                    margin: width > 800 ? 0 : 20,
-                                    transition: "all 0.5s ease",
                                 }}
-                                className={!user ? "shadow" : ""}
+                                className={`top-right-container ${
+                                    !user && "shadow"
+                                }`}
                             >
                                 {state.profileLoading ? (
                                     <CircleLoader size={50} color={"#36d7b7"} />
                                 ) : (
                                     <>
                                         {!user && (
-                                            // <LoginButton
-                                            //     onClickHandler={onLogin}
-                                            // />
                                             <GoogleButton onClick={onLogin} />
                                         )}
                                         {user && (
@@ -613,7 +667,7 @@ const App: FC = () => {
                                         })
                                     }
                                 />
-                                <Row style={{}}>
+                                <Row>
                                     <InfoIcon
                                         style={{
                                             marginTop: width > 2000 ? 18 : 10,
@@ -633,14 +687,7 @@ const App: FC = () => {
                                             })
                                         }
                                     />
-                                    <Col
-                                        style={{
-                                            // backgroundColor: "blue",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                        }}
-                                    >
+                                    <Col className="center-container">
                                         <p
                                             style={{
                                                 fontSize: 15,
@@ -650,14 +697,7 @@ const App: FC = () => {
                                             Category:
                                         </p>
                                     </Col>
-                                    <Col
-                                        style={{
-                                            // backgroundColor: "red",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                        }}
-                                    >
+                                    <Col className="center-container">
                                         {width <= 2000 ? (
                                             <DropdownButton
                                                 key={"primary"}
@@ -739,22 +779,19 @@ const App: FC = () => {
                                             </Pagination>
                                         )}
                                     </Col>
-                                    <Col
-                                        style={{
-                                            // backgroundColor: "green",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <AutoButton
-                                            onClickHandler={() =>
-                                                setState({
-                                                    ...state,
-                                                    auto: !state.auto,
-                                                })
-                                            }
-                                        />
+                                    <Col className="center-container">
+                                        <div
+                                            className="auto auto-button prevent-select"
+                                            style={{
+                                                position: "relative",
+                                                bottom: 4,
+                                                left: width > 400 ? 7 : 0,
+                                                ...autoClickedStyle(),
+                                            }}
+                                            onClick={onAutoClick}
+                                        >
+                                            Auto
+                                        </div>
                                     </Col>
                                 </Row>
                                 <TextInput
@@ -801,61 +838,87 @@ const App: FC = () => {
                                 <Button
                                     type={!user ? "secondary" : "success"}
                                     value={!user ? "Sign In" : "Submit"}
-                                    // type={"success"}
-                                    // value={"Submit"}
                                     onClickHandler={
                                         !user
                                             ? onLogin
                                             : () => onSubmitHandler(false)
                                     }
-                                    // onClickHandler={login}
                                     disabled={disable()}
                                     style={{
                                         marginTop: height > 800 ? 30 : 0,
                                         marginBottom: 30,
                                     }}
                                     textStyle={{ fontSize: 17 }}
-                                    // textStyle={{ fontSize: 17 }}
                                 />
                             </div>
                         </>
                     )}
-                    {/* {state.submit && state.loading && !state.error && ( */}
-                    {state.submit && state.loading && !state.error && user && (
+                    {state.submit && state.loading && !state.error && (
                         <>
-                            <div
-                                style={{
-                                    position:
-                                        width > 600 ? "absolute" : "relative",
-                                    left: width > 600 ? 30 : 0,
-                                    top:
-                                        width > 600
-                                            ? state.showAlert
-                                                ? "9vh"
-                                                : 20
-                                            : 0,
-                                    transition: "all 0.5s ease",
-                                }}
-                            >
-                                <Profile
-                                    imageURL={user.picture}
-                                    email={user.email}
-                                    name={user.name}
-                                    showLogout={false}
-                                    onLogoutHandler={logout}
-                                    onDeleteHandler={onDeleteHandler}
-                                />
-                            </div>
-                            <Loading
-                                loadingStatus={state.loading}
-                                error={state.error}
-                                topic={state.topic}
-                                title={state.title}
-                                category={state.category}
-                                auto={state.auto}
-                                slideCount={state.slideCount}
-                                onClickHandler={onCancelHandler}
-                            />
+                            {user ? (
+                                <>
+                                    <div
+                                        style={{
+                                            position:
+                                                width > 600
+                                                    ? "absolute"
+                                                    : "relative",
+                                            left: width > 600 ? 30 : 0,
+                                            top:
+                                                width > 600
+                                                    ? state.showBetaAlert ||
+                                                      state.showPrivacyAlert
+                                                        ? "9vh"
+                                                        : 20
+                                                    : 0,
+                                            transition: "all 0.5s ease",
+                                        }}
+                                    >
+                                        <Profile
+                                            imageURL={user.picture}
+                                            email={user.email}
+                                            name={user.name}
+                                            showLogout={false}
+                                            onLogoutHandler={logout}
+                                            onDeleteHandler={onDeleteHandler}
+                                        />
+                                    </div>
+                                    <Loading
+                                        loadingStatus={state.loading}
+                                        error={state.error}
+                                        topic={state.topic}
+                                        title={state.title}
+                                        category={state.category}
+                                        auto={state.auto}
+                                        slideCount={state.slideCount}
+                                        onClickHandler={onCancelHandler}
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <FontAwesomeIcon
+                                        icon={faUser}
+                                        size="4x"
+                                        className="shadow"
+                                        color="dodgerblue"
+                                    />
+                                    <h4 style={{ marginTop: 30 }}>
+                                        User Authentication Required
+                                    </h4>
+                                    <Button
+                                        style={{ marginTop: 50 }}
+                                        type="secondary"
+                                        value="Home"
+                                        onClickHandler={() =>
+                                            setState({
+                                                ...state,
+                                                submit: false,
+                                                loading: null,
+                                            })
+                                        }
+                                    />
+                                </>
+                            )}
                         </>
                     )}
                     {state.submit &&
@@ -889,11 +952,12 @@ const App: FC = () => {
                             }
                         />
                     )}
-                    <Footer
-                        isLoading={state.submit}
-                        onClickHandler={onShowVersion}
-                        // onClickHandler={() => navigate("/versions")}
-                    />
+                    {showFooter() && (
+                        <Footer
+                            isLoading={state.submit}
+                            onClickHandler={onShowVersion}
+                        />
+                    )}
                 </>
             </Container>
         </>

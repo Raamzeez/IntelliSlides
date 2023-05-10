@@ -6,23 +6,32 @@ import { faX } from "@fortawesome/free-solid-svg-icons"
 
 interface iProps {
     isLoading: boolean
+    text: string
+    className: string
     onCloseHandler: () => void
+    onClickHandler?: () => void
 }
 
-const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
+const Alert: FC<iProps> = ({
+    isLoading,
+    text,
+    className,
+    onCloseHandler,
+    onClickHandler,
+}) => {
     const { height, width } = useWindowDimensions()
 
     const alertStyling = (): {
         fontSize: number
         icon: { fontSize: number; top: number; right: number }
     } => {
-        if (width <= 300) {
+        if (width <= 400) {
             return { fontSize: 8, icon: { fontSize: 13, top: 18, right: 10 } }
         } else if (width <= 480) {
             return { fontSize: 10, icon: { fontSize: 13, top: 18, right: 10 } }
         } else if (width <= 550) {
             return { fontSize: 12, icon: { fontSize: 15, top: 18, right: 15 } }
-        } else if (width <= 600) {
+        } else if (width <= 650) {
             return {
                 fontSize: 14,
                 icon: { fontSize: 17.5, top: 15, right: 30 },
@@ -30,13 +39,6 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
         } else {
             return { fontSize: 16, icon: { fontSize: 20, top: 15, right: 30 } }
         }
-    }
-
-    const widthStyle = () => {
-        if (width > 1220) {
-            return {}
-        }
-        return { width: "80%" }
     }
 
     return (
@@ -49,29 +51,27 @@ const Alert: FC<iProps> = ({ isLoading, onCloseHandler }) => {
                 top: 0,
                 height: 50,
                 width: "100vw",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
             }}
-            className="shadow animate__animated animate__fadeInDown alertBackground"
+            className={`center-container shadow animate__animated animate__fadeInDown ${className}`}
         >
             <p
                 style={{
                     fontSize: alertStyling().fontSize,
-                    marginTop: 10,
-                    ...widthStyle(),
+                    margin: 10,
                 }}
+                className={`${onClickHandler && "pointer"}`}
+                onClick={onClickHandler}
             >
-                This is a Public Beta Release - Please be aware that there may
-                be bugs and issues! We are actively working on improvements.
+                {text}
             </p>
             <FontAwesomeIcon
                 icon={faX}
                 className="pointer"
                 style={{
                     color: "white",
-                    position: "absolute",
+                    position: width <= 1000 ? "static" : "absolute",
                     ...alertStyling().icon,
+                    margin: width <= 1000 ? 20 : 0,
                 }}
                 onClick={onCloseHandler}
             />

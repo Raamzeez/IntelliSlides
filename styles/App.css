@@ -1,0 +1,233 @@
+.info-icon {
+    height: 22px;
+    width: 22px;
+    border-radius: 11px;
+    background-color: #0352fc;
+}
+
+.button {
+    height: 45px;
+    width: 120px;
+    border-radius: 10px; 
+}
+
+.top-right-container {
+    transition: all 0.5s ease;
+}
+
+@media (min-width: 850px) {
+    .top-right-container {
+        position: absolute;
+        right: 30px;
+        margin: 20px;
+    }
+}
+
+.profile-button {
+    height: 30px;
+    width: 100px;
+    border-radius: 7px;
+    margin: 10px;
+    transition: 0.1s ease;
+}
+
+.logout {
+    background-color: orange;
+}
+
+.logout:hover {
+    background-color: darkorange;
+}
+
+.delete {
+    background-color: red;
+}
+
+.delete:hover {
+    background-color: darkred;
+}
+
+.profile-button-text {
+    font-size: 12px;
+    margin: 18px
+}
+
+.input:valid {
+    box-shadow:
+        0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075),
+        0 4px 4px hsl(0deg 0% 0% / 0.075),
+        0 8px 8px hsl(0deg 0% 0% / 0.075),
+        0 16px 16px hsl(0deg 0% 0% / 0.075);
+}
+
+.input:invalid {
+    box-shadow: 0px 0px 6px rgb(255, 0, 72);
+}
+
+.text-input {
+    height: 35px;
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    background-color: rgb(64, 65, 78);
+    color: white;
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+.text-input-label {
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+.number-input {
+    height: 30px;
+    width: 60px;
+    border: none;
+    background-color: rgb(64, 65, 78);
+    color: white;
+    font-size: 15px;
+    padding-left: 10px;
+    margin: 10px;
+}
+
+.auto {
+    border: none;
+    padding: 6px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.15s;
+    cursor: pointer;
+    border-radius: 7px;
+    box-shadow: 0 6px #656565;
+}
+
+
+.auto-button {
+    background-color: white;
+    color: black;
+    border: 2px solid #008CBA;
+}
+
+.auto-button:active {
+    background-color: #008CBA;
+    color: white;
+    box-shadow: 0 4px #656565;
+    transform: translateY(3px);
+}
+
+/* The container */
+.container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: rgba(238, 238, 238, 0.258);
+    border-radius: 5px;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input~.checkmark {
+    background-color: rgba(204, 204, 204, 0.616);
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked~.checkmark {
+    background: linear-gradient(121deg, rgba(9, 144, 255, 1) 45%, rgba(207, 0, 255, 1) 100%);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 9.5px;
+    top: 4.5px;
+    width: 7px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.estimated-time-text {
+    color: grey;
+    font-size: 20px;
+    font-style: italic;
+}
+
+.info-modal {
+    width: 100%;
+    background-color: #282c43;
+}
+
+.version-modal {
+    height: 550px;
+    width: 100%;
+    background-color: #282c43;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.version-modal-link {
+    font-size: 12px;
+
+}
+
+.version-footer {
+    font-size: 15px;
+    font-weight: 200;
+    margin-top: 22px;
+    opacity: 0.75;
+}
+
+.version-footer:hover {
+    text-decoration: underline;
+    opacity: 1;
+}
+
+.x-icon {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+

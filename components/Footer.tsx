@@ -1,9 +1,11 @@
-import React, { FC, useState } from "react"
+import React, { FC } from "react"
 import { Col, Row } from "react-bootstrap"
 import Image from "next/image"
-import fetchVersion from "../lib/frontend/util/fetchVersion"
+import fetchCurrentVersion from "../lib/frontend/util/fetchCurrentVersion"
 import isMobile from "../lib/frontend/util/isMobile"
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
+import versions from "../lib/frontend/data/versions"
+import getVersion from "../lib/frontend/util/getVersion"
 
 interface iProps {
     isLoading: boolean
@@ -12,8 +14,6 @@ interface iProps {
 
 const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
     const { height, width } = useWindowDimensions()
-
-    const [hoverText, setHoverText] = useState(false)
 
     return (
         <Row
@@ -27,13 +27,7 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
             }}
             className="footerBackground"
         >
-            <Col
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <Col className="center-container">
                 <Image
                     alt="OpenAI Logo"
                     src={require("../public/images/OpenAILogo.png")}
@@ -41,39 +35,18 @@ const Footer: FC<iProps> = ({ isLoading, onClickHandler }) => {
                     width={120}
                 />
             </Col>
-            <Col
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
-                <p
-                    style={{
-                        fontSize: 15,
-                        fontWeight: 200,
-                        marginTop: 22,
-                        textDecoration: hoverText ? "underline" : "",
-                        opacity: hoverText ? 1 : 0.75,
-                    }}
-                    onMouseOver={() => setHoverText(true)}
-                    onMouseLeave={() => setHoverText(false)}
-                    onClick={onClickHandler}
-                    className="pointer"
-                >
-                    {fetchVersion()}
+            <Col className="center-container">
+                <p onClick={onClickHandler} className="version-footer pointer">
+                    {`Version ${fetchCurrentVersion()} ${
+                        getVersion(fetchCurrentVersion()).isBeta && "- BETA"
+                    }`}
                 </p>
             </Col>
-            <Col
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <Col className="center-container">
                 <Image
                     alt="Google Slides Logo"
                     src={require("../public/images/GoogleSlidesLogo.png")}
+                    priority={true}
                     height={75}
                     width={200}
                 />

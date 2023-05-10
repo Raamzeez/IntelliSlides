@@ -1,0 +1,74 @@
+.version-selector {
+    height: 80vh;
+    width: 100%;
+    background-color: black;
+    overflow-y: auto;
+    margin: 10px;
+}
+
+.version-option {
+    height: 70px;
+    border-bottom: 2px solid #0462bf;
+    transition: 0.3s ease;
+}
+
+.version-option:hover {
+    background-color: #0462bf;
+}
+
+.version-option-active {
+    background-color: #0462bf;;
+}
+
+.version-carousel-container {
+    min-height: 400px;
+    height: 80vh;
+    width: 100%;
+    border-radius: 10px;
+    margin: 10px
+}
+
+.version-carousel {
+    min-height: 400px;
+    height: 80vh;
+    width: 100%;
+}
+
+.version-carousel-item {
+    height: 80vh;
+}
+
+.small-screen-icon {
+    display: flex;
+    justify-content: center;
+}
+
+.back-arrow {
+    height: 40px;
+    width: 40px;
+    background-color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    transition: 0.2s ease;
+}
+
+.back-arrow:hover {
+    background-color: rgb(96, 96, 96);
+}
+
+@media (min-width: 992px) {
+    .back-arrow {
+        position: absolute;
+        left: 30px;
+        top: 25.5px;
+    }
+}
+
+@media (max-width: 991px) {
+    .back-arrow {
+        position: relative;
+        top: 20px;
+    }
+}

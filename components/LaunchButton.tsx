@@ -8,57 +8,21 @@ const LaunchButton: FC = () => {
 
     const threshold = 431
 
-    const [hover, setHover] = useState(false)
-
     return (
         <div
-            style={
-                width > 380
-                    ? {
-                          // height: hover ? 55 : 50,
-                          // width: hover ? 165 : 150,
-                          display: "flex",
-                          alignItems: "center",
-                          transition: "all 0.3s ease",
-                      }
-                    : {
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          height: 40,
-                          width: 40,
-                          borderRadius: 15,
-                      }
-            }
-            className={`pointer secondary ${hover && "shadow"}`}
-            onMouseOver={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            // onClick={() => navigate("/app")}
+            className={`pointer secondary shadowHover ${
+                width > 380 ? "launch-button" : "launch-button-sm"
+            }`}
         >
             {width > 380 ? (
-                <p
-                    style={{
-                        fontSize: 16,
-                        marginTop: 15,
-                        margin: 10,
-                    }}
-                >
+                <p className="launch-text">
                     {width > threshold ? "Launch App" : "Launch"}
                 </p>
             ) : (
                 <></>
             )}
             {(width > threshold || width < 380) && (
-                <FontAwesomeIcon
-                    icon={faRocket}
-                    style={{
-                        // position: "absolute",
-                        right: 15,
-                        fontSize: 17,
-                        marginRight: 10,
-                        marginLeft: 10,
-                    }}
-                />
+                <FontAwesomeIcon className="launch-icon" icon={faRocket} />
             )}
         </div>
     )

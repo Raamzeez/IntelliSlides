@@ -43,33 +43,23 @@ const TextInput: FC<iProps> = ({
                 width: width > 991 ? "40vw" : "80vw",
             }}
         >
-            <Col className="centerContainer" lg={1}>
+            <Col className="center-container" lg={1}>
                 {info && (
                     <InfoIcon
-                        onClickHandler={onTipClickHandler}
                         style={{ position: "absolute" }}
+                        onClickHandler={onTipClickHandler}
                     />
                 )}
             </Col>
-            <Col className="centerContainer" lg={2}>
-                <p style={{ fontSize: 15, marginTop: 15 }}>{label}:</p>
+            <Col className="center-container" lg={2}>
+                <p className="text-input-label">{label}:</p>
             </Col>
-            <Col className="centerContainer" lg={9}>
+            <Col className="center-container" lg={9}>
                 <input
                     type="text"
                     value={value}
                     onChange={onChangeHandler}
-                    className={clicked ? "input" : "shadow"}
-                    style={{
-                        height: 35,
-                        width: "100%",
-                        borderRadius: 8,
-                        border: "none",
-                        backgroundColor: "rgb(64, 65, 78)",
-                        color: "white",
-                        paddingLeft: 10,
-                        fontSize: 15,
-                    }}
+                    className={`text-input ${clicked ? "input" : "shadow"}`}
                     placeholder={placeholder}
                     disabled={disabled}
                     maxLength={maxLength}

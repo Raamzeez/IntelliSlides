@@ -6,13 +6,7 @@ import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_
 export default authenticatedHandler(
     slideLimitHandler(async (req, res) => {
         const { topic, category, slideCount, model } = req.body
-        const titles = await getTopics(
-            openai,
-            category,
-            topic,
-            slideCount,
-            model
-        )
+        const titles = await getTopics(openai, category, topic, slideCount)
         return res.status(200).json(titles)
         // console.log("Titles", dummyTitles)
         // return res.status(200).json(dummyTitles)

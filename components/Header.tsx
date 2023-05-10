@@ -13,18 +13,10 @@ const Header: FC = () => {
         >
             <Container>
                 <Navbar.Brand href="/">
-                    {/* <img
-                        src={require("../images/IntelliSlidesLogo.png")}
-                        height={50}
-                        width={50}
-                        className="d-inline-block align-top"
-                        alt="React Bootstrap logo"
-                    /> */}
                     <Image
                         src={require("../public/images/IntelliSlidesBannerTransparent.png")}
-                        height={50}
-                        width={187.5}
-                        style={{ marginTop: 5 }}
+                        priority={true}
+                        style={{ height: 50, width: 187.5, marginTop: 5 }}
                         className="d-inline-block align-top"
                         alt="React Bootstrap logo"
                     />
