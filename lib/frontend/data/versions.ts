@@ -1,10 +1,12 @@
 import {
+    faBars,
     faBolt,
     faBugSlash,
     faDoorOpen,
     faFileContract,
     faMobile,
     faPager,
+    faSun,
 } from "@fortawesome/free-solid-svg-icons"
 import iVersion from "../models/version"
 
@@ -13,7 +15,26 @@ const versions: iVersion[] = [
         version: "1.0.2",
         isBeta: true,
         date: new Date("2023-05-16T12:00:00"),
-        data: [],
+        data: [
+            {
+                icon: faSun,
+                title: "Light/Dark Mode",
+                description:
+                    "Users can now toggle between light and dark mode.",
+            },
+            {
+                icon: faBars,
+                title: "Sidebar Menu",
+                description:
+                    "Added a hamburger menu and sidebar for mobile and desktop users respectively to access features, such as viewing the presentations they created.",
+            },
+            {
+                icon: faPager,
+                title: "View Presentations Page",
+                description:
+                    "Added a new page that allows users to view all their presentations created via IntelliSlides",
+            },
+        ],
     },
     {
         version: "1.0.1",

@@ -59,6 +59,7 @@ import DeleteModal from "../components/DeleteModal"
 import Sidebar from "../components/Sidebar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
+import { useStore } from "../lib/frontend/context/store"
 
 //State Object Interface
 interface iState {
@@ -94,7 +95,9 @@ const categoryTipMessage =
 const App: FC = () => {
     const { height, width } = useWindowDimensions()
 
-    const [user, setUser] = useState<iUser | null>(null)
+    // const [user, setUser] = useState<iUser | null>(null)
+
+    const { user, setUser } = useStore()
 
     const [state, setState] = useState<iState>({
         showBetaAlert: false,
@@ -150,6 +153,7 @@ const App: FC = () => {
         const fetchUser = async () => {
             try {
                 if (localStorage.getItem("id_token")) {
+                    //The reason we do this is to ensure the id token is valid
                     const response = await api.get("/user/userInfo")
                     setState({ ...state, profileLoading: false })
                     if (response.status !== 200) {
