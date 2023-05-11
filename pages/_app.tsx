@@ -2,11 +2,9 @@
 import { config } from "@fortawesome/fontawesome-svg-core"
 import { AppProps } from "next/app"
 import { GoogleOAuthProvider } from "@react-oauth/google"
-import { ThemeProvider } from "theme-ui"
+import { ThemeProvider } from "next-themes"
 import { SSRProvider } from "react-bootstrap"
 import { StoreProvider } from "../lib/frontend/context/store"
-
-import { theme } from "../styles/theme"
 
 import React from "react"
 import Head from "next/head"
@@ -35,7 +33,7 @@ config.autoAddCss = false
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
         <React.StrictMode>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider defaultTheme="light">
                 <StoreProvider>
                     <SSRProvider>
                         <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">

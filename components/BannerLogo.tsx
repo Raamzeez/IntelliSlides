@@ -26,7 +26,7 @@ const BannerLogo: FC<iProps> = ({ adaptiveStyling, height, width }) => {
                         : 5
                     : 0,
             }}
-            className="pointer animate__animated animate__fadeIn"
+            className="pointer animate__animated animate__fadeIn prevent-select"
             onClick={() => router.push("/")}
         />
     )
