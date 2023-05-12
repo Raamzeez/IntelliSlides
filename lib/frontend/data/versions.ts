@@ -8,6 +8,7 @@ import {
     faPager,
     faSun,
 } from "@fortawesome/free-solid-svg-icons"
+import { faGoogle } from "@fortawesome/free-brands-svg-icons"
 import iVersion from "../models/version"
 
 const versions: iVersion[] = [
@@ -16,6 +17,12 @@ const versions: iVersion[] = [
         isBeta: true,
         date: new Date("2023-05-16T12:00:00"),
         data: [
+            {
+                icon: faGoogle,
+                title: "Google Verification",
+                description:
+                    "Google has officially verified IntelliSlides so that users will not be given a warning message when logging in.",
+            },
             {
                 icon: faSun,
                 title: "Light/Dark Mode",

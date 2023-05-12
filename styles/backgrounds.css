@@ -1,3 +1,11 @@
+:root {
+    --profile_background: linear-gradient(231deg, rgb(48, 137, 215) 0%, rgb(51, 215, 213) 100%);
+}
+
+[data-theme='dark'] {
+    --profile_background: linear-gradient(231deg, rgb(0, 91, 171) 0%, rgb(0, 170, 167) 100%);
+}
+
 .submit {
     background: linear-gradient(121deg, rgb(3, 202, 139) 0%, rgba(0, 199, 101, 1) 100%);
 }
@@ -15,7 +23,7 @@
 }
 
 .profile {
-    background: linear-gradient(231deg, rgb(0, 91, 171) 0%, rgb(0, 170, 167) 100%);
+    background: var(--profile_background);
     border-radius: 15px;
 }
 

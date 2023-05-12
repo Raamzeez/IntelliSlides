@@ -43,7 +43,7 @@ const Profile: FC<iProps> = ({
                 height={50}
                 width={50}
                 style={{ borderRadius: 25, marginTop: 10 }}
-                className="shadow"
+                className="shadow prevent-select"
             />
             {width > 992 && <p style={{ fontSize: 10, margin: 10 }}>{email}</p>}
             {showLogout && (

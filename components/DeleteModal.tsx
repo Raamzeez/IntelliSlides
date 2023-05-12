@@ -12,17 +12,7 @@ interface iProps {
 const DeleteModal: FC<iProps> = ({ onCloseHandler, onConfirmHandler }) => {
     return (
         <Modal show={true} onHide={onCloseHandler}>
-            <div
-                style={{
-                    height: 300,
-                    width: "100%",
-                    backgroundColor: "#282c34",
-                    display: "flex",
-                    flexDirection: "column",
-                    //   justifyContent: "center",
-                    alignItems: "center",
-                }}
-            >
+            <div className="warning-modal">
                 {" "}
                 <FontAwesomeIcon
                     icon={faX}
@@ -33,7 +23,7 @@ const DeleteModal: FC<iProps> = ({ onCloseHandler, onConfirmHandler }) => {
                     icon={faCircleExclamation}
                     style={{ fontSize: 75, color: "orange", marginTop: 20 }}
                 />
-                <h5 style={{ marginTop: 20, color: "white" }}>
+                <h5 style={{ marginTop: 20 }} className="dynamic-color">
                     Are You Sure You Want To Continue?
                 </h5>
                 <p

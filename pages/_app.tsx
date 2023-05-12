@@ -27,13 +27,14 @@ import "../styles/home.css"
 import "../styles/privacy.css"
 import "../styles/versions.css"
 import "../styles/presentations.css"
+import "../styles/settings.css"
 
 config.autoAddCss = false
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
         <React.StrictMode>
-            <ThemeProvider defaultTheme="light">
+            <ThemeProvider defaultTheme="dark" attribute="data-theme">
                 <StoreProvider>
                     <SSRProvider>
                         <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">

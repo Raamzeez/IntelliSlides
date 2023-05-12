@@ -1,7 +1,8 @@
 import Image from "next/image"
-import React, { FC } from "react"
+import React, { FC, useEffect, useState } from "react"
 import isMobile from "../lib/frontend/util/isMobile"
 import { useRouter } from "next/router"
+import { useTheme } from "next-themes"
 
 interface iProps {
     adaptiveStyling?: boolean
@@ -12,11 +13,20 @@ interface iProps {
 const BannerLogo: FC<iProps> = ({ adaptiveStyling, height, width }) => {
     const router = useRouter()
 
+    const { theme, setTheme } = useTheme()
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => setMounted(true), [])
+
     return (
         <Image
             alt="IntelliSlides Banner Logo"
             priority={true}
-            src={require("../public/images/IntelliSlidesBannerTransparent.png")}
+            src={
+                theme === "dark"
+                    ? require("../public/images/IntelliSlidesBannerTransparent.png")
+                    : require("../public/images/IntelliSlidesBannerTransparentBlack.png")
+            }
             style={{
                 height: 75,
                 width: 280,

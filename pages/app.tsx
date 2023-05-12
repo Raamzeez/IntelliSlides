@@ -60,6 +60,7 @@ import Sidebar from "../components/Sidebar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 import { useStore } from "../lib/frontend/context/store"
+import { useTheme } from "next-themes"
 
 //State Object Interface
 interface iState {
@@ -99,6 +100,9 @@ const App: FC = () => {
 
     const { user, setUser } = useStore()
 
+    const { theme, setTheme } = useTheme()
+    const [mounted, setMounted] = useState(false)
+
     const [state, setState] = useState<iState>({
         showBetaAlert: false,
         showPrivacyAlert: false,
@@ -137,6 +141,7 @@ const App: FC = () => {
     // }
 
     useEffect(() => {
+        setMounted(true)
         localStorage.setItem("visited", DateTime.now().toISO() as string)
         let showBetaAlert = false
         let showPrivacyAlert = false
@@ -610,11 +615,13 @@ const App: FC = () => {
                     {!state.submit && (
                         <>
                             <Sidebar />
-                            <BannerLogo
-                                adaptiveStyling={true}
-                                height={height}
-                                width={width}
-                            />
+                            {mounted && (
+                                <BannerLogo
+                                    adaptiveStyling={true}
+                                    height={height}
+                                    width={width}
+                                />
+                            )}
                             <div
                                 style={{
                                     top:
@@ -697,12 +704,7 @@ const App: FC = () => {
                                         }
                                     />
                                     <Col className="center-container">
-                                        <p
-                                            style={{
-                                                fontSize: 15,
-                                                marginTop: 9,
-                                            }}
-                                        >
+                                        <p className="text-input-label dynamic-color">
                                             Category:
                                         </p>
                                     </Col>

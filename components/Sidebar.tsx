@@ -1,7 +1,12 @@
-import { faFile, faMoon, faSun } from "@fortawesome/free-solid-svg-icons"
+import {
+    faFile,
+    faGear,
+    faMoon,
+    faSun,
+} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { OverlayTrigger, Tooltip } from "react-bootstrap"
 import { useStore } from "../lib/frontend/context/store"
 import { useTheme } from "next-themes"
@@ -11,35 +16,18 @@ const Sidebar: React.FC = () => {
 
     const { user } = useStore()
 
-    const { theme, setTheme } = useTheme()
-
-    console.log(theme)
-
     return (
         <div className="sidebar justify-container column animate__animated animate__fadeInLeft">
             <OverlayTrigger
-                key={"1"}
+                key={"0"}
                 placement="right"
-                overlay={
-                    <Tooltip id={`tooltip-right`}>
-                        {theme === "light" ? "Dark" : "Light"} Mode
-                    </Tooltip>
-                }
+                overlay={<Tooltip id={`tooltip-right`}>Settings</Tooltip>}
             >
                 <div
-                    className={`sidebar-option ${
-                        theme === "light"
-                            ? "blueBackground"
-                            : "lightPurpleBackground"
-                    } shadowHover pointer center-container`}
-                    onClick={() =>
-                        setTheme(theme === "light" ? "dark" : "light")
-                    }
+                    className={`sidebar-option lightPurpleBackground shadowHover pointer center-container`}
+                    onClick={() => router.push("/settings")}
                 >
-                    <FontAwesomeIcon
-                        icon={theme === "light" ? faMoon : faSun}
-                        size="lg"
-                    />
+                    <FontAwesomeIcon icon={faGear} size="lg" />
                 </div>
             </OverlayTrigger>
             <OverlayTrigger

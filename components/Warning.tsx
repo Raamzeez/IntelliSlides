@@ -13,16 +13,7 @@ interface iProps {
 const Warning: FC<iProps> = ({ onCloseHandler, onClickHandler, message }) => {
     return (
         <Modal show={true} onHide={onCloseHandler}>
-            <div
-                style={{
-                    height: 300,
-                    width: "100%",
-                    backgroundColor: "#282c34",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                }}
-            >
+            <div className="warning-modal">
                 <FontAwesomeIcon
                     icon={faX}
                     className="pointer x-icon"

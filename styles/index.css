@@ -1,6 +1,16 @@
+:root {
+  --bg: #f9f9f9;
+  --txt: black;
+}
+
+[data-theme='dark'] {
+  --bg: hsl(220, 13%, 18%);
+  --text: white;
+}
+
 .Home {
   overflow-x: none;
-  background-color: hsl(220, 13%, 18%);
+  background-color: var(--bg);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -10,7 +20,7 @@
 
 .App {
   overflow-x: none;
-  background-color: hsl(220, 13%, 18%);
+  background-color: var(--bg);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -95,6 +105,10 @@
   background-color: #0095ff;
   opacity: 0.7;
   margin: 5px;
+}
+
+.dynamic-color {
+  color: var(--txt);
 }
 
 .ease {
