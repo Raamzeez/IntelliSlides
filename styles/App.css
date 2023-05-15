@@ -211,6 +211,24 @@
     font-style: italic;
 }
 
+.contact-modal {
+    height: 300px;
+    width: 100%;
+    background-color: var(--modal_background);
+}
+
+.contact-email-item {
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
+    background-color: lightgrey;
+}
+
+.contact-email-label {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
 .warning-modal {
     height: 300px;
     width: 100%;
@@ -269,9 +287,15 @@
 }
 
 .sidebar-option {
+    transition: all 0.2s ease;
     height: 60px;
     width: 60px;
     border-radius: 15px;
     margin: 20px;
+}
+
+.sidebar-option:hover {
+    height: 70px;
+    width: 70px
 }
 

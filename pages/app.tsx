@@ -56,6 +56,7 @@ import Profile from "../components/Profile"
 import Result from "../components/Result"
 import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
+import ContactModal from "../components/ContactModal"
 import Sidebar from "../components/Sidebar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
@@ -70,6 +71,7 @@ interface iState {
     showTopicTip: boolean
     showCategoryTip: boolean
     showDeleteModal: boolean
+    showContactModal: boolean
     settings: boolean
     topic: string
     category: Category
@@ -110,6 +112,7 @@ const App: FC = () => {
         showTopicTip: false,
         showCategoryTip: false,
         showDeleteModal: false,
+        showContactModal: false,
         settings: false,
         topic: "",
         category: "Event",
@@ -542,6 +545,13 @@ const App: FC = () => {
                     style={{ fontSize: 13 }}
                 />
                 <>
+                    {state.showContactModal && (
+                        <ContactModal
+                            onCloseHandler={() =>
+                                setState({ ...state, showContactModal: false })
+                            }
+                        />
+                    )}
                     {state.showDeleteModal && (
                         <DeleteModal
                             onCloseHandler={() =>
@@ -614,7 +624,14 @@ const App: FC = () => {
                     )}
                     {!state.submit && (
                         <>
-                            <Sidebar />
+                            <Sidebar
+                                onContactHandler={() =>
+                                    setState({
+                                        ...state,
+                                        showContactModal: true,
+                                    })
+                                }
+                            />
                             {mounted && (
                                 <BannerLogo
                                     adaptiveStyling={true}

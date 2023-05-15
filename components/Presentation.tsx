@@ -40,9 +40,9 @@ const Presentation: React.FC<iProps> = ({ presentation, onClickHandler }) => {
                     })
                 }}
                 onMouseLeave={() => set({ xys: [0, 0, 1] })}
-                // style={{
-                //     transform: props.xys.interpolate(trans),
-                // }}
+                style={{
+                    transform: props.xys.interpolate(trans),
+                }}
                 onClick={onClickHandler}
             >
                 <Image

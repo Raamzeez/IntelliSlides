@@ -1,6 +1,8 @@
 import {
+    faEnvelope,
     faFile,
     faGear,
+    faMessage,
     faMoon,
     faSun,
 } from "@fortawesome/free-solid-svg-icons"
@@ -11,7 +13,11 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap"
 import { useStore } from "../lib/frontend/context/store"
 import { useTheme } from "next-themes"
 
-const Sidebar: React.FC = () => {
+interface iProps {
+    onContactHandler: () => void
+}
+
+const Sidebar: React.FC<iProps> = ({ onContactHandler }) => {
     const router = useRouter()
 
     const { user } = useStore()
@@ -47,6 +53,18 @@ const Sidebar: React.FC = () => {
                     style={!user ? { opacity: 0.35 } : {}}
                 >
                     <FontAwesomeIcon icon={faFile} size="lg" />
+                </div>
+            </OverlayTrigger>
+            <OverlayTrigger
+                key={"2"}
+                placement="right"
+                overlay={<Tooltip id={`tooltip-right`}>Contact</Tooltip>}
+            >
+                <div
+                    className={`sidebar-option lightPurpleBackground shadowHover pointer center-container`}
+                    onClick={onContactHandler}
+                >
+                    <FontAwesomeIcon icon={faEnvelope} size="lg" />
                 </div>
             </OverlayTrigger>
         </div>

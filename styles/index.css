@@ -128,6 +128,14 @@
   width: 100%;
 }
 
+.align-items {
+  align-items: center;
+}
+
+.justify-container {
+  justify-content: center;
+}
+
 .prevent-select {
   -webkit-user-select: none;
   /* Safari */

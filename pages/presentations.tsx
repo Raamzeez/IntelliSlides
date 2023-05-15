@@ -28,7 +28,7 @@ const Presentations: React.FC = () => {
     const { user } = useStore()
 
     const [state, setState] = useState<iState>({
-        loading: true,
+        loading: false,
         error: null,
         showModal: false,
         selectedPresentation: null,
