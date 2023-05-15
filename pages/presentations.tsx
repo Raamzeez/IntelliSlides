@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Col, Container, Image, Row } from "react-bootstrap"
 import iPresentation from "../lib/frontend/models/presentation"
 import BackArrow from "../components/BackArrow"
+import Presentation from "../components/Presentation"
 
 import api from "../lib/frontend/axios"
 import iError from "../lib/frontend/models/error"
@@ -11,28 +12,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faWarning } from "@fortawesome/free-solid-svg-icons"
 import Button from "../components/Button"
 import { useRouter } from "next/router"
-import { useSpring, animated } from "react-spring"
+import PresentationModal from "../components/PresentationModal"
 
 interface iState {
     loading: boolean
-    presentations: iPresentation[]
     error: iError | null
-}
-
-const trans = (x, y, s) =>
-    `perspective(600px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`
-
-const calc = (x, y) => {
-    if (typeof window !== "undefined") {
-        const BUFFER = 50
-
-        const why = -(y - window.innerHeight / 2) / BUFFER
-        const ex = (x - window.innerWidth / 2) / BUFFER
-
-        console.log("why", why)
-        console.log("y", y)
-        return [-(y / 50), x / 50, 1.1]
-    }
+    showModal: boolean
+    selectedPresentation: iPresentation | null
+    presentations: iPresentation[]
 }
 
 const Presentations: React.FC = () => {
@@ -41,13 +28,28 @@ const Presentations: React.FC = () => {
     const { user } = useStore()
 
     const [state, setState] = useState<iState>({
-        loading: false,
+        loading: true,
         error: null,
+        showModal: false,
+        selectedPresentation: null,
         presentations: [
             {
                 presentationId: "1",
                 title: "Test",
                 subtitle: "Test2",
+                slideCount: 5,
+                thumbnail: {
+                    contentUrl:
+                        "https://images.pexels.com/photos/7116676/pexels-photo-7116676.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                    height: 300,
+                    width: 300,
+                },
+            },
+            {
+                presentationId: "2",
+                title: "Test2",
+                subtitle: "Test3",
+                slideCount: 5,
                 thumbnail: {
                     contentUrl:
                         "https://images.pexels.com/photos/7116676/pexels-photo-7116676.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -57,11 +59,6 @@ const Presentations: React.FC = () => {
             },
         ],
     })
-
-    const [props, set] = useSpring(() => ({
-        xys: [0, 0, 1],
-        config: { mass: 5, tension: 350, friction: 40 },
-    }))
 
     useEffect(() => {
         const fetchPresentations = async (): Promise<
@@ -115,10 +112,21 @@ const Presentations: React.FC = () => {
             className="Home"
             style={{ flex: 1, flexDirection: "column" }}
         >
+            {state.selectedPresentation && (
+                <PresentationModal
+                    presentation={state.selectedPresentation}
+                    onCloseHandler={() =>
+                        setState({ ...state, selectedPresentation: null })
+                    }
+                />
+            )}
             <BackArrow />
             <Row style={{ flex: 0.1 }}>
                 <Col>
-                    <h1 style={{ marginTop: 30, fontWeight: 300 }}>
+                    <h1
+                        style={{ marginTop: 30, fontWeight: 300 }}
+                        className="dynamic-color"
+                    >
                         Presentations
                     </h1>
                 </Col>
@@ -131,55 +139,26 @@ const Presentations: React.FC = () => {
                     <>
                         {!state.loading &&
                             state.presentations.length > 0 &&
-                            state.presentations.map(
-                                ({ title, subtitle, thumbnail }, index) => {
-                                    return (
-                                        <Col
-                                            key={index}
-                                            lg={4}
-                                            className="center-container"
-                                        >
-                                            {/* <animated.div
-                                                onMouseMove={(e) => {
-                                                    const {
-                                                        clientX: x,
-                                                        clientY: y,
-                                                    } = e
-
-                                                    return set({
-                                                        xys: calc(x, y),
-                                                    })
-                                                }}
-                                                // onMouseLeave={() => set({ xys: [0, 0, 1] })}
-                                                style={{
-                                                    transform:
-                                                        props.xys.interpolate(
-                                                            trans
-                                                        ),
-                                                }}
-                                            > */}
-                                            <Image
-                                                src={thumbnail.contentUrl}
-                                                height={300}
-                                                width={300}
-                                                style={{
-                                                    position: "absolute",
-                                                }}
-                                            />
-                                            <div
-                                                style={{
-                                                    height: 300,
-                                                    width: 300,
-                                                }}
-                                                className="presentation-card pointer center-column"
-                                            >
-                                                <h3>{title}</h3>
-                                                <h3>{subtitle}</h3>
-                                            </div>
-                                        </Col>
-                                    )
-                                }
-                            )}
+                            state.presentations.map((presentation, index) => {
+                                return (
+                                    <Col
+                                        key={index}
+                                        lg={4}
+                                        className="center-container"
+                                    >
+                                        <Presentation
+                                            presentation={presentation}
+                                            onClickHandler={() =>
+                                                setState({
+                                                    ...state,
+                                                    selectedPresentation:
+                                                        presentation,
+                                                })
+                                            }
+                                        />
+                                    </Col>
+                                )
+                            })}
                         {state.loading && (
                             <BounceLoader size={200} color="dodgerblue" />
                         )}
@@ -193,10 +172,12 @@ const Presentations: React.FC = () => {
                             <FontAwesomeIcon
                                 icon={faWarning}
                                 size="6x"
-                                className="shadow"
                                 color="#fcba03"
                             />
-                            <h3 style={{ marginTop: 30, fontWeight: 600 }}>
+                            <h3
+                                style={{ marginTop: 30, fontWeight: 600 }}
+                                className="dynamic-color"
+                            >
                                 {state.error.message}
                             </h3>
                             <Button

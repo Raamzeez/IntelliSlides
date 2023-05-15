@@ -13,7 +13,7 @@ interface iProps {
 const BannerLogo: FC<iProps> = ({ adaptiveStyling, height, width }) => {
     const router = useRouter()
 
-    const { theme, setTheme } = useTheme()
+    const { theme, resolvedTheme, setTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => setMounted(true), [])
@@ -23,7 +23,7 @@ const BannerLogo: FC<iProps> = ({ adaptiveStyling, height, width }) => {
             alt="IntelliSlides Banner Logo"
             priority={true}
             src={
-                theme === "dark"
+                resolvedTheme === "dark"
                     ? require("../public/images/IntelliSlidesBannerTransparent.png")
                     : require("../public/images/IntelliSlidesBannerTransparentBlack.png")
             }

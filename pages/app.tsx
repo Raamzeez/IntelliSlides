@@ -100,7 +100,7 @@ const App: FC = () => {
 
     const { user, setUser } = useStore()
 
-    const { theme, setTheme } = useTheme()
+    const { theme, resolvedTheme, setTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
 
     const [state, setState] = useState<iState>({
@@ -632,9 +632,7 @@ const App: FC = () => {
                                                 : 20
                                             : 0,
                                 }}
-                                className={`top-right-container ${
-                                    !user && "shadow"
-                                }`}
+                                className={`top-right-container`}
                             >
                                 {state.profileLoading ? (
                                     <CircleLoader size={50} color={"#36d7b7"} />
@@ -709,7 +707,7 @@ const App: FC = () => {
                                         </p>
                                     </Col>
                                     <Col className="center-container">
-                                        {width <= 2000 ? (
+                                        {width <= 2000 && mounted ? (
                                             <DropdownButton
                                                 key={"primary"}
                                                 title={
@@ -748,6 +746,13 @@ const App: FC = () => {
                                                                                 .innerHTML as Category,
                                                                     })
                                                                 }
+                                                                style={{
+                                                                    color:
+                                                                        resolvedTheme ===
+                                                                        "light"
+                                                                            ? "black"
+                                                                            : "white",
+                                                                }}
                                                             >
                                                                 {category}
                                                             </Dropdown.Item>

@@ -1,9 +1,13 @@
 :root {
     --profile_background: linear-gradient(231deg, rgb(48, 137, 215) 0%, rgb(51, 215, 213) 100%);
+    --updates_background: linear-gradient(231deg, rgb(125, 54, 197) 0%, rgb(209, 65, 94) 100%);
+    --purple_blue_background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 100%);
 }
 
 [data-theme='dark'] {
     --profile_background: linear-gradient(231deg, rgb(0, 91, 171) 0%, rgb(0, 170, 167) 100%);
+    --updates_background: linear-gradient(231deg, rgba(80, 5, 157, 1) 0%, rgba(144, 0, 28, 1) 100%);
+    --purple_blue_background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 100%);
 }
 
 .submit {
@@ -44,7 +48,7 @@
 }
 
 .updatesBackground {
-    background: linear-gradient(231deg, rgba(80, 5, 157, 1) 0%, rgba(144, 0, 28, 1) 100%);
+    background: var(--updates_background);
 }
 
 .gooeyBackground {
@@ -52,7 +56,7 @@
 }
 
 .purpleBlueBackground {
-    background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 100%);
+    background: var(--purple_blue_background);
 }
 
 .footerBackground {

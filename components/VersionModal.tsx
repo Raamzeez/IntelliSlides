@@ -55,7 +55,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                         <p
                             style={{
                                 fontSize: 12,
-                                color: "skyblue",
+                                color: "dodgerblue",
                             }}
                         >
                             Last Updated: 5/16/23

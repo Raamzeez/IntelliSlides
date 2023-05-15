@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons"
 
 const Settings: React.FC = () => {
-    const { theme, setTheme } = useTheme()
+    const { theme, resolvedTheme, setTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => setMounted(true), [])
@@ -40,14 +40,14 @@ const Settings: React.FC = () => {
                                 {mounted && (
                                     <div
                                         className={`sidebar-option ${
-                                            theme === "light"
+                                            resolvedTheme === "light"
                                                 ? "lightPurpleBackground"
                                                 : "blueBackground"
                                         } center-container`}
                                     >
                                         <FontAwesomeIcon
                                             icon={
-                                                theme === "light"
+                                                resolvedTheme === "light"
                                                     ? faSun
                                                     : faMoon
                                             }
@@ -65,37 +65,46 @@ const Settings: React.FC = () => {
                                 </p>
                             </Col>
                             <Col lg={6} className="center-container">
-                                <DropdownButton
-                                    key={"primary"}
-                                    title={
-                                        (theme as string)
-                                            .charAt(0)
-                                            .toUpperCase() +
-                                        (theme as string).slice(1)
-                                    }
-                                    onSelect={(value) =>
-                                        setTheme(value as string)
-                                    }
-                                >
-                                    {["light", "dark", "system"].map(
-                                        (themeKey) => {
-                                            return (
-                                                <Dropdown.Item
-                                                    key={0}
-                                                    eventKey={themeKey}
-                                                    onClick={() =>
-                                                        setTheme(themeKey)
-                                                    }
-                                                >
-                                                    {themeKey
-                                                        .charAt(0)
-                                                        .toUpperCase() +
-                                                        themeKey.slice(1)}
-                                                </Dropdown.Item>
-                                            )
+                                {mounted && (
+                                    <DropdownButton
+                                        key={"primary"}
+                                        title={
+                                            (theme as string)
+                                                .charAt(0)
+                                                .toUpperCase() +
+                                            (theme as string).slice(1)
                                         }
-                                    )}
-                                </DropdownButton>
+                                        onSelect={(value) =>
+                                            setTheme(value as string)
+                                        }
+                                    >
+                                        {["light", "dark", "system"].map(
+                                            (themeKey) => {
+                                                return (
+                                                    <Dropdown.Item
+                                                        key={0}
+                                                        eventKey={themeKey}
+                                                        onClick={() =>
+                                                            setTheme(themeKey)
+                                                        }
+                                                        style={{
+                                                            color:
+                                                                resolvedTheme ===
+                                                                "light"
+                                                                    ? "black"
+                                                                    : "white",
+                                                        }}
+                                                    >
+                                                        {themeKey
+                                                            .charAt(0)
+                                                            .toUpperCase() +
+                                                            themeKey.slice(1)}
+                                                    </Dropdown.Item>
+                                                )
+                                            }
+                                        )}
+                                    </DropdownButton>
+                                )}
                             </Col>
                         </Row>
                     </div>

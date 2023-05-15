@@ -252,7 +252,7 @@
 }
 
 .x-icon {
-    color: white;
+    color: var(--txt);
     font-size: 20px;
     position: absolute;
     top: 15px;
