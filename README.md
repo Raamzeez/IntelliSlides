@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+<h1>IntelliSlides</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align='center'>
+<img src="./public/images/IntelliSlidesLogo.png" width="150"/>
+</p>
 
-## Available Scripts
+<a href="https://intellislides.com/">IntelliSlides Official Website</p>
 
-In the project directory, you can run:
+<h3>About</h3>
+<p>
+  IntelliSlides is a web application that currently uses the GPT-3 language model to gather information about a topic and generate Google Slides presentations with it in a matter of seconds.
+</p>
 
-### `npm start`
+<hr />
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<h3>Technologies</h3>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  <h4>Fullstack</h4>
+  <p float="left">
+  <img src="https://www.svgrepo.com/show/354113/nextjs-icon.svg" width="30" margin="20px" />&nbsp;&nbsp;<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" width="30" />
+  </p>
 
-### `npm test`
+  <h4>Frontend</h4>
+  <p float="left">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="30" />&nbsp;&nbsp;<img src="https://banner2.cleanpng.com/20180531/sas/kisspng-bootstrap-react-software-framework-javascript-fron-5b0f9b1ab26fd7.9058729715277494027309.jpg" width="30" />&nbsp;&nbsp;<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/800px-CSS3_logo.svg.png" width="30" />&nbsp;&nbsp;<img src="https://logos-world.net/wp-content/uploads/2021/03/Google-Fonts-Logo.png" width="50" />
+  </p>
+  
+  <h4>Backend</h4>
+    <p float="left">
+  <img src="https://seeklogo.com/images/N/nodejs-logo-FBE122E377-seeklogo.com.png" width="30"/>&nbsp;&nbsp;<img src="https://www.svgrepo.com/show/331488/mongodb.svg" width="30" />&nbsp;&nbsp;<img src="https://jwt.io/img/icon.svg" width="30" />&nbsp;&nbsp;<img src="https://uploads-ssl.webflow.com/5f15081919fdf673994ab5fd/63e05b42f46ebfbc65a734bc_OpenAI%20GPT%20Logo.svg" width="30" />
+  </p>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+<hr />
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<h3>Contributing Guidelines</h3>
+  <p>IntelliSlides is an open source project, and therefore anyone can contribute to the project. To begin, go the issues section for the project and see if there are any open issues that have not been assigned yet. Read the associated notes for the issue and assign yourself to the project. 
