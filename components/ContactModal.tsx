@@ -19,7 +19,12 @@ const ContactModal: React.FC<iProps> = ({ onCloseHandler }) => {
             <div className="justify-container contact-modal column">
                 <Row>
                     <Col lg={12} className="center-container">
-                        <h4 style={{ marginBottom: 30 }}>Contact</h4>
+                        <h4
+                            style={{ marginBottom: 30 }}
+                            className="dynamic-color"
+                        >
+                            Contact
+                        </h4>
                     </Col>
                 </Row>
                 <Row>
@@ -42,7 +47,15 @@ const ContactModal: React.FC<iProps> = ({ onCloseHandler }) => {
                         </div>
                     </Col>
                     <Col lg={4} className="center-container">
-                        <div className="contact-email-item center-container pointer shadowHover">
+                        <div
+                            className="contact-email-item center-container pointer shadowHover"
+                            onClick={() =>
+                                window.open(
+                                    "https://outlook.live.com/mail/0/deeplink/compose?popoutv2=1&to=intellislides.contact@gmail.com",
+                                    "_blank"
+                                )
+                            }
+                        >
                             <Image
                                 src={require("../public/images/Outlook_Icon.png")}
                                 height={45}
@@ -52,18 +65,21 @@ const ContactModal: React.FC<iProps> = ({ onCloseHandler }) => {
                         </div>
                     </Col>
                     <Col lg={4} className="center-container">
-                        <div className="contact-email-item center-container pointer shadowHover">
+                        <a
+                            href="mailto:email@example.com, secondemail@example.com"
+                            className="contact-email-item center-container pointer shadowHover"
+                        >
                             <Image
                                 src={require("../public/images/System_Mail_Icon.png")}
                                 height={70}
                                 width={200}
-                                alt="System Mail Icon"
+                                alt="Generic Mail Icon"
                             />
-                        </div>
+                        </a>
                     </Col>
                 </Row>
                 <Row>
-                    {["Gmail", "Outlook", "System Mail App"].map(
+                    {["Gmail", "Outlook", "Default Mail App"].map(
                         (mail, index) => {
                             return (
                                 <Col
@@ -71,7 +87,7 @@ const ContactModal: React.FC<iProps> = ({ onCloseHandler }) => {
                                     lg={4}
                                     className="center-container"
                                 >
-                                    <p className="contact-email-label manrope">
+                                    <p className="contact-email-label dynamic-color manrope">
                                         {mail}
                                     </p>
                                 </Col>
@@ -83,7 +99,7 @@ const ContactModal: React.FC<iProps> = ({ onCloseHandler }) => {
                     <Col lg={12} className="center-container">
                         <p
                             style={{ marginTop: 20 }}
-                            className="contact-email-label ibm"
+                            className="contact-email-label dynamic-color ibm"
                         >
                             Email: intellislides.contact@gmail.com
                         </p>
