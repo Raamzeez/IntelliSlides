@@ -41,7 +41,7 @@
 <h3>Contributing Guidelines</h3>
   <a href="https://rcos.io/"><img src="https://rcos.io/static/icons/rcos-branding/img/logo-square-red.png" width="50" /></a>
   <br />
-  <p>IntelliSlides is an open source project that is proudly part of the <a href="https://rcos.io/">Rensselaer Center for Open Source (RCOS)</a>, and therefore anyone can contribute to the project. To begin, go the issues section for the project and see if there are any open issues that have not been assigned yet. Read the associated notes for the issue and assign yourself to the project. Go to the <a href="https://github.com/Raamzeez/IntelliSlides/tree/development">development</a> branch for more detailed steps and information on how to contribute.<p>
+  <p>IntelliSlides is an open source project that is proudly part of the <a href="https://rcos.io/">Rensselaer Center for Open Source (RCOS)</a>, and therefore anyone can contribute to the project. To begin, go the issues section for the project and see if there are any open issues that have not been assigned yet. Read the associated notes for the issue and assign yourself to the project. More detailed steps can be found in other branches.</p>
   
   <br />
   <a href="https://discord.com/channels/1110354193522368532/1110354194310909954"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" width="50" /></a>
