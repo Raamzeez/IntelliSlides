@@ -39,9 +39,10 @@
 <hr />
 
 <h3>Contributing Guidelines</h3>
-  <a href="https://rcos.io/"><img src="https://rcos.io/static/icons/rcos-branding/img/logo-square-red.png" width="50" /></a>
-  <br />
-  <p>IntelliSlides is an open source project that is proudly part of the <a href="https://rcos.io/">Rensselaer Center for Open Source (RCOS)</a>, and therefore anyone can contribute to the project. To begin, go the issues section for the project and see if there are any open issues that have not been assigned yet. Read the associated notes for the issue and assign yourself to the project. More detailed steps can be found in other branches.</p>
+  <h5>Note: These guidelines may change in the future. They are not set in stone, as this is a learning process for everyone involved.</h5>
+  <p>IntelliSlides is an open source project that is proudly part of the <a href="https://rcos.io/">Rensselaer Center for Open Source (RCOS)</a>, and therefore anyone can contribute to the project. To begin, you will first need to fork the repository, and then clone the fork into your local machine. Additionally, you need to sync your fork with the upstream repository so that you can frequently pull changes made by other developers and not be left with a ton of merge conflicts when you are finished. A detailed tutorial on how to set this all up can be found here: <a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo">https://docs.github.com/en/get-started/quickstart/fork-a-repo</a>.</p>
+  <p>Once you have completed all the steps (forked the repository, cloned it, and set the upstream), you can get started on the changes you want to work on. Go to the "Issues" section of the repository and see any issues that are opened and haven't been assigned to anyone. If you have the appropriate permissions, you can assign yourself to it, or leave a comment on the post and if it is available, you will be assigned to it. With the issue there should also be a branch that is connected with that issue. You can checkout the branch on your local machine and get started on any changes you want to make. Make sure to pull from other branches frequently (specifically the "testing" branch) so that you have the most up-to-date changes. </p>
+  <p>After you have made all your changes, create a PR (pull request) to merge into the "testing" branch, not any other branch. The "testing" branch is used to test all the features for a version before it is publicly deployed.</p>
   
   <br />
   <a href="https://discord.com/channels/1110354193522368532/1110354194310909954"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" width="50" /></a>
