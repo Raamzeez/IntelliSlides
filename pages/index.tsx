@@ -29,6 +29,10 @@ const Home: FC = () => {
             <Row className="home-footer">
                 <Col className="center-container">
                     <p className="home-footer-text">IntelliSlides 2023</p>
+                    <div>
+                    <a className="logos" href="https://github.com/Raamzeez/IntelliSlides"  target="_blank"><img src={"images/git.png"} height="25" /></a>
+
+                    </div>
                 </Col>
             </Row>
         </Container>
