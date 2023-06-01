@@ -8,7 +8,7 @@ const NotFound: FC = () => {
 
     return (
         <Container fluid className="App">
-            <h1 className="animate__animated animate__fadeIn">
+            <h1 className="animate__animated animate__fadeIn dynamic-color">
                 Page Not Found
             </h1>
             <p style={{ fontWeight: 300, color: "grey", fontSize: 15 }}>404</p>

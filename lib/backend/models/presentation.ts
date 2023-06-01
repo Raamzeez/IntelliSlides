@@ -4,6 +4,7 @@ interface iPresentation {
     subtitle: string
     slideCount: number
     id: string
+    date: Date
     thumbnail: {
         contentUrl?: string
         height?: number

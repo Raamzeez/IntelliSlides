@@ -2,7 +2,9 @@
 import { config } from "@fortawesome/fontawesome-svg-core"
 import { AppProps } from "next/app"
 import { GoogleOAuthProvider } from "@react-oauth/google"
+import { ThemeProvider } from "next-themes"
 import { SSRProvider } from "react-bootstrap"
+import { StoreProvider } from "../lib/frontend/context/store"
 
 import React from "react"
 import Head from "next/head"
@@ -24,32 +26,38 @@ import "../styles/App.css"
 import "../styles/home.css"
 import "../styles/privacy.css"
 import "../styles/versions.css"
+import "../styles/presentations.css"
+import "../styles/settings.css"
 
 config.autoAddCss = false
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
         <React.StrictMode>
-            <SSRProvider>
-                <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">
-                    <Head>
-                        <meta charSet="utf-8" />
-                        <meta
-                            name="viewport"
-                            content="width=device-width, initial-scale=1"
-                        />
-                        <meta name="theme-color" content="#000000" />
-                        <meta
-                            name="description"
-                            content="Web site created using create-react-app"
-                        />
-                        <title>IntelliSlides</title>
-                    </Head>
-                    <main>
-                        <Component {...pageProps} />
-                    </main>
-                </GoogleOAuthProvider>
-            </SSRProvider>
+            <ThemeProvider defaultTheme="dark" attribute="data-theme">
+                <StoreProvider>
+                    <SSRProvider>
+                        <GoogleOAuthProvider clientId="17334999010-paoosc6532efnvctrbbjat1acl9vplnk.apps.googleusercontent.com">
+                            <Head>
+                                <meta charSet="utf-8" />
+                                <meta
+                                    name="viewport"
+                                    content="width=device-width, initial-scale=1"
+                                />
+                                <meta name="theme-color" content="#000000" />
+                                <meta
+                                    name="description"
+                                    content="Web site created using create-react-app"
+                                />
+                                <title>IntelliSlides</title>
+                            </Head>
+                            <main>
+                                <Component {...pageProps} />
+                            </main>
+                        </GoogleOAuthProvider>
+                    </SSRProvider>
+                </StoreProvider>
+            </ThemeProvider>
         </React.StrictMode>
     )
 }

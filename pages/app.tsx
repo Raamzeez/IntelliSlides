@@ -56,8 +56,12 @@ import Profile from "../components/Profile"
 import Result from "../components/Result"
 import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
+import ContactModal from "../components/ContactModal"
+import Sidebar from "../components/Sidebar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
+import { useStore } from "../lib/frontend/context/store"
+import { useTheme } from "next-themes"
 
 //State Object Interface
 interface iState {
@@ -67,6 +71,7 @@ interface iState {
     showTopicTip: boolean
     showCategoryTip: boolean
     showDeleteModal: boolean
+    showContactModal: boolean
     settings: boolean
     topic: string
     category: Category
@@ -93,7 +98,12 @@ const categoryTipMessage =
 const App: FC = () => {
     const { height, width } = useWindowDimensions()
 
-    const [user, setUser] = useState<iUser | null>(null)
+    // const [user, setUser] = useState<iUser | null>(null)
+
+    const { user, setUser } = useStore()
+
+    const { theme, resolvedTheme, setTheme } = useTheme()
+    const [mounted, setMounted] = useState(false)
 
     const [state, setState] = useState<iState>({
         showBetaAlert: false,
@@ -102,6 +112,7 @@ const App: FC = () => {
         showTopicTip: false,
         showCategoryTip: false,
         showDeleteModal: false,
+        showContactModal: false,
         settings: false,
         topic: "",
         category: "Event",
@@ -133,6 +144,7 @@ const App: FC = () => {
     // }
 
     useEffect(() => {
+        setMounted(true)
         localStorage.setItem("visited", DateTime.now().toISO() as string)
         let showBetaAlert = false
         let showPrivacyAlert = false
@@ -149,6 +161,7 @@ const App: FC = () => {
         const fetchUser = async () => {
             try {
                 if (localStorage.getItem("id_token")) {
+                    //The reason we do this is to ensure the id token is valid
                     const response = await api.get("/user/userInfo")
                     setState({ ...state, profileLoading: false })
                     if (response.status !== 200) {
@@ -532,10 +545,20 @@ const App: FC = () => {
                     style={{ fontSize: 13 }}
                 />
                 <>
+                    {state.showContactModal && (
+                        <ContactModal
+                            onCloseHandler={() =>
+                                setState({ ...state, showContactModal: false })
+                            }
+                        />
+                    )}
                     {state.showDeleteModal && (
                         <DeleteModal
                             onCloseHandler={() =>
-                                setState({ ...state, showDeleteModal: false })
+                                setState({
+                                    ...state,
+                                    showDeleteModal: false,
+                                })
                             }
                             onConfirmHandler={deleteUser}
                         />
@@ -601,11 +624,21 @@ const App: FC = () => {
                     )}
                     {!state.submit && (
                         <>
-                            <BannerLogo
-                                adaptiveStyling={true}
-                                height={height}
-                                width={width}
+                            <Sidebar
+                                onContactHandler={() =>
+                                    setState({
+                                        ...state,
+                                        showContactModal: true,
+                                    })
+                                }
                             />
+                            {mounted && (
+                                <BannerLogo
+                                    adaptiveStyling={true}
+                                    height={height}
+                                    width={width}
+                                />
+                            )}
                             <div
                                 style={{
                                     top:
@@ -616,9 +649,7 @@ const App: FC = () => {
                                                 : 20
                                             : 0,
                                 }}
-                                className={`top-right-container ${
-                                    !user && "shadow"
-                                }`}
+                                className={`top-right-container`}
                             >
                                 {state.profileLoading ? (
                                     <CircleLoader size={50} color={"#36d7b7"} />
@@ -688,17 +719,12 @@ const App: FC = () => {
                                         }
                                     />
                                     <Col className="center-container">
-                                        <p
-                                            style={{
-                                                fontSize: 15,
-                                                marginTop: 9,
-                                            }}
-                                        >
+                                        <p className="text-input-label dynamic-color">
                                             Category:
                                         </p>
                                     </Col>
                                     <Col className="center-container">
-                                        {width <= 2000 ? (
+                                        {width <= 2000 && mounted ? (
                                             <DropdownButton
                                                 key={"primary"}
                                                 title={
@@ -737,6 +763,13 @@ const App: FC = () => {
                                                                                 .innerHTML as Category,
                                                                     })
                                                                 }
+                                                                style={{
+                                                                    color:
+                                                                        resolvedTheme ===
+                                                                        "light"
+                                                                            ? "black"
+                                                                            : "white",
+                                                                }}
                                                             >
                                                                 {category}
                                                             </Dropdown.Item>

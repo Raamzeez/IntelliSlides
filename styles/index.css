@@ -1,6 +1,16 @@
+:root {
+  --bg: #f9f9f9;
+  --txt: black;
+}
+
+[data-theme='dark'] {
+  --bg: hsl(220, 13%, 18%);
+  --text: white;
+}
+
 .Home {
   overflow-x: none;
-  background-color: hsl(220, 13%, 18%);
+  background-color: var(--bg);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -10,13 +20,24 @@
 
 .App {
   overflow-x: none;
-  background-color: hsl(220, 13%, 18%);
+  background-color: var(--bg);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   color: white;
+}
+
+.App[data-theme='dark'] {
+  overflow-x: none;
+  background-color: hsl(0, 0%, 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(0, 0, 0);
 }
 
 .justify-container {
@@ -28,6 +49,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
 }
 
 .center-column {
@@ -78,6 +107,10 @@
   margin: 5px;
 }
 
+.dynamic-color {
+  color: var(--txt);
+}
+
 .ease {
   transition: 0.25s ease;
 }
@@ -93,6 +126,14 @@
 .fill-parent {
   height: 100%;
   width: 100%;
+}
+
+.align-items {
+  align-items: center;
+}
+
+.justify-container {
+  justify-content: center;
 }
 
 .prevent-select {

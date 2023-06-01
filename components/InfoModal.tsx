@@ -18,9 +18,14 @@ const InfoModal: FC<iProps> = ({ title, message, onCloseHandler }) => {
                     className="pointer x-icon"
                     onClick={onCloseHandler}
                 />
-                <h4 style={{ marginTop: 20 }}>{title}</h4>
+                <h4 style={{ marginTop: 20 }} className="dynamic-color">
+                    {title}
+                </h4>
                 <div className="line" />
-                <p style={{ fontSize: 13, marginTop: 30, width: "80%" }}>
+                <p
+                    style={{ fontSize: 13, marginTop: 30, width: "80%" }}
+                    className="dynamic-color"
+                >
                     {message}
                 </p>
             </div>

@@ -52,7 +52,7 @@ const TextInput: FC<iProps> = ({
                 )}
             </Col>
             <Col className="center-container" lg={2}>
-                <p className="text-input-label">{label}:</p>
+                <p className="text-input-label dynamic-color">{label}:</p>
             </Col>
             <Col className="center-container" lg={9}>
                 <input

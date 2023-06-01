@@ -13,7 +13,7 @@ const Home: FC = () => {
             <Jumbotron />
             <div id="about">
                 <div className="center-container">
-                    <h2 className="about-text">About</h2>
+                    <h2 className="about-text dynamic-color">About</h2>
                 </div>
                 {features.map((feature, index) => {
                     return (
