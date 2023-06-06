@@ -18,7 +18,7 @@ const getTopics = async (
         })
         const response = completion.data.choices[0].text
         if (slideCount > 1) {
-            return parseList(response!)
+            return parseList(response!, true)
         }
         return [response!.trim()]
     } catch (err) {
