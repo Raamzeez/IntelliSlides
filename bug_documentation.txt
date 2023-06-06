@@ -1,0 +1,3 @@
+for prompt: why college is a scam?, it can generate presentation
+
+for prompt: how inustrial revolution led to furry convention> fail to create presentaation

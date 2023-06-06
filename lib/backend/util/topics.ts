@@ -1,4 +1,9 @@
+// code for parsing input
 const parseList = (response: string): string[] => {
+
+    console.log('================================================================\n');
+    console.log(response);
+    console.log('================================================================\n');
     const items: any = []
     const rawItemsArray = response.split("\n")
     rawItemsArray.forEach((title) => {
@@ -6,6 +11,7 @@ const parseList = (response: string): string[] => {
             items.push(title.split(". ")[1])
         }
     })
+    console.log(items);
     return items
 }
 
