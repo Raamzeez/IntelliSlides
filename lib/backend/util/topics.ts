@@ -14,8 +14,8 @@ const parseList = (response: string, is_title: boolean): string[] => {
     return items
 }
 
-function titleCase(query: string) {
-    var str = query.toLowerCase().split(' ');
+const titleCase = (query: string) => {
+    const str = query.toLowerCase().split(' ');
     for (var i = 0; i < str.length; i++) {
         str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
     }
