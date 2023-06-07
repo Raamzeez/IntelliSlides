@@ -34,6 +34,7 @@ const Home: FC = () => {
                         alt="Github Logo"
                         height={40}
                         width={40}
+                        style={{ margin: 20 }}
                         className="shadow pointer"
                         onClick={() =>
                             window.open(
@@ -52,6 +53,7 @@ const Home: FC = () => {
                         alt="Github Logo"
                         height={40}
                         width={40}
+                        style={{ margin: 20 }}
                         className="shadow pointer"
                         onClick={() =>
                             window.open(
