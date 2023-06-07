@@ -48,7 +48,7 @@ const Home: FC = () => {
                 </Col>
                 <Col className="center-container" lg={4}>
                     <Image
-                        src={require("../public/images/RCOS_Logo.png")}
+                        src={require("../public/images/Rcos_Logo.png")}
                         alt="Github Logo"
                         height={40}
                         width={40}
