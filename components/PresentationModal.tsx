@@ -19,6 +19,7 @@ import iPresentation from "../lib/frontend/models/presentation"
 import Button from "./Button"
 import iError from "../lib/frontend/models/error"
 import { CircleLoader } from "react-spinners"
+import api from "../lib/frontend/axios"
 
 interface iProps {
     presentation: iPresentation
@@ -37,11 +38,30 @@ const PresentationModal: React.FC<iProps> = ({
     onCloseHandler,
 }) => {
     const [state, setState] = useState<iState>({
-        showDelete: false,
-        loading: false,
+        showDelete: false, //Determines whether to show metadata or confirm
+        loading: false, //Loading for deletion
         error: null,
-        finished: false,
+        finished: false, //If finished, we check if there is an error or not to finalize
     })
+
+    const onConfirmHandler = async () => {
+        const response = await api.post("/presentation/delete", {
+            presentationId: presentation.presentationId,
+        })
+        if (response.status !== 200) {
+            return setState({
+                ...state,
+                error: { message: response.data, status: response.status },
+                loading: false,
+                finished: true,
+            })
+        }
+        return setState({
+            ...state,
+            showDelete: false,
+            loading: false,
+        })
+    }
 
     return (
         <Modal show={true}>
@@ -206,76 +226,90 @@ const PresentationModal: React.FC<iProps> = ({
                                             >
                                                 Error!
                                             </h5>
+                                            <p className="dynamic-color">
+                                                {state.error.message}
+                                            </p>
                                         </div>
                                     </>
                                 )}
                             </>
                         )}
-                        {!state.loading && !state.finished ? (
+                        {!state.finished && (
                             <>
-                                <Row
-                                    className="center-column"
-                                    style={{
-                                        textAlign: "center",
-                                        marginTop: "10%",
-                                    }}
-                                >
-                                    <h4 className="dynamic-color">
-                                        Are You Sure?
-                                    </h4>
-                                    <p
-                                        style={{
-                                            fontSize: 13,
-                                            width: "80%",
-                                        }}
-                                        className="dynamic-color"
-                                    >
-                                        Your Google Presentation "
-                                        {presentation.title}" will will be
-                                        deleted ONLY FROM OUR DATABASE, and it
-                                        will not appear under "Presentations"
-                                        anymore, but it will still exist on
-                                        Google Slides
-                                    </p>
-                                </Row>
-                                <Row style={{ marginTop: "10%" }}>
-                                    <Col lg={6} className="center-container">
-                                        <Button
-                                            type="danger"
-                                            value="Cancel"
-                                            onClickHandler={() =>
-                                                setState({
-                                                    ...state,
-                                                    showDelete: false,
-                                                })
-                                            }
-                                        />
-                                    </Col>
-                                    <Col lg={6} className="center-container">
-                                        <Button
-                                            type="success"
-                                            value="Confirm"
-                                            onClickHandler={() =>
-                                                setState({
-                                                    ...state,
-                                                    loading: true,
-                                                })
-                                            }
-                                        />
-                                    </Col>
-                                </Row>
-                            </>
-                        ) : (
-                            <>
-                                <div className="center-container fill-parent column">
-                                    <CircleLoader size={70} color={"#36d7b7"} />
-                                    <h5
-                                        style={{ marginTop: 25 }}
-                                        className="dynamic-color"
-                                    >
-                                        Deleting "{presentation.title}"
-                                    </h5>
-                                </div>
+                                {!state.loading ? (
+                                    <>
+                                        <Row
+                                            className="center-column"
+                                            style={{
+                                                textAlign: "center",
+                                                marginTop: "10%",
+                                            }}
+                                        >
+                                            <h4 className="dynamic-color">
+                                                Are You Sure?
+                                            </h4>
+                                            <p
+                                                style={{
+                                                    fontSize: 13,
+                                                    width: "80%",
+                                                }}
+                                                className="dynamic-color"
+                                            >
+                                                Your Google Presentation "
+                                                {presentation.title}" will will
+                                                be deleted ONLY FROM OUR
+                                                DATABASE, and it will not appear
+                                                under "Presentations" anymore,
+                                                but it will still exist on
+                                                Google Slides
+                                            </p>
+                                        </Row>
+                                        <Row style={{ marginTop: "10%" }}>
+                                            <Col
+                                                lg={6}
+                                                className="center-container"
+                                            >
+                                                <Button
+                                                    type="danger"
+                                                    value="Cancel"
+                                                    onClickHandler={() =>
+                                                        setState({
+                                                            ...state,
+                                                            showDelete: false,
+                                                        })
+                                                    }
+                                                />
+                                            </Col>
+                                            <Col
+                                                lg={6}
+                                                className="center-container"
+                                            >
+                                                <Button
+                                                    type="success"
+                                                    value="Confirm"
+                                                    onClickHandler={
+                                                        onConfirmHandler
+                                                    }
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="center-container fill-parent column">
+                                            <CircleLoader
+                                                size={70}
+                                                color={"#36d7b7"}
+                                            />
+                                            <h5
+                                                style={{ marginTop: 25 }}
+                                                className="dynamic-color"
+                                            >
+                                                Deleting "{presentation.title}"
+                                            </h5>
+                                        </div>
+                                    </>
+                                )}
                             </>
                         )}
                     </>
