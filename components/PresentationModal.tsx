@@ -58,8 +58,9 @@ const PresentationModal: React.FC<iProps> = ({
         }
         return setState({
             ...state,
-            showDelete: false,
+            error: null,
             loading: false,
+            finished: true,
         })
     }
 
@@ -185,7 +186,7 @@ const PresentationModal: React.FC<iProps> = ({
                                             <FontAwesomeIcon
                                                 icon={faCircleCheck}
                                                 style={{
-                                                    fontSize: 40,
+                                                    fontSize: 50,
                                                     color: "#00d173",
                                                 }}
                                                 className="animate__animated animate__fadeIn"
@@ -196,17 +197,17 @@ const PresentationModal: React.FC<iProps> = ({
                                             >
                                                 Success!
                                             </h5>
-                                            <Button
-                                                value="Back to Overview"
-                                                type="primary"
-                                                onClickHandler={() =>
-                                                    setState({
-                                                        ...state,
-                                                        finished: false,
-                                                        showDelete: false,
-                                                    })
-                                                }
-                                            />
+                                            <p
+                                                className="dynamic-color-gray"
+                                                style={{
+                                                    marginTop: 25,
+                                                    fontSize: 12,
+                                                }}
+                                            >
+                                                Your presentation "
+                                                {presentation.title}" was
+                                                deleted
+                                            </p>
                                         </div>
                                     </>
                                 ) : (
@@ -215,7 +216,7 @@ const PresentationModal: React.FC<iProps> = ({
                                             <FontAwesomeIcon
                                                 icon={faCircleXmark}
                                                 style={{
-                                                    fontSize: 40,
+                                                    fontSize: 50,
                                                     color: "red",
                                                 }}
                                                 className="animate__animated animate__fadeIn"
@@ -226,7 +227,13 @@ const PresentationModal: React.FC<iProps> = ({
                                             >
                                                 Error!
                                             </h5>
-                                            <p className="dynamic-color">
+                                            <p
+                                                className="dynamic-color-gray"
+                                                style={{
+                                                    marginTop: 25,
+                                                    fontSize: 12,
+                                                }}
+                                            >
                                                 {state.error.message}
                                             </p>
                                         </div>
@@ -298,7 +305,7 @@ const PresentationModal: React.FC<iProps> = ({
                                     <>
                                         <div className="center-container fill-parent column">
                                             <CircleLoader
-                                                size={70}
+                                                size={50}
                                                 color={"#36d7b7"}
                                             />
                                             <h5

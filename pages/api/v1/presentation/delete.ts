@@ -5,13 +5,17 @@ import idTokenToMongoID from "../../../../lib/backend/util/idTokenToMongoID"
 
 export default authenticatedHandler(async (req, res) => {
     try {
+        console.log("Deleting presentation")
         const presentationId = req.body.presentationId
+        console.log("Id", presentationId)
         const _id = idTokenToMongoID(req)
         const foundUser = await userDB.findOne({ _id })
         const presentations: iPresentation[] = foundUser.presentations
+        console.log("presentations", JSON.stringify(presentations, null, 2))
         let foundIndex = -1
         presentations.forEach((presentation, index) => {
-            if (presentation.id === presentationId) {
+            console.log("presentation.id", presentation.presentationId)
+            if (presentation.presentationId === presentationId) {
                 foundIndex = index
                 return
             }
