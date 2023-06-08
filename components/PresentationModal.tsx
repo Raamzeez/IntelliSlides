@@ -75,13 +75,13 @@ const PresentationModal: React.FC<iProps> = ({
                 {!state.showDelete ? (
                     <>
                         <Row>
-                            <Col lg={6}>
+                            <Col>
                                 <Image
                                     src={presentation.thumbnail.contentUrl}
                                     style={{ height: 300, width: "100%" }}
                                 ></Image>
                             </Col>
-                            <Col lg={6} className="center-container column">
+                            <Col className="center-container column">
                                 <div className="dynamic-color">
                                     <p
                                         style={{
@@ -272,10 +272,7 @@ const PresentationModal: React.FC<iProps> = ({
                                             </p>
                                         </Row>
                                         <Row style={{ marginTop: "10%" }}>
-                                            <Col
-                                                lg={6}
-                                                className="center-container"
-                                            >
+                                            <Col className="center-container">
                                                 <Button
                                                     type="danger"
                                                     value="Cancel"
@@ -287,10 +284,7 @@ const PresentationModal: React.FC<iProps> = ({
                                                     }
                                                 />
                                             </Col>
-                                            <Col
-                                                lg={6}
-                                                className="center-container"
-                                            >
+                                            <Col className="center-container">
                                                 <Button
                                                     type="success"
                                                     value="Confirm"
