@@ -16,7 +16,7 @@ const schema = {
             title: String,
             subtitle: String,
             slideCount: Number,
-            id: String,
+            presentationId: String,
             date: Date,
             thumbnail: {
                 contentUrl: String,

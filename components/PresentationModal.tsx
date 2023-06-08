@@ -19,6 +19,7 @@ import iPresentation from "../lib/frontend/models/presentation"
 import Button from "./Button"
 import iError from "../lib/frontend/models/error"
 import { CircleLoader } from "react-spinners"
+import api from "../lib/frontend/axios"
 
 interface iProps {
     presentation: iPresentation
@@ -37,11 +38,31 @@ const PresentationModal: React.FC<iProps> = ({
     onCloseHandler,
 }) => {
     const [state, setState] = useState<iState>({
-        showDelete: false,
-        loading: false,
+        showDelete: false, //Determines whether to show metadata or confirm
+        loading: false, //Loading for deletion
         error: null,
-        finished: false,
+        finished: false, //If finished, we check if there is an error or not to finalize
     })
+
+    const onConfirmHandler = async () => {
+        const response = await api.post("/presentation/delete", {
+            presentationId: presentation.presentationId,
+        })
+        if (response.status !== 200) {
+            return setState({
+                ...state,
+                error: { message: response.data, status: response.status },
+                loading: false,
+                finished: true,
+            })
+        }
+        return setState({
+            ...state,
+            error: null,
+            loading: false,
+            finished: true,
+        })
+    }
 
     return (
         <Modal show={true}>
@@ -54,13 +75,13 @@ const PresentationModal: React.FC<iProps> = ({
                 {!state.showDelete ? (
                     <>
                         <Row>
-                            <Col lg={6}>
+                            <Col>
                                 <Image
                                     src={presentation.thumbnail.contentUrl}
                                     style={{ height: 300, width: "100%" }}
                                 ></Image>
                             </Col>
-                            <Col lg={6} className="center-container column">
+                            <Col className="center-container column">
                                 <div className="dynamic-color">
                                     <p
                                         style={{
@@ -165,7 +186,7 @@ const PresentationModal: React.FC<iProps> = ({
                                             <FontAwesomeIcon
                                                 icon={faCircleCheck}
                                                 style={{
-                                                    fontSize: 40,
+                                                    fontSize: 50,
                                                     color: "#00d173",
                                                 }}
                                                 className="animate__animated animate__fadeIn"
@@ -176,17 +197,17 @@ const PresentationModal: React.FC<iProps> = ({
                                             >
                                                 Success!
                                             </h5>
-                                            <Button
-                                                value="Back to Overview"
-                                                type="primary"
-                                                onClickHandler={() =>
-                                                    setState({
-                                                        ...state,
-                                                        finished: false,
-                                                        showDelete: false,
-                                                    })
-                                                }
-                                            />
+                                            <p
+                                                className="dynamic-color-gray"
+                                                style={{
+                                                    marginTop: 25,
+                                                    fontSize: 12,
+                                                }}
+                                            >
+                                                Your presentation "
+                                                {presentation.title}" was
+                                                deleted
+                                            </p>
                                         </div>
                                     </>
                                 ) : (
@@ -195,7 +216,7 @@ const PresentationModal: React.FC<iProps> = ({
                                             <FontAwesomeIcon
                                                 icon={faCircleXmark}
                                                 style={{
-                                                    fontSize: 40,
+                                                    fontSize: 50,
                                                     color: "red",
                                                 }}
                                                 className="animate__animated animate__fadeIn"
@@ -206,76 +227,90 @@ const PresentationModal: React.FC<iProps> = ({
                                             >
                                                 Error!
                                             </h5>
+                                            <p
+                                                className="dynamic-color-gray"
+                                                style={{
+                                                    marginTop: 25,
+                                                    fontSize: 12,
+                                                }}
+                                            >
+                                                {state.error.message}
+                                            </p>
                                         </div>
                                     </>
                                 )}
                             </>
                         )}
-                        {!state.loading && !state.finished ? (
+                        {!state.finished && (
                             <>
-                                <Row
-                                    className="center-column"
-                                    style={{
-                                        textAlign: "center",
-                                        marginTop: "10%",
-                                    }}
-                                >
-                                    <h4 className="dynamic-color">
-                                        Are You Sure?
-                                    </h4>
-                                    <p
-                                        style={{
-                                            fontSize: 13,
-                                            width: "80%",
-                                        }}
-                                        className="dynamic-color"
-                                    >
-                                        Your Google Presentation "
-                                        {presentation.title}" will will be
-                                        deleted ONLY FROM OUR DATABASE, and it
-                                        will not appear under "Presentations"
-                                        anymore, but it will still exist on
-                                        Google Slides
-                                    </p>
-                                </Row>
-                                <Row style={{ marginTop: "10%" }}>
-                                    <Col lg={6} className="center-container">
-                                        <Button
-                                            type="danger"
-                                            value="Cancel"
-                                            onClickHandler={() =>
-                                                setState({
-                                                    ...state,
-                                                    showDelete: false,
-                                                })
-                                            }
-                                        />
-                                    </Col>
-                                    <Col lg={6} className="center-container">
-                                        <Button
-                                            type="success"
-                                            value="Confirm"
-                                            onClickHandler={() =>
-                                                setState({
-                                                    ...state,
-                                                    loading: true,
-                                                })
-                                            }
-                                        />
-                                    </Col>
-                                </Row>
-                            </>
-                        ) : (
-                            <>
-                                <div className="center-container fill-parent column">
-                                    <CircleLoader size={70} color={"#36d7b7"} />
-                                    <h5
-                                        style={{ marginTop: 25 }}
-                                        className="dynamic-color"
-                                    >
-                                        Deleting "{presentation.title}"
-                                    </h5>
-                                </div>
+                                {!state.loading ? (
+                                    <>
+                                        <Row
+                                            className="center-column"
+                                            style={{
+                                                textAlign: "center",
+                                                marginTop: "10%",
+                                            }}
+                                        >
+                                            <h4 className="dynamic-color">
+                                                Are You Sure?
+                                            </h4>
+                                            <p
+                                                style={{
+                                                    fontSize: 13,
+                                                    width: "80%",
+                                                }}
+                                                className="dynamic-color"
+                                            >
+                                                Your Google Presentation "
+                                                {presentation.title}" will will
+                                                be deleted ONLY FROM OUR
+                                                DATABASE, and it will not appear
+                                                under "Presentations" anymore,
+                                                but it will still exist on
+                                                Google Slides
+                                            </p>
+                                        </Row>
+                                        <Row style={{ marginTop: "10%" }}>
+                                            <Col className="center-container">
+                                                <Button
+                                                    type="danger"
+                                                    value="Cancel"
+                                                    onClickHandler={() =>
+                                                        setState({
+                                                            ...state,
+                                                            showDelete: false,
+                                                        })
+                                                    }
+                                                />
+                                            </Col>
+                                            <Col className="center-container">
+                                                <Button
+                                                    type="success"
+                                                    value="Confirm"
+                                                    onClickHandler={
+                                                        onConfirmHandler
+                                                    }
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="center-container fill-parent column">
+                                            <CircleLoader
+                                                size={50}
+                                                color={"#36d7b7"}
+                                            />
+                                            <h5
+                                                style={{ marginTop: 25 }}
+                                                className="dynamic-color"
+                                            >
+                                                Deleting "{presentation.title}"
+                                            </h5>
+                                        </div>
+                                    </>
+                                )}
                             </>
                         )}
                     </>
