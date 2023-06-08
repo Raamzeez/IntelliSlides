@@ -63,6 +63,10 @@
     background: linear-gradient(270deg, #3c24c7, #0066b4);
 }
 
+.skyblue {
+background: linear-gradient(90deg, rgba(135, 235, 235, 1) 0%, rgba(135, 206, 235, 1) 100%);
+}
+
 .skyhue {
     background: linear-gradient(90deg, rgba(255, 212, 76, 1) 0%, rgba(255, 66, 220, 1) 100%);
     background-size: 100% 400%;

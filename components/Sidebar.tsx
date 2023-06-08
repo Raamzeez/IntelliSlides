@@ -37,7 +37,7 @@ const Sidebar: React.FC<iProps> = ({ onContactHandler }) => {
                 </div>
             </OverlayTrigger>
             <OverlayTrigger
-                key={"2"}
+                key={"1"}
                 placement="right"
                 overlay={
                     <Tooltip id={`tooltip-right`}>
