@@ -42,7 +42,7 @@ export default async function handler(
                 )
         }
         const verify = await verifyAccessToken(access_token)
-        console.log("Veriifed Access Token")
+        console.log("Verified Access Token")
         if (verify === "scopes") {
             return res
                 .status(403)
