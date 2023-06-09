@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import Contact from "../components/Contact"
 import Feature from "../components/Feature"
@@ -6,8 +6,19 @@ import Header from "../components/Header"
 import Jumbotron from "../components/Jumbotron"
 import features from "../lib/frontend/data/features"
 import Image from "next/image"
+import { useRouter } from "next/router"
 
 const Home: FC = () => {
+    const router = useRouter()
+
+    useEffect(() => {
+        if (!localStorage.getItem("id_token")) 
+        {
+            router.push("/app")
+        }
+    })
+
+
     return (
         <Container fluid className="Home">
             <Header />
