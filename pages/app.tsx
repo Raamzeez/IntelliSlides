@@ -58,12 +58,12 @@ import SlideCountTip from "../components/SlideCountTip"
 import DeleteModal from "../components/DeleteModal"
 import ContactModal from "../components/ContactModal"
 import Sidebar from "../components/Sidebar"
-import HamburgerMenu from "../components/HamburgerMenu"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 import { useStore } from "../lib/frontend/context/store"
 import { useTheme } from "next-themes"
 import isMobile from "../lib/frontend/util/isMobile"
+import HamburgerIcon from "../components/HamburgerIcon"
 
 //State Object Interface
 interface iState {
@@ -627,7 +627,7 @@ const App: FC = () => {
                     {!state.submit && (
                         <>
                             {isMobile(height, width) ? (
-                                <HamburgerMenu />
+                                <HamburgerIcon />
                             ) : (
                                 <Sidebar
                                     onContactHandler={() =>
