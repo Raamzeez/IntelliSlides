@@ -1,8 +1,9 @@
 import client from "../client"
 import cryptr from "../cryptyr"
 import userDB from "../schemas/user"
+import { ObjectId } from "mongodb"
 
-const refreshToken = async (id: string) => {
+const refreshToken = async (id: ObjectId) => {
     const foundUser = await userDB.findById(id)
     if (!foundUser) {
         return null
