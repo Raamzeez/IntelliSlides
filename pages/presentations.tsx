@@ -147,14 +147,7 @@ const Presentations: React.FC = () => {
                                         className="center-container"
                                     >
                                         <Presentation
-                                            presentation={presentation}
-                                            onClickHandler={() =>
-                                                setState({
-                                                    ...state,
-                                                    selectedPresentation:
-                                                        presentation,
-                                                })
-                                            }
+                                           
                                         />
                                     </Col>
                                 )

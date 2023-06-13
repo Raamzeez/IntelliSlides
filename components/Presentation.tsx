@@ -1,71 +1,41 @@
-import React, { useState } from "react"
-import { Image } from "react-bootstrap"
-import { useSpring, animated } from "react-spring"
-import iPresentation from "../lib/frontend/models/presentation"
-import PresentationModal from "./PresentationModal"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-interface iProps {
-    presentation: iPresentation
-    onClickHandler: () => void
-}
+import CryptoList from "./ViewList";
+import Pagination from "../components/Pagination";
 
-const Presentation: React.FC<iProps> = ({ presentation, onClickHandler }) => {
-    const [props, set] = useSpring(() => ({
-        xys: [0, 0, 1],
-        config: { mass: 5, tension: 350, friction: 40 },
-    }))
+const Presentation = () => {
+  const [coinsData, setCoinsData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(8);
 
-    const trans = (x, y, s) =>
-        `perspective(600px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+      );
+      setCoinsData(response.data);
+    };
 
-    const calc = (x, y) => {
-        if (typeof window !== "undefined") {
-            const BUFFER = 50
+    fetchData();
+  }, []);
 
-            const why = -(y - window.innerHeight / 2) / BUFFER
-            const ex = (x - window.innerWidth / 2) / BUFFER
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  const currentPosts = coinsData.slice(firstPostIndex, lastPostIndex);
 
-            return [-(y / 50), x / 50, 1.1]
-        }
-    }
+  return (
+    <div className="app">
+      <h1>Crypto Gallery</h1>
+      <CryptoList coinsData={currentPosts} />
+      <Pagination
+        totalPosts={coinsData.length}
+        postsPerPage={postsPerPage}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
+    </div>
+  );
+};
 
-    return (
-        <>
-            <animated.div
-                onMouseMove={(e) => {
-                    const { clientX: x, clientY: y } = e
-
-                    return set({
-                        xys: calc(x, y),
-                    })
-                }}
-                onMouseLeave={() => set({ xys: [0, 0, 1] })}
-                style={{
-                    transform: props.xys.interpolate(trans),
-                }}
-                onClick={onClickHandler}
-            >
-                <Image
-                    src={presentation.thumbnail.contentUrl}
-                    height={250}
-                    width={250}
-                    style={{
-                        position: "absolute",
-                    }}
-                />
-                <div
-                    style={{
-                        height: 250,
-                        width: 250,
-                    }}
-                    className="presentation-card pointer center-column"
-                >
-                    <h3>{presentation.title}</h3>
-                    <h3>{presentation.subtitle}</h3>
-                </div>
-            </animated.div>
-        </>
-    )
-}
-
-export default Presentation
+export default Presentation;
