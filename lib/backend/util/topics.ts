@@ -1,18 +1,26 @@
 // code for parsing input
 const parseList = (response: string): string[] => {
-
-    console.log('================================================================\n');
-    console.log(response);
-    console.log('================================================================\n');
-    const items: any = []
-    const rawItemsArray = response.split("\n")
+    const items: string[] = [];
+    const rawItemsArray = response.split("\n");
+    
     rawItemsArray.forEach((title) => {
         if (title.length > 0) {
-            items.push(title.split(". ")[1])
+            console.log("title: "+ title);
+            let splitTitle = title.split(". ");
+            if (splitTitle.length === 1) {
+                splitTitle = title.split(") ");
+            }
+            console.log("splitTitle: "+ splitTitle);
+            if (splitTitle.length > 1) {
+                items.push(splitTitle.slice(1).join(". "));
+            }
         }
-    })
-    console.log(items);
-    return items
-}
+    });
 
-export default parseList
+    console.log(items);
+
+    return items;
+};
+
+export default parseList;
+
