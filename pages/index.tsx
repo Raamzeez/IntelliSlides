@@ -7,15 +7,31 @@ import Jumbotron from "../components/Jumbotron"
 import features from "../lib/frontend/data/features"
 import Image from "next/image"
 import { useRouter } from "next/router"
+import api from "../lib/frontend/axios"
+import { toast } from "react-toastify"
+import errorMessage from "../lib/frontend/util/errorMessage"
+import { AxiosError } from "axios"
 
 const Home: FC = () => {
     const router = useRouter()
 
     useEffect(() => {
-        if (!localStorage.getItem("id_token")) 
-        {
-            router.push("/app")
+        const validToken = async () => {
+            if (localStorage.getItem("id_token")) 
+            {
+                try {
+                    const response = await api.get("/user/userInfo")
+                    if (response.status !== 200) 
+                    {
+                        router.push("/app")
+                    }
+                } catch (err) {
+                    toast.error(errorMessage(err as AxiosError))
+                }
+            }
         }
+
+        validToken();
     })
 
 
