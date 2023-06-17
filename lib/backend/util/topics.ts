@@ -5,19 +5,19 @@ const parseList = (response: string): string[] => {
     
     rawItemsArray.forEach((title) => {
         if (title.length > 0) {
-            console.log("title: "+ title);
+            // console.log("title: "+ title);
             let splitTitle = title.split(". ");
             if (splitTitle.length === 1) {
                 splitTitle = title.split(") ");
             }
-            console.log("splitTitle: "+ splitTitle);
+            // console.log("splitTitle: "+ splitTitle);
             if (splitTitle.length > 1) {
                 items.push(splitTitle.slice(1).join(". "));
             }
         }
     });
 
-    console.log(items);
+    // console.log(items);
 
     return items;
 };
