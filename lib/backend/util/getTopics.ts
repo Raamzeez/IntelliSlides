@@ -23,7 +23,7 @@ const getTopics = async (
         // console.log(parseList(response!));
         // console.log("###########################\n");
         if (slideCount > 1) {
-            return parseList(response!)
+            return parseList(response!, true)
         }
         return [response!.trim()]
     } catch (err) {

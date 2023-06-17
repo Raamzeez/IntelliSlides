@@ -27,7 +27,7 @@ const getDetails = async (
         if (!response) {
             return []
         }
-        return parseList(response)
+        return parseList(response, false)
     } catch (err) {
         console.error(err.response.data)
         return []
