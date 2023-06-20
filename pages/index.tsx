@@ -21,7 +21,7 @@ const Home: FC = () => {
             {
                 try {
                     const response = await api.get("/user/userInfo")
-                    if (response.status !== 200) 
+                    if (response.status == 200) 
                     {
                         router.push("/app")
                     }
