@@ -1,26 +1,26 @@
-const parseList = (response: string, is_title: boolean): string[] => {
-    const items: any = []
-    const rawItemsArray = response.split("\n")
+// code for parsing input
+const parseList = (response: string): string[] => {
+    const items: string[] = [];
+    const rawItemsArray = response.split("\n");
+    
     rawItemsArray.forEach((title) => {
         if (title.length > 0) {
-            if (is_title) {
-                items.push(titleCase(title.split(". ")[1]))
-            } else {
-                items.push(title.split(". ")[1])
+            // console.log("title: "+ title);
+            let splitTitle = title.split(". ");
+            if (splitTitle.length === 1) {
+                splitTitle = title.split(") ");
             }
-            
+            // console.log("splitTitle: "+ splitTitle);
+            if (splitTitle.length > 1) {
+                items.push(splitTitle.slice(1).join(". "));
+            }
         }
-    })
-    return items
-}
+    });
 
-const titleCase = (query: string) => {
-    const str = query.toLowerCase().split(' ');
-    for (var i = 0; i < str.length; i++) {
-        str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-    }
+    // console.log(items);
 
-    return str.join(' ');
-}
+    return items;
+};
 
-export default parseList
+export default parseList;
+
