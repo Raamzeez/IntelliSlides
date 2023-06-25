@@ -15,7 +15,8 @@ async function createPresentation(
     auth: OAuth2Client | JSONClient,
     slidesInfo: iSlideInfo[],
     key: string,
-    cx: string
+    cx: string,
+    slideThemes: string // Array of theme IDs or names
 ) {
     const service = google.slides({ version: "v1", auth })
     try {
@@ -29,10 +30,14 @@ async function createPresentation(
         const subtitleID = titleSlide.pageElements![1].objectId
         const requests: any[] = []
         for (let i = 0; i < parameters.slideCount; i++) {
+            const themeId = slideThemes[i] || '1a4xBohEM_kFThJ0n4LVZVroT69eND7sN5r4pH7U4KvI'; // Use a specific theme ID or name from the array
             requests.push({
                 createSlide: {
                     slideLayoutReference: {
                         predefinedLayout: "TITLE_AND_BODY",
+                    },
+                    slideProperties: {
+                        slideThemeObjectId: themeId,
                     },
                 },
             })

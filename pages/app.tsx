@@ -89,6 +89,8 @@ interface iState {
     error: iError | null
 }
 
+const themes = ['Theme 1', 'Theme 2', 'Theme 3']; 
+
 //Static Variables
 const topicTipMessage =
     'This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company called "Tesla Motors" instead of something else, such as the life of the individual known as Nikola Tesla.'
@@ -811,6 +813,23 @@ const App: FC = () => {
                                                 )}
                                             </Pagination>
                                         )}
+                                    </Col>
+                                    <Col className="center-container">
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="primary" id="dropdown-themes">
+                                        {state.theme ? state.theme : 'Theme'}
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                        {themes.map((theme, index) => (
+                                            <Dropdown.Item
+                                            key={index}
+                                            onClick={() => setState({ ...state, theme })}
+                                            >
+                                            {theme}
+                                            </Dropdown.Item>
+                                        ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                     </Col>
                                     <Col className="center-container">
                                         <div

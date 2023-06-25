@@ -40,7 +40,8 @@ export default authenticatedHandler(
                 client,
                 parameters.slidesInfo,
                 process.env.GOOGLE_SEARCH_KEY as string,
-                process.env.CX as string
+                process.env.CX as string,
+                "DARK1"
             )
             const _id = idTokenToMongoID(req)
             const foundUser = await userDB.findOneAndUpdate(
