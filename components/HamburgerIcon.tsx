@@ -14,7 +14,9 @@ const HamburgerIcon: FC = () => {
             >
                 <FontAwesomeIcon icon={faBars} color="black" size={"1x"} />
             </div>
-            {showMenu && <MobileMenu />}
+            {showMenu && (
+                <MobileMenu onCloseHandler={() => setShowMenu(false)} />
+            )}
         </>
     )
 }
