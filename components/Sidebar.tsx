@@ -2,6 +2,7 @@ import {
     faEnvelope,
     faFile,
     faGear,
+    faHome,
     faMessage,
     faMoon,
     faSun,
@@ -12,6 +13,7 @@ import React, { useEffect, useState } from "react"
 import { OverlayTrigger, Tooltip } from "react-bootstrap"
 import { useStore } from "../lib/frontend/context/store"
 import { useTheme } from "next-themes"
+import menuData from "../lib/frontend/data/menuData"
 
 interface iProps {
     onContactHandler: () => void
@@ -22,51 +24,61 @@ const Sidebar: React.FC<iProps> = ({ onContactHandler }) => {
 
     const { user } = useStore()
 
+    const getText = (authRequired: boolean, text: string) => {
+        let finalText = text
+        if (authRequired && !user) {
+            finalText += " (Login Required)"
+        }
+        return finalText
+    }
+
+    const getClasses = (authRequired: boolean, text: string) => {
+        let finalClasses =
+            "sidebar-option lightPurpleBackground shadowHover pointer center-container"
+        if ((authRequired && user) || !authRequired) {
+            finalClasses += " pointer"
+        }
+        return finalClasses
+    }
+
     return (
         <div className="sidebar justify-container column animate__animated animate__fadeInLeft">
-            <OverlayTrigger
-                key={"0"}
-                placement="right"
-                overlay={<Tooltip id={`tooltip-right`}>Settings</Tooltip>}
-            >
-                <div
-                    className={`sidebar-option lightPurpleBackground shadowHover pointer center-container`}
-                    onClick={() => router.push("/settings")}
-                >
-                    <FontAwesomeIcon icon={faGear} size="lg" />
-                </div>
-            </OverlayTrigger>
-            <OverlayTrigger
-                key={"1"}
-                placement="right"
-                overlay={
-                    <Tooltip id={`tooltip-right`}>
-                        View Presentations {!user && "(Login Required)"}
-                    </Tooltip>
-                }
-            >
-                <div
-                    className={`sidebar-option lightPurpleBackground shadowHover ${
-                        user && "pointer"
-                    } center-container`}
-                    onClick={() => user && router.push("/presentations")}
-                    style={!user ? { opacity: 0.35 } : {}}
-                >
-                    <FontAwesomeIcon icon={faFile} size="lg" />
-                </div>
-            </OverlayTrigger>
-            <OverlayTrigger
-                key={"2"}
-                placement="right"
-                overlay={<Tooltip id={`tooltip-right`}>Contact</Tooltip>}
-            >
-                <div
-                    className={`sidebar-option lightPurpleBackground shadowHover pointer center-container`}
-                    onClick={onContactHandler}
-                >
-                    <FontAwesomeIcon icon={faEnvelope} size="lg" />
-                </div>
-            </OverlayTrigger>
+            {menuData.map(({ icon, text, url, authRequired }, index) => {
+                return (
+                    <>
+                        <OverlayTrigger
+                            key={index}
+                            placement="right"
+                            overlay={
+                                <Tooltip id={`tooltip-right`}>
+                                    {getText(authRequired, text)}
+                                </Tooltip>
+                            }
+                        >
+                            <div
+                                className={`sidebar-option lightPurpleBackground shadowHover pointer center-container ${getClasses(
+                                    authRequired,
+                                    text
+                                )}`}
+                                onClick={() =>
+                                    router.push(
+                                        !authRequired || (authRequired && user)
+                                            ? url
+                                            : ""
+                                    )
+                                }
+                                style={
+                                    authRequired && !user
+                                        ? { opacity: 0.35 }
+                                        : {}
+                                }
+                            >
+                                <FontAwesomeIcon icon={icon} size="lg" />
+                            </div>
+                        </OverlayTrigger>
+                    </>
+                )
+            })}
         </div>
     )
 }

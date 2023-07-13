@@ -1,7 +1,7 @@
-import { faFile, faGear, faHome, faX } from "@fortawesome/free-solid-svg-icons"
+import menuData from "../lib/frontend/data/menuData"
+import { faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { FC } from "react"
-import iMenuOption from "../lib/frontend/models/menuOption"
 import { Col, Modal, Row } from "react-bootstrap"
 import useWindowDimensions from "../lib/frontend/util/useWindowDimensions"
 import { useRouter } from "next/router"
@@ -11,16 +11,6 @@ interface iProps {
 }
 
 const MobileMenu: FC<iProps> = ({ onCloseHandler }) => {
-    const menuData: iMenuOption[] = [
-        {
-            icon: faHome,
-            text: "Home",
-            url: "/",
-        },
-        { icon: faFile, text: "View Presentations", url: "/presentations" },
-        { icon: faGear, text: "Settings", url: "/settings" },
-    ]
-
     const { height } = useWindowDimensions()
 
     const router = useRouter()

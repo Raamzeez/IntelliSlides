@@ -4,6 +4,7 @@ interface iMenuOption {
     icon: IconDefinition
     text: string
     url: string
+    authRequired?: boolean
 }
 
 export default iMenuOption
