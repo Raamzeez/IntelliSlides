@@ -34,9 +34,9 @@ const MobileMenu: FC<iProps> = ({ onCloseHandler }) => {
                     onClick={onCloseHandler}
                 />
                 <div
-                    className="center-column footerBackground"
+                    className="center-column"
                     style={{
-                        backgroundColor: "lightblue",
+                        backgroundColor: "rgba(56, 114, 214, 0.70)",
                         borderRadius: 14,
                         height: height / 1.25,
                     }}
@@ -56,13 +56,14 @@ const MobileMenu: FC<iProps> = ({ onCloseHandler }) => {
                                         width: "75%",
                                         margin: 20,
                                     }}
-                                    className="shadowHover"
+                                    className="shadowHover mobile-menu-option"
                                     key={index}
                                     onClick={() => router.push(url)}
                                 >
                                     <Col
-                                        className="center-container no-margin"
-                                        sm={6}
+                                        className="center-container"
+                                        style={{ margin: 10 }}
+                                        sm={12}
                                     >
                                         <FontAwesomeIcon
                                             icon={icon}
@@ -70,10 +71,17 @@ const MobileMenu: FC<iProps> = ({ onCloseHandler }) => {
                                         />
                                     </Col>
                                     <Col
-                                        className="center-container no-margin"
-                                        sm={6}
+                                        className="center-container"
+                                        style={{ margin: 10 }}
+                                        sm={12}
                                     >
-                                        <p style={{ marginTop: 15 }}>{text}</p>
+                                        <p
+                                            style={{
+                                                marginTop: 15,
+                                            }}
+                                        >
+                                            {text}
+                                        </p>
                                     </Col>
                                 </Row>
                             )
