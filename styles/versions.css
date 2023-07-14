@@ -1,3 +1,17 @@
+:root {
+    --txt: black;
+    --input_background: white;
+    --caption: grey;
+    --modal_background: #d4f0f8;
+}
+
+[data-theme="dark"] {
+    --txt: white;
+    --input_background: rgb(64, 73, 78);
+    --caption: lightgrey;
+    --modal_background: #282c43;
+}
+
 .version-selector {
     height: 80vh;
     width: 100%;

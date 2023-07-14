@@ -5,7 +5,7 @@
     --modal_background: #d4f0f8;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
     --txt: white;
     --input_background: rgb(64, 73, 78);
     --caption: lightgrey;
@@ -22,7 +22,7 @@
 .button {
     height: 45px;
     width: 120px;
-    border-radius: 10px; 
+    border-radius: 10px;
 }
 
 .top-right-container {
@@ -63,16 +63,13 @@
 
 .profile-button-text {
     font-size: 12px;
-    margin: 18px
+    margin: 18px;
 }
 
 .input:valid {
-    box-shadow:
-        0 1px 1px hsl(0deg 0% 0% / 0.075),
-        0 2px 2px hsl(0deg 0% 0% / 0.075),
-        0 4px 4px hsl(0deg 0% 0% / 0.075),
-        0 8px 8px hsl(0deg 0% 0% / 0.075),
-        0 16px 16px hsl(0deg 0% 0% / 0.075);
+    box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+        0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075),
+        0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075);
 }
 
 .input:invalid {
@@ -125,15 +122,14 @@
     box-shadow: 0 6px #656565;
 }
 
-
 .auto-button {
     background-color: white;
     color: black;
-    border: 2px solid #008CBA;
+    border: 2px solid #008cba;
 }
 
 .auto-button:active {
-    background-color: #008CBA;
+    background-color: #008cba;
     color: white;
     box-shadow: 0 4px #656565;
     transform: translateY(3px);
@@ -171,13 +167,17 @@
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input~.checkmark {
+.container:hover input ~ .checkmark {
     background-color: rgba(204, 204, 204, 0.616);
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked~.checkmark {
-    background: linear-gradient(121deg, rgba(9, 144, 255, 1) 45%, rgba(207, 0, 255, 1) 100%);
+.container input:checked ~ .checkmark {
+    background: linear-gradient(
+        121deg,
+        rgba(9, 144, 255, 1) 45%,
+        rgba(207, 0, 255, 1) 100%
+    );
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -188,7 +188,7 @@
 }
 
 /* Show the checkmark when checked */
-.container input:checked~.checkmark:after {
+.container input:checked ~ .checkmark:after {
     display: block;
 }
 
@@ -254,7 +254,6 @@
 
 .version-modal-link {
     font-size: 12px;
-
 }
 
 .version-footer {
@@ -280,7 +279,7 @@
 .sidebar {
     height: 85vh;
     width: 100px;
-    background-color: rgba(169, 169, 169, 0.278) ;
+    background-color: rgba(169, 169, 169, 0.278);
     position: absolute;
     left: 0px;
     top: 50px;
@@ -296,6 +295,5 @@
 
 .sidebar-option:hover {
     height: 70px;
-    width: 70px
+    width: 70px;
 }
-
