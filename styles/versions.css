@@ -1,15 +1,11 @@
 :root {
-    --txt: black;
-    --input_background: white;
-    --caption: grey;
-    --modal_background: #d4f0f8;
+    --back_arrow: rgb(160, 160, 160);
+    --back_arrow_hover: grey;
 }
 
 [data-theme="dark"] {
-    --txt: white;
-    --input_background: rgb(64, 73, 78);
-    --caption: lightgrey;
-    --modal_background: #282c43;
+    --back_arrow: grey;
+    --back_arrow_hover: rgb(96, 96, 96);
 }
 
 .version-selector {
@@ -60,7 +56,7 @@
 .back-arrow {
     height: 40px;
     width: 40px;
-    background-color: grey;
+    background-color: var(--back_arrow);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,7 +65,7 @@
 }
 
 .back-arrow:hover {
-    background-color: rgb(96, 96, 96);
+    background-color: var(--back_arrow_hover);
 }
 
 @media (min-width: 992px) {
