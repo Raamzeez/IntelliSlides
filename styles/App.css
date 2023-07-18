@@ -295,9 +295,43 @@
     }
 }
 
-.mobile-menu-option:hover {
-    background: linear-gradient(90deg, rgb(160, 160, 160) 0%, rgb(117, 117, 117) 100%);
+.mobile-menu-card {
+    background-color: rgba(56, 114, 214, 0.70);
+    border-radius: 14px;
+    height: 85vh;
 }
+
+.mobile-menu-option {
+    height: 33%;
+    width: 75%;
+    margin: 20px;
+}
+
+/* .mobile-menu-option:hover {
+    background-color: grey;
+} */
+
+.mobile-menu-text {
+    margin-top: 15px;
+}
+
+@media (max-height: 450px) {
+    .mobile-menu-option {
+        margin: 10px;
+    }
+
+    .mobile-menu-text {
+        font-size: 12px;
+    }
+}
+
+@media (max-height: 250px) {
+    .mobile-menu-option {
+        margin: 5px;
+    }
+}
+
+
 .sidebar {
     height: 100vh;
     width: 100px;

@@ -23,14 +23,7 @@ const MobileMenu: FC<iProps> = ({ onCloseHandler }) => {
                     className="pointer x-icon"
                     onClick={onCloseHandler}
                 />
-                <div
-                    className="center-column"
-                    style={{
-                        backgroundColor: "rgba(56, 114, 214, 0.70)",
-                        borderRadius: 14,
-                        height: height / 1.25,
-                    }}
-                >
+                <div className="center-column mobile-menu-card" style={{}}>
                     <div
                         className="center-column"
                         style={{
@@ -41,19 +34,13 @@ const MobileMenu: FC<iProps> = ({ onCloseHandler }) => {
                         {menuData.map(({ icon, text, url }, index) => {
                             return (
                                 <Row
-                                    style={{
-                                        height: "33%",
-                                        width: "75%",
-                                        margin: 20,
-                                    }}
-                                    className="shadowHover mobile-menu-option"
+                                    className="touchable-opacity mobile-menu-option"
                                     key={index}
                                     onClick={() => router.push(url)}
                                 >
                                     <Col
                                         className="center-container"
-                                        style={{ margin: 10 }}
-                                        sm={12}
+                                        // sm={12}
                                     >
                                         <FontAwesomeIcon
                                             icon={icon}
@@ -62,14 +49,9 @@ const MobileMenu: FC<iProps> = ({ onCloseHandler }) => {
                                     </Col>
                                     <Col
                                         className="center-container"
-                                        style={{ margin: 10 }}
-                                        sm={12}
+                                        // sm={12}
                                     >
-                                        <p
-                                            style={{
-                                                marginTop: 15,
-                                            }}
-                                        >
+                                        <p className="mobile-menu-text">
                                             {text}
                                         </p>
                                     </Col>

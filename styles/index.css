@@ -97,6 +97,10 @@
   cursor: pointer;
 }
 
+.touchable-opacity:active {
+  opacity: 0.3;
+}
+
 .underline:hover {
   text-decoration: underline;
 }
