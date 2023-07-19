@@ -15,11 +15,7 @@ import { useStore } from "../lib/frontend/context/store"
 import { useTheme } from "next-themes"
 import menuData from "../lib/frontend/data/menuData"
 
-interface iProps {
-    onContactHandler: () => void
-}
-
-const Sidebar: React.FC<iProps> = ({ onContactHandler }) => {
+const Sidebar: React.FC = () => {
     const router = useRouter()
 
     const { user } = useStore()
@@ -42,7 +38,7 @@ const Sidebar: React.FC<iProps> = ({ onContactHandler }) => {
     }
 
     return (
-        <div className="sidebar justify-container column animate__animated animate__fadeInLeft">
+        <div className="sidebar justify-container column">
             {menuData.map(({ icon, text, url, authRequired }, index) => {
                 return (
                     <>

@@ -12,6 +12,7 @@ import BackArrow from "../components/BackArrow"
 import { useTheme } from "next-themes"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons"
+import MenuWrapper from "../components/MenuWrapper"
 
 const Settings: React.FC = () => {
     const { theme, resolvedTheme, setTheme } = useTheme()
@@ -21,7 +22,8 @@ const Settings: React.FC = () => {
 
     return (
         <Container fluid className="Home">
-            <BackArrow />
+            {/* <BackArrow /> */}
+            <MenuWrapper />
             <Row>
                 <Col>
                     <h1

@@ -13,6 +13,7 @@ import { faWarning } from "@fortawesome/free-solid-svg-icons"
 import Button from "../components/Button"
 import { useRouter } from "next/router"
 import PresentationModal from "../components/PresentationModal"
+import MenuWrapper from "../components/MenuWrapper"
 
 interface iState {
     loading: boolean
@@ -112,6 +113,8 @@ const Presentations: React.FC = () => {
             className="Home"
             style={{ flex: 1, flexDirection: "column" }}
         >
+            {/* <BackArrow /> */}
+            <MenuWrapper />
             {state.selectedPresentation && (
                 <PresentationModal
                     presentation={state.selectedPresentation}
@@ -120,7 +123,6 @@ const Presentations: React.FC = () => {
                     }
                 />
             )}
-            <BackArrow />
             <Row style={{ flex: 0.1 }}>
                 <Col>
                     <h1

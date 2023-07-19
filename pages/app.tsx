@@ -64,6 +64,7 @@ import { useStore } from "../lib/frontend/context/store"
 import { useTheme } from "next-themes"
 import isMobile from "../lib/frontend/util/isMobile"
 import HamburgerIcon from "../components/HamburgerIcon"
+import MenuWrapper from "../components/MenuWrapper"
 
 //State Object Interface
 interface iState {
@@ -626,19 +627,7 @@ const App: FC = () => {
                     )}
                     {!state.submit && (
                         <>
-                            {isMobile(height, width) ? (
-                                <HamburgerIcon />
-                            ) : (
-                                <Sidebar
-                                    onContactHandler={() =>
-                                        setState({
-                                            ...state,
-                                            showContactModal: true,
-                                        })
-                                    }
-                                />
-                            )}
-
+                            <MenuWrapper />
                             {mounted && (
                                 <BannerLogo
                                     adaptiveStyling={true}
