@@ -25,7 +25,7 @@ interface iState {
 const Presentations: React.FC = () => {
     const router = useRouter()
 
-    const { user } = useStore()
+    const { user, hydrateAll } = useStore()
 
     const [state, setState] = useState<iState>({
         loading: false,
@@ -61,49 +61,55 @@ const Presentations: React.FC = () => {
     })
 
     useEffect(() => {
-        const fetchPresentations = async (): Promise<
-            iPresentation[] | void
-        > => {
-            console.log("Fetching Presentations")
-            const response = await api.get("/user/presentations")
-            if (response.status !== 200) {
-                setState({
-                    ...state,
-                    loading: false,
-                    error: { message: response.data },
-                })
-            }
-            if (response.data.length === 0) {
-                setState({
-                    ...state,
-                    loading: false,
-                    error: {
-                        message:
-                            "You Don't Have Any Created Presentations To View",
-                    },
-                })
-            }
-            setState({
-                ...state,
-                presentations: response.data,
-                loading: false,
-            })
-            return response.data
+        const fetchData = async () => {
+            await hydrateAll()
         }
-        setTimeout(() => {
-            console.log(user)
-            if (user) {
-                // fetchPresentations()
-            } else {
-                setState({
-                    ...state,
-                    loading: false,
-                    error: {
-                        message: "User Not Authenticated. Please login again.",
-                    },
-                })
-            }
-        }, 1000)
+
+        hydrateAll()
+
+        // const fetchPresentations = async (): Promise<
+        //     iPresentation[] | void
+        // > => {
+        //     console.log("Fetching Presentations")
+        //     const response = await api.get("/user/presentations")
+        //     if (response.status !== 200) {
+        //         setState({
+        //             ...state,
+        //             loading: false,
+        //             error: { message: response.data },
+        //         })
+        //     }
+        //     if (response.data.length === 0) {
+        //         setState({
+        //             ...state,
+        //             loading: false,
+        //             error: {
+        //                 message:
+        //                     "You Don't Have Any Created Presentations To View",
+        //             },
+        //         })
+        //     }
+        //     setState({
+        //         ...state,
+        //         presentations: response.data,
+        //         loading: false,
+        //     })
+        //     return response.data
+        // }
+        // setTimeout(() => {
+        //     console.log( "user found on frontend" ,user)
+        //     if (user) {
+        //         // fetchPresentations()
+        //     } else {
+        //         setState({
+        //             ...state,
+        //             loading: false,
+        //             error: {
+        //                 message: "User Not Authenticated. Please login again.",
+        //             },
+        //         })
+        //     }
+        // }, 1000)
     }, [])
 
     return (

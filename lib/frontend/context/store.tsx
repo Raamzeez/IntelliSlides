@@ -8,6 +8,7 @@ interface iStore {
     presentations: iPresentation[]
     setUser: (user: iUser | null) => void
     setPresentations: (presentations: iPresentation[]) => void
+    hydrateAll: () => void
     hydrateUser: () => void
     hydratePresentations: () => void
 }
@@ -17,6 +18,7 @@ const initialStore: iStore = {
     presentations: [],
     setUser: () => {},
     setPresentations: () => {},
+    hydrateAll: () => {},
     hydrateUser: () => {},
     hydratePresentations: () => {},
 }
@@ -42,6 +44,7 @@ export const StoreProvider = ({ children }: iProps) => {
                 return null
             }
             setStore({ ...store, user: response.data })
+            console.log("hydratedUser", response.data)
             return response.data
         } else {
             setStore({ ...store, user: null })
@@ -57,6 +60,7 @@ export const StoreProvider = ({ children }: iProps) => {
                 return null
             }
             const presentations = response.data
+            console.log("hydratedPresentations", response.data)
             setStore({ ...store, presentations })
         } else {
             setStore({ ...store, presentations: null })
@@ -78,7 +82,7 @@ export const StoreProvider = ({ children }: iProps) => {
     }
 
     return (
-        <StoreContext.Provider value={{ ...store, setUser, setPresentations }}>
+        <StoreContext.Provider value={{ ...store, setUser, setPresentations, hydrateAll }}>
             {children}
         </StoreContext.Provider>
     )
