@@ -10,39 +10,40 @@ const getPrompts = (
     if (type === "topic") {
         if (category === "Event") {
             if (count > 1) {
-                return `What are ${count} major chronological event titles of ${topic}? Please keep each numbered point to less than 10 words.`
+                // console.log(`What are ${count} major chronological event titles of ${topic}? Please keep each numbered point to less than 10 words. Keep each points to less than 50 characters.`);
+                return `What are ${count} major chronological event titles of ${topic}? Please keep each numbered point to less than 10 words. Keep each points to less than 50 characters.`
             } else {
-                return `What is 1 major event title of ${topic}? Please keep the numbered point to less than 10 words.`
+                return `What is 1 major event title of ${topic}? Please keep the numbered point to less than 10 words. Keep each points to less than 50 characters.`
             }
         } else if (category === "Person") {
             if (count > 1) {
-                return `What are ${count} major chapters regarding ${topic}'s life? Keep each numbered point to less than 10 words.`
+                return `What are ${count} major chapters regarding ${topic}'s life? Keep each numbered point to less than 10 words. Keep each points to less than 50 characters.`
             } else {
-                return `What is 1 major chapter regarding ${topic}'s life? Please keep it numbered and less than 10 words.`
+                return `What is 1 major chapter regarding ${topic}'s life? Please keep it numbered and less than 10 words.Keep each points to less than 50 characters.`
             }
         } else if (category === "Place") {
             if (count > 1) {
-                return `What are ${count} major details regarding ${topic}? Keep each numbered point to less than 10 words.`
+                return `What are ${count} major details regarding ${topic}? Keep each numbered point to less than 10 words.Keep each points to less than 50 characters.`
             } else {
-                return `What is 1 major detail regarding ${topic}. Please keep it numbered and less than 10 words.`
+                return `What is 1 major detail regarding ${topic}. Please keep it numbered and less than 10 words.Keep each points to less than 50 characters.`
             }
         } else if (category === "Object") {
             if (count > 1) {
-                return `What are ${count} major features of ${topic}? Keep each numbered point to less than 10 words.`
+                return `What are ${count} major features of ${topic}? Keep each numbered point to less than 10 words.Keep each points to less than 50 characters.`
             } else {
-                return `What is 1 major feature regarding ${topic}? Please keep it numbered and less than 10 words.`
+                return `What is 1 major feature regarding ${topic}? Please keep it numbered and less than 10 words.Keep each points to less than 50 characters.`
             }
         } else if (category === "Organization") {
             if (count > 1) {
-                return `What are ${count} major details regarding the work that ${topic} does? Keep each numbered point to less than 10 words.`
+                return `What are ${count} major details regarding the work that ${topic} does? Keep each numbered point to less than 10 words.Keep each points to less than 50 characters.`
             } else {
-                return `What is 1 major detail regarding the work that ${topic} does? Please keep it numbered and less than 10 words.`
+                return `What is 1 major detail regarding the work that ${topic} does? Please keep it numbered and less than 10 words.Keep each points to less than 50 characters.`
             }
         } else {
             if (count > 1) {
-                return `What are ${count} details regarding the concept of ${topic}? Keep each numbered point to less than 10 words.`
+                return `What are ${count} details regarding the concept of ${topic}? Keep each numbered point to less than 10 words.Keep each points to less than 50 characters.`
             } else {
-                return `What is 1 major detail regarding the concept of ${topic}? Please keep it numbered and less than 10 words.`
+                return `What is 1 major detail regarding the concept of ${topic}? Please keep it numbered and less than 10 words.Keep each points to less than 50 characters.`
             }
         }
     } else if (type == "details") {
@@ -50,13 +51,13 @@ const getPrompts = (
             return `Provide ${count} important details about ${topic}${
                 title
                     ? "as it pertains to " + title
-                    : "? Please keep each detail numbered."
+                    : "? Please keep each detail numbered. Keep each points to less than 50 characters."
             }`
         } else {
             return `Provide 1 important detail about ${topic}${
                 title
                     ? "as it pertains to " + title
-                    : "? Please keep the detail numbered."
+                    : "? Please keep the detail numbered. Keep each points to less than 50 characters."
             }`
         }
     } else {
