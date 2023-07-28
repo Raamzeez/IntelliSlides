@@ -65,7 +65,7 @@ const Presentations: React.FC = () => {
             await hydrateAll()
         }
 
-        hydrateAll()
+        fetchData();
 
         // const fetchPresentations = async (): Promise<
         //     iPresentation[] | void
@@ -110,7 +110,7 @@ const Presentations: React.FC = () => {
         //         })
         //     }
         // }, 1000)
-    }, [])
+    }, [user])
 
     return (
         <Container
