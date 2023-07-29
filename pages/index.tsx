@@ -1,39 +1,50 @@
-import React, { FC, useEffect } from "react"
-import { Col, Container, Row } from "react-bootstrap"
-import Contact from "../components/Contact"
-import Feature from "../components/Feature"
-import Header from "../components/Header"
-import Jumbotron from "../components/Jumbotron"
-import features from "../lib/frontend/data/features"
-import Image from "next/image"
-import { useRouter } from "next/router"
-import api from "../lib/frontend/axios"
-import { toast } from "react-toastify"
-import errorMessage from "../lib/frontend/util/errorMessage"
-import { AxiosError } from "axios"
+import React, { FC, useEffect } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import Contact from "../components/Contact";
+import Feature from "../components/Feature";
+import Header from "../components/Header";
+import Jumbotron from "../components/Jumbotron";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import api from "../lib/frontend/axios";
+import { toast } from "react-toastify";
+import errorMessage from "../lib/frontend/util/errorMessage";
+import { AxiosError } from "axios";
 
 const Home: FC = () => {
-    const router = useRouter()
+    const router = useRouter();
 
     useEffect(() => {
         const validToken = async () => {
-            if (localStorage.getItem("id_token")) 
-            {
+            if (localStorage.getItem("id_token")) {
                 try {
-                    const response = await api.get("/user/userInfo")
-                    if (response.status == 200) 
-                    {
-                        router.push("/app")
+                    const response = await api.get("/user/userInfo");
+                    if (response.status == 200) {
+                        router.push("/app");
                     }
                 } catch (err) {
-                    toast.error(errorMessage(err as AxiosError))
+                    toast.error(errorMessage(err as AxiosError));
                 }
             }
-        }
+        };
 
         validToken();
-    })
+    });
 
+    const features = [
+        {
+            image: require("../public/images/Network.jpeg"),
+            alt: "Network",
+            heading: "What is IntelliSlides?",
+            body: "IntelliSlides is a web application that uses the GPT3 language model by OpenAI to create Google Slides presentations in a matter of minutes. Given a topic, category, and a slide count, IntelliSlides can intelligently determine the topic of each slide, and important, relevant bullet points.",
+        },
+        {
+            image: require("../public/images/Library.jpeg"),
+            alt: "Library",
+            heading: "Who can use it?",
+            body: "Our web application is designed for anyone who needs to make presentations, regardless of their field or expertise. Whether you're a student, academic, employee, or just your average Joe who is curious about a topic, our platform can help simplify the presentation-making process and produce high-quality results.",
+        },
+    ];
 
     return (
         <Container fluid className="Home">
@@ -50,7 +61,7 @@ const Home: FC = () => {
                             feature={feature}
                             layout={index % 2 === 0 ? "left" : "right"}
                         />
-                    )
+                    );
                 })}
             </div>
             <Contact />
@@ -92,7 +103,7 @@ const Home: FC = () => {
                 </Col>
             </Row>
         </Container>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

@@ -150,3 +150,8 @@
   user-select: none;
   /* Standard syntax */
 }
+
+#about {
+  overflow-x: none;
+
+}
