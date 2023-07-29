@@ -656,7 +656,7 @@ const App: FC = () => {
                                 ) : (
                                     <>
                                         {!user && (
-                                            <GoogleButton onClick={onLogin} />
+                                            <GoogleButton onClick={onLogin} className="rounded overflow-hidden" />
                                         )}
                                         {user && (
                                             <div className="animate__animated animate__fadeInRight">
