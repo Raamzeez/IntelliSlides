@@ -1,4 +1,5 @@
 import sgMail from "@sendgrid/mail"
+import {nanoid} from 'nanoid'
 import { NextApiRequest, NextApiResponse } from "next/types"
 
 export default async function handler(
@@ -8,12 +9,13 @@ export default async function handler(
     try {
         const { email, type, message } = req.body
         const key = process.env.SENDGRID_API_KEY
+        const id = nanoid()
         if (!key) throw new Error("No SendGrid API key found")
         sgMail.setApiKey(key)
         const sendmsg = {
             to: "intellislides.contact@gmail.com",
             from: email,
-            subject: `Contact form submission: ${type}`,
+            subject: `Contact form submission: ${type} - #${id}`,
             text: message,
         }
         const sendresponse = await sgMail.send(sendmsg)
@@ -24,8 +26,8 @@ export default async function handler(
             const returnmsg = {
                 to: email,
                 from: "intellislides.contact@gmail.com",
-                subject: `Email Sent Confirmation`,
-                text: `This is an automated response to let you know that we have received your email and will get back to you as soon as possible. \n\nYour message: ${message}`,
+                subject: `Email Sent Confirmation - #${id}`,
+                text: `This is an automated response to let you know that we have received your email and will get back to you as soon as possible. \n\nYour support ticket id is #${id} in case you need to reference it in a follow up.\n\nYour message: ${message}`,
             }
             const returnresponse = await sgMail.send(returnmsg)
             if (

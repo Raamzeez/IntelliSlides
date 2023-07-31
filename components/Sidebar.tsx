@@ -41,7 +41,6 @@ const Sidebar: React.FC = () => {
         <div className="sidebar justify-container column">
             {menuData.map(({ icon, text, url, authRequired }, index) => {
                 return (
-                    <>
                         <OverlayTrigger
                             key={index}
                             placement="right"
@@ -72,7 +71,6 @@ const Sidebar: React.FC = () => {
                                 <FontAwesomeIcon icon={icon} size="lg" />
                             </div>
                         </OverlayTrigger>
-                    </>
                 )
             })}
         </div>

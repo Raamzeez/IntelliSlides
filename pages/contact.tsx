@@ -3,22 +3,42 @@ import Button from "../components/Button"
 import { Container, Dropdown, DropdownButton, Form } from "react-bootstrap"
 import ContactType from "../lib/frontend/types/contactType"
 import { useTheme } from "next-themes"
+import { ClipLoader } from "react-spinners"
 import MenuWrapper from "../components/MenuWrapper"
+import api from "../lib/frontend/axios"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircle, faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons"
 
 const Contact: React.FC = () => {
     interface iState {
+        submit: boolean
+        loading: boolean
+        error: boolean
         email: string
         message: string
         type: ContactType
     }
 
     const [state, setState] = useState<iState>({
+        submit: false,
+        loading: false,
+        error: false,
         email: "",
         message: "",
         type: "Technical Issue",
     })
 
     const { resolvedTheme } = useTheme()
+
+    const submitEmail = async () => {
+        const response = await api.post("/contact/sendEmail", {email: state.email, message: state.message, type: state.type})
+        if (response.status >= 300 || response.status < 200) {
+            console.log("Error sending email")
+        }
+        setState({ ...state, loading: false, error: false })
+    }
+
+
 
     return (
         <Container fluid className="Home">
@@ -105,12 +125,49 @@ const Contact: React.FC = () => {
                     cols={50}
                 ></textarea>
             </div>
-            <Button
-                style={{ margin: 30 }}
-                type="success"
-                value="Submit"
-                onClickHandler={() => null}
-            />
+            {!state.submit ? (
+                <Button
+                    style={{ margin: 30 }}
+                    type="success"
+                    value="Submit"
+                    onClickHandler={submitEmail}
+                />
+            ) : (
+                    state.loading ? (
+                        <div style={{margin: 30}}>
+                            <ClipLoader
+                                color={"dodgerblue"}
+                                loading={true}
+                                size={35}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                            />
+                        </div>
+                    ) :
+                    (
+                            state.error ? (
+                                <>
+                                    <FontAwesomeIcon
+                                        icon={faCircleXmark}
+                                        size="3x"
+                                        color="red"
+                                        style={{margin: 30}}
+                                    />
+                                </> 
+                            ): (
+                                <>
+                                    <FontAwesomeIcon
+                                            icon={faCircleCheck}
+                                            fontSize={35}
+                                            color="#00d173"
+                                            style={{margin: 30}}
+                                    />
+                                </> 
+                            )
+                    )
+            )
+        }
+            
         </Container>
     )
 }
