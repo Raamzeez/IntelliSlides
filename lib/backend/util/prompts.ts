@@ -1,67 +1,32 @@
-import Category from "../types/category"
+import Category from "../types/category";
 
 const getPrompts = (
-    type: "topic" | "details" | "image",
-    category: Category,
-    count: number,
-    topic: string,
-    title?: string
+  type: "topic" | "details" | "image",
+  category: Category,
+  count: number,
+  topic: string,
+  title?: string
 ) => {
-    if (type === "topic") {
-        if (category === "Event") {
-            if (count > 1) {
-                return `What are ${count} major chronological event titles of ${topic}? Please keep each numbered point to less than 10 words.`
-            } else {
-                return `What is 1 major event title of ${topic}? Please keep the numbered point to less than 10 words.`
-            }
-        } else if (category === "Person") {
-            if (count > 1) {
-                return `What are ${count} major chapters regarding ${topic}'s life? Keep each numbered point to less than 10 words.`
-            } else {
-                return `What is 1 major chapter regarding ${topic}'s life? Please keep it numbered and less than 10 words.`
-            }
-        } else if (category === "Place") {
-            if (count > 1) {
-                return `What are ${count} major details regarding ${topic}? Keep each numbered point to less than 10 words.`
-            } else {
-                return `What is 1 major detail regarding ${topic}. Please keep it numbered and less than 10 words.`
-            }
-        } else if (category === "Object") {
-            if (count > 1) {
-                return `What are ${count} major features of ${topic}? Keep each numbered point to less than 10 words.`
-            } else {
-                return `What is 1 major feature regarding ${topic}? Please keep it numbered and less than 10 words.`
-            }
-        } else if (category === "Organization") {
-            if (count > 1) {
-                return `What are ${count} major details regarding the work that ${topic} does? Keep each numbered point to less than 10 words.`
-            } else {
-                return `What is 1 major detail regarding the work that ${topic} does? Please keep it numbered and less than 10 words.`
-            }
-        } else {
-            if (count > 1) {
-                return `What are ${count} details regarding the concept of ${topic}? Keep each numbered point to less than 10 words.`
-            } else {
-                return `What is 1 major detail regarding the concept of ${topic}? Please keep it numbered and less than 10 words.`
-            }
-        }
-    } else if (type == "details") {
-        if (count > 1) {
-            return `Provide ${count} important details about ${topic}${
-                title
-                    ? "as it pertains to " + title
-                    : "? Please keep each detail numbered."
-            }`
-        } else {
-            return `Provide 1 important detail about ${topic}${
-                title
-                    ? "as it pertains to " + title
-                    : "? Please keep the detail numbered."
-            }`
-        }
-    } else {
-        return `${topic} ${title}`
-    }
-}
+  const maxPointLength = 50;
 
-export default getPrompts
+  if (type === "topic") {
+    const promptPrefix = count > 1 ? `What are ${count} major` : `What is 1 major`;
+    const categoryPrompt = {
+      Event: "chronological event titles",
+      Person: "chapters regarding their life",
+      Place: "major details",
+      Object: "major features",
+      Organization: "details regarding their work",
+    }[category];
+
+    return `${promptPrefix} ${categoryPrompt} of ${topic}? Please keep each point numbered and under ${maxPointLength} characters.`;
+  } else if (type === "details") {
+    const promptPrefix = count > 1 ? `Provide ${count} important` : `Provide 1 important`;
+    const titleSuffix = title ? ` as it pertains to ${title}` : "";
+    return `${promptPrefix} details about ${topic}${titleSuffix}? Please keep each detail numbered and under ${maxPointLength} characters.`;
+  } else {
+    return `${topic} ${title || ""}`;
+  }
+};
+
+export default getPrompts;
