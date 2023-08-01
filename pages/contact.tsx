@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Button from "../components/Button"
 import { Container, Dropdown, DropdownButton, Form } from "react-bootstrap"
+import { ToastContainer, toast } from "react-toastify"
 import ContactType from "../lib/frontend/types/contactType"
 import { useTheme } from "next-themes"
 import { ClipLoader } from "react-spinners"
@@ -31,17 +32,36 @@ const Contact: React.FC = () => {
     const { resolvedTheme } = useTheme()
 
     const submitEmail = async () => {
+        setState({...state, submit: true, loading: true})
         const response = await api.post("/contact/sendEmail", {email: state.email, message: state.message, type: state.type})
         if (response.status >= 300 || response.status < 200) {
             console.log("Error sending email")
+            toast.error(response.data)
+            setState({...state, submit: true, loading: false, error: true})
+        } else {
+            toast.success("Your email was successfully sent!")
+            setState({ ...state, submit: true, loading: false, error: false })
         }
-        setState({ ...state, loading: false, error: false })
+        setTimeout(() => {
+            setState({ ...state, submit: false, loading: false, error: false})
+        }, 2000)
     }
-
-
 
     return (
         <Container fluid className="Home">
+             <ToastContainer
+                position="top-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                style={{ fontSize: 13 }}
+            />
             <MenuWrapper />
             <h1 className="dynamic-color" style={{ marginTop: 25 }}>
                 Contact
@@ -56,7 +76,7 @@ const Contact: React.FC = () => {
                 <p className="text-input-label dynamic-color">Email</p>
                 <input
                     style={{ height: 50, width: "40vw" }}
-                    type="text"
+                    type="email"
                     value={state.email}
                     onChange={(e) =>
                         setState({ ...state, email: e.target.value })
