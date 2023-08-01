@@ -1,6 +1,6 @@
 import sgMail from "@sendgrid/mail"
-import { customAlphabet, nanoid } from 'nanoid'
-import nodemailer from 'nodemailer'
+import { customAlphabet, nanoid } from "nanoid"
+import nodemailer from "nodemailer"
 import { NextApiRequest, NextApiResponse } from "next/types"
 
 export default async function handler(
@@ -8,34 +8,36 @@ export default async function handler(
     res: NextApiResponse
 ) {
     try {
-        console.log('Calling Email API Handler')
+        console.log("Calling Email API Handler")
         const { email, type, message } = req.body
         const transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             port: 465,
             secure: true,
             auth: {
-                user: 'forwarderbot4@gmail.com',
-                pass: 'zctwdylpoulwllau'
-            }
-        });
+                user: "forwarderbot4@gmail.com",
+                pass: "zctwdylpoulwllau",
+            },
+        })
         // const key = process.env.SENDGRID_API_KEY
-        const nanoid = customAlphabet('1234567890', 12)
+        const nanoid = customAlphabet("1234567890", 12)
         const id = nanoid()
         // if (!key) throw new Error("No SendGrid API key found")
         // sgMail.setApiKey(key)
         const sendmsg = {
             to: "intellislides.contact@gmail.com",
-            from: 'forwarderbot4@gmail.com',
+            from: "forwarderbot4@gmail.com",
             subject: `Contact form submission: ${type} - #${id}`,
-            text: message,
+            text: `ID: ${id}\n\n${message}`,
         }
         const response = await transporter.sendMail(sendmsg)
         const status = parseInt(response.response.split()[0])
         console.log(status)
         if (status < 200 || status >= 300) {
             console.error(response.response)
-            return res.status(404).send("Unable to send email! Please try again later.")
+            return res
+                .status(404)
+                .send("Unable to send email! Please try again later.")
         }
         return res.status(200).send("OK")
         // const sendresponse = await sgMail.send(sendmsg)
