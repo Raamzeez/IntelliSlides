@@ -30,10 +30,10 @@ const TextContainer: FC<iTextContainerProps> = ({ heading, body, layout }) => {
             } feature-column`}
             lg={8}
         >
-            <h3 className="manrope dynamic-color" style={{ margin: 25 }}>
+            <h3 className="manrope dynamic-color" style={{ marginLeft: 125, marginRight: 125 }}>
                 {heading}
             </h3>
-            <p style={{ fontSize: 17, margin: 25 }} className="dynamic-color">
+            <p style={{ fontSize: 17, marginLeft: 125, marginRight: 125 }} className="dynamic-color">
                 {body}
             </p>
         </Col>
