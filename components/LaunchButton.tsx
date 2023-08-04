@@ -12,7 +12,7 @@ const LaunchButton: FC = () => {
         <div
             className={`pointer secondary shadowHover ${
                 width > 380 ? "launch-button" : "launch-button-sm"
-            }`}
+            } rounded`}
         >
             {width > 380 ? (
                 <p className="launch-text">
@@ -22,7 +22,7 @@ const LaunchButton: FC = () => {
                 <></>
             )}
             {(width > threshold || width < 380) && (
-                <FontAwesomeIcon className="launch-icon" icon={faRocket} />
+                <FontAwesomeIcon className="launch-icon rounded" icon={faRocket} />
             )}
         </div>
     )

@@ -299,3 +299,7 @@
     width: 70px
 }
 
+
+GoogleButton {
+    border-radius: 50px;
+}
