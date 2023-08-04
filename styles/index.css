@@ -153,5 +153,16 @@
 
 #about {
   overflow-x: none;
+  background-color: #0095ff;
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.7)
+  ),
+  url("../public/images/chatgbt.jpg");
+  /* min-height: 45vh;  */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 
 }
