@@ -1,0 +1,23 @@
+|-- components
+|-- lib
+    |-- backend
+        |-- constants
+        |-- handlers
+        |-- models
+        |-- schemas
+        |-- types
+        |-- util
+    |-- frontend
+        |-- context
+        |-- data
+        |-- models
+        |-- types
+        |-- util
+    |-- shared\models
+|-- pages
+    |-- api
+        |-- presentation
+        |-- user
+|-- public
+    |-- images
+|-- styles
