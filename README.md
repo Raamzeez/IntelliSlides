@@ -62,3 +62,63 @@ How many slides should the presentation be?
 Try to keep it at a reasonable amount as the time scales with number of slides.
 ```
 </p>
+<h1>Scraping Tool<h1>
+<p>
+The API is not perfect and is not a robust database of information as it only knows as much as it has learned up to September 2021. Live data that is constatnly updated will not be available.
+
+It might be better to scrape data off of the Google Search API for missing information and use the OpenAI API to summarize the information found from the Google Search API. This will allow to fill some holes in the information provided instead of returning:
+```
+Failed to Create Presentation
+```
+
+Sample Code:
+```Python
+import openai
+import requests
+
+# Initialize OpenAI API
+openai.api_key = "your_openai_api_key"
+
+# Define your Google Custom Search API key and search engine ID
+google_api_key = "your_google_api_key"
+search_engine_id = "your_search_engine_id"
+
+def generate_slideshow_content(input_text):
+    # Call OpenAI API to generate content
+    api_response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=input_text,
+        max_tokens=100
+    )
+    generated_text = api_response.choices[0].text
+
+    # If generated_text is insufficient, use Google Search
+    if "trigger condition" in generated_text:
+        search_results = search_google(input_text)
+
+        # Combine OpenAI output and search results
+        final_content = generated_text + "\n\n" + "\n\n".join(search_results)
+        return final_content
+    else:
+        return generated_text
+
+def search_google(query):
+    url = f"https://www.googleapis.com/customsearch/v1?key={google_api_key}&cx={search_engine_id}&q={query}"
+    response = requests.get(url)
+    data = response.json()
+
+    search_results = []
+    for item in data.get("items", []):
+        title = item.get("title", "")
+        snippet = item.get("snippet", "")
+        link = item.get("link", "")
+        search_results.append(f"{title}\n{snippet}\n{link}")
+
+    return search_results
+
+# Example usage
+input_prompt = "Explain the concept of artificial intelligence."
+slideshow_content = generate_slideshow_content(input_prompt)
+print(slideshow_content)
+```
+<p>
