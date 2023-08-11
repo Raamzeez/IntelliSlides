@@ -1,3 +1,17 @@
+:root {
+    --txt: black;
+    --input_background: white;
+    --caption: grey;
+    --modal_background: #d4f0f8;
+}
+
+[data-theme='dark'] {
+    --txt: white;
+    --input_background: rgb(64, 73, 78);
+    --caption: lightgrey;
+    --modal_background: #282c43;
+}
+
 .info-icon {
     height: 22px;
     width: 22px;
@@ -70,8 +84,8 @@
     width: 100%;
     border-radius: 8px;
     border: none;
-    background-color: rgb(64, 65, 78);
-    color: white;
+    background-color: var(--input_background);
+    color: var(--txt);
     padding-left: 10px;
     font-size: 15px;
 }
@@ -81,12 +95,17 @@
     margin-top: 15px;
 }
 
+.text-input-caption {
+    color: var(--caption);
+    font-size: 10px;
+}
+
 .number-input {
     height: 30px;
     width: 60px;
     border: none;
-    background-color: rgb(64, 65, 78);
-    color: white;
+    background-color: var(--input_background);
+    color: var(--txt);
     font-size: 15px;
     padding-left: 10px;
     margin: 10px;
@@ -192,15 +211,42 @@
     font-style: italic;
 }
 
+.contact-modal {
+    height: 300px;
+    width: 100%;
+    background-color: var(--modal_background);
+}
+
+.contact-email-item {
+    height: 80px;
+    width: 80px;
+    border-radius: 40px;
+    background-color: lightgrey;
+}
+
+.contact-email-label {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.warning-modal {
+    height: 300px;
+    width: 100%;
+    background-color: var(--modal_background);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .info-modal {
     width: 100%;
-    background-color: #282c43;
+    background-color: var(--modal_background);
 }
 
 .version-modal {
     height: 550px;
     width: 100%;
-    background-color: #282c43;
+    background-color: var(--modal_background);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -224,10 +270,32 @@
 }
 
 .x-icon {
-    color: white;
+    color: var(--txt);
     font-size: 20px;
     position: absolute;
     top: 15px;
     right: 15px;
+}
+
+.sidebar {
+    height: 85vh;
+    width: 100px;
+    background-color: rgba(169, 169, 169, 0.278) ;
+    position: absolute;
+    left: 0px;
+    top: 50px;
+}
+
+.sidebar-option {
+    transition: all 0.2s ease;
+    height: 60px;
+    width: 60px;
+    border-radius: 15px;
+    margin: 20px;
+}
+
+.sidebar-option:hover {
+    height: 70px;
+    width: 70px
 }
 

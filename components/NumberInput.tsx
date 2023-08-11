@@ -27,15 +27,15 @@ const NumberInput: FC<iProps> = ({
 
     return (
         <div className="center-row">
-            <p style={{ fontSize: 15, marginRight: 12, marginTop: 12 }}>
+            <p className="text-input-label dynamic-color">
                 Slide Count{" "}
-                <span style={{ fontSize: 10, color: "lightgrey" }}>
+                <span className="text-input-caption">
                     (excluding title slide)
                 </span>
             </p>
             <input
                 type="number"
-                className={`number-input ${clicked ? "input" : ""}`}
+                className={`number-input shadow ${clicked ? "input" : ""}`}
                 value={value}
                 onChange={onChangeHandler}
                 min={min}

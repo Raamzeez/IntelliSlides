@@ -39,7 +39,10 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     className="pointer x-icon"
                     onClick={onCloseHandler}
                 />
-                <h4 style={{ marginTop: 20, fontWeight: 400 }}>
+                <h4
+                    style={{ marginTop: 20, fontWeight: 400 }}
+                    className="dynamic-color"
+                >
                     {`Version ${fetchCurrentVersion()} ${
                         versions.filter(
                             (version) =>
@@ -52,15 +55,15 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                         <p
                             style={{
                                 fontSize: 12,
-                                color: "skyblue",
+                                color: "dodgerblue",
                             }}
                         >
-                            Last Updated: 5/9/23
+                            Last Updated: 5/16/23
                         </p>
                     </Col>
                     <Col className="center-container">
                         <p
-                            className="pointer underline version-modal-link"
+                            className="pointer underline version-modal-link dynamic-color"
                             onClick={() => router.push("/versions")}
                         >
                             Show All Versions
@@ -68,7 +71,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                     </Col>
                     <Col className="center-container">
                         <p
-                            className="pointer underline version-modal-link"
+                            className="pointer underline version-modal-link dynamic-color"
                             onClick={() => router.push("/privacy")}
                         >
                             Privacy Policy
@@ -114,7 +117,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                                 marginTop: 30,
                                 margin: 20,
                             }}
-                            className="manrope"
+                            className="manrope dynamic-color"
                         >
                             {version.data[index].title}
                         </h5>
@@ -127,7 +130,7 @@ const VersionModal: FC<iProps> = ({ onCloseHandler }) => {
                                 marginTop: 30,
                                 margin: 20,
                             }}
-                            className="manrope"
+                            className="manrope dynamic-color"
                         >
                             {version.data[index].description}
                         </p>

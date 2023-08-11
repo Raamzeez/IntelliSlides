@@ -194,6 +194,7 @@ async function createPresentation(
             title,
             subtitle,
             slideCount: parameters.slideCount,
+            date: new Date(),
             thumbnail: response.data,
         }
     } catch (err) {

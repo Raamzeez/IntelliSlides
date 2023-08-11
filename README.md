@@ -1,59 +1,124 @@
-<h1>IntelliSlides</h1>
+<h1>Testing</h1>
+<p>This branch is for testing purposes. Once features on a particular branch are completed, developers should create a pull request to merge into this branch. If the pull request is approved and successful, a build is automatically created by Vercel and deployed at <a href="https://intellislides-git-development-raamzeez.vercel.app/">https://intellislides-git-development-raamzeez.vercel.app/</a>. Users must authenticate with Vercel to view the build. This branch is used as a preview branch to test and interact with the features that are going to be released with the next version of IntelliSlides. Once all developers agree that the features are working as expected, it will then be merged into the main branch by the admins.
 
-<p align='center'>
-<img src="./public/images/IntelliSlidesLogo.png" width="150"/>
+To get started, make sure Node is installed:
+
+For Windows, you can install Node directly from the Node.js Website:
+```
+https://nodejs.org/en
+```
+
+For Linux users, you can also install from the website, but if you have Fedora/Arch Linux, you can use: 
+```bash
+sudo dnf install npm
+```
+
+If you want to make presentations and SAVE them, you will need to contact https://github.com/Raamzeez for database access. You can also make your own via MongoDB and supply your own parameters:
+```
+GOOGLE_SEARCH_KEY=
+GOOGLE_WEB_CLIENT_ID=
+GOOGLE_WEB_CLIENT_SECRET=
+OPENAI_API_KEY=
+SENDGRID_API_KEY=
+MONGODB_URI=
+CX=
+```
+
+To start server:
+```bash
+npm start dev
+```
+
+How to use the website:
+Landing page is a pretty standard UI. The top right has a "Launch Application" button. Click that to go to the application page.
+
+Topic: 
+```
+What is your presentation about?
+
+From the website:
+This is where you will enter the topic of your presentation. Please be as specific as possible, as this ensures the accuracy of the presentation. For example, the topic "The History of Tesla Motors" is much better than simply writing "Tesla", as the program clearly knows that it needs to discuss the history of the company called "Tesla Motors" instead of something else, such as the life of the individual known as Nikola Tesla.
+```
+
+Category:
+```
+Choose an option that best categorizes what you want your topic and presentation to relate to. This will ensure the accuracy of the presentation. For example, if your topic is "The Space Shuttle Columbia Disaster", choosing the category "Place" may make the presentation discuss the location of the incident, where as choosing the category "Event" may make the presentation discuss the events that unfolded. Select "Auto" if you want the program to choose what it believes is the most relevant category to the topic.
+```
+
+Title:
+```
+Title of presentation that shows up on the first page.
+```
+
+Subtitle:
+```
+The small blurb underneath the title. This is typically where you write your name and other collaborators' names.
+```
+
+Slide Count:
+```
+How many slides should the presentation be?
+
+Try to keep it at a reasonable amount as the time scales with number of slides.
+```
 </p>
-
-<a href="https://intellislides.com/">IntelliSlides Official Website</p>
-
-<h3>About</h3>
+<h1>Scraping Tool<h1>
 <p>
-  IntelliSlides is a web application that currently uses the GPT-3 language model to gather information about a topic and generate Google Slides presentations with it in a matter of seconds.
-</p>
+The API is not perfect and is not a robust database of information as it only knows as much as it has learned up to September 2021. Live data that is constatnly updated will not be available.
 
-<hr />
+It might be better to scrape data off of the Google Search API for missing information and use the OpenAI API to summarize the information found from the Google Search API. This will allow to fill some holes in the information provided instead of returning:
+```
+Failed to Create Presentation
+```
 
-<h3>Technologies</h3>
+Sample Code:
+```Python
+import openai
+import requests
 
-  <h4>Deployment</h4>
-  <p float="left">
-  <a href="https://vercel.com/"><img src="https://static.wikia.nocookie.net/logopedia/images/a/a7/Vercel_favicon.svg/revision/latest/scale-to-width-down/250?cb=20221026155821" width="30" margin="20px" /></a>
-  </p>
+# Initialize OpenAI API
+openai.api_key = "your_openai_api_key"
 
-  <h4>Fullstack</h4>
-  <p float="left">
-  <a href="https://nextjs.org/"><img src="https://www.svgrepo.com/show/354113/nextjs-icon.svg" width="30" margin="20px" /></a>&nbsp;&nbsp;<a href="https://www.typescriptlang.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/2048px-Typescript_logo_2020.svg.png" width="30" /></a>&nbsp;&nbsp;<a href="https://moment.github.io/luxon/#/"><img src="https://moment.github.io/luxon/docs/_media/Luxon_icon_64x64.png" width="30" /></a>
-  </p>
+# Define your Google Custom Search API key and search engine ID
+google_api_key = "your_google_api_key"
+search_engine_id = "your_search_engine_id"
 
-  <h4>Frontend</h4>
-  <p float="left">
-  <a href="https://react.dev/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="30" /></a>&nbsp;&nbsp;<a href="https://react-bootstrap.github.io/"><img src="https://banner2.cleanpng.com/20180531/sas/kisspng-bootstrap-react-software-framework-javascript-fron-5b0f9b1ab26fd7.9058729715277494027309.jpg" width="30" /></a>&nbsp;&nbsp;<a href="https://www.w3.org/Style/CSS/Overview.en.html"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/CSS3_logo.svg/800px-CSS3_logo.svg.png" width="30" /></a>&nbsp;&nbsp;<a href="https://fonts.google.com/"><img src="https://logos-world.net/wp-content/uploads/2021/03/Google-Fonts-Logo.png" width="50" /></a>&nbsp;&nbsp;<a href="https://fontawesome.com/"><img src="https://pbs.twimg.com/profile_images/1491038861224517637/s-H1KgWO_400x400.png" width="30" /></a>
-  </p>
-  
-  <h4>Backend</h4>
-    <p float="left">
-  <a href="https://nodejs.org/en"><img src="https://seeklogo.com/images/N/nodejs-logo-FBE122E377-seeklogo.com.png" width="30"/></a>&nbsp;&nbsp;<a href="https://www.mongodb.com/"><img src="https://www.svgrepo.com/show/331488/mongodb.svg" width="30" /></a>&nbsp;&nbsp;<a href="https://jwt.io/"><img src="https://jwt.io/img/icon.svg" width="30" /></a>&nbsp;&nbsp;<a href="https://openai.com/blog/openai-api"><img src="https://uploads-ssl.webflow.com/5f15081919fdf673994ab5fd/63e05b42f46ebfbc65a734bc_OpenAI%20GPT%20Logo.svg" width="30" /></a>&nbsp;&nbsp;<a href="https://developers.google.com/slides/api/reference/rest"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Google_Slides_logo_%282014-2020%29.svg/1489px-Google_Slides_logo_%282014-2020%29.svg.png" width="25" /></a>
-  </p>
+def generate_slideshow_content(input_text):
+    # Call OpenAI API to generate content
+    api_response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=input_text,
+        max_tokens=100
+    )
+    generated_text = api_response.choices[0].text
 
+    # If generated_text is insufficient, use Google Search
+    if "trigger condition" in generated_text:
+        search_results = search_google(input_text)
 
-<hr />
+        # Combine OpenAI output and search results
+        final_content = generated_text + "\n\n" + "\n\n".join(search_results)
+        return final_content
+    else:
+        return generated_text
 
-<h3>Contributing Guidelines</h3>
-  <h5>Note: These guidelines may change in the future. They are not set in stone, as this is a learning process for everyone involved.</h5>
-  <p>IntelliSlides is an open source project that is proudly part of the <a href="https://rcos.io/">Rensselaer Center for Open Source (RCOS)</a>, and therefore anyone can contribute to the project. To begin, you will first need to fork the repository, and then clone the fork into your local machine. Additionally, you need to sync your fork with the upstream repository so that you can frequently pull changes made by other developers and not be left with a ton of merge conflicts when you are finished. A detailed tutorial on how to set this all up can be found here: <a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo">https://docs.github.com/en/get-started/quickstart/fork-a-repo</a>.</p>
-  <p>Once you have completed all the steps (forked the repository, cloned it, and set the upstream), you can get started on the changes you want to work on. Go to the "Issues" section of the repository and see any issues that are opened and haven't been assigned to anyone. If you have the appropriate permissions, you can assign yourself to it, or leave a comment on the post and if it is available, you will be assigned to it. With the issue there should also be a branch that is connected with that issue. You can checkout the branch on your local machine and get started on any changes you want to make. Make sure to pull from other branches frequently (specifically the "testing" branch) so that you have the most up-to-date changes. </p>
-  <p>After you have made all your changes, create a PR (pull request) to merge into the "testing" branch, not any other branch. The "testing" branch is used to test all the features for a version before it is publicly deployed.</p>
-  
-  <br />
-  <a href="https://discord.com/channels/1110354193522368532/1110354194310909954"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" width="50" /></a>
-  <h4>Support - Discord</h4>
-  <a href="https://discord.com/channels/1110354193522368532/1110354194310909954"/>Click Here to Join the Discord!</a>
-  
-<hr />
+def search_google(query):
+    url = f"https://www.googleapis.com/customsearch/v1?key={google_api_key}&cx={search_engine_id}&q={query}"
+    response = requests.get(url)
+    data = response.json()
 
-<h3>Team</h3>
-<ol>
-  <li>Mohammed Raamiz Abbasi (Class of 2025, RPI)</li>
-</ol>
-  
- 
+    search_results = []
+    for item in data.get("items", []):
+        title = item.get("title", "")
+        snippet = item.get("snippet", "")
+        link = item.get("link", "")
+        search_results.append(f"{title}\n{snippet}\n{link}")
+
+    return search_results
+
+# Example usage
+input_prompt = "Explain the concept of artificial intelligence."
+slideshow_content = generate_slideshow_content(input_prompt)
+print(slideshow_content)
+```
+<p>

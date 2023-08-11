@@ -1,3 +1,15 @@
+:root {
+    --profile_background: linear-gradient(231deg, rgb(48, 137, 215) 0%, rgb(51, 215, 213) 100%);
+    --updates_background: linear-gradient(231deg, rgb(125, 54, 197) 0%, rgb(209, 65, 94) 100%);
+    --purple_blue_background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 100%);
+}
+
+[data-theme='dark'] {
+    --profile_background: linear-gradient(231deg, rgb(0, 91, 171) 0%, rgb(0, 170, 167) 100%);
+    --updates_background: linear-gradient(231deg, rgba(80, 5, 157, 1) 0%, rgba(144, 0, 28, 1) 100%);
+    --purple_blue_background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 100%);
+}
+
 .submit {
     background: linear-gradient(121deg, rgb(3, 202, 139) 0%, rgba(0, 199, 101, 1) 100%);
 }
@@ -15,7 +27,7 @@
 }
 
 .profile {
-    background: linear-gradient(231deg, rgb(0, 91, 171) 0%, rgb(0, 170, 167) 100%);
+    background: var(--profile_background);
     border-radius: 15px;
 }
 
@@ -36,7 +48,7 @@
 }
 
 .updatesBackground {
-    background: linear-gradient(231deg, rgba(80, 5, 157, 1) 0%, rgba(144, 0, 28, 1) 100%);
+    background: var(--updates_background);
 }
 
 .gooeyBackground {
@@ -44,7 +56,7 @@
 }
 
 .purpleBlueBackground {
-    background: linear-gradient(90deg, rgba(76, 0, 135, 1) 0%, rgba(1, 56, 119, 1) 100%);
+    background: var(--purple_blue_background);
 }
 
 .footerBackground {
@@ -52,52 +64,14 @@
 }
 
 .skyhue {
-    background: linear-gradient(200deg, #cc8e23, #d138b5);
-    background-size: 400% 400%;
-
-    -webkit-animation: SkyHueAnimation 30s ease infinite;
-    -moz-animation: SkyHueAnimation 30s ease infinite;
-    animation: SkyHueAnimation 30s ease infinite;
+    background: linear-gradient(90deg, rgba(255, 212, 76, 1) 0%, rgba(255, 66, 220, 1) 100%);
+    background-size: 100% 400%;
 }
 
-@-webkit-keyframes SkyHueAnimation {
-    0% {
-        background-position: 0% 50%
-    }
-
-    50% {
-        background-position: 100% 50%
-    }
-
-    100% {
-        background-position: 0% 50%
-    }
+.blueBackground {
+    background: linear-gradient(288deg, rgba(0, 85, 255, 1) 1.5%, rgba(4, 56, 115, 1) 91.6%);
 }
 
-@-moz-keyframes SkyHueAnimation {
-    0% {
-        background-position: 0% 50%
-    }
-
-    50% {
-        background-position: 100% 50%
-    }
-
-    100% {
-        background-position: 0% 50%
-    }
-}
-
-@keyframes SkyHueAnimation {
-    0% {
-        background-position: 0% 50%
-    }
-
-    50% {
-        background-position: 100% 50%
-    }
-
-    100% {
-        background-position: 0% 50%
-    }
+.lightPurpleBackground {
+    background-image: linear-gradient(to top, #a18cd1 0%, #fcafe6 100%);
 }
