@@ -1,5 +1,5 @@
 |-- components                  # Contains the React Components
-|-- lib                         # 
+|-- lib                         # Holds code for frontend, backend, and shared
     |-- backend                 # Holds the backend
         |-- constants           # Holds constants which serve as placeholders
         |-- handlers            # Handlers for rate limit and authentication
@@ -14,10 +14,10 @@
         |-- types               # Frontend data types
         |-- util                # Contains necessary utility classes
     |-- shared\models           # Shared model between frontend and backend
-|-- pages
-    |-- api
-        |-- presentation
-        |-- user
-|-- public
-    |-- images
-|-- styles
+|-- pages                       # Contains API calls and the functions/classes that use them
+    |-- api                     # API calls for mongoDB and Google Slides
+        |-- presentation        # Google Slides API calls
+        |-- user                # mongoDB API calls
+|-- public                      # Public icons and images
+    |-- images                  # PNG Images/Icons/Logos that frontend loads
+|-- styles                      # HTML and CSS for React frontend
