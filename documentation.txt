@@ -1,12 +1,12 @@
-|-- components
-|-- lib
-    |-- backend
-        |-- constants
-        |-- handlers
-        |-- models
-        |-- schemas
-        |-- types
-        |-- util
+|-- components                  # Contains the React Components
+|-- lib                         # 
+    |-- backend                 # Holds the backend
+        |-- constants           # Holds constants which serve as placeholders
+        |-- handlers            # Handlers for rate limit and authentication
+        |-- models              # Contains interfaces for necessary types
+        |-- schemas             # Contains just the user schema/structure
+        |-- types               # Different response types
+        |-- util                # Contains necessary utility classes
     |-- frontend
         |-- context
         |-- data
