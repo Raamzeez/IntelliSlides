@@ -14,7 +14,7 @@
         |-- types               # Frontend data types
         |-- util                # Contains necessary utility classes
     |-- shared\models           # Shared model between frontend and backend
-|-- pages                       # Contains API calls and the functions/classes that use them
+|-- pages                       # Loads the frontend information for each page
     |-- api                     # API calls for mongoDB and Google Slides
         |-- presentation        # Google Slides API calls
         |-- user                # mongoDB API calls
