@@ -5,15 +5,15 @@
         |-- handlers            # Handlers for rate limit and authentication
         |-- models              # Contains interfaces for necessary types
         |-- schemas             # Contains just the user schema/structure
-        |-- types               # Different response types
+        |-- types               # Backend data types
         |-- util                # Contains necessary utility classes
-    |-- frontend
-        |-- context
-        |-- data
-        |-- models
-        |-- types
-        |-- util
-    |-- shared\models
+    |-- frontend                # Holds the frontend
+        |-- context             # Saves state to persist settings/context
+        |-- data                # Main classes and types required for frontend
+        |-- models              # Contains interfaces for necessary types
+        |-- types               # Frontend data types
+        |-- util                # Contains necessary utility classes
+    |-- shared\models           # Shared model between frontend and backend
 |-- pages
     |-- api
         |-- presentation
