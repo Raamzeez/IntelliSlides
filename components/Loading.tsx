@@ -49,7 +49,10 @@ const Loading: FC<iProps> = ({
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />
-            <h4 style={{ marginTop: "8vh" }}>We're Working On It...</h4>
+            <h4 className = "working-on-it"
+            style={{ marginTop: "8vh" }}>
+                We're Working On It...
+            </h4>
             <p className="estimated-time-text">
                 Estimated time: {estimatedTime(slideCount)}
             </p>

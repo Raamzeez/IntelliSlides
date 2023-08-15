@@ -177,7 +177,7 @@ const LoadingStatus: FC<iProps> = ({
                         width < 850 || height < 600 ? "row" : "column",
                     ...style,
                 }}
-                className="center-container animate__animated animate__fadeInRight animate__fast"
+                className="center-container animate__animated animate__fadeInRight animate__fast loading-status"
             >
                 {width > 600 &&
                     height > 500 &&

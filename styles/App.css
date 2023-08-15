@@ -205,6 +205,15 @@
     transform: rotate(45deg);
 }
 
+.working-on-it {
+    color: var(--txt);
+}
+
+.loading-status {
+    color: var(--txt);
+}
+
+
 .estimated-time-text {
     color: grey;
     font-size: 20px;

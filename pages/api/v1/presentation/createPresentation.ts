@@ -4,7 +4,7 @@ import idTokenToMongoID from "../../../../lib/backend/util/idTokenToMongoID"
 import accessToken from "../../../../lib/backend/util/accessToken"
 import userDB from "../../../../lib/backend/schemas/user"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
-import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_gaurd"
+import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_guard"
 import dbConnect from "../../../../lib/backend/util/dbConnect"
 
 export default authenticatedHandler(

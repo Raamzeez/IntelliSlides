@@ -1,7 +1,7 @@
 import getDetails from "../../../../lib/backend/util/getDetails"
 import openai from "../../../../lib/backend/openai"
 import { authenticatedHandler } from "../../../../lib/backend/handlers/auth_guard"
-import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_gaurd"
+import { slideLimitHandler } from "../../../../lib/backend/handlers/slide_limit_guard"
 
 export default authenticatedHandler(
     slideLimitHandler(async (req, res) => {
