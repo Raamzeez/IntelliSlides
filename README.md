@@ -53,7 +53,10 @@
 
 <h3>Team</h3>
 <ol>
-  <li>Mohammed Raamiz Abbasi (Class of 2025, RPI)</li>
+  <li>Mohammed Abbasi (Class of 2025, RPI)</li>
+  <li>Mei Huang (Class of 2025, RPI)</li>
+  <li>Max Zhang (Class of 2025, RPI)</li>
+  <li>Jonathan F (Class of 2025, RPI)</li>
 </ol>
   
  
